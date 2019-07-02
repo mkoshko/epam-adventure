@@ -1,0 +1,6 @@
+11:12:14.732 [INFO] [main] HelloWorld - printing message...
+11:12:14.734 [DEBUG] [main] HelloWorld - msg value = message
+11:12:14.734 [ERROR] [main] HelloWorld - message variable is null
+11:12:32.909 [INFO] [main] HelloWorld - printing message...
+11:12:32.912 [DEBUG] [main] HelloWorld - msg value = message
+11:12:32.912 [ERROR] [main] HelloWorld - message variable is null
