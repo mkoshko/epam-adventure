@@ -22,7 +22,7 @@
         </Appender>
     </Appenders>
     <Loggers>
-        <Logger name="by.koshko.helloworld.HelloWorld" level="trace" additivity="false">
+        <Logger name="by.koshko.helloworld.main.HelloWorld" level="trace" additivity="false">
             <AppenderRef ref="console" />
             <AppenderRef ref="file" />
         </Logger>

@@ -1,4 +1,4 @@
-import by.koshko.helloworld.HelloWorld;
+import by.koshko.helloworld.main.HelloWorld;
 
 public class HelloWorldTest {
 

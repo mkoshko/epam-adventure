@@ -5,4 +5,4 @@
  * @version 1.0
  */
 
-package by.koshko.helloworld;
+package by.koshko.helloworld.main;

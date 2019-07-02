@@ -1,4 +1,4 @@
-package by.koshko.helloworld;
+package by.koshko.helloworld.main;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
