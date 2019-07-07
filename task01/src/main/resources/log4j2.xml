@@ -5,25 +5,25 @@
         xmlns="http://logging.apache.org/log4j/2.0/config">
     <Properties>
         <Property name="filename">logs/log.txt</Property>
-        <Property name="defaultPattern">%d{HH:mm:ss} [%-5level] [%t] %c{5} - %msg%n</Property>
+        <Property name="defaultPattern">%d{HH:mm:ss} [%-4level] [%t] %c{5} - %msg%n</Property>
     </Properties>
     <Appenders>
         <Appender type="console" name="consolePattern0">
             <Layout
-                type="PatternLayout"
-                pattern="${defaultPattern}" />
+                    type="PatternLayout"
+                    pattern="${defaultPattern}" />
         </Appender>
         <Appender type="console" name="console" >
             <Layout
-                type="PatternLayout"
-                pattern="${defaultPattern}" />
+                    type="PatternLayout"
+                    pattern="${defaultPattern}" />
         </Appender>
         <Appender type="File" name="file" fileName="${filename}">
-            <Layout type="PatternLayout" pattern="%d{HH:mm:ss.SSS} [%-4level] [%t] %c{1} - %m%n" />
+            <Layout type="PatternLayout" pattern="%d{HH:mm:ss.SSS} [%-5level] [%t] %c{1} - %m%n" />
         </Appender>
     </Appenders>
     <Loggers>
-        <Logger name="by.koshko.helloworld.main.HelloWorld" level="trace" additivity="false">
+        <Logger name="Logger" level="trace" additivity="false">
             <AppenderRef ref="console" />
             <AppenderRef ref="file" />
         </Logger>
