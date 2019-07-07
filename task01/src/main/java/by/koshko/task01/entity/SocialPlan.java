@@ -34,10 +34,10 @@ public class SocialPlan extends PlanWithMonthPayment {
                       final double minute,
                       final double megabyte,
                       final double sms,
+                      final double price,
                       final int otherNetworks,
                       final int withinNetwork,
-                      final int includedSms,
-                      final double price) {
+                      final int includedSms) {
         super(name, minute, megabyte, sms, price);
         otherNetworksMinutes = otherNetworks;
         withinNetworkMinutes = withinNetwork;

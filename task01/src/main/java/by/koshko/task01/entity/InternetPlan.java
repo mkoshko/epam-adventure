@@ -24,8 +24,8 @@ public class InternetPlan extends PlanWithMonthPayment {
                         final double minute,
                         final double megabyte,
                         final double sms,
-                        final int internetPack,
-                        final double price) {
+                        final double price,
+                        final int internetPack) {
         super(name, minute, megabyte, sms, price);
         includedInternetTraffic = internetPack;
     }

@@ -1,7 +1,7 @@
 *.iml
 .idea/
 out/
-task01/src/main/java/by/koskho/task01/main/
+task01/src/main/java/by/koshko/task01/main/
 info/
 target/
 logs/

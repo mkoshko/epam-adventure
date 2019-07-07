@@ -1,6 +1,8 @@
 package by.koshko.task01.utils;
 
 import by.koshko.task01.exception.IllegalPlanParametersExceptions;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,8 +32,10 @@ public final class PlanParameterSeparator {
             Logger.getLogger().error(EXCEPTION_MESSAGE);
             throw new IllegalPlanParametersExceptions(EXCEPTION_MESSAGE);
         }
-        List<String> list = Arrays.asList(params.split("\\,"));
-        return list;
+        List<String> splitted = Arrays.asList(params.split("\\,"));
+        List<String> trimmed = new ArrayList<>();
+        splitted.forEach((str) -> trimmed.add(str.trim()));
+        return trimmed;
     }
 
 }

@@ -14,8 +14,8 @@ public final class InternetPlanFactory implements Factory<CommonPlan> {
                 Double.valueOf(params.get(i++).trim()),
                 Double.valueOf(params.get(i++).trim()),
                 Double.valueOf(params.get(i++).trim()),
-                Integer.valueOf(params.get(i++).trim()),
-                Double.valueOf(params.get(i).trim())
+                Double.valueOf(params.get(i++).trim()),
+                Integer.valueOf(params.get(i).trim())
         );
         return plan;
     }
