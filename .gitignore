@@ -2,6 +2,6 @@
 .idea/
 out/
 task01/src/main/java/by/koshko/task01/main/
-info/
+data/
 target/
 logs/

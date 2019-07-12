@@ -1,7 +1,6 @@
-package by.koshko.task01.writer;
+package by.koshko.task01.dao.writer;
 
-import by.koshko.task01.entity.CommonPlan;
-import by.koshko.task01.utils.Logger;
+import by.koshko.task01.entity.Plan;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,12 +13,11 @@ public final class PlanToFileWriter {
      * @param data to be write.
      * @param pathToFile path to file where data will be written.
      */
-    public void write(final List<CommonPlan> data, final String pathToFile) {
+    public void write(final List<Plan> data, final String pathToFile) {
         Path filePath = Paths.get(pathToFile);
         StringBuilder sb = new StringBuilder();
         data.stream().forEach((plan) -> sb.append(plan.toString() + "\n"));
         try {
-            Logger.getLogger().info("Writing data to " + "\"" + filePath + "\"");
             Files.write(filePath, sb.toString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();

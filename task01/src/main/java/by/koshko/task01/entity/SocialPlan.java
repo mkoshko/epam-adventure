@@ -1,70 +1,165 @@
 package by.koshko.task01.entity;
 
-public class SocialPlan extends PlanWithMonthPayment {
-    public static final int REQUIRED_PARAMETERS = 8;
+public class SocialPlan extends PostpaidPlan {
     /**
-     * Plan type value.
+     * Amount of required argument for object creation.
      */
-    private final PlanType type = PlanType.SOCIAL;
+    public static final int REQUIRED_ARGUMENTS = 11;
     /**
-     * Amount of included minutes for calls in other networks for free.
+     * Type of a plan.
      */
-    private int otherNetworksMinutes;
+    public static final PlanType TYPE = PlanType.SOCIAL;
     /**
-     * Amount of included minutes for calls within networks for free.
+     * Amount of free minutes to call within network.
      */
-    private int withinNetworkMinutes;
+    private int minutesInNetwork;
     /**
-     * Amount of included sms that can be sent for free.
+     * Amount of free minutes to call to other networks.
      */
-    private int smsPack;
+    private int minutesOtherNetwork;
+    /**
+     * Amount of free sms.
+     */
+    private int freeSms;
 
     /**
-     * Creates a new {@code SocialPlan}.
-     * @param name Plan name.
-     * @param minute Cost per minute.
-     * @param megabyte Cost one megabyte.
-     * @param sms Cost one sms.
-     * @param otherNetworks Amount of free minutes for calls in other networks.
-     * @param withinNetwork Amount of free minutes for calls within networks.
-     * @param includedSms Amount of free sms to be sent.
-     * @param price Payment per month.
+     * Constructor witch obtains values from {@code Builder} object.
+     *
+     * @param builder {@code Builder} object.
      */
-    public SocialPlan(final String name,
-                      final double minute,
-                      final double megabyte,
-                      final double sms,
-                      final double price,
-                      final int otherNetworks,
-                      final int withinNetwork,
-                      final int includedSms) {
-        super(name, minute, megabyte, sms, price);
-        otherNetworksMinutes = otherNetworks;
-        withinNetworkMinutes = withinNetwork;
-        smsPack = includedSms;
+    public SocialPlan(final SocialPlanBuilder builder) {
+        super(builder);
+        minutesInNetwork = builder.minutesInNetwork;
+        minutesOtherNetwork = builder.minutesOtherNetwork;
+        freeSms = builder.freeSms;
     }
 
-    public int getOtherNetworksMinutes() {
-        return otherNetworksMinutes;
+    public static class SocialPlanBuilder extends PostpaidBuilder {
+
+        /**
+         * Amount of free minutes to call within network.
+         */
+        private int minutesInNetwork;
+        /**
+         * Amount of free minutes to call to other networks.
+         */
+        private int minutesOtherNetwork;
+        /**
+         * Amount of free sms.
+         */
+        private int freeSms;
+
+        /**
+         * Default constructor.
+         */
+        public SocialPlanBuilder() {
+        }
+
+        /**
+         * Sets the internal {@link #minutesInNetwork} value.
+         *
+         * @param value value to be set to {@link #minutesInNetwork}.
+         * @return {@code BasicPlanBuilder} object.
+         */
+        public SocialPlanBuilder minutesIn(final int value) {
+            minutesInNetwork = value;
+            return this;
+        }
+
+        /**
+         * Sets the internal {@link #minutesOtherNetwork} value.
+         *
+         * @param value value to be set to {@link #minutesOtherNetwork}.
+         * @return {@code BasicPlanBuilder} object.
+         */
+        public SocialPlanBuilder minutesOther(final int value) {
+            minutesOtherNetwork = value;
+            return this;
+        }
+
+        /**
+         * Sets the internal {@link #freeSms} value.
+         *
+         * @param value value to be set to {@link #freeSms}.
+         * @return {@code BasicPlanBuilder} object.
+         */
+        public SocialPlanBuilder freeSms(final int value) {
+            freeSms = value;
+            return this;
+        }
+
+        /**
+         * Invokes creation of {@code SocialPlan} object.
+         *
+         * @return {@code SocialPlan} instance.
+         */
+        public SocialPlan build() {
+            return new SocialPlan(this);
+        }
+    }
+    //END OF BUILDER
+
+    /**
+     * Returns amount of minutes for calls within network.
+     *
+     * @return amount of minutes for calls within network.
+     */
+    public int getMinutesInNetwork() {
+        return minutesInNetwork;
     }
 
-    public void setOtherNetworksMinutes(final int otherNetworks) {
-        otherNetworksMinutes = otherNetworks;
+    /**
+     * Sets the {@link #minutesInNetwork} value
+     * if given value greater or equals to 0.
+     *
+     * @param minutesInNetworkValue Value to be set to
+     *                              {@link #minutesInNetwork} value.
+     */
+    public void setMinutesInNetwork(final int minutesInNetworkValue) {
+        minutesInNetwork =
+                minutesInNetworkValue >= 0
+                        ? minutesInNetworkValue : minutesOtherNetwork;
     }
 
-    public int getWithinNetworkMinutes() {
-        return withinNetworkMinutes;
+    /**
+     * Returns amount of minutes for calls to other networks.
+     *
+     * @return amount of minutes for calls to other networks.
+     */
+    public int getMinutesOtherNetwork() {
+        return minutesOtherNetwork;
     }
 
-    public void setWithinNetworkMinutes(final int withinNetwork) {
-        withinNetworkMinutes = withinNetwork;
+    /**
+     * Sets the {@link #minutesOtherNetwork} value
+     * if given value greater or equals to 0.
+     *
+     * @param minutesOtherNetworkValue Value to be set to
+     *                                 {@link #minutesOtherNetwork} value.
+     */
+    public void setMinutesOtherNetwork(final int minutesOtherNetworkValue) {
+        minutesOtherNetwork =
+                minutesOtherNetworkValue >= 0
+                        ? minutesOtherNetworkValue : minutesOtherNetwork;
     }
 
-    public int getSmsPack() {
-        return smsPack;
+    /**
+     * Returns amount of free sms.
+     *
+     * @return amount of free sms.
+     */
+    public int getFreeSms() {
+        return freeSms;
     }
 
-    public void setSmsPack(final int sms) {
-        smsPack = sms;
+    /**
+     * Sets the {@link #freeSms} value
+     * if given value greater or equals to 0.
+     *
+     * @param freeSmsValue Value to be set to
+     *                     {@link #freeSms} value.
+     */
+    public void setFreeSms(final int freeSmsValue) {
+        freeSms = freeSmsValue >= 0 ? freeSmsValue : freeSms;
     }
 }
