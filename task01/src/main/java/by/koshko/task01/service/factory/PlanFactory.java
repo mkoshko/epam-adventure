@@ -1,14 +1,15 @@
 package by.koshko.task01.service.factory;
 
 import by.koshko.task01.entity.Plan;
+import by.koshko.task01.service.CheckParamsNumber;
+import by.koshko.task01.service.PlanParameterSeparator;
 import by.koshko.task01.service.exception.NoArgumentsException;
 import by.koshko.task01.service.exception.PlanFactoryException;
 import by.koshko.task01.service.exception.WrongPlanTypeException;
-import by.koshko.task01.service.CheckParamsNumber;
-import by.koshko.task01.service.PlanParameterSeparator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static by.koshko.task01.entity.PlanParameters.PLAN_TYPE;
 
@@ -33,18 +34,19 @@ public class PlanFactory implements Factory<Plan> {
         List<String> args = PlanParameterSeparator.separate(params);
         return create0(args);
     }
-    //TODO test exceptions behavior!
+
     public List<Plan> create(final List<String> params) throws PlanFactoryException {
         List<Plan> plans = new ArrayList<>();
         for (String s : params) {
             List<String> args = PlanParameterSeparator.separate(s);
-            Plan plan = create0(args);
-            plans.add(plan);
+            Optional<Plan> opt = Optional.ofNullable(create0(args));
+            opt.ifPresent(plans::add);
         }
         return plans;
     }
 
-    private Plan create0(final List<String> args) throws PlanFactoryException {
+    private Plan create0(final List<String> args)
+            throws NoArgumentsException, WrongPlanTypeException {
         if (args.size() == 0) {
             throw new NoArgumentsException();
         }

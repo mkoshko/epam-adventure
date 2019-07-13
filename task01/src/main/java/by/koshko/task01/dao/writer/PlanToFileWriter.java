@@ -9,7 +9,7 @@ import java.util.List;
 
 public final class PlanToFileWriter {
     /**
-     * Writes string from {@code List} to a specified file.
+     * Writes plan description from {@code List} to a specified file.
      * @param data to be write.
      * @param pathToFile path to file where data will be written.
      */

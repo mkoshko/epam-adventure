@@ -162,4 +162,20 @@ public class SocialPlan extends PostpaidPlan {
     public void setFreeSms(final int freeSmsValue) {
         freeSms = freeSmsValue >= 0 ? freeSmsValue : freeSms;
     }
+
+    @Override
+    public String toString() {
+        return "SocialPlan{"
+                + "plan id=" + getId()
+                + ", plan name='" + getPlanName() + '\''
+                + ", outgoing within network cost=" + getOutgoingWithinNetwork()
+                + ", outgoing other networks cost=" + getOutgoingOtherNetwork()
+                + ", outgoing abroad=" + getOutgoingAbroad()
+                + ", sms cost=" + getSmsCost()
+                + ", megabyte cost=" + getMegabyteCost()
+                + ", free minutes within network=" + minutesInNetwork
+                + ", free minutes to other Networks=" + minutesOtherNetwork
+                + ", free sms=" + freeSms
+                + '}';
+    }
 }

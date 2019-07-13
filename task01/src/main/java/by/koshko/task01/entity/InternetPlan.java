@@ -121,14 +121,15 @@ public class InternetPlan extends PostpaidPlan {
      */
     @Override
     public String toString() {
-        return "Plan{"
-                + "planName='" + getPlanName() + '\''
-                + ", outgoingWithinNetwork=" + getOutgoingWithinNetwork()
-                + ", outgoingOtherNetwork=" + getOutgoingOtherNetwork()
-                + ", outgoingAbroad=" + getOutgoingAbroad()
-                + ", smsCost=" + getSmsCost()
-                + ", megabyteCost=" + getMegabyteCost()
-                + ", internetTraffic=" + getInternetTraffic()
+        return "InternetPlan{"
+                + "plan id=" + getId()
+                + ", plan name='" + getPlanName() + '\''
+                + ", outgoing within network cost=" + getOutgoingWithinNetwork()
+                + ", outgoing other networks cost=" + getOutgoingOtherNetwork()
+                + ", outgoing abroad=" + getOutgoingAbroad()
+                + ", sms cost=" + getSmsCost()
+                + ", megabyte cost=" + getMegabyteCost()
+                + ", internet traffic=" + getInternetTraffic()
                 + '}';
     }
 }

@@ -55,6 +55,7 @@ public abstract class Plan {
      * @param builder {@code Builder} object.
      */
     public Plan(final Builder builder) {
+        id = builder.id;
         planName = builder.planName;
         outgoingWithinNetwork = builder.outgoingWithinNetwork;
         outgoingOtherNetwork = builder.outgoingOtherNetwork;
@@ -177,6 +178,23 @@ public abstract class Plan {
         }
     }
     // END OF BUILDER
+
+    /**
+     * Returns the plan id.
+     *
+     * @return the plan id.
+     */
+    public long getId() {
+        return id;
+    }
+    /**
+     * Sets the {@link #id} value if given value greater or equals to 0.
+     *
+     * @param idValue Value to be set to plan id.
+     */
+    public void setId(final long idValue) {
+        id = idValue >= 0 ? idValue : id;
+    }
 
     /**
      * Sets the {@link #planName} value if given value in not {@code null},
@@ -389,7 +407,8 @@ public abstract class Plan {
     @Override
     public String toString() {
         return "Plan{"
-                + "planName='" + planName + '\''
+                + "planID=" + id
+                + ", planName='" + planName + '\''
                 + ", outgoingWithinNetwork=" + outgoingWithinNetwork
                 + ", outgoingOtherNetwork=" + outgoingOtherNetwork
                 + ", outgoingAbroad=" + outgoingAbroad

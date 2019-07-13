@@ -78,7 +78,6 @@ public class BasicPlan extends PrepaidPlan {
         public BasicPlan build() {
             return new BasicPlan(this);
         }
-
     }
 
     /**
@@ -164,15 +163,16 @@ public class BasicPlan extends PrepaidPlan {
      */
     @Override
     public String toString() {
-        return "Plan{"
-                + "planName='" + getPlanName() + '\''
-                + ", outgoingWithinNetwork=" + getOutgoingWithinNetwork()
-                + ", outgoingOtherNetwork=" + getOutgoingOtherNetwork()
-                + ", outgoingAbroad=" + getOutgoingAbroad()
-                + ", smsCost=" + getSmsCost()
-                + ", megabyteCost=" + getMegabyteCost()
-                + ", minutesToFavouriteNumbers=" + getMinutesToFavouriteNumber()
-                + ", smsToFavouriteNumber=" + getSmsToFavouriteNumber()
+        return "BasicPlan{"
+                + "plan id =" + getId()
+                + ", plan name='" + getPlanName() + '\''
+                + ", outgoing within network cost=" + getOutgoingWithinNetwork()
+                + ", outgoing other networks cost=" + getOutgoingOtherNetwork()
+                + ", outgoing abroad=" + getOutgoingAbroad()
+                + ", sms cost=" + getSmsCost()
+                + ", megabyte cost=" + getMegabyteCost()
+                + ", minutes to favourite numbers=" + getMinutesToFavouriteNumber()
+                + ", sms to favourite numbers=" + getSmsToFavouriteNumber()
                 + '}';
     }
 }

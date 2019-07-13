@@ -6,8 +6,8 @@ import java.util.List;
 
 public final class PlanParameterSeparator {
 
-    /** Regex for spliting params. */
-    private static final String SPLITTER_REGEX = "\\,";
+    /** Regex for splitting params. */
+    private static final String SPLITTER_REGEX = ",";
     private PlanParameterSeparator() {
     }
     /**
