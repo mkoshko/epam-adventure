@@ -1,11 +1,12 @@
 package by.koshko.task01.service.factory;
 
 import by.koshko.task01.entity.Plan;
-import by.koshko.task01.service.CheckParamsNumber;
+import by.koshko.task01.service.exception.InvalidPlanArgumentsException;
 import by.koshko.task01.service.PlanParameterSeparator;
 import by.koshko.task01.service.exception.NoArgumentsException;
 import by.koshko.task01.service.exception.PlanFactoryException;
-import by.koshko.task01.service.exception.WrongPlanTypeException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Optional;
 import static by.koshko.task01.entity.PlanParameters.PLAN_TYPE;
 
 public class PlanFactory implements Factory<Plan> {
-
+    private static Logger logger = LogManager.getLogger("Logger");
     private static PlanFactory factory = new PlanFactory();
     private static BasicPlanFactory basicPlanFactory
             = new BasicPlanFactory();
@@ -32,45 +33,43 @@ public class PlanFactory implements Factory<Plan> {
 
     public Plan create(final String params) throws PlanFactoryException {
         List<String> args = PlanParameterSeparator.separate(params);
-        return create0(args);
+        try {
+            return create0(args);
+        } catch (InvalidPlanArgumentsException e) {
+            throw new PlanFactoryException(e);
+        }
     }
 
     public List<Plan> create(final List<String> params) throws PlanFactoryException {
         List<Plan> plans = new ArrayList<>();
         for (String s : params) {
             List<String> args = PlanParameterSeparator.separate(s);
-            Optional<Plan> opt = Optional.ofNullable(create0(args));
+            Optional<Plan> opt = Optional.empty();
+            try {
+                opt = Optional.ofNullable(create0(args));
+            } catch (InvalidPlanArgumentsException e) {
+                logger.error("Invalid parameters " + args);
+            }
             opt.ifPresent(plans::add);
         }
         return plans;
     }
 
     private Plan create0(final List<String> args)
-            throws NoArgumentsException, WrongPlanTypeException {
+            throws NoArgumentsException, InvalidPlanArgumentsException {
         if (args.size() == 0) {
             throw new NoArgumentsException();
         }
         switch (args.get(PLAN_TYPE).toUpperCase()) {
             case ("BASIC"):
-                if (CheckParamsNumber.check(Plan.PlanType.BASIC, args)) {
-                    return basicPlanFactory.create(args);
-                } else {
-                    return null;
-                }
+                return basicPlanFactory.create(args);
             case ("INTERNET"):
-                if (CheckParamsNumber.check(Plan.PlanType.INTERNET, args)) {
-                    return internetPlanFactory.create(args);
-                } else {
-                    return null;
-                }
+                return internetPlanFactory.create(args);
             case ("SOCIAL"):
-                if (CheckParamsNumber.check(Plan.PlanType.SOCIAL, args)) {
-                    return socialPlanfactory.create(args);
-                } else {
-                    return null;
-                }
+                return socialPlanfactory.create(args);
             default:
-                throw new WrongPlanTypeException();
+                throw new InvalidPlanArgumentsException(
+                        "Wrong plan type: " + args.get(PLAN_TYPE));
 
         }
     }

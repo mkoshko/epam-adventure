@@ -1,4 +1,4 @@
-package by.koshko.task01.service;
+package by.koshko.task01.service.validation;
 
 import by.koshko.task01.entity.BasicPlan;
 import by.koshko.task01.entity.InternetPlan;

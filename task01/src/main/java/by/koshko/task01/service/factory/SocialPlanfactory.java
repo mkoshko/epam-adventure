@@ -2,6 +2,7 @@ package by.koshko.task01.service.factory;
 
 import by.koshko.task01.entity.Plan;
 import by.koshko.task01.entity.SocialPlan;
+import by.koshko.task01.service.exception.InvalidPlanArgumentsException;
 import by.koshko.task01.service.validation.PlanParametersValidator;
 import java.util.List;
 import static by.koshko.task01.entity.PlanParameters.SUBSCRIPTION_FEE;
@@ -18,7 +19,17 @@ import static by.koshko.task01.entity.PlanParameters.FREE_SMS;
 
 public final class SocialPlanfactory {
 
-    public SocialPlan create(final List<String> args) {
+    /**
+     * Creates {@code SocialPlan} object.
+     *
+     * @param args {@code List} contains parameters required
+     *             for object creation.
+     * @return {@code SocialPlan} object.
+     * @throws InvalidPlanArgumentsException
+     *         if parameters validation is failed.
+     */
+    public SocialPlan create(final List<String> args)
+            throws InvalidPlanArgumentsException {
         if (PlanParametersValidator.validateSocialPlanParams(args)) {
             Plan.Builder builder = new SocialPlan.SocialPlanBuilder()
                     .minutesIn(Integer.valueOf(args.get(MINUTES_IN_NETWORK)))
@@ -35,7 +46,7 @@ public final class SocialPlanfactory {
                     .smsCost(Double.valueOf(args.get(SMS_COST)));
             return ((SocialPlan.SocialPlanBuilder) builder).build();
         } else {
-            return null;
+            throw new InvalidPlanArgumentsException();
         }
     }
 

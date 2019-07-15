@@ -2,8 +2,11 @@ package by.koshko.task01.service.factory;
 
 import by.koshko.task01.entity.BasicPlan;
 import by.koshko.task01.entity.Plan;
+import by.koshko.task01.service.exception.InvalidPlanArgumentsException;
 import by.koshko.task01.service.validation.PlanParametersValidator;
+
 import java.util.List;
+
 import static by.koshko.task01.entity.PlanParameters.PLAN_ID;
 import static by.koshko.task01.entity.PlanParameters.PLAN_NAME;
 import static by.koshko.task01.entity.PlanParameters.WITHIN_NETWORK_COST;
@@ -17,7 +20,17 @@ import static by.koshko.task01.entity.PlanParameters.FAVOURITE_NUMBER;
 
 public final class BasicPlanFactory {
 
-    public BasicPlan create(final List<String> args) {
+    /**
+     * Creates {@code BasicPlan} object.
+     *
+     * @param args {@code List} contains parameters required
+     *             for object creation.
+     * @return {@code BasicPlan} object.
+     * @throws InvalidPlanArgumentsException
+     *         if parameters validation is failed.
+     */
+    public BasicPlan create(final List<String> args)
+            throws InvalidPlanArgumentsException {
         if (PlanParametersValidator.validateBasicPlanParams(args)) {
             Plan.Builder builder = new BasicPlan.BasicPlanBuilder()
                     .minutesFavouriteNumber(
@@ -35,7 +48,7 @@ public final class BasicPlanFactory {
                     .smsCost(Double.valueOf(args.get(SMS_COST)));
             return ((BasicPlan.BasicPlanBuilder) builder).build();
         } else {
-            return null;
+            throw new InvalidPlanArgumentsException();
         }
     }
 

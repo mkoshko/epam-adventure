@@ -7,11 +7,7 @@ import by.koshko.task01.service.factory.PlanFactory;
 import by.koshko.task01.service.specification.*;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Reader;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.testng.Assert.*;
@@ -20,7 +16,7 @@ public class PlanRepositoryTest {
 
     @BeforeTest
     public void init() throws IOException, PlanFactoryException {
-        FileToListReader reader = new FileToListReader("data/plans.txt");
+        FileToListReader reader = new FileToListReader("src/main/resources/data/plans.txt");
         List<String> params = reader.readAllLines();
         final List<Plan> listValue = PlanFactory.getInstance().create(params);
         for (Plan p : listValue) {
@@ -29,7 +25,6 @@ public class PlanRepositoryTest {
         }
         System.out.println("===============================================");
     }
-
     @Test(enabled = false)
     public void testQuery0() {
         AbstractFindBySpecification<Plan> s =
@@ -41,15 +36,21 @@ public class PlanRepositoryTest {
         }
     }
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void testQuery1() {
         AbstractFindBySpecification<Plan> s =
-                new PlanDoubleBetweenSpecification(1, 1.3, Plan::getOutgoingWithinNetwork)
-                .and(new PlanNameSpecification("CompadreS")
-                        .and(new PlanIdSpecification(2)));
+                new PlanDoubleBetweenSpecification(1, 1.5, Plan::getOutgoingWithinNetwork)
+                .and(new PlanNameSpecification("CompadreS"));
         List<Plan> list = PlanRepository.accept().query(s);
         for (Plan p : list) {
             System.out.println(p);
         }
+    }
+
+    @Test(enabled = true)
+    public void testQuery2() {
+        PlanSortSpecification s = new PlanSortSpecification(Plan::getPlanName);
+        PlanRepository.accept().query(s);
+        PlanRepository.accept().getAll().forEach(System.out::println);
     }
 }

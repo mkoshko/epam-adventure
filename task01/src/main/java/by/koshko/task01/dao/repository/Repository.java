@@ -10,5 +10,7 @@ public interface Repository<T> {
 
     boolean remove(T t);
 
+    List<T> getAll();
+
     List<T> query(Specification<T> specification);
 }

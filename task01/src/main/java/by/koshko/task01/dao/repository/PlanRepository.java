@@ -2,6 +2,7 @@ package by.koshko.task01.dao.repository;
 
 import by.koshko.task01.entity.Plan;
 import by.koshko.task01.service.specification.FindBySpecification;
+import by.koshko.task01.service.specification.SortBySpecification;
 import by.koshko.task01.service.specification.Specification;
 
 import java.util.ArrayList;
@@ -18,27 +19,39 @@ public class PlanRepository implements Repository<Plan> {
         return INSTANCE;
     }
 
-    @Override
     public boolean add(final Plan plan) {
         return DATABASE.add(plan);
     }
 
-    @Override
-    public boolean remove(final Plan plan) {
-        return false;
+    public boolean add(final List<Plan> plans) {
+        return DATABASE.addAll(plans);
     }
 
-    @Override
+    public boolean remove(final Plan plan) {
+        return DATABASE.remove(plan);
+    }
+
+    public boolean remove(final List<Plan> plans) {
+        return DATABASE.removeAll(plans);
+    }
+
+    public List<Plan> getAll() {
+        return DATABASE;
+    }
+
     public List<Plan> query(final Specification<Plan> specification) {
-        List<Plan> list = new ArrayList<>();
         if (specification instanceof FindBySpecification) {
+            List<Plan> list = new ArrayList<>();
             FindBySpecification spec = (FindBySpecification) specification;
             for (Plan plan : DATABASE) {
                 if (spec.isSatisfiedBy(plan)) {
                     list.add(plan);
                 }
             }
+            return list;
+        } else {
+            ((SortBySpecification) specification).sort(DATABASE);
+            return DATABASE;
         }
-        return list;
     }
 }

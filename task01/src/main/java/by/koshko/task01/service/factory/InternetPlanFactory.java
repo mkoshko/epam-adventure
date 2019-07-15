@@ -2,6 +2,7 @@ package by.koshko.task01.service.factory;
 
 import by.koshko.task01.entity.InternetPlan;
 import by.koshko.task01.entity.Plan;
+import by.koshko.task01.service.exception.InvalidPlanArgumentsException;
 import by.koshko.task01.service.validation.PlanParametersValidator;
 import java.util.List;
 import static by.koshko.task01.entity.PlanParameters.INTERNET_TRAFFIC;
@@ -16,7 +17,17 @@ import static by.koshko.task01.entity.PlanParameters.SMS_COST;
 
 public final class InternetPlanFactory {
 
-    public InternetPlan create(final List<String> args) {
+    /**
+     * Creates {@code InternetPlan} object.
+     *
+     * @param args {@code List} contains parameters required
+     *             for object creation.
+     * @return {@code InternetPlan} object.
+     * @throws InvalidPlanArgumentsException
+     *         if parameters validation is failed.
+     */
+    public InternetPlan create(final List<String> args)
+            throws InvalidPlanArgumentsException {
         if (PlanParametersValidator.validateInternetPlanParams(args)) {
             Plan.Builder builder = new InternetPlan.InternetPlanBuilder()
                     .internetTraffic(
@@ -31,7 +42,7 @@ public final class InternetPlanFactory {
                     .smsCost(Double.valueOf(args.get(SMS_COST)));
             return ((InternetPlan.InternetPlanBuilder) builder).build();
         } else {
-            return null;
+            throw new InvalidPlanArgumentsException();
         }
     }
 }

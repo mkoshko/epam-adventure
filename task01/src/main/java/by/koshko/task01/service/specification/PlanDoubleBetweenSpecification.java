@@ -12,10 +12,10 @@ public class PlanDoubleBetweenSpecification extends AbstractFindBySpecification<
 
     public PlanDoubleBetweenSpecification(final double minValue,
                                           final double maxValue,
-                                          final Function<Plan, Double> function) {
+                                          final Function<Plan, Double> f) {
         min = minValue;
         max = maxValue;
-        func = function;
+        func = f;
     }
 
     @Override

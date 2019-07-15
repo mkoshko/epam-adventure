@@ -163,7 +163,11 @@ public class SocialPlan extends PostpaidPlan {
         freeSms = freeSmsValue >= 0 ? freeSmsValue : freeSms;
     }
 
-    @Override
+    /**
+     * Returns the string contains plan description with all parameters.
+     *
+     * @return The string contains plan description with all parameters.
+     */
     public String toString() {
         return "SocialPlan{"
                 + "plan id=" + getId()
