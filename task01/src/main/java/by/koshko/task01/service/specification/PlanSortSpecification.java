@@ -8,19 +8,47 @@ import java.util.function.Function;
 
 public class PlanSortSpecification implements SortBySpecification<Plan> {
 
-    private Comparator c;
+    /**
+     * {@code Comparator} used for {@link List} sorting.
+     */
+    private Comparator comparator;
 
-    public PlanSortSpecification(final Function<? super Plan, ? extends Comparable> f) {
-        c = Comparator.comparing(f);
+    /**
+     * Constructor that accept {@link Function} and initialize
+     * {@link #comparator} filed.
+     *
+     * @param function is a {@link Function} to be passed
+     *                 to {@link Comparator#comparing(Function)}.
+     */
+    @SuppressWarnings("unchecked")
+    public PlanSortSpecification(final Function<? super Plan,
+            ? extends Comparable> function) {
+
+        comparator = Comparator.comparing(function);
     }
 
-    public PlanSortSpecification(final Function<? super Plan, ? extends Comparable> f1,
-                                 final Function<? super Plan, ? extends Comparable> f2) {
-        c = Comparator.comparing(f1).thenComparing(f2);
+    /**
+     * Constructor that accept {@code Function} and initialize
+     * {@link #comparator} filed.
+     *
+     * @param function1 is a {@link Function} to be passed to
+     *                  {@link Comparator#comparing(Function)}.
+     * @param function2 is a {@link Function} to be passed to
+     *                  {@link Comparator#thenComparing(Function)}.
+     */
+    @SuppressWarnings("unchecked")
+    public PlanSortSpecification(final Function<? super Plan,
+            ? extends Comparable> function1,
+                                 final Function<? super Plan,
+                                         ? extends Comparable> function2) {
+        comparator = Comparator.comparing(function1).thenComparing(function2);
     }
 
-    @Override
-    public void sort(final List<Plan> t) {
-        t.sort(c);
+    /**
+     * @param plans {@code List} to be sorted.
+     */
+    @SuppressWarnings("unchecked")
+    public void sort(final List<Plan> plans) {
+        plans.sort(comparator);
     }
 }

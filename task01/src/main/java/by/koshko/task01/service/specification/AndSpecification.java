@@ -3,7 +3,7 @@ package by.koshko.task01.service.specification;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AndSpecification<T> extends AbstractFindBySpecification<T> {
+public final class AndSpecification<T> extends AbstractFindBySpecification<T> {
 
     private Set<FindBySpecification<T>> set = new HashSet<>();
 
