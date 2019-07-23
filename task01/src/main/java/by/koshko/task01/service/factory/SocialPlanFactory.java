@@ -2,8 +2,9 @@ package by.koshko.task01.service.factory;
 
 import by.koshko.task01.entity.Plan;
 import by.koshko.task01.entity.SocialPlan;
-import by.koshko.task01.service.exception.InvalidPlanArgumentsException;
-import by.koshko.task01.service.validation.PlanParametersValidator;
+import by.koshko.task01.service.exception.PlanFactoryException;
+import by.koshko.task01.service.validation.PlanParameterValidator;
+
 import java.util.List;
 import static by.koshko.task01.entity.PlanParameters.SUBSCRIPTION_FEE;
 import static by.koshko.task01.entity.PlanParameters.PLAN_ID;
@@ -17,7 +18,7 @@ import static by.koshko.task01.entity.PlanParameters.MINUTES_IN_NETWORK;
 import static by.koshko.task01.entity.PlanParameters.MINUTES_OTHER_NETWORK;
 import static by.koshko.task01.entity.PlanParameters.FREE_SMS;
 
-public final class SocialPlanfactory {
+public final class SocialPlanFactory {
 
     /**
      * Creates {@code SocialPlan} object.
@@ -25,12 +26,12 @@ public final class SocialPlanfactory {
      * @param args {@code List} contains parameters required
      *             for object creation.
      * @return {@code SocialPlan} object.
-     * @throws InvalidPlanArgumentsException
+     * @throws PlanFactoryException
      *         if parameters validation is failed.
      */
     public SocialPlan create(final List<String> args)
-            throws InvalidPlanArgumentsException {
-        if (PlanParametersValidator.validateSocialPlanParams(args)) {
+            throws PlanFactoryException {
+        if (PlanParameterValidator.validateSocialPlanParams(args)) {
             Plan.Builder builder = new SocialPlan.SocialPlanBuilder()
                     .minutesIn(Integer.valueOf(args.get(MINUTES_IN_NETWORK)))
                     .minutesOther(
@@ -46,7 +47,7 @@ public final class SocialPlanfactory {
                     .smsCost(Double.valueOf(args.get(SMS_COST)));
             return ((SocialPlan.SocialPlanBuilder) builder).build();
         } else {
-            throw new InvalidPlanArgumentsException();
+            throw new PlanFactoryException("Invalid parameters");
         }
     }
 

@@ -5,6 +5,13 @@ public abstract class PrepaidPlan extends Plan {
      * Amount of available favourite numbers.
      */
     private int favouriteNumbers;
+
+    /**
+     * Default empty constructor.
+     */
+    public PrepaidPlan() {
+        super();
+    }
     /**
      * Constructor witch obtains values from {@code Builder} object.
      *

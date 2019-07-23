@@ -2,18 +2,13 @@ package by.koshko.task01.service.exception;
 
 public class PlanFactoryException extends Exception {
 
-    public PlanFactoryException() {
-    }
-
+    /**
+     * Constructs a new exception with the specified detail message.
+     *
+     * @param message the detail message.
+     */
     public PlanFactoryException(final String message) {
         super(message);
     }
 
-    public PlanFactoryException(final String message, final Throwable cause) {
-        super(message, cause);
-    }
-
-    public PlanFactoryException(final Throwable cause) {
-        super(cause);
-    }
 }

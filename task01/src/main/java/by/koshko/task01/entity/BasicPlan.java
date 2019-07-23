@@ -22,6 +22,12 @@ public class BasicPlan extends PrepaidPlan {
     private int smsToFavouriteNumber;
 
     /**
+     * Default empty constructor.
+     */
+    public BasicPlan() {
+        super();
+    }
+    /**
      * Constructor witch obtains values from {@code Builder} object.
      *
      * @param builder {@code Builder} object.

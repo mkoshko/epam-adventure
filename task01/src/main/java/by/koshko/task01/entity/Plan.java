@@ -1,6 +1,12 @@
 package by.koshko.task01.entity;
 
-public abstract class Plan {
+import by.koshko.task01.service.Publisher;
+import by.koshko.task01.service.Subscriber;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public abstract class Plan implements Publisher {
     public enum PlanType {
         /**
          * Indicates that a plan most likely for internet surfing.
@@ -16,6 +22,10 @@ public abstract class Plan {
         BASIC
     }
 
+    /**
+     * List of subscribers which will notified if some updates occurs.
+     */
+    private List<Subscriber> subscribers = new LinkedList<>();
     /**
      * Identifier of a plan.
      */
@@ -49,6 +59,11 @@ public abstract class Plan {
      */
     private int numberOfUsers;
 
+    /**
+     * Default empty constructor.
+     */
+    public Plan() {
+    }
     /**
      * Constructor witch obtains values from builder object.
      *
@@ -187,6 +202,7 @@ public abstract class Plan {
     public long getId() {
         return id;
     }
+
     /**
      * Sets the {@link #id} value if given value greater or equals to 0.
      *
@@ -274,6 +290,9 @@ public abstract class Plan {
     }
 
     /**
+     * Supposed to using by some service for keep tracking of total number of
+     * customers which should get current number of customers then calculate new
+     * value and pass it into this method.
      * Sets the {@link #numberOfUsers} value
      * if given value greater or equals to 0.
      *
@@ -283,7 +302,42 @@ public abstract class Plan {
     public void setNumberOfUsers(final int numberOfUsersValue) {
         if (numberOfUsersValue >= 0) {
             numberOfUsers = numberOfUsersValue;
+            notifySubscribers();
         }
+    }
+
+    /**
+     * Adds {@code Subscriber} to {@link #subscribers}.
+     * @param subscriber {@code Subscriber} to be added to {@link #subscribers}.
+     * @return {@code true} if {@code Subscriber} was successfully added,
+     *          {@code false} otherwise.
+     */
+    @Override
+    public boolean subscribe(final Subscriber subscriber) {
+        if (!subscribers.contains(subscriber)) {
+            return subscribers.add(subscriber);
+        }
+        return false;
+    }
+
+    /**
+     * Removes {@code Subscriber} from {@link #subscribers}.
+     * @param subscriber {@code Subscriber} to be removed from
+     *                   {@link #subscribers}.
+     * @return {@code true} if {@code Subscriber} was successfully removed,
+     *         {@code false} otherwise.
+     */
+    @Override
+    public boolean unsubscribe(final Subscriber subscriber) {
+        return subscribers.remove(subscriber);
+    }
+
+    /**
+     * Notifies all {@code Subscriber} from {@link #subscribers}.
+     */
+    @Override
+    public void notifySubscribers() {
+        subscribers.forEach(subscriber -> subscriber.onUpdate(this));
     }
 
     /**

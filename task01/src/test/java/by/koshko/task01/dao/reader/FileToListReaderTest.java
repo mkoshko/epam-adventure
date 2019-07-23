@@ -2,26 +2,50 @@ package by.koshko.task01.dao.reader;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import java.util.Arrays;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.testng.Assert.*;
 
 public class FileToListReaderTest {
 
-    private static final String s0 = "INTERNET, Compadre Plus, 24.5, 12.54, 25.5, 12.5, 500";
-    private static final String s1 = "SOCIAL, Babushka Plan, 24.5, 12.54, 65.7, 545.4, 100, 200, 500";
-    private static final String s2 = "BOMOdsf, __ASD, 25.1, 35.5, 124.53";
-    private static final String s3 = "COMMON, Bum Plan, 25.1, 35.5, asd";
-    private static final String path = "info/plans.txt";
-    List<String> expected;
-//    FileToListReader reader = new FileToListReader(path);
+    private List<String> expected = new ArrayList<>();
+    private final String s0 = "If you get this message, you are on the right way.";
+    private final String s1 = "Moreover, if you either get this one, and your list length " +
+                              "equals 2, you're qualified to work in Google.";
+    private final String s2 = "Is length 3, right? Good!";
+    private final String filePath = "data/reader_test.txt";
 
-    @BeforeTest(description = "list initialization")
-    public void beforeTestRead() {
-        expected = Arrays.asList(s0, s1, s2, s3);
+    @BeforeTest
+    private void init() {
+        expected.add(s0);
+        expected.add(s1);
+        expected.add(s2);
     }
 
     @Test
-    public void testRead() {
+    public void testReadAllLines() throws IOException {
+        FileToListReader reader = new FileToListReader(filePath);
+        List<String> result = reader.readAllLines();
+        assertEquals(expected, result);
+        assertEquals(result.size(), 3);
+    }
 
+    @Test
+    public void testNextLines() throws IOException {
+        FileToListReader reader = new FileToListReader(filePath);
+        List<String> result = reader.nextLines(2);
+        assertEquals(expected.subList(0,2), result);
+        assertEquals(result.size(), 2);
+    }
+
+    @Test
+    public void testNextLine() throws IOException {
+        FileToListReader reader = new FileToListReader(filePath);
+        String result = reader.nextLine();
+        assertEquals(expected.get(0), result);
     }
 }

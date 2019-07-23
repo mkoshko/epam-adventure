@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite1">
+    <test name="dao">
+        <classes>
+            <class name="by.koshko.task01.dao.reader.FileToListReaderTest" />
+            <class name="by.koshko.task01.dao.reader.FileToListReaderFailTest" />
+            <class name="by.koshko.task01.dao.repository.PlanRepositoryTest"/>
+        </classes>
+    </test>
+    <test name="service">
+        <classes>
+            <class name="by.koshko.task01.service.factory.BasicPlanFactoryTest"/>
+            <class name="by.koshko.task01.service.factory.InternetPlanFactoryTest"/>
+            <class name="by.koshko.task01.service.factory.PlanFactoryFailTest"/>
+            <class name="by.koshko.task01.service.factory.PlanFactoryTest"/>
+            <class name="by.koshko.task01.service.factory.SocialPlanFactoryTest"/>
+            <class name="by.koshko.task01.service.specification.FindSpecificationTest"/>
+            <class name="by.koshko.task01.service.specification.SortSpecificationTest"/>
+            <class name="by.koshko.task01.service.PlanCreatorServiceTest"/>
+            <class name="by.koshko.task01.service.PlanManagementServiceTest"/>
+        </classes>
+    </test>
+</suite>

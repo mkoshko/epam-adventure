@@ -2,8 +2,9 @@ package by.koshko.task01.service.factory;
 
 import by.koshko.task01.entity.InternetPlan;
 import by.koshko.task01.entity.Plan;
-import by.koshko.task01.service.exception.InvalidPlanArgumentsException;
-import by.koshko.task01.service.validation.PlanParametersValidator;
+import by.koshko.task01.service.exception.PlanFactoryException;
+import by.koshko.task01.service.validation.PlanParameterValidator;
+
 import java.util.List;
 import static by.koshko.task01.entity.PlanParameters.INTERNET_TRAFFIC;
 import static by.koshko.task01.entity.PlanParameters.SUBSCRIPTION_FEE;
@@ -23,12 +24,11 @@ public final class InternetPlanFactory {
      * @param args {@code List} contains parameters required
      *             for object creation.
      * @return {@code InternetPlan} object.
-     * @throws InvalidPlanArgumentsException
-     *         if parameters validation is failed.
+     * @throws PlanFactoryException if parameters validation is failed.
      */
     public InternetPlan create(final List<String> args)
-            throws InvalidPlanArgumentsException {
-        if (PlanParametersValidator.validateInternetPlanParams(args)) {
+            throws PlanFactoryException {
+        if (PlanParameterValidator.validateInternetPlanParams(args)) {
             Plan.Builder builder = new InternetPlan.InternetPlanBuilder()
                     .internetTraffic(
                             Integer.valueOf(args.get(INTERNET_TRAFFIC)))
@@ -42,7 +42,7 @@ public final class InternetPlanFactory {
                     .smsCost(Double.valueOf(args.get(SMS_COST)));
             return ((InternetPlan.InternetPlanBuilder) builder).build();
         } else {
-            throw new InvalidPlanArgumentsException();
+            throw new PlanFactoryException("Invalid parameters");
         }
     }
 }

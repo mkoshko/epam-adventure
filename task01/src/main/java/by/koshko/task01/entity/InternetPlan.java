@@ -15,7 +15,12 @@ public class InternetPlan extends PostpaidPlan {
      * Amount of included internet traffic.
      */
     private int internetTraffic;
-
+    /**
+     * Default empty constructor.
+     */
+    public InternetPlan() {
+        super();
+    }
     /**
      * Constructor witch obtains values from builder object.
      *
@@ -129,6 +134,7 @@ public class InternetPlan extends PostpaidPlan {
                 + ", outgoing abroad=" + getOutgoingAbroad()
                 + ", sms cost=" + getSmsCost()
                 + ", megabyte cost=" + getMegabyteCost()
+                + ", subscription fee=" + getSubscriptionFee()
                 + ", internet traffic=" + getInternetTraffic()
                 + '}';
     }

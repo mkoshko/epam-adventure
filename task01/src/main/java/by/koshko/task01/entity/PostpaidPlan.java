@@ -8,6 +8,12 @@ public abstract class PostpaidPlan extends Plan {
     private double subscriptionFee;
 
     /**
+     * Default empty constructor.
+     */
+    public PostpaidPlan() {
+        super();
+    }
+    /**
      * Constructor witch uses builder for fields value initialization.
      *
      * @param builder Builder object.

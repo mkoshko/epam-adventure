@@ -20,8 +20,8 @@ import static by.koshko.task01.entity.PlanParameters.SUBSCRIPTION_FEE;
 import static by.koshko.task01.entity.PlanParameters.MINS_FAVOURITE_NUMBER;
 import static by.koshko.task01.entity.PlanParameters.INTERNET_TRAFFIC;
 
-public final class PlanParametersValidator {
-    private PlanParametersValidator() {
+public final class PlanParameterValidator {
+    private PlanParameterValidator() {
     }
 
     /**
@@ -43,12 +43,12 @@ public final class PlanParametersValidator {
 
     private static boolean validateCommonParams(final List<String> args) {
         return args.get(PLAN_ID).matches(LONG_PATTERN)
-                && args.get(PLAN_NAME).matches(NAME_PATTERN)
-                && args.get(WITHIN_NETWORK_COST).matches(DOUBLE_PATTERN)
-                && args.get(OTHER_NETWORK_COST).matches(DOUBLE_PATTERN)
-                && args.get(ABROAD_COST).matches(DOUBLE_PATTERN)
-                && args.get(SMS_COST).matches(DOUBLE_PATTERN)
-                && args.get(MEGABYTE_COST).matches(DOUBLE_PATTERN);
+               && args.get(PLAN_NAME).matches(NAME_PATTERN)
+               && args.get(WITHIN_NETWORK_COST).matches(DOUBLE_PATTERN)
+               && args.get(OTHER_NETWORK_COST).matches(DOUBLE_PATTERN)
+               && args.get(ABROAD_COST).matches(DOUBLE_PATTERN)
+               && args.get(SMS_COST).matches(DOUBLE_PATTERN)
+               && args.get(MEGABYTE_COST).matches(DOUBLE_PATTERN);
     }
 
     private static boolean validateParamsPostpaid(final List<String> args) {

@@ -38,9 +38,9 @@ public class PlanSortSpecification implements SortBySpecification<Plan> {
      */
     @SuppressWarnings("unchecked")
     public PlanSortSpecification(final Function<? super Plan,
-            ? extends Comparable> function1,
+                                 ? extends Comparable> function1,
                                  final Function<? super Plan,
-                                         ? extends Comparable> function2) {
+                                 ? extends Comparable> function2) {
         comparator = Comparator.comparing(function1).thenComparing(function2);
     }
 

@@ -21,7 +21,12 @@ public class SocialPlan extends PostpaidPlan {
      * Amount of free sms.
      */
     private int freeSms;
-
+    /**
+     * Default empty constructor.
+     */
+    public SocialPlan() {
+        super();
+    }
     /**
      * Constructor witch obtains values from {@code Builder} object.
      *
@@ -177,6 +182,7 @@ public class SocialPlan extends PostpaidPlan {
                 + ", outgoing abroad=" + getOutgoingAbroad()
                 + ", sms cost=" + getSmsCost()
                 + ", megabyte cost=" + getMegabyteCost()
+                + ", subscription fee=" + getSubscriptionFee()
                 + ", free minutes within network=" + minutesInNetwork
                 + ", free minutes to other Networks=" + minutesOtherNetwork
                 + ", free sms=" + freeSms

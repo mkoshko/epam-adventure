@@ -1,4 +1,4 @@
-package by.koshko.task01.service;
+package by.koshko.task01.service.factory;
 
 import java.util.ArrayList;
 import java.util.Arrays;

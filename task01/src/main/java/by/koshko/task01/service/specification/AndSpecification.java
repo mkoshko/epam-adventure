@@ -5,9 +5,20 @@ import java.util.Set;
 
 public final class AndSpecification<T> extends AbstractFindBySpecification<T> {
 
+    /**
+     * Contains specifications.
+     */
     private Set<FindBySpecification<T>> set = new HashSet<>();
 
-    public AndSpecification(final FindBySpecification<T> a, final FindBySpecification<T> b) {
+    /**
+     * Creates new {@code AndSpecification} and puts given specifications to
+     * {@link #set}.
+     * @param a {@code Specification} which invokes creation of this
+     *          {@code AndSpecification}.
+     * @param b New {@code Specification}.
+     */
+    public AndSpecification(final FindBySpecification<T> a,
+                            final FindBySpecification<T> b) {
         super();
         set.add(a);
         set.add(b);
@@ -24,7 +35,8 @@ public final class AndSpecification<T> extends AbstractFindBySpecification<T> {
     }
 
     @Override
-    public AbstractFindBySpecification<T> and(final FindBySpecification<T> spec) {
+    public AbstractFindBySpecification<T> and(
+            final FindBySpecification<T> spec) {
         set.add(spec);
         return this;
     }

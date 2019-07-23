@@ -5,9 +5,21 @@ import java.util.Set;
 
 public final class OrSpecification<T> extends AbstractFindBySpecification<T> {
 
+    /**
+     * Contains specifications.
+     */
     private Set<FindBySpecification> set = new HashSet<>();
 
-    public OrSpecification(final FindBySpecification<T> a, final FindBySpecification<T> b) {
+    /**
+     * Creates new {@code OrSpecification} and puts given specifications to
+     * {@link #set}.
+     * @param a {@code Specification} which invokes creation of this
+     *          {@code OrSpecification}.
+     * @param b New {@code Specification}.
+     */
+    public OrSpecification(final FindBySpecification<T> a,
+                           final FindBySpecification<T> b) {
+        super();
         set.add(a);
         set.add(b);
     }
@@ -23,7 +35,8 @@ public final class OrSpecification<T> extends AbstractFindBySpecification<T> {
     }
 
     @Override
-    public AbstractFindBySpecification<T> or(final FindBySpecification<T> spec) {
+    public AbstractFindBySpecification<T> or(
+            final FindBySpecification<T> spec) {
         set.add(spec);
         return this;
     }
