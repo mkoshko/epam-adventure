@@ -1,0 +1,3 @@
+BasicPlan{plan id =7, plan name='PlanS', outgoing within network cost=1.5, outgoing other networks cost=1.2, outgoing abroad=7.0, sms cost=0.6, megabyte cost=0.5, minutes to favourite numbers=200, sms to favourite numbers=50}
+InternetPlan{plan id=3, plan name='PlanC', outgoing within network cost=1.34, outgoing other networks cost=1.23, outgoing abroad=3.0, sms cost=0.56, megabyte cost=0.3, subscription fee=15.0, internet traffic=200}
+SocialPlan{plan id=0, plan name='PlanS', outgoing within network cost=1.87, outgoing other networks cost=1.1345, outgoing abroad=2.0, sms cost=0.56, megabyte cost=0.3, subscription fee=5.5, free minutes within network=200, free minutes to other Networks=100, free sms=50}

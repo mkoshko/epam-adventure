@@ -4,6 +4,8 @@ import by.koshko.task01.entity.InternetPlan;
 import by.koshko.task01.entity.Plan;
 import by.koshko.task01.service.exception.PlanFactoryException;
 import by.koshko.task01.service.validation.PlanParameterValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import static by.koshko.task01.entity.PlanParameters.INTERNET_TRAFFIC;
@@ -17,7 +19,10 @@ import static by.koshko.task01.entity.PlanParameters.MEGABYTE_COST;
 import static by.koshko.task01.entity.PlanParameters.SMS_COST;
 
 public final class InternetPlanFactory {
-
+    /**
+     * Logger.
+     */
+    private Logger logger = LogManager.getLogger(this);
     /**
      * Creates {@code InternetPlan} object.
      *
@@ -40,8 +45,10 @@ public final class InternetPlanFactory {
                     .outgoingAbroad(Double.valueOf(args.get(ABROAD_COST)))
                     .megabyteCost(Double.valueOf(args.get(MEGABYTE_COST)))
                     .smsCost(Double.valueOf(args.get(SMS_COST)));
+            logger.info("Creating plan with parameters: " + args);
             return ((InternetPlan.InternetPlanBuilder) builder).build();
         } else {
+            logger.info("Invalid parameters: " + args);
             throw new PlanFactoryException("Invalid parameters");
         }
     }

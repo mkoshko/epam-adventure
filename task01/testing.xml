@@ -6,6 +6,7 @@
         <classes>
             <class name="by.koshko.task01.dao.reader.FileToListReaderTest" />
             <class name="by.koshko.task01.dao.reader.FileToListReaderFailTest" />
+            <class name="by.koshko.task01.dao.writer.PlanDescriptionToFileWriterTest" />
             <class name="by.koshko.task01.dao.repository.PlanRepositoryTest"/>
         </classes>
     </test>
@@ -19,7 +20,7 @@
             <class name="by.koshko.task01.service.specification.FindSpecificationTest"/>
             <class name="by.koshko.task01.service.specification.SortSpecificationTest"/>
             <class name="by.koshko.task01.service.PlanCreatorServiceTest"/>
-            <class name="by.koshko.task01.service.PlanManagementServiceTest"/>
+            <class name="by.koshko.task01.service.PlanManagementServiceImplTest"/>
         </classes>
     </test>
 </suite>

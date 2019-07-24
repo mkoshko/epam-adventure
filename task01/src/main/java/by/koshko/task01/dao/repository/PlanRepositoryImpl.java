@@ -22,7 +22,7 @@ public class PlanRepositoryImpl implements PlanRepository, Publisher {
     /**
      * Internal super-modern database.
      */
-    private static final List<Plan> DATABASE = new LinkedList<>();
+    private final List<Plan> database = new LinkedList<>();
     /**
      * List of {@code Subscriber} objects which will notified if some
      * updates occurs.
@@ -40,7 +40,7 @@ public class PlanRepositoryImpl implements PlanRepository, Publisher {
         if (plan == null) {
             return false;
         }
-        DATABASE.add(plan);
+        database.add(plan);
         logger.info("Plan added to repository");
         notifySubscribers();
         return true;
@@ -57,7 +57,7 @@ public class PlanRepositoryImpl implements PlanRepository, Publisher {
         if (plans == null) {
             return false;
         }
-        DATABASE.addAll(plans);
+        database.addAll(plans);
         logger.info("added " + plans.size() + " plan(s) to repository");
         notifySubscribers();
         return true;
@@ -74,7 +74,7 @@ public class PlanRepositoryImpl implements PlanRepository, Publisher {
         if (plan == null) {
             return false;
         }
-        if (DATABASE.remove(plan)) {
+        if (database.remove(plan)) {
             notifySubscribers();
             return true;
         }
@@ -92,7 +92,7 @@ public class PlanRepositoryImpl implements PlanRepository, Publisher {
         if (plans == null) {
             return false;
         }
-        if (DATABASE.removeAll(plans)) {
+        if (database.removeAll(plans)) {
             notifySubscribers();
             return true;
         }
@@ -105,7 +105,7 @@ public class PlanRepositoryImpl implements PlanRepository, Publisher {
      * @return all {@code Plan} objects from database.
      */
     public List<Plan> fetchAll() {
-        return new ArrayList<>(DATABASE);
+        return new ArrayList<>(database);
     }
 
     /**
@@ -122,15 +122,15 @@ public class PlanRepositoryImpl implements PlanRepository, Publisher {
         if (specification instanceof FindBySpecification) {
             List<Plan> list = new ArrayList<>();
             FindBySpecification spec = (FindBySpecification) specification;
-            for (Plan plan : DATABASE) {
+            for (Plan plan : database) {
                 if (spec.isSatisfiedBy(plan)) {
                     list.add(plan);
                 }
             }
             return list;
         } else {
-            ((SortBySpecification) specification).sort(DATABASE);
-            return new ArrayList<>(DATABASE);
+            ((SortBySpecification) specification).sort(database);
+            return new ArrayList<>(database);
         }
     }
 

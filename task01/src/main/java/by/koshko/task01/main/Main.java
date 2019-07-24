@@ -230,16 +230,27 @@ public class Main {
         PlanCreatorService service = ServiceFactory.getInstance().getCreatorService();
 
         public void start() {
-            while (true) {
-                printMenu("Create menu", "Enter path to a file");
-                try {
-                    service.create(scanner.next());
-                } catch (ServiceException e) {
-                    printErr(e.getMessage());
-                    break;
+            boolean running = true;
+            while (running) {
+                printMenu("Create menu", "Enter path to a file",
+                        RED + "Back" + RESET);
+                int menu = readInt();
+                switch (menu) {
+                    case 1:
+                        printSuccess("Enter path to file");
+                        try {
+                            service.create(readString());
+                            printSuccess("Done.");
+                            running = false;
+                            break;
+                        } catch (ServiceException e) {
+                            printErr(e.getMessage());
+                            break;
+                        }
+                    case 2:
+                        running = false;
+                        break;
                 }
-                printSuccess("Done");
-                break;
             }
         }
     }

@@ -1,5 +1,7 @@
 package by.koshko.task01.service.factory;
 
+import by.koshko.task01.service.exception.PlanFactoryException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,10 +23,13 @@ public final class PlanParameterSeparator {
      *         param3
      *         ...
      *         paramN.
+     * @throws PlanFactoryException if string with parameters is {@code null}.
      */
-    public static List<String> separate(final String params) {
+    public static List<String> separate(final String params)
+            throws PlanFactoryException {
         if (params == null) {
-            throw new NullPointerException();
+
+            throw new PlanFactoryException("String with parameters is null");
         }
         List<String> splitted = Arrays.asList(params.split(SPLITTER_REGEX));
         List<String> trimmed = new ArrayList<>();

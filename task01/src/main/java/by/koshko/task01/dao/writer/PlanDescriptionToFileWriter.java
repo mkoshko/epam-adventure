@@ -13,7 +13,7 @@ public final class PlanDescriptionToFileWriter {
     /**
      * Logger.
      */
-    private final Logger logger = LogManager.getLogger("Logger");
+    private final Logger logger = LogManager.getLogger(this);
     /**
      * Output stream of this {@code PlanDescriptionToFileWriter}.
      */
@@ -32,8 +32,8 @@ public final class PlanDescriptionToFileWriter {
         if (path != null) {
             writer = new FileOutputStream(path);
         } else {
-            logger.info("Path to file argument is null");
-            throw new FileNotFoundException("Path to file is empty");
+            logger.info("Null path reference");
+            throw new FileNotFoundException("Null path reference");
         }
     }
 

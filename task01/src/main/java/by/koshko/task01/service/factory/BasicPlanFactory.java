@@ -4,6 +4,8 @@ import by.koshko.task01.entity.BasicPlan;
 import by.koshko.task01.entity.Plan;
 import by.koshko.task01.service.exception.PlanFactoryException;
 import by.koshko.task01.service.validation.PlanParameterValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -19,7 +21,10 @@ import static by.koshko.task01.entity.PlanParameters.SMS_TO_FAVOURITE_NUMS;
 import static by.koshko.task01.entity.PlanParameters.FAVOURITE_NUMBER;
 
 public final class BasicPlanFactory {
-
+    /**
+     * Logger.
+     */
+    private Logger logger = LogManager.getLogger(this);
     /**
      * Creates {@code BasicPlan} object.
      *
@@ -45,8 +50,10 @@ public final class BasicPlanFactory {
                     .outgoingAbroad(Double.valueOf(args.get(ABROAD_COST)))
                     .megabyteCost(Double.valueOf(args.get(MEGABYTE_COST)))
                     .smsCost(Double.valueOf(args.get(SMS_COST)));
+            logger.info("Creating plan with parameters: " + args);
             return ((BasicPlan.BasicPlanBuilder) builder).build();
         } else {
+            logger.info("Invalid parameters: " + args);
             throw new PlanFactoryException("Invalid parameters");
         }
     }

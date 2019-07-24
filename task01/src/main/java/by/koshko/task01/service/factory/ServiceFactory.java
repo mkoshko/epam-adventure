@@ -1,8 +1,9 @@
 package by.koshko.task01.service.factory;
 
-import by.koshko.task01.service.PlanManagementService;
 import by.koshko.task01.service.PlanCreatorService;
 import by.koshko.task01.service.PlanCreatorServiceImpl;
+import by.koshko.task01.service.PlanManagementService;
+import by.koshko.task01.service.PlanManagementServiceImpl;
 
 public final class ServiceFactory {
 
@@ -23,7 +24,7 @@ public final class ServiceFactory {
      * Plan management service instance.
      */
     private final PlanManagementService planManagementService
-            = PlanManagementService.getInstance();
+            = PlanManagementServiceImpl.getInstance();
 
     private ServiceFactory() {
     }
@@ -37,8 +38,8 @@ public final class ServiceFactory {
     }
 
     /**
-     * Returns {@code PlanManagementService} instance.
-     * @return {@code PlanManagementService} instance.
+     * Returns {@code PlanManagementServiceImpl} instance.
+     * @return {@code PlanManagementServiceImpl} instance.
      */
     public PlanManagementService getPlanManagementService() {
         return planManagementService;

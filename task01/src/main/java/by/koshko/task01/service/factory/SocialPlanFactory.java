@@ -4,6 +4,8 @@ import by.koshko.task01.entity.Plan;
 import by.koshko.task01.entity.SocialPlan;
 import by.koshko.task01.service.exception.PlanFactoryException;
 import by.koshko.task01.service.validation.PlanParameterValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import static by.koshko.task01.entity.PlanParameters.SUBSCRIPTION_FEE;
@@ -19,7 +21,10 @@ import static by.koshko.task01.entity.PlanParameters.MINUTES_OTHER_NETWORK;
 import static by.koshko.task01.entity.PlanParameters.FREE_SMS;
 
 public final class SocialPlanFactory {
-
+    /**
+     * Logger.
+     */
+    private Logger logger = LogManager.getLogger(this);
     /**
      * Creates {@code SocialPlan} object.
      *
@@ -45,8 +50,10 @@ public final class SocialPlanFactory {
                     .outgoingAbroad(Double.valueOf(args.get(ABROAD_COST)))
                     .megabyteCost(Double.valueOf(args.get(MEGABYTE_COST)))
                     .smsCost(Double.valueOf(args.get(SMS_COST)));
+            logger.info("Creating plan with parameters: " + args);
             return ((SocialPlan.SocialPlanBuilder) builder).build();
         } else {
+            logger.info("Invalid parameters: " + args);
             throw new PlanFactoryException("Invalid parameters");
         }
     }

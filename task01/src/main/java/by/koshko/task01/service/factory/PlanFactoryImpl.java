@@ -14,7 +14,7 @@ public class PlanFactoryImpl implements PlanFactory {
     /**
      * Logger.
      */
-    private static Logger logger = LogManager.getLogger("Logger");
+    private Logger logger = LogManager.getLogger(this);
     /**
      * {@code BasicPlanFactory} instance.
      */
@@ -40,6 +40,9 @@ public class PlanFactoryImpl implements PlanFactory {
      *                              for plan creations is invalid.
      */
     public Plan create(final String params) throws PlanFactoryException {
+        if (params == null) {
+            throw new PlanFactoryException("String with parameters is null");
+        }
         List<String> args = PlanParameterSeparator.separate(params);
         return create0(args);
     }
@@ -76,9 +79,8 @@ public class PlanFactoryImpl implements PlanFactory {
             case ("SOCIAL"):
                 return socialPlanFactory.create(args);
             default:
-                logger.info("Attempt to create plan with unknown type "
+                throw new PlanFactoryException("Invalid plan type "
                         + "\'" + args.get(PLAN_TYPE) + "\'");
-                throw new PlanFactoryException("Invalid plan type");
         }
     }
 }

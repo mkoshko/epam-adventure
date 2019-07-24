@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-public class PlanManagementServiceTest {
+public class PlanManagementServiceImplTest {
 
     PlanRepository repository = DaoFactory.getDaoFactory().getPlanRepository();
 
