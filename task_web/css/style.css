@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
+body {
+    background-color:whitesmoke;
+}
+h3 {
+    text-align: center;
+    font-family: 'Varela Round', sans-serif;
+}
+a {
+    text-decoration: none;
+    color:white;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-family: 'Bree Serif', serif;
+    font-size: 23pt;
+}
+
+.nav-link:hover {
+    color: rgba(132,233,255,0.47);
+}
+
+.navbar-light .navbar-brand {
+    color: white;
+}
+.navbar-brand:hover {
+    color: white;
+}
+.form-group {
+    margin-bottom: 25px;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+}
+.m-navbar.navbar {
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+}
+
+.gradient {
+    background: linear-gradient(120deg, #7f70f5, #0ea0ff);
+    color: #fff;
+}
+
+@media (min-width: 576px) {
+    .card-body .card {
+        margin-left: 2px;
+        margin-right: 2px;
+    }
+}
+
+@media (min-width: 768px) {
+    #reg-form {
+        width: 400px;
+    }
+}
+.card {
+    background-color: rgba(132,233,255,0.47);
+    margin-top: 18px;
+    margin-bottom: 0px;
+}
+
+
+@media (max-width: 576px) {
+    .map- {
+        margin-top: 5px;
+        margin-bottom: 18px;
+        width: 100%;
+        height: 300px;
+    }
+}
+
+@media (min-width: 576px) {
+    .map-sm {
+        margin-top: 10px;
+        margin-bottom: 18px;
+        width: 100%;
+        height: 500px;
+    }
+}
+
+@media (min-width: 768px) {
+    .map-md {
+        margin-top: 18px;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+@media (min-width: 992px) {
+    .map-lg {
+        margin-top: 18px;
+        margin-bottom: 18px;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.container-s {
+    max-width: 100%;
+    padding: 0;
+}
+
+@media (max-width: 576px) {
+    .container- {
+        padding: 15px;
+    }
+}
+

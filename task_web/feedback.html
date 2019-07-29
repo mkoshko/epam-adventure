@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Bree+Serif&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Main - Library</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark m-navbar gradient">
+    <a class="navbar-brand" href="index.html">Library</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse " id="collapsibleNavbar">
+        <ul class="navbar-nav ml-auto lead">
+            <li class="nav-item mx-auto">
+                <a class="nav-link" href="Userlist.html">Users</a>
+            </li>
+            <li class="nav-item mx-auto">
+                <a class="nav-link" href="login.html">Sign In</a>
+            </li>
+            <li class="nav-item mx-auto">
+                <a class="nav-link" href="feedback.html">About</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container container-s container-">
+    <div class="row">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-6 col-xl-3 mx-auto">
+            <div class="card card-body">
+                <h3>Feedback</h3>
+                <form>
+                    <div class="form-group">
+                        <label>Name <small>(optional)</small></label>
+                        <input class="form-control" type="text" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group" style="padding-top: 10px">
+                        <label>Your email address <small>(required)</small></label>
+                        <input class="form-control" type="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group" style="padding-top: 10px">
+                        <label>Your message <small>(required)</small></label>
+                        <textarea class="form-control" placeholder="Enter your message" rows="7" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr style="margin-top: 15px; " width="90%" align="center">
+    <h3>Map</h3>
+    <div class="row" style="margin-top: 15px">
+        <div class="col-12">
+            <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A570bc94bbd167b93d57fa2de8fff3cce5f24462188cef94401e30be5a5344f17&amp;source=constructor"
+                    width="100%" height="450" frameborder="0"></iframe>
+        </div>
+    </div>
+    <hr style="margin-top: 15px; " width="90%" align="center">
+    <h3>Address</h3>
+    <div class="row">
+        <div class="col-auto">
+            <address>
+                Какой-то несуществующий адрес.<br>
+                Такой же номер телефона.<br>
+                Ну и факс в придачу.<br>
+                Можно даже адрес электронной почты добавить.<br>
+                Все равно не найдете.
+            </address>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
