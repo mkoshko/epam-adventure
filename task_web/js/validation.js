@@ -7,17 +7,25 @@ function validateForm(form) {
     if (name === "" || name == null) {
         form["username"].setAttribute("class", "form-control is-invalid");
         valid = false;
+    } else {
+        form["username"].setAttribute("class", "form-control is-valid");
     }
     if (email === "" || email == null) {
         form["email"].setAttribute("class", "form-control is-invalid");
         valid = false;
+    } else {
+        form["email"].setAttribute("class", "form-control is-valid");
     }
     if (password.length < 6) {
         form["password"].setAttribute("class", "form-control is-invalid");
         valid = false;
+    } else {
+        form["password"].setAttribute("class", "form-control is-valid");
     }
     if (password !== repeatPassword) {
         valid = false;
+    } else {
+        form["repeat-password"].setAttribute("class", "form-control is-valid");
     }
     return valid;
 }
