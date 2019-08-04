@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration
+        strict="true"
+        xmlns="http://logging.apache.org/log4j/2.0/config">
+    <Properties>
+        <Property name="filename">logs/log.txt</Property>
+        <Property name="defaultPattern">%d{dd MMM yyyy HH:mm:ss} [%-5level] [%t] %c{4} - %msg%n</Property>
+    </Properties>
+    <Appenders>
+        <Appender type="console" name="console" >
+            <Layout
+                    type="PatternLayout"
+                    pattern="${defaultPattern}" />
+        </Appender>
+        <Appender type="File" name="file" fileName="${filename}">
+            <Layout type="PatternLayout" pattern="%d{dd MMM yyyy HH:mm:ss} [%-5level] [%t] %c{1} - %m%n" />
+            <Filter type="ThresholdFilter" level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+        </Appender>
+    </Appenders>
+    <Loggers>
+        <Logger name="Logger" level="debug" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="file" />
+        </Logger>
+        <Root level="off">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="file" />
+        </Root>
+    </Loggers>
+</Configuration>
