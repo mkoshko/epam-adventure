@@ -10,7 +10,7 @@ public class Main {
         clop.setDaemon(true);
         bob.start();
         clop.start();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             try {
                 TimeUnit.MILLISECONDS.sleep(500);
             } catch (InterruptedException e) {
