@@ -13,10 +13,8 @@ public class Resource {
 
     public synchronized void write(String str, int i) {
         try {
-            notify();
             writer.write((str + i).getBytes());
             System.out.println(str + i);
-            wait();
             TimeUnit.MILLISECONDS.sleep((long) (Math.random() * 50));
         } catch (IOException e) {
             e.printStackTrace();

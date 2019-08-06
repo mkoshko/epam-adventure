@@ -21,9 +21,7 @@ public class MultiplicationUnit implements Runnable {
         rows = rowsNumber;
     }
 
-    @Override
     public void run() {
-        System.out.println(Thread.currentThread().getName() + " started, rows = " + rows);
         int row = (start + (rows - 1));
         int size = m1.getHorizontalSize();
         int size2 = m2.getHorizontalSize();
@@ -36,6 +34,5 @@ public class MultiplicationUnit implements Runnable {
                 result.setElemFast(i, j, sum);
             }
         }
-        System.out.println(Thread.currentThread().getName() + " ends");
     }
 }

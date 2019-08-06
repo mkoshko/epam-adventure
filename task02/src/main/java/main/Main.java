@@ -16,8 +16,9 @@ public class Main {
     public static void main(final String[] args) throws MatrixException, ServiceException, DaoException {
         MatrixGenerator generator = new MatrixGeneratorImpl();
 
-        Matrix matrix1 = new Matrix(1000, 1000);
-        Matrix matrix2 = new Matrix(1000, 1000);
+        int m = 1000;
+        Matrix matrix1 = new Matrix(m, m);
+        Matrix matrix2 = new Matrix(m, m);
         generator.fillRandom(matrix1, 1, 100);
         generator.fillRandom(matrix2, 1, 100);
 
