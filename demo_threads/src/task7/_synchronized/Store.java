@@ -1,7 +1,5 @@
 package task7._synchronized;
 
-import java.util.concurrent.locks.ReentrantLock;
-
 public class Store {
     private int stored;
     private final int capacity = 5;

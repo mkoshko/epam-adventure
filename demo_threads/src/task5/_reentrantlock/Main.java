@@ -14,9 +14,9 @@ public class Main {
         ReadWriteLock lock = new ReentrantReadWriteLock();
         ExecutorService executorService = Executors.newFixedThreadPool(4);
         for (int i = 0; i < 3; i++) {
-            executorService.submit(new RussianHeckers(cr, lock, "Vladimir" + i));
+            executorService.execute(new RussianHeckers(cr, lock, "Vladimir" + i));
         }
-        executorService.submit(new CodeChanger(cr, lock));
+        executorService.execute(new CodeChanger(cr, lock));
         try {
             TimeUnit.SECONDS.sleep(20);
         } catch (InterruptedException e) {
