@@ -13,7 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("All")
 public class Main {
-    public static void main(final String[] args) throws MatrixException, ServiceException, DaoException {
+    public static void main(final String[] args) throws MatrixException,
+            ServiceException, DaoException {
         MatrixGenerator generator = new MatrixGeneratorImpl();
 
         int m = 1000;
