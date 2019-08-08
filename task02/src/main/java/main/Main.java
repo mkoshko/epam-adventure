@@ -14,14 +14,14 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("All")
 public class Main {
     public static void main(final String[] args) throws MatrixException,
-            ServiceException, DaoException {
-        MatrixGenerator generator = new MatrixGeneratorImpl();
+            ServiceException {
+        MatrixGenerator generator = MatrixGeneratorImpl.access();
 
-        int m = 1000;
+        int m = 10;
         Matrix matrix1 = new Matrix(m, m);
         Matrix matrix2 = new Matrix(m, m);
-        generator.fillRandom(matrix1, 1, 100);
-        generator.fillRandom(matrix2, 1, 100);
+        generator.fillRandom(matrix1, -10, 10);
+        generator.fillRandom(matrix2, -10, 10);
 
         MatrixMultiplication mltpctn
                 = new MatrixMultiplication(matrix1, matrix2);

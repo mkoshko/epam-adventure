@@ -9,7 +9,6 @@ public class MatrixMultiplication {
     private Matrix matrix2;
     private Matrix result;
     private int threadNumber = 1;
-    private Thread[] threads;
 
     public MatrixMultiplication(final Matrix m1, final Matrix m2)
             throws ServiceException {
@@ -23,7 +22,20 @@ public class MatrixMultiplication {
     }
 
     public Matrix multiply() {
-
+        int rowsLeft = result.getVerticalSize();
+        int threadsLeft = threadNumber;
+        int startIndex = 0;
+        Thread[] threads = new Thread[threadNumber];
+        int t = 0;
+        for (int i = 0; i < threadNumber; i++) {
+            int rows = rowsLeft / threadsLeft;
+            threads[t] = new Thread(new MultiplicationUnit(matrix1, matrix2,
+                    result, startIndex, rows));
+            t++;
+            threadsLeft--;
+            startIndex += rows;
+            rowsLeft -= rows;
+        }
 
         for (Thread th : threads) {
             th.start();

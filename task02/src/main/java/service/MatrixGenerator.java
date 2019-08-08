@@ -14,4 +14,11 @@ public interface MatrixGenerator {
      */
     void fillRandom(Matrix matrix, int min, int max) throws ServiceException;
 
+    /**
+     * Fills main matrix diagonal with zeros.
+     *
+     * @param matrix {@code Matrix} whose diagonal be filled with zeros.
+     * @throws ServiceException if matrix is not square (m != n).
+     */
+    void fillMainDiagonalWithZero(Matrix matrix) throws ServiceException;
 }

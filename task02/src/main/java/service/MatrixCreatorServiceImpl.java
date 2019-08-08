@@ -33,7 +33,7 @@ public class MatrixCreatorServiceImpl implements MatrixCreatorService {
             throw new ServiceException("Invalid parameters");
         }
         Matrix matrix;
-        MatrixGenerator generator = new MatrixGeneratorImpl();
+        MatrixGenerator generator = MatrixGeneratorImpl.access();
         try {
             matrix = new Matrix(m, n);
             generator.fillRandom(matrix, min, max);
