@@ -15,7 +15,7 @@ public class CommonResource {
             try {
                 temp = i;
             } finally {
-                lock.unlock(stamp);
+                lock.unlockRead(stamp);
             }
         }
         return temp;
@@ -25,9 +25,10 @@ public class CommonResource {
         long stamp = lock.writeLock();
         try {
             i++;
-            System.out.println("value changed by" + Thread.currentThread().getName() + " to " + i);
+            System.out.println("value changed by"
+                    + Thread.currentThread().getName() + " to " + i);
         } finally {
-            lock.unlock(stamp);
+            lock.unlockWrite(stamp);
         }
     }
 }
