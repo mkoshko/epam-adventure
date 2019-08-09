@@ -21,6 +21,10 @@ public final class MatrixGeneratorImpl implements MatrixGenerator {
      * MatrixGenerator instance.
      */
     private static MatrixGenerator instance;
+    /**
+     * Instance of a {@code Random} is used to generate numbers for matrix.
+     */
+    private Random rand = new Random();
 
     private MatrixGeneratorImpl() {
     }
@@ -61,7 +65,6 @@ public final class MatrixGeneratorImpl implements MatrixGenerator {
             throw new ServiceException("Max range value should be greater"
                     + " than min value");
         }
-        Random rand = new Random();
         int m = matrix.getVerticalSize();
         int n = matrix.getHorizontalSize();
         log.info("Filling the matrix " + matrix);
@@ -73,8 +76,8 @@ public final class MatrixGeneratorImpl implements MatrixGenerator {
                             + "[" + j + "]" + " with " + val + " value");
                     matrix.setElement(i, j, val);
                 } catch (MatrixException e) {
-                    log.error(e.getMessage());
-                    throw new RuntimeException();
+                    throw new ServiceException("Can't fill the matrix. "
+                            + e.getMessage());
                 }
             }
         }

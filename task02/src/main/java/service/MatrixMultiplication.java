@@ -44,7 +44,7 @@ public class MatrixMultiplication {
             try {
                 th.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
         return result;

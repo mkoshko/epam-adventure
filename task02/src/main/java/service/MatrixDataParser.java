@@ -5,6 +5,8 @@ import exception.ServiceException;
 import java.util.List;
 
 public final class MatrixDataParser {
+    private MatrixDataParser() {
+    }
     public static int[][] parse(final List<String> params) throws ServiceException {
         if (params == null) {
             throw new ServiceException("No parameters to parse");

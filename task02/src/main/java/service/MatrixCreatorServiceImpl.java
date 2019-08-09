@@ -1,6 +1,6 @@
 package service;
 
-import dao.MatrixReader;
+import dao.FileReader;
 import entity.Matrix;
 import exception.DaoException;
 import exception.MatrixException;
@@ -52,7 +52,7 @@ public class MatrixCreatorServiceImpl implements MatrixCreatorService {
      * @throws ServiceException if some errors occurs while matrix creation.
      */
     public Matrix createFromFile(final String file) throws ServiceException {
-        MatrixReader reader = new MatrixReader();
+        FileReader reader = new FileReader();
         Matrix matrix;
         try {
             matrix = new Matrix(MatrixDataParser.parse(reader.read(file)));

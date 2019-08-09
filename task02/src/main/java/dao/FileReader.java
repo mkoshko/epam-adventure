@@ -9,11 +9,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class MatrixReader {
+public class FileReader {
     /**
      * Logger.
      */
-    private static Logger log = LogManager.getLogger(MatrixReader.class);
+    private static Logger log = LogManager.getLogger(FileReader.class);
 
     /**
      * Reads all data from specified file.
@@ -24,6 +24,7 @@ public class MatrixReader {
      */
     public List<String> read(final String path) throws DaoException {
         try {
+            log.info("Reading from \"" + path + "\"");
             return Files.readAllLines(Paths.get(path));
         } catch (IOException e) {
             throw new DaoException("Can't read from file + " + path);

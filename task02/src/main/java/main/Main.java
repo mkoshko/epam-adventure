@@ -1,7 +1,6 @@
 package main;
 
 import entity.Matrix;
-import exception.DaoException;
 import exception.MatrixException;
 import exception.ServiceException;
 import service.MatrixGenerator;
@@ -16,17 +15,16 @@ public class Main {
     public static void main(final String[] args) throws MatrixException,
             ServiceException {
         MatrixGenerator generator = MatrixGeneratorImpl.access();
-
-        int m = 10;
+        System.out.println(Integer.MAX_VALUE);
+        int m = 1000;
         Matrix matrix1 = new Matrix(m, m);
         Matrix matrix2 = new Matrix(m, m);
-        generator.fillRandom(matrix1, -10, 10);
-        generator.fillRandom(matrix2, -10, 10);
-
+        generator.fillRandom(matrix1, 1, 10);
+        generator.fillRandom(matrix2, 1, 10);
         MatrixMultiplication mltpctn
                 = new MatrixMultiplication(matrix1, matrix2);
         long start = System.nanoTime();
-        Matrix result = mltpctn.useThreads(8).multiply();
+        Matrix result = mltpctn.useThreads(4).multiply();
         long res = System.nanoTime() - start;
         System.out.println(TimeUnit.NANOSECONDS.toMillis(res));
     }
