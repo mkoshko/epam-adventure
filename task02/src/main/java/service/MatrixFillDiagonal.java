@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Solution with AtomicInteger.
@@ -72,10 +72,18 @@ public final class MatrixFillDiagonal {
         /**
          * Indicates current diagonal position.
          */
-        private AtomicInteger position = new AtomicInteger(0);
-
+        private int position = 0;
+        /**
+         * Locker for concurrent access.
+         */
+        private ReentrantLock locker = new ReentrantLock();
         public int getPosition() {
-            return position.getAndAdd(1);
+            try {
+                locker.lock();
+                return position++;
+            } finally {
+                locker.unlock();
+            }
         }
     }
 }

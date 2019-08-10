@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Runnable class for solution with AtomicInteger.
+ * Runnable class for solution with ReentrantLock.
  */
 public class ThreadFillDiagonal implements Runnable {
     /**
