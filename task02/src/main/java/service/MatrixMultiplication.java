@@ -5,11 +5,29 @@ import exception.MatrixException;
 import exception.ServiceException;
 
 public class MatrixMultiplication {
+    /**
+     * The first matrix over which multiplication operation will be performed.
+     */
     private Matrix matrix1;
+    /**
+     * The second matrix on which multiplication operation will be performed.
+     */
     private Matrix matrix2;
+    /**
+     * Matrix which will contain the result of the multiplication.
+     */
     private Matrix result;
+    /**
+     * Default thread number which well be used unless otherwise specified.
+     */
     private int threadNumber = 1;
 
+    /**
+     * Constructor.
+     * @param m1 first matrix.
+     * @param m2 second matrix.
+     * @throws ServiceException if some matrix is null.
+     */
     public MatrixMultiplication(final Matrix m1, final Matrix m2)
             throws ServiceException {
         if (m1 == null || m2 == null) {
@@ -21,6 +39,11 @@ public class MatrixMultiplication {
         createResultMatrix();
     }
 
+    /**
+     * Perform multiplication operation.
+     * @return {@code Matrix} object that is the result of matrices
+     *         multiplication.
+     */
     public Matrix multiply() {
         int rowsLeft = result.getVerticalSize();
         int threadsLeft = threadNumber;
@@ -50,6 +73,12 @@ public class MatrixMultiplication {
         return result;
     }
 
+    /**
+     * Sets the {@link #threadNumber} value.
+     * @param quantity number of threads to use in multiplication operation.
+     *                 Must be equal or greater then 1.
+     * @return {@code MatrixMultiplication} object.
+     */
     public MatrixMultiplication useThreads(final int quantity) {
         if (quantity <= 0) {
             threadNumber = 1;

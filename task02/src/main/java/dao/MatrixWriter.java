@@ -10,6 +10,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * Class used for writing matrices to a file.
+ */
 public class MatrixWriter {
     /**
      * Logger.
@@ -20,6 +23,12 @@ public class MatrixWriter {
      */
     private FileOutputStream fos = null;
 
+    /**
+     * Creates {code MatrixWriter} and initialize {@code FileOutputStream}.
+     *
+     * @param path to file.
+     * @throws DaoException if file not found or it's a directory.
+     */
     public MatrixWriter(final String path) throws DaoException {
         try {
             log.info("Creating output stream to " + path);
@@ -29,6 +38,12 @@ public class MatrixWriter {
         }
     }
 
+    /**
+     * Writes {@code Matrix} to file.
+     *
+     * @param matrix to be written to a file.
+     * @throws DaoException if some I/O exception occurs.
+     */
     public void write(final Matrix matrix) throws DaoException {
         try {
             log.info("Writing matrix to a file");
@@ -41,6 +56,7 @@ public class MatrixWriter {
             close(fos);
         }
     }
+
     private void close(final Closeable closeable) {
         try {
             if (closeable != null) {

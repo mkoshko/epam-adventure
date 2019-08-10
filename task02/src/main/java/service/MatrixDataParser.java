@@ -7,7 +7,16 @@ import java.util.List;
 public final class MatrixDataParser {
     private MatrixDataParser() {
     }
-    public static int[][] parse(final List<String> params) throws ServiceException {
+
+    /**
+     * Parse string to int arrays for matrix creation.
+     * @param params list of strings to be parsed.
+     * @return array of numbers.
+     * @throws ServiceException if nothing to parse or some string cannot be
+     * parsed to integers.
+     */
+    public static int[][] parse(final List<String> params)
+            throws ServiceException {
         if (params == null) {
             throw new ServiceException("No parameters to parse");
         }

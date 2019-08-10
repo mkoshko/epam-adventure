@@ -67,7 +67,7 @@ public final class MatrixGeneratorImpl implements MatrixGenerator {
         }
         int m = matrix.getVerticalSize();
         int n = matrix.getHorizontalSize();
-        log.info("Filling the matrix " + matrix);
+        log.info("Filling the matrix \n" + matrix);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 int val = (rand.nextInt(max - min) + min);

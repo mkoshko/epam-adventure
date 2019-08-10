@@ -3,12 +3,37 @@ package service;
 import entity.Matrix;
 
 public class MultiplicationUnit implements Runnable {
+    /**
+     * First matrix.
+     */
     private Matrix m1;
+    /**
+     * Second matrix.
+     */
     private Matrix m2;
+    /**
+     * Result matrix.
+     */
     private Matrix result;
+    /**
+     * Start position.
+     */
     private int start;
+    /**
+     * Amount of rows needs to be passed.
+     */
     private int rows;
 
+    /**
+     * Constructor.
+     *
+     * @param matrix1 first matrix.
+     * @param matrix2 second matrix.
+     * @param resultMatrix matrix in which result of multiplication
+     *                     will be placed.
+     * @param startPosition index from where multiplication will begin.
+     * @param rowsNumber number of rows to be processed.
+     */
     public MultiplicationUnit(final Matrix matrix1,
                               final Matrix matrix2,
                               final Matrix resultMatrix,
@@ -21,6 +46,10 @@ public class MultiplicationUnit implements Runnable {
         rows = rowsNumber;
     }
 
+    /**
+     * Method performs multiplication operation.
+     */
+    @Override
     public void run() {
         int row = (start + (rows - 1));
         int size = m1.getHorizontalSize();
