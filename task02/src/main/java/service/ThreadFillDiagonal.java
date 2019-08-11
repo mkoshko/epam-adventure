@@ -52,9 +52,7 @@ public class ThreadFillDiagonal implements Runnable {
         final var sleep = 5;
         var index = 0;
         while ((index = res.getPosition()) < size) {
-            log.debug(Thread.currentThread().getName()
-                    + " fill " + index + " " + index
-                    + " with number + " + number);
+            log.debug("set " + index + " " + index + " = " + number);
             matrix.setElemFast(index, index, number);
             try {
                 TimeUnit.MILLISECONDS.sleep(sleep);

@@ -44,7 +44,7 @@ public final class MatrixFillDiagonal {
      *
      * @throws ServiceException if some exception occurs while thread creation.
      */
-    public void fillDiagonal() throws ServiceException {
+    public void fill() throws ServiceException {
         initThreads();
         ExecutorService service = Executors.newFixedThreadPool(threads.length);
         for (Thread t : threads) {

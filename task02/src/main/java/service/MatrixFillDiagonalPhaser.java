@@ -49,7 +49,7 @@ public final class MatrixFillDiagonalPhaser {
      *
      * @throws ServiceException if some exception occurs while thread creation.
      */
-    public void fillDiagonalPhaser() throws ServiceException {
+    public void fill() throws ServiceException {
         phaser = new Phaser();
         phaser.register();
         initThreads();
