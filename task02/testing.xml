@@ -7,6 +7,7 @@
             <class name="by.koshko.task02.service.MatrixCreatorServiceImplTest"/>
             <class name="by.koshko.task02.service.MatrixDataParserTest"/>
             <class name="by.koshko.task02.service.MatrixGeneratorImplTest"/>
+            <class name="by.koshko.task02.service.MatrixMultiplicationTest"/>
         </classes>
     </test>
 </suite>
