@@ -42,7 +42,7 @@ public final class MatrixFillDiagonal {
     /**
      * Fills matrix diagonal with threads unique numbers.
      *
-     * @throws ServiceException if some by.koshko.task02.exception occurs while thread creation.
+     * @throws ServiceException if some exception occurs while thread creation.
      */
     public void fill() throws ServiceException {
         initThreads();

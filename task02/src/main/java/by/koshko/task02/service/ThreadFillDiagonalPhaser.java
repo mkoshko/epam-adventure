@@ -57,7 +57,7 @@ public class ThreadFillDiagonalPhaser implements Runnable {
     }
 
     /**
-     * Method fills matrix by.koshko.task02.main diagonal with {@link #number} value.
+     * Method fills matrix main diagonal with {@link #number} value.
      */
     public void run() {
         var index = 0;

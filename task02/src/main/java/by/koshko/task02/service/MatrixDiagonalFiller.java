@@ -55,9 +55,9 @@ public class MatrixDiagonalFiller {
     }
 
     /**
-     * Method fills matrix by.koshko.task02.main diagonal with threads unique value.
+     * Method fills matrix main diagonal with threads unique value.
      *
-     * @throws ServiceException if some by.koshko.task02.exception occurs while thread creation.
+     * @throws ServiceException if some exception occurs while thread creation.
      */
     public void fill() throws ServiceException {
         initThreads();

@@ -46,7 +46,7 @@ public class ThreadFillDiagonal implements Runnable {
     }
 
     /**
-     * Method fills matrix by.koshko.task02.main diagonal with {@link #number} value.
+     * Method fills matrix main diagonal with {@link #number} value.
      */
     public void run() {
         final var sleep = 5;

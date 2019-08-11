@@ -1,5 +1,5 @@
 /**
- * Contains by.koshko.task02.service classes for work with {@code Matrix} objects.
+ * Contains service classes for work with {@code Matrix} objects.
  *
  * @author Maxim Koshko
  * @version 1.0
@@ -12,5 +12,7 @@
  * @see by.koshko.task02.service.ThreadDataValidation
  * @see by.koshko.task02.service.ThreadDataParser
  * @see by.koshko.task02.service.ThreadFillDiagonal
+ * @see by.koshko.task02.service.MatrixDiagonalFiller
+ * @see by.koshko.task02.service.MatrixFillDiagonalPhaser
  */
 package by.koshko.task02.service;
