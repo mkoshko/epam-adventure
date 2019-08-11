@@ -26,7 +26,7 @@ public final class MatrixDataParser {
         for (int i = 0; i < m; i++) {
             String[] s = params.get(i).split("\\s");
             int[] ints = new int[n];
-            for (int j = 0; j < s.length; j++) {
+            for (int j = 0; j < ints.length; j++) {
                 try {
                     ints[j] = Integer.parseInt(s[j]);
                 } catch (NumberFormatException e) {
