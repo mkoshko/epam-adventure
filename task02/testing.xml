@@ -4,8 +4,9 @@
 <suite name="Suite1">
     <test name="by.koshko.task02.service">
         <classes>
-            <class name=""/>
-
+            <class name="by.koshko.task02.service.MatrixCreatorServiceImplTest"/>
+            <class name="by.koshko.task02.service.MatrixDataParserTest"/>
+            <class name="by.koshko.task02.service.MatrixGeneratorImplTest"/>
         </classes>
     </test>
 </suite>
