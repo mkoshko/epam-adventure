@@ -30,8 +30,8 @@ public final class MatrixDataParser {
                 try {
                     ints[j] = Integer.parseInt(s[j]);
                 } catch (NumberFormatException e) {
-                    throw new ServiceException("Parsing failed. Invalid value"
-                            + " at row " + i + " col " + j);
+                    throw new ServiceException(String.format("Parsing failed."
+                            + " Invalid value at row %d col %d", i, j));
                 }
             }
             result[i] = ints;

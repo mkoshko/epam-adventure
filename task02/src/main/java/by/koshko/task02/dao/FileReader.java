@@ -24,7 +24,7 @@ public class FileReader {
      */
     public List<String> read(final String path) throws DaoException {
         try {
-            log.info("Reading from \"" + path + "\"");
+            log.info(String.format("Reading from \"%s\"", path));
             return Files.readAllLines(Paths.get(path));
         } catch (IOException e) {
             throw new DaoException("Can't read from file + " + path);

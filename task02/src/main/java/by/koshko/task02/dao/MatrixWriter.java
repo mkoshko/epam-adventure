@@ -31,10 +31,11 @@ public class MatrixWriter {
      */
     public MatrixWriter(final String path) throws DaoException {
         try {
-            log.info("Creating output stream to " + path);
+            log.info(String.format("Creating output stream to %s", path));
             fos = new FileOutputStream(path);
         } catch (FileNotFoundException e) {
-            throw new DaoException("Can't write to a specified file " + path);
+            throw new DaoException(String.format("Can't write to a specified"
+                    + " file %s", path));
         }
     }
 
@@ -42,7 +43,7 @@ public class MatrixWriter {
      * Writes {@code Matrix} to file.
      *
      * @param matrix to be written to a file.
-     * @throws DaoException if some I/O by.koshko.task02.exception occurs.
+     * @throws DaoException if some I/O exceptions occurs.
      */
     public void write(final Matrix matrix) throws DaoException {
         try {

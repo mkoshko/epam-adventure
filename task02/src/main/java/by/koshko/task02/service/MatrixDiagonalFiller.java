@@ -102,7 +102,8 @@ public class MatrixDiagonalFiller {
             while (true) {
                 var index = queue.poll();
                 if (index != null) {
-                    log.debug("set " + index + " " + index + " = " + number);
+                    log.debug(String.format("set [%d] [%d] to %d",
+                            index, index, number));
                     matrix.setElemFast(index, index, number);
                     try {
                         TimeUnit.MILLISECONDS.sleep(sleep);

@@ -72,8 +72,8 @@ public final class MatrixGeneratorImpl implements MatrixGenerator {
             for (int j = 0; j < n; j++) {
                 int val = (rand.nextInt(max - min) + min);
                 try {
-                    log.debug("Fill element" + "[" + i + "]"
-                            + "[" + j + "]" + " with " + val + " value");
+                    log.debug(String.format("Fill element[%d][%d] with %d"
+                            + " value", i, j, val));
                     matrix.setElement(i, j, val);
                 } catch (MatrixException e) {
                     throw new ServiceException("Can't fill the matrix. "

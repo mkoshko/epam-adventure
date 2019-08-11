@@ -35,8 +35,8 @@ public final class ThreadDataLoader {
         args = ThreadDataParser.parse(data);
         for (String[] args0 : args) {
             if (!ThreadDataValidation.validate(args0)) {
-                throw new ServiceException("Invalid arguments "
-                        + Arrays.toString(args0));
+                throw new ServiceException(String.format("Invalid arguments %s",
+                        Arrays.toString(args0)));
             }
         }
         return args;

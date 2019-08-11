@@ -35,7 +35,7 @@ public class Main {
         f3.fill();
         System.out.println(matrix);
         //======================================================//
-        final int n = 1000;
+        final int n = 100;
         final int threads = 4;
         final int min = 1;
         final int max = 100;
@@ -47,6 +47,6 @@ public class Main {
         long start = System.currentTimeMillis();
         f4.useThreads(threads).multiply();
         long past = System.currentTimeMillis() - start;
-        System.out.println("done in " + past + "ms");
+        System.out.printf("done in %d ms", past);
     }
 }
