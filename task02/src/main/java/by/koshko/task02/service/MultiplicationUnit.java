@@ -2,6 +2,9 @@ package by.koshko.task02.service;
 
 import by.koshko.task02.entity.Matrix;
 
+/**
+ * Thread which uses for matrix concurrent multiplication.
+ */
 public class MultiplicationUnit implements Runnable {
     /**
      * First matrix.

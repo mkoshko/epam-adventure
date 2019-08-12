@@ -9,8 +9,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.Random;
 
 /**
- * The {@code MatrixGenerator} class contains methods for work with
- * {code Matrix} objects.
+ * The {@code MatrixGenerator} class contains methods for fill {code Matrix}
+ * objects with random numbers or with numbers obtained from file.
  */
 public final class MatrixGeneratorImpl implements MatrixGenerator {
     /**
@@ -26,6 +26,9 @@ public final class MatrixGeneratorImpl implements MatrixGenerator {
      */
     private Random rand = new Random();
 
+    /**
+     * Private default constructor.
+     */
     private MatrixGeneratorImpl() {
     }
 
@@ -72,8 +75,8 @@ public final class MatrixGeneratorImpl implements MatrixGenerator {
             for (int j = 0; j < n; j++) {
                 int val = (rand.nextInt(max - min) + min);
                 try {
-                    log.debug(String.format("Fill element[%d][%d] with %d"
-                            + " value", i, j, val));
+                    log.debug("Fill element[{}][{}] with {}"
+                            + " value", i, j, val);
                     matrix.setElement(i, j, val);
                 } catch (MatrixException e) {
                     throw new ServiceException("Can't fill the matrix. "
@@ -84,7 +87,7 @@ public final class MatrixGeneratorImpl implements MatrixGenerator {
     }
 
     /**
-     * Fills by.koshko.task02.main matrix diagonal with zeros.
+     * Fills main matrix diagonal with zeros.
      *
      * @param matrix {@code Matrix} whose diagonal be filled with zeros.
      * @throws ServiceException if matrix is not square (m != n).

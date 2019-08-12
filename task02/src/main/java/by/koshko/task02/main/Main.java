@@ -12,8 +12,24 @@ import by.koshko.task02.service.MatrixGenerator;
 import by.koshko.task02.service.MatrixGeneratorImpl;
 import by.koshko.task02.service.MatrixMultiplication;
 
-@SuppressWarnings("All")
-public class Main {
+
+/**
+ * Main.
+ */
+public final class Main {
+    /**
+     * Private empty constructor.
+     */
+    private Main() {
+    }
+
+    /**
+     * Start point of the program.
+     *
+     * @param args command line arguments.
+     * @throws ServiceException .
+     * @throws MatrixException .
+     */
     public static void main(final String[] args)
             throws ServiceException, MatrixException {
         MatrixGenerator generator = MatrixGeneratorImpl.access();
@@ -21,12 +37,14 @@ public class Main {
         Matrix matrix = mcs.createFromFile("data/matrixA");
         //======================================================//
         generator.fillMainDiagonalWithZero(matrix);
-        MatrixFillDiagonal f1 = new MatrixFillDiagonal(matrix);
+        MatrixFillDiagonal f1 = new MatrixFillDiagonal(matrix,
+                "data/threads.txt");
         f1.fill();
         System.out.println(matrix);
         //======================================================//
         generator.fillMainDiagonalWithZero(matrix);
-        MatrixFillDiagonalPhaser f2 = new MatrixFillDiagonalPhaser(matrix);
+        MatrixFillDiagonalPhaser f2 = new MatrixFillDiagonalPhaser(matrix,
+                "data/threads.txt");
         f2.fill();
         System.out.println(matrix);
         //======================================================//

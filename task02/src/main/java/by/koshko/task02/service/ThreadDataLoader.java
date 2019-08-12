@@ -11,6 +11,9 @@ import java.util.List;
  * Class contains method for loading and validating data from a file.
  */
 public final class ThreadDataLoader {
+    /**
+     * Private default constructor.
+     */
     private ThreadDataLoader() {
     }
 

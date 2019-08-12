@@ -3,6 +3,9 @@ package by.koshko.task02.service;
 import by.koshko.task02.entity.Matrix;
 import by.koshko.task02.exception.ServiceException;
 
+/**
+ * Service for {@code Matrix} objects creation from file, or with random values.
+ */
 public interface MatrixCreatorService {
     /**
      * Creates {@code Matrix} and fills it with values obtained from specified

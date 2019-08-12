@@ -1,5 +1,8 @@
 package by.koshko.task02.exception;
 
+/**
+ * Throws by classes from service layer.
+ */
 public class ServiceException extends Exception {
     /**
      * Constructs a new exception with the specified detail message.

@@ -11,13 +11,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Solution with AtomicInteger.
+ * Class fill main matrix diagonal using {@code Phaser} for thread
+ * synchronization.
  */
 public final class MatrixFillDiagonalPhaser {
     /**
-     * Hardcoded path to a file with parameters for thread creation.
+     * Path to a file with parameters for thread creation.
      */
-    private String file = "data/threads.txt";
+    private String file;
     /**
      * {@code Matrix} object.
      */
@@ -27,21 +28,23 @@ public final class MatrixFillDiagonalPhaser {
      */
     private Thread[] threads;
     /**
-     *
+     * Common resource for concurrent access.
      */
     private MatrixFillDiagonal.MatrixDiagonalPosition pos
             = new MatrixFillDiagonal.MatrixDiagonalPosition();
     /**
-     * Phaser.
+     * {@code Phaser} for thread synchronization.
      */
     private Phaser phaser;
     /**
      * Creates new {@code MatrixFillDiagonal} object.
      *
      * @param newMatrix matrix on which operations will be performed.
+     * @param path path to file contains arguments for thread creation.
      */
-    public MatrixFillDiagonalPhaser(final Matrix newMatrix) {
+    public MatrixFillDiagonalPhaser(final Matrix newMatrix, final String path) {
         matrix = newMatrix;
+        file = path;
     }
 
     /**
@@ -69,7 +72,12 @@ public final class MatrixFillDiagonalPhaser {
             Thread.currentThread().interrupt();
         }
     }
-
+    /**
+     * Creates threads.
+     *
+     * @throws ServiceException when data for thread creation can't be loaded
+     *                          from file.
+     */
     private void initThreads() throws ServiceException {
         List<String[]> args = ThreadDataLoader.loadData(file);
         threads = new Thread[args.size()];
@@ -79,12 +87,19 @@ public final class MatrixFillDiagonalPhaser {
                      matrix, pos, phaser), args.get(i)[1]);
         }
     }
-
+    /**
+     * Class used like a common resource for concurrent access.
+     */
     static class MatrixDiagonalPosition {
         /**
          * Indicates current diagonal position.
          */
         private AtomicInteger position = new AtomicInteger(0);
+        /**
+         * Returns index of the next element in {@code Matrix} which must be
+         * altered by a thread with thread unique value.
+         * @return index of the next diagonal element.
+         */
         public int getPosition() {
             return position.getAndIncrement();
         }

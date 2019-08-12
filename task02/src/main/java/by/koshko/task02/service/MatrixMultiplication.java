@@ -4,6 +4,9 @@ import by.koshko.task02.entity.Matrix;
 import by.koshko.task02.exception.MatrixException;
 import by.koshko.task02.exception.ServiceException;
 
+/**
+ * Class used for doing concurrent multiplication operations with matrices.
+ */
 public class MatrixMultiplication {
     /**
      * The first matrix over which multiplication operation will be performed.
@@ -92,6 +95,13 @@ public class MatrixMultiplication {
         return this;
     }
 
+    /**
+     * Check of matrices can be multiplied.
+     *
+     * @param m1 first matrix.
+     * @param m2 second matrix.
+     * @throws ServiceException if matrices cannot be multiplied.
+     */
     private void checkMatrix(final Matrix m1, final Matrix m2)
             throws ServiceException {
         if (m1.getHorizontalSize() != m2.getVerticalSize()) {
@@ -99,6 +109,11 @@ public class MatrixMultiplication {
         }
     }
 
+    /**
+     * Creates matrix which will contain the result of multiplication.
+     * @throws ServiceException if {@code Matrix} object cannot be created by
+     * any reason. Impossible to be thrown here, so don't pay attention.
+     */
     private void createResultMatrix() throws ServiceException {
         try {
             result = new Matrix(matrix2.getHorizontalSize(),

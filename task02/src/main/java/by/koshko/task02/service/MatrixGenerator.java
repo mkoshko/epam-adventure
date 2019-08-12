@@ -3,6 +3,10 @@ package by.koshko.task02.service;
 import by.koshko.task02.entity.Matrix;
 import by.koshko.task02.exception.ServiceException;
 
+/**
+ * Service for fill matrix with random numbers in specified range, or fill
+ * from file.
+ */
 public interface MatrixGenerator {
     /**
      * Fills matrix with random numbers in specified range.
@@ -15,7 +19,7 @@ public interface MatrixGenerator {
     void fillRandom(Matrix matrix, int min, int max) throws ServiceException;
 
     /**
-     * Fills by.koshko.task02.main matrix diagonal with zeros.
+     * Fills main matrix diagonal with zeros.
      *
      * @param matrix {@code Matrix} whose diagonal be filled with zeros.
      * @throws ServiceException if matrix is not square (m != n).

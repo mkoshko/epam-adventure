@@ -75,10 +75,20 @@ public class MatrixDiagonalFiller {
         }
     }
 
+    /**
+     * Fills {@code ConcurrentLinkedQueue} with integers in range from 0 to
+     * diagonal size value - 1.
+     */
     private void initQueue() {
         IntStream.range(0, matrix.getVerticalSize()).forEach(i -> queue.add(i));
     }
 
+    /**
+     * Creates threads.
+     *
+     * @throws ServiceException when data for thread creation can't be loaded
+     *                          from file.
+     */
     private void initThreads() throws ServiceException {
         List<String[]> args = ThreadDataLoader.loadData(pathToFile);
         threads = new Thread[args.size()];
@@ -88,22 +98,32 @@ public class MatrixDiagonalFiller {
         }
     }
 
+    /**
+     * {@code Runnable} class.
+     */
     class Runner implements Runnable {
         /**
-         * Unique thread value.
+         * Unique thread number.
          */
         private int number;
+
+        /**
+         * Constructor.
+         *
+         * @param newNumber unique thread number.
+         */
         Runner(final int newNumber) {
             number = newNumber;
         }
+
         @Override
         public void run() {
             final var sleep = 2;
             while (true) {
                 var index = queue.poll();
                 if (index != null) {
-                    log.debug(String.format("set [%d] [%d] to %d",
-                            index, index, number));
+                    log.debug("set [{}] [{}] to {}",
+                            index, index, number);
                     matrix.setElemFast(index, index, number);
                     try {
                         TimeUnit.MILLISECONDS.sleep(sleep);

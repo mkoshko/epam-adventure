@@ -58,6 +58,11 @@ public class MatrixWriter {
         }
     }
 
+    /**
+     * Closes output stream.
+     *
+     * @param closeable object to be closed.
+     */
     private void close(final Closeable closeable) {
         try {
             if (closeable != null) {

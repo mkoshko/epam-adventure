@@ -4,6 +4,11 @@ import by.koshko.task02.exception.MatrixException;
 
 import java.util.Arrays;
 
+/**
+ * The {@code Matrix} class represents a matrix using a 2-dimensional array.
+ * Contains methods for obtaining vertical and horizontal sizes, settings an
+ * item by index with and without checking indexes for out of range.
+ */
 public class Matrix {
 
     /**
@@ -113,6 +118,13 @@ public class Matrix {
         matrix[i][j] = value;
     }
 
+    /**
+     * Check if indexes is in a range.
+     *
+     * @param i vertical index.
+     * @param j horizontal index.
+     * @throws MatrixException if indexes is out of range.
+     */
     private void check(final int i, final int j) throws MatrixException {
         if (!((i >= 0 && i <= matrix.length)
                 && (j >= 0 && j <= matrix[0].length))) {

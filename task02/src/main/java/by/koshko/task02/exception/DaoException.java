@@ -1,5 +1,9 @@
 package by.koshko.task02.exception;
 
+/**
+ * Throws by some class from dao layer when the class itself can't handle with
+ * exception.
+ */
 public class DaoException extends Exception {
     /**
      * Constructs an exception with the specified detail message.

@@ -20,6 +20,10 @@ public final class ThreadDataParser {
      * Regex expression for splitting arguments.
      */
     private static final String SPLIT_REGEX = "\\s";
+
+    /**
+     * Private default constructor.
+     */
     private ThreadDataParser() {
     }
 

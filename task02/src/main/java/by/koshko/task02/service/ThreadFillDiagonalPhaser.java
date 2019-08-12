@@ -62,8 +62,8 @@ public class ThreadFillDiagonalPhaser implements Runnable {
     public void run() {
         var index = 0;
         while ((index = res.getPosition()) < size) {
-            log.debug(String.format("set [%d] [%d] to %d",
-                    index, index, number));
+            log.debug("set [{}] [{}] to {}",
+                    index, index, number);
             matrix.setElemFast(index, index, number);
             phaser.arriveAndAwaitAdvance();
         }

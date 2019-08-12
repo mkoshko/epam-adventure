@@ -16,6 +16,9 @@ public final class ThreadDataValidation {
      * Regex for number validation.
      */
     private static final String NUMBER_PATTERN = "[0-9]{1,9}";
+    /**
+     * Private default constructor.
+     */
     private ThreadDataValidation() {
     }
 

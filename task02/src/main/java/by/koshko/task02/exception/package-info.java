@@ -1,5 +1,5 @@
 /**
- * Contains by.koshko.task02.exception classes.
+ * Contains exception classes.
  *
  * @author Maxim Koshko
  * @version 1.0

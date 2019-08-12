@@ -8,6 +8,9 @@ import by.koshko.task02.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Service for {@code Matrix} objects creation from file, or with random values.
+ */
 public class MatrixCreatorServiceImpl implements MatrixCreatorService {
 
     /**
@@ -15,6 +18,7 @@ public class MatrixCreatorServiceImpl implements MatrixCreatorService {
      */
     private static Logger log
             = LogManager.getLogger(MatrixCreatorServiceImpl.class);
+
     /**
      * Creates matrix with specified size and fills it with random values
      * in specified range.

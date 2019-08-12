@@ -9,6 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * Reads all text from a file into a {@code List<String>}.
+ */
 public class FileReader {
     /**
      * Logger.
@@ -24,7 +27,7 @@ public class FileReader {
      */
     public List<String> read(final String path) throws DaoException {
         try {
-            log.info(String.format("Reading from \"%s\"", path));
+            log.info("Reading from \"{}\"", path);
             return Files.readAllLines(Paths.get(path));
         } catch (IOException e) {
             throw new DaoException("Can't read from file + " + path);
