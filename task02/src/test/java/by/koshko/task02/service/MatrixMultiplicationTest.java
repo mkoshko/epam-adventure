@@ -6,35 +6,55 @@ import by.koshko.task02.exception.ServiceException;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
+import static org.testng.Assert.assertEquals;
 
-import static org.testng.Assert.*;
-
+/**
+ * Positive and negative tests for matrix multiplication operation.
+ */
 public class MatrixMultiplicationTest {
+    /**
+     * First matrix.
+     */
     private Matrix m1;
+    /**
+     * Second matrix.
+     */
     private Matrix m2;
+    /**
+     * Third matrix.
+     */
     private Matrix m3;
+    /**
+     * Result matrix.
+     */
     private Matrix res;
+    /**
+     * Expected matrix after multiplication.
+     */
     private Matrix exp;
 
+    /**
+     * Init matrix.
+     * @throws MatrixException if matrix not created by any reason.
+     */
     @BeforeTest
     public void init() throws MatrixException {
         m1 = new Matrix(new int[][]{
-                {4,	7,	6,	9},
-                {3,	7,	9,	6},
-                {8,	6,	8,	8},
-                {6,	8,	5,	7}
+                {4, 7, 6, 9},
+                {3, 7, 9, 6},
+                {8, 6, 8, 8},
+                {6, 8, 5, 7}
         });
         m2 = new Matrix(new int[][]{
-                {5,	4,	2,	4},
-                {6,	8,	3,	2},
-                {4,	8,	5,	1},
-                {2,	3,	3,	8}
+                {5, 4, 2, 4},
+                {6, 8, 3, 2},
+                {4, 8, 5, 1},
+                {2, 3, 3, 8}
         });
         m3 = new Matrix(new int[][]{
-                {5,	4,	2,	4},
-                {6,	8,	3,	2},
-                {4,	8,	5,	1}
+                {5, 4, 2, 4},
+                {6, 8, 3, 2},
+                {4, 8, 5, 1}
         });
         exp = new Matrix(new int[][]{
                 {104, 147, 86, 108},
@@ -44,6 +64,10 @@ public class MatrixMultiplicationTest {
         });
     }
 
+    /**
+     * Positive test for matrix multiplication.
+     * @throws ServiceException if matrices cannot be multiplied.
+     */
     @Test
     public void testMultiply() throws ServiceException {
         MatrixMultiplication f = new MatrixMultiplication(m1, m2);
@@ -51,6 +75,11 @@ public class MatrixMultiplicationTest {
         assertEquals(res, exp);
     }
 
+    /**
+     * Negative test for matrix multiplication.
+     *
+     * @throws ServiceException if matrices cannot be multiplied.
+     */
     @Test(expectedExceptions = ServiceException.class)
     public void testMultiplyFail() throws ServiceException {
         MatrixMultiplication f = new MatrixMultiplication(m1, m3);

@@ -28,10 +28,20 @@ public final class MatrixDataParser {
             throw new ServiceException("No parameters to parse");
         }
         int m = params.size();
+        if (m < 1) {
+            throw new ServiceException("Empty list with parameters");
+        }
         int n = params.get(0).split("\\s+").length;
+        if (n == 0) {
+            throw new ServiceException("String is empty");
+        }
         int[][] result = new int[m][n];
         for (int i = 0; i < m; i++) {
             String[] s = params.get(i).split("\\s+");
+            if (s.length < n) {
+                throw new ServiceException(String.format("Parsing failed."
+                        + " Invalid value at row %d", i + 1));
+            }
             int[] ints = new int[n];
             for (int j = 0; j < ints.length; j++) {
                 try {
