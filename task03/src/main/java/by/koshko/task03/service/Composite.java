@@ -1,5 +1,7 @@
 package by.koshko.task03.service;
 
-public interface Composite extends Component {
+import java.util.List;
 
+public interface Composite extends Component {
+    List<Component> getChildren();
 }

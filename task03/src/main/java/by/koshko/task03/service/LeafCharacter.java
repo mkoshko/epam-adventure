@@ -1,9 +1,9 @@
 package by.koshko.task03.service;
 
-public class ComponentCharacter implements Component {
+public class LeafCharacter implements Component {
     private char character;
 
-    public ComponentCharacter(char ch) {
+    public LeafCharacter(char ch) {
         character = ch;
     }
 
