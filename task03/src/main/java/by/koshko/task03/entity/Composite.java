@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class Composite implements Component {
     private Logger logger = LogManager.getLogger(getClass());
@@ -35,11 +36,17 @@ public class Composite implements Component {
 
     @Override
     public String compose() {
-        StringBuilder builder = new StringBuilder();
-        components.forEach(c -> builder
-                .append(componentType.getDelimiter())
-                .append(c.compose()));
-        return builder.toString();
+        if (componentType == Type.PARAGRAPH || componentType == Type.SENTENCE) {
+            StringJoiner join = new StringJoiner(componentType.getDelimiter());
+            components.forEach(c -> join.add(c.compose()));
+            return join.toString();
+        } else {
+            StringBuilder builder = new StringBuilder();
+            components.forEach(c -> builder
+                    .append(componentType.getDelimiter())
+                    .append(c.compose()));
+            return builder.toString();
+        }
     }
 
     @Override
@@ -49,7 +56,7 @@ public class Composite implements Component {
 
     public enum Type {
         TEXT("\n\t"),
-        PARAGRAPH(""),
+        PARAGRAPH(" "),
         SENTENCE(" "),
         LEXEME(""),
         WORD(""),

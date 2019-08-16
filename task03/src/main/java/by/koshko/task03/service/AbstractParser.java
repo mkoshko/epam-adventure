@@ -34,9 +34,11 @@ public abstract class AbstractParser implements Parser {
                         .map(String::trim)
                         .collect(Collectors.toList());
         list.forEach(elem -> {
-            var newComponent = new Composite(type);
-            component.add(newComponent);
-            getNextParser().parse(elem, newComponent);
+            if (!elem.isBlank()) {
+                var newComponent = new Composite(type);
+                component.add(newComponent);
+                getNextParser().parse(elem, newComponent);
+            }
         });
     }
 }
