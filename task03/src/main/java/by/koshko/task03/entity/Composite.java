@@ -36,7 +36,11 @@ public class Composite implements Component {
 
     @Override
     public String compose() {
-        if (componentType == Type.PARAGRAPH || componentType == Type.SENTENCE) {
+        if (componentType == Type.TEXT) {
+            var joiner = new StringJoiner("\n\t");
+            components.forEach(component -> joiner.add(component.compose()));
+            return "\t" + joiner.toString();
+        } else if (componentType == Type.PARAGRAPH || componentType == Type.SENTENCE) {
             StringJoiner join = new StringJoiner(componentType.getDelimiter());
             components.forEach(c -> join.add(c.compose()));
             return join.toString();
@@ -62,12 +66,23 @@ public class Composite implements Component {
         WORD(""),
         MARK("");
 
+        /**
+         * Delimiter used for joining components between each other.
+         */
+        private String componentDelimiter;
+
+        /**
+         * @param delimiter Delimiter which will be used for joining components.
+         */
         Type(final String delimiter) {
             componentDelimiter = delimiter;
         }
 
-        private String componentDelimiter;
-
+        /**
+         * Returns string which contains delimiter.
+         *
+         * @return string which contains delimiter.
+         */
         public String getDelimiter() {
             return componentDelimiter;
         }

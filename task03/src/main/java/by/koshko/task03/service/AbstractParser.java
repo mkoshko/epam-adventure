@@ -31,7 +31,14 @@ public abstract class AbstractParser implements Parser {
     public void parse(final String text, final Component component) {
         List<String> list =
                 Stream.of(text.split(regularExpression))
-                        .map(String::trim)
+                        .map(s -> {
+                            // \u0020 - space symbol.
+                            if (s.contains("\u0020")) {
+//                                System.out.println(s + " contains spaces");
+                                return s.trim();
+                            }
+                            return s;
+                        })
                         .collect(Collectors.toList());
         list.forEach(elem -> {
             if (!elem.isBlank()) {
