@@ -1,15 +1,20 @@
 package by.koshko.task03.service;
 
-import by.koshko.task03.entity.Character;
 import by.koshko.task03.entity.Component;
+import by.koshko.task03.entity.Symbol;
 
 import java.util.stream.IntStream;
 
-public class CharParser extends AbstractParser {
+public class SymbolParser implements Parser {
+    @Override
+    public void setNext(final Parser nextParser) {
+        throw new UnsupportedOperationException();
+    }
+
     @Override
     public void parse(final String text, final Component component) {
         char[] chars = text.toCharArray();
         IntStream.range(0, chars.length)
-                .forEach(i -> component.add(new Character(chars[i])));
+                .forEach(i -> component.add(new Symbol(chars[i])));
     }
 }

@@ -1,4 +1,4 @@
-package by.koshko.task03.bean;
+package by.koshko.task03.entity;
 
 public class Symbol implements Component {
     private final ComponentType type = ComponentType.SYMBOL;

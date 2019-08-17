@@ -1,11 +1,12 @@
-package by.koshko.task03.bean;
+package by.koshko.task03.entity;
 
 import java.util.StringJoiner;
 
-public class TextComposite extends AbstractComposite {
-    private final ComponentType type = ComponentType.TEXT;
-    private static final String DELIMITER = "\n\t";
+public class ParagraphComposite extends AbstractComposite {
+    private final ComponentType type = ComponentType.PARAGRAPH;
+    private static final String DELIMITER = "\u0020";
 
+    @Override
     public ComponentType getType() {
         return type;
     }
@@ -14,6 +15,6 @@ public class TextComposite extends AbstractComposite {
     public String compose() {
         var joiner = new StringJoiner(DELIMITER);
         getComponents().forEach(component -> joiner.add(component.compose()));
-        return "\t" + joiner.toString();
+        return joiner.toString();
     }
 }

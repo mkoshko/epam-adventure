@@ -1,12 +1,27 @@
 package by.koshko.task03.service;
 
-import by.koshko.task03.entity.Composite;
+import by.koshko.task03.entity.Component;
+import by.koshko.task03.entity.ParagraphComposite;
 
-public class TextParser extends AbstractParser {
+import java.util.stream.Stream;
+
+public class TextParser implements Parser {
     private final String regex = "(?<=\\n)(\\s{4,}|\\t)(?=\\w)";
+    private Parser next;
 
-    public TextParser() {
-        setType(Composite.Type.PARAGRAPH);
-        setRegex(regex);
+    @Override
+    public void setNext(final Parser nextParser) {
+        next = nextParser;
+    }
+
+    @Override
+    public void parse(final String text, final Component component) {
+        Stream.of(text.split(regex)).map(String::trim).forEach(elem -> {
+            var paragraph = new ParagraphComposite();
+            component.add(paragraph);
+            if (next != null) {
+                next.parse(elem, paragraph);
+            }
+        });
     }
 }

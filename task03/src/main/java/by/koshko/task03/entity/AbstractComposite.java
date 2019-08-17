@@ -1,4 +1,4 @@
-package by.koshko.task03.bean;
+package by.koshko.task03.entity;
 
 import java.util.ArrayList;
 import java.util.List;
