@@ -1,15 +1,11 @@
 package by.koshko.task03.bean;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
 public abstract class AbstractComposite implements Component {
     private static final String EMPTY_DELIMITER = "";
-    protected Logger logger = LogManager.getLogger(getClass());
     private List<Component> components = new ArrayList<>();
 
     protected List<Component> getComponents() {

@@ -13,11 +13,10 @@ public class SentenceComposite extends AbstractComposite {
     public String compose() {
         var builder = new StringBuilder();
         getComponents().forEach(component -> {
-            var str = component.compose();
-            if (str.contains("\n")) {
-                builder.append(str);
+            if (builder.toString().lastIndexOf('\n') == builder.length() - 1) {
+                builder.append(component.compose());
             } else {
-                builder.append(DELIMITER).append(str);
+                builder.append(DELIMITER).append(component.compose());
             }
         });
         return builder.toString();
