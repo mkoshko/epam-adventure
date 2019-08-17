@@ -26,6 +26,6 @@ public class Main2 {
         //===============================//
         TextComposite textComposite = new TextComposite();
         textParser.parse(joiner.toString(), textComposite);
-        System.out.println(textComposite.compose());
+        System.out.println(textComposite.getChild(0).getChild(1).compose());
     }
 }
