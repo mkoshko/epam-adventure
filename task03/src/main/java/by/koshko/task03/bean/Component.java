@@ -16,4 +16,6 @@ public interface Component {
         return 1;
     }
 
+    ComponentType getType();
+
 }
