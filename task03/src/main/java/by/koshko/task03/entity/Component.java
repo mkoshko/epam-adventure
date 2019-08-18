@@ -6,6 +6,10 @@ public interface Component {
         throw new UnsupportedOperationException();
     }
 
+    default void remove(Component component) {
+        throw new UnsupportedOperationException();
+    }
+
     default Component getChild(int index) {
         throw new UnsupportedOperationException();
     }

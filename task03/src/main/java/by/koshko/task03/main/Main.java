@@ -6,7 +6,6 @@ import by.koshko.task03.entity.ComponentType;
 import by.koshko.task03.entity.TextComposite;
 import by.koshko.task03.service.*;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.StringJoiner;
 
@@ -32,8 +31,7 @@ public class Main {
         textParser.parse(joiner.toString(), textComposite);
 //        System.out.println(textComposite.compose());
         //===============================//
-        MonkeyService service = new MonkeyService();
-        var list = service.obtain(textComposite, ComponentType.PARAGRAPH);
+        var list = MonkeyService.obtain(textComposite, ComponentType.PARAGRAPH);
         System.out.println(list.size());
         list.sort(Comparator.comparingInt(Component::size));
         list.forEach(component -> System.out.println(component.compose()));
