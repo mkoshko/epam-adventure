@@ -6,6 +6,8 @@ import by.koshko.task03.entity.ComponentType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.koshko.task03.entity.ComponentType.SYMBOL;
+
 public final class MonkeyService {
     private MonkeyService() {
     }
@@ -16,7 +18,7 @@ public final class MonkeyService {
         if (component.getType() == type) {
             components.add(component);
         } else {
-            if (component.size() > 0) {
+            if (component.size() > 0 && component.getType() != SYMBOL) {
                 for (int i = 0; i < component.size(); i++) {
                     find(component.getChild(i), type, components);
                 }
