@@ -18,8 +18,16 @@ public abstract class AbstractComposite implements Component {
     }
 
     @Override
+    public void addAll(final List<Component> newComponents) {
+        components.addAll(newComponents);
+    }
+
+    @Override
     public void remove(final Component component) {
         components.remove(component);
+    }
+    public void removeAll() {
+        components.clear();
     }
 
     @Override

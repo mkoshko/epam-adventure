@@ -31,9 +31,8 @@ public class Main {
         textParser.parse(joiner.toString(), textComposite);
 //        System.out.println(textComposite.compose());
         //===============================//
-        var list = MonkeyService.obtain(textComposite, ComponentType.PARAGRAPH);
-        System.out.println(list.size());
-        list.sort(Comparator.comparingInt(Component::size));
-        list.forEach(component -> System.out.println(component.compose()));
+        SortingService sortingService = new SortingService(textComposite);
+        sortingService.sort0();
+        System.out.println(textComposite.compose());
     }
 }
