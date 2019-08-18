@@ -31,9 +31,9 @@ public class MatrixWriter {
      */
     public MatrixWriter(final String path) throws DaoException {
         try {
-            log.info(String.format("Creating output stream to %s", path));
+            log.info("Creating output stream to {}", path);
             fos = new FileOutputStream(path);
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | NullPointerException e) {
             throw new DaoException(String.format("Can't write to a specified"
                     + " file %s", path));
         }

@@ -8,6 +8,7 @@
             <class name="by.koshko.task02.service.MatrixDataParserTest"/>
             <class name="by.koshko.task02.service.MatrixGeneratorImplTest"/>
             <class name="by.koshko.task02.service.MatrixMultiplicationTest"/>
+            <class name="by.koshko.task02.dao.MatrixWriterTest"/>
         </classes>
     </test>
 </suite>
