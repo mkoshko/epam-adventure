@@ -34,7 +34,7 @@ public class Main {
 //        System.out.println(textComposite.compose());
         //===============================//
         SortingService sortingService = new SortingService(textComposite);
-        sortingService.sort1();
+        sortingService.sort3('a');
         System.out.println(textComposite.compose());
     }
 }
