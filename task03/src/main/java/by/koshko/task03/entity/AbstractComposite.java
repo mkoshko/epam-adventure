@@ -18,6 +18,11 @@ public abstract class AbstractComposite implements Component {
     }
 
     @Override
+    public void remove(final Component component) {
+        components.remove(component);
+    }
+
+    @Override
     public Component getChild(final int index) {
         return components.get(index);
     }
