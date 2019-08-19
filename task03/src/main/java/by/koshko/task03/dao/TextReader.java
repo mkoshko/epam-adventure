@@ -38,7 +38,7 @@ public final class TextReader {
             throw new DaoException("Path to file is empty");
         }
         try (FileInputStream fis = new FileInputStream(path)) {
-            logger.info("Reading from {}", path);
+            logger.info("Reading bytes from '{}'", path);
             return new String(fis.readAllBytes());
         } catch (FileNotFoundException e) {
             throw new DaoException(String.format("%s at %s", e.getMessage(),
