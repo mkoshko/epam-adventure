@@ -26,6 +26,8 @@ public abstract class AbstractComposite implements Component {
     public void remove(final Component component) {
         components.remove(component);
     }
+
+    @Override
     public void removeAll() {
         components.clear();
     }

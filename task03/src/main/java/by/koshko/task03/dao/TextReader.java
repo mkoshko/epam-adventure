@@ -28,7 +28,7 @@ public final class TextReader {
      * Reads all bytes from specified file, and returns string result.
      *
      * @param path Path to a file from where bytes will be read.
-     * @return string representation of file's content.
+     * @return string which constructed from bytes read from file.
      * @throws DaoException Will thrown if argument is null or string is empty,
      *                      also if file doesn't exist or some I/O errors occur
      *                      while reading.

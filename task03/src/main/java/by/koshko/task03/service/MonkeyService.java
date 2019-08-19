@@ -26,7 +26,8 @@ public final class MonkeyService {
         }
     }
 
-    public static List<Component> obtain(final Component component, final ComponentType type) {
+    public static List<Component> obtain(final Component component,
+                                         final ComponentType type) {
         var components = new ArrayList<Component>();
         find(component, type, components);
         return components;

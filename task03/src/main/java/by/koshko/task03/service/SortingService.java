@@ -4,18 +4,22 @@ import by.koshko.task03.entity.Component;
 import by.koshko.task03.entity.ComponentType;
 
 import java.util.Comparator;
+import java.util.List;
 
-import static by.koshko.task03.entity.ComponentType.*;
+import static by.koshko.task03.entity.ComponentType.LEXEME;
+import static by.koshko.task03.entity.ComponentType.PARAGRAPH;
+import static by.koshko.task03.entity.ComponentType.SENTENCE;
+import static by.koshko.task03.entity.ComponentType.WORD;
 
 
 public class SortingService {
 
     private Component text;
 
-    public SortingService(final Component component) {
+    public SortingService(final Component component) throws ServiceException {
         text = component;
         if (text.getType() != ComponentType.TEXT) {
-            throw new RuntimeException();
+            throw new ServiceException("Wrong component type. 'TEXT' needed.");
         }
     }
 
@@ -23,7 +27,7 @@ public class SortingService {
      * Sort paragraphs by number of sentences.
      */
     public void sort0() {
-        var paragraphs = MonkeyService.obtain(text, PARAGRAPH);
+        List<Component> paragraphs = MonkeyService.obtain(text, PARAGRAPH);
         paragraphs.sort(Comparator.comparingInt(Component::size));
         text.removeAll();
         text.addAll(paragraphs);
@@ -33,11 +37,11 @@ public class SortingService {
      * Sort words in sentences by length.
      */
     public void sort1() {
-        var sentences = MonkeyService.obtain(text, SENTENCE);
+        List<Component> sentences = MonkeyService.obtain(text, SENTENCE);
         sentences.forEach(sentence -> {
-            var lexemes = MonkeyService.obtain(sentence, LEXEME);
+            List<Component> lexemes = MonkeyService.obtain(sentence, LEXEME);
             lexemes.sort(Comparator.comparingInt(value -> {
-                var length = 0;
+                int length = 0;
                 for (int i = 0; i < value.size(); i++) {
                     if (value.getChild(i).getType() == WORD) {
                         length += value.getChild(i).size();
@@ -54,9 +58,10 @@ public class SortingService {
      * Sort sentences by number of words.
      */
     public void sort2() {
-        var paragraphs = MonkeyService.obtain(text, PARAGRAPH);
+        List<Component> paragraphs = MonkeyService.obtain(text, PARAGRAPH);
         paragraphs.forEach(paragraph -> {
-            var sentences = MonkeyService.obtain(paragraph, SENTENCE);
+            List<Component> sentences = MonkeyService.obtain(paragraph,
+                                                             SENTENCE);
             sentences.sort(Comparator.comparingInt(Component::size));
             paragraph.removeAll();
             paragraph.addAll(sentences);
@@ -66,12 +71,12 @@ public class SortingService {
     //Отсортировать лексемы в тексте по убыванию количества вхождений заданного
     //символа, а в случае равенства – по алфавиту.
     public void sort3(final char ch) {
-        var sentences = MonkeyService.obtain(text, SENTENCE);
+        List<Component> sentences = MonkeyService.obtain(text, SENTENCE);
         sentences.forEach(sentence -> {
-            var lexemes = MonkeyService.obtain(sentence, LEXEME);
+            List<Component> lexemes = MonkeyService.obtain(sentence, LEXEME);
             lexemes.sort(Comparator.comparing(Component::compose,
-                    Comparator.comparingInt((s) -> {
-                        var number = 0;
+                    Comparator.comparingInt(s -> {
+                        int number = 0;
                         for (char c : s.toCharArray()) {
                             if (ch == c) {
                                 number++;
