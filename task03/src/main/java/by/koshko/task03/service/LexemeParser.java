@@ -24,7 +24,7 @@ public class LexemeParser implements Parser {
                 if (next != null) {
                     next.parse(s, word);
                 }
-            } else if (s.matches("\\W+") || s.matches("\n")) {
+            } else if (s.matches("\\W+")) {
                 var mark = new MarkComposite();
                 component.add(mark);
                 if (next != null) {

@@ -6,7 +6,7 @@ import by.koshko.task03.entity.LexemeComposite;
 import java.util.stream.Stream;
 
 public class SentenceParser implements Parser {
-    private final String regex = "(?<=(\\n)|(\u0020))(?=(.))";
+    private final String regex = "(?<=(.))(\\s+)(?=(.))";
     private Parser next;
 
     @Override
@@ -16,12 +16,7 @@ public class SentenceParser implements Parser {
 
     @Override
     public void parse(final String text, final Component component) {
-        Stream.of(text.split(regex)).map(s -> {
-            if (s.contains("\n")) {
-                return s.trim() + "\n";
-            }
-            return s.trim();
-        }).forEach(elem -> {
+        Stream.of(text.split(regex)).map(String::trim).forEach(elem -> {
             var lexeme = new LexemeComposite();
             component.add(lexeme);
             if (next != null) {

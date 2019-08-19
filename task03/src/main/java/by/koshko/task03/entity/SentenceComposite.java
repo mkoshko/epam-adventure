@@ -1,5 +1,7 @@
 package by.koshko.task03.entity;
 
+import java.util.StringJoiner;
+
 public class SentenceComposite extends AbstractComposite {
     private static final String DELIMITER = "\u0020";
     private final ComponentType type = ComponentType.SENTENCE;
@@ -11,14 +13,8 @@ public class SentenceComposite extends AbstractComposite {
 
     @Override
     public String compose() {
-        var builder = new StringBuilder();
-        getComponents().forEach(component -> {
-            if (builder.toString().lastIndexOf('\n') == builder.length() - 1) {
-                builder.append(component.compose());
-            } else {
-                builder.append(DELIMITER).append(component.compose());
-            }
-        });
-        return builder.toString();
+        var joiner = new StringJoiner(DELIMITER);
+        getComponents().forEach(component -> joiner.add(component.compose()));
+        return joiner.toString();
     }
 }

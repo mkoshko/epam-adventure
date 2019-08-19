@@ -4,7 +4,6 @@ import by.koshko.task03.entity.Component;
 import by.koshko.task03.entity.ComponentType;
 
 import java.util.Comparator;
-import java.util.function.Function;
 
 import static by.koshko.task03.entity.ComponentType.*;
 
@@ -31,7 +30,7 @@ public class SortingService {
     }
 
     /**
-     * Sort words in sentences by word length.
+     * Sort words in sentences by length.
      */
     public void sort1() {
         var sentences = MonkeyService.obtain(text, SENTENCE);
@@ -72,14 +71,14 @@ public class SortingService {
             var lexemes = MonkeyService.obtain(sentence, LEXEME);
             lexemes.sort(Comparator.comparing(Component::compose,
                     Comparator.comparingInt((s) -> {
-                var number = 0;
-                for (char c : s.toCharArray()) {
-                    if (ch == c) {
-                        number++;
-                    }
-                }
-                return number;
-            })).reversed().thenComparing(Component::compose));
+                        var number = 0;
+                        for (char c : s.toCharArray()) {
+                            if (ch == c) {
+                                number++;
+                            }
+                        }
+                        return number;
+                    })).reversed().thenComparing(Component::compose));
             sentence.removeAll();
             sentence.addAll(lexemes);
         });
