@@ -7,7 +7,7 @@ import by.koshko.task03.entity.WordComposite;
 import java.util.stream.Stream;
 
 public class LexemeParser implements Parser {
-    private String regex = "(?<=\\W)(?=\\w)|(?<=\\w)(?=\\W)";
+    private String regex = "(?<=[^.,?!])(?=[.,?!])";
     private Parser next;
 
     @Override
@@ -18,13 +18,13 @@ public class LexemeParser implements Parser {
     @Override
     public void parse(final String text, final Component component) {
         Stream.of(text.split(regex)).forEach(s -> {
-            if (s.matches("\\w+")) {
+            if (s.matches("[^,.?!]+")) {
                 var word = new WordComposite();
                 component.add(word);
                 if (next != null) {
                     next.parse(s, word);
                 }
-            } else if (s.matches("\\W+")) {
+            } else if (s.matches("[,.?!]+")) {
                 var mark = new MarkComposite();
                 component.add(mark);
                 if (next != null) {

@@ -16,10 +16,10 @@ each having has a certain size and function. Usually, all the registers have the
 same size. Each register can hold one number, up to some maximum determined by
 its size. Registers can be read and written at high speed since they are internal
 to the CPU.
-    The most important register is theProgram Counter(PC), which points to the next
+    The most important register is the Program Counter(PC), which points to the next
 instruction to be fetched for execution. The name ‘‘program counter’’ is
 somewhat misleading because it has nothing to do with counting anything, but the
-term is universally used. Also important is theInstruction Register(IR), which
+term is universally used. Also important is the Instruction Register(IR), which
 holds the instruction currently being executed. Most computers have numerous
 other registers as well, some of them general purpose as well as some for specific
 purposes. Yet other registers are used by the operating system to control the
