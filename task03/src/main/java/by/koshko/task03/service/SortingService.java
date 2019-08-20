@@ -13,10 +13,15 @@ import static by.koshko.task03.entity.ComponentType.WORD;
 
 
 public class SortingService {
-
+    /**
+     * Text component to be sorted.
+     */
     private Component text;
 
     public SortingService(final Component component) throws ServiceException {
+        if (component == null) {
+            throw new ServiceException("Component is null.");
+        }
         text = component;
         if (text.getType() != ComponentType.TEXT) {
             throw new ServiceException("Wrong component type. 'TEXT' needed.");
@@ -69,8 +74,8 @@ public class SortingService {
     }
 
     /**
-     * Sorts lexemes by number of specific char, if number is equals, then sort
-     * lexicographically.
+     * Sorts lexemes by number of specific char in descending order, if number
+     * is equals, then sort lexicographically.
      *
      * @param character The character by the number of occurrences of which
      *                  lexemes will be sorted.
@@ -88,7 +93,9 @@ public class SortingService {
                             }
                         }
                         return number;
-                    })).reversed().thenComparing(Component::compose));
+                        //ascending order, for descending call reversed() before
+                        // thenComparing()
+                    })).thenComparing(Component::compose).reversed());
             sentence.removeAll();
             sentence.addAll(lexemes);
         });

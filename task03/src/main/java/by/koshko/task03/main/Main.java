@@ -3,12 +3,11 @@ package by.koshko.task03.main;
 
 import by.koshko.task03.dao.DaoException;
 import by.koshko.task03.dao.TextReader;
-import by.koshko.task03.entity.ComponentType;
 import by.koshko.task03.entity.TextComposite;
 import by.koshko.task03.service.*;
 
 public class Main {
-    public static void main(final String[] args) throws DaoException {
+    public static void main(final String[] args) throws DaoException, ServiceException {
         String text = TextReader.read("data/text.txt");
         //===============================//
         TextParser textParser = new TextParser();
@@ -25,11 +24,9 @@ public class Main {
         textParser.parse(text, textComposite);
         System.out.println(textComposite.compose());
         //===============================//
-//        SortingService sortingService = new SortingService(textComposite);
+        SortingService sortingService = new SortingService(textComposite);
+        sortingService.sortBySentencesNumber();
         System.out.println();
-//        sortingService.sort2();
-//        System.out.println(textComposite.compose());
-        var list = MonkeyService.obtain(textComposite, ComponentType.WORD);
-        list.forEach(component -> System.out.println(component.compose()));
+        System.out.println(textComposite.compose());
     }
 }
