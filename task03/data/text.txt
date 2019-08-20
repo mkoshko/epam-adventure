@@ -1,4 +1,4 @@
-    The organization more-or-less of a simple bus-oriented computer is shown in Fig. 2-1.
+    The organization of a simple bus-oriented computer is shown in Fig. 2-1.
 TheCPU(Central Processing Unit) is the ‘‘brain’’ of the computer. Its function
 is to execute programs stored in the main memory by fetching their instructions,
 examining them, and then executing them one after another. The components are

@@ -11,27 +11,32 @@ import static by.koshko.task03.entity.ComponentType.PARAGRAPH;
 import static by.koshko.task03.entity.ComponentType.SENTENCE;
 import static by.koshko.task03.entity.ComponentType.WORD;
 
+/**
+ * Class contains static methods for sorting components in
+ * {@code TextComposite}.
+ *
+ * @see #sortBySentencesNumber(Component).
+ * @see #sortByWordsLength(Component).
+ * @see #sortByWordsNumber(Component).
+ * @see #sortByCharsNumber(Component, char).
+ */
+public final class SortingService {
 
-public class SortingService {
     /**
-     * Text component to be sorted.
+     * Private constructor.
      */
-    private Component text;
-
-    public SortingService(final Component component) throws ServiceException {
-        if (component == null) {
-            throw new ServiceException("Component is null.");
-        }
-        text = component;
-        if (text.getType() != ComponentType.TEXT) {
-            throw new ServiceException("Wrong component type. 'TEXT' needed.");
-        }
+    private SortingService() {
     }
 
     /**
      * Sort paragraphs by number of sentences.
+     *
+     * @param text Text component to be sorted.
+     * @throws ServiceException if component type is wrong.
      */
-    public void sortBySentencesNumber() {
+    public static void sortBySentencesNumber(final Component text)
+            throws ServiceException {
+        checkType(text);
         List<Component> paragraphs = MonkeyService.obtain(text, PARAGRAPH);
         paragraphs.sort(Comparator.comparingInt(Component::size));
         text.removeAll();
@@ -40,8 +45,13 @@ public class SortingService {
 
     /**
      * Sort words in sentences by length.
+     *
+     * @param text Text component to be sorted.
+     * @throws ServiceException if component type is wrong.
      */
-    public void sortByWordsLength() {
+    public static void sortByWordsLength(final Component text)
+            throws ServiceException {
+        checkType(text);
         List<Component> sentences = MonkeyService.obtain(text, SENTENCE);
         sentences.forEach(sentence -> {
             List<Component> lexemes = MonkeyService.obtain(sentence, LEXEME);
@@ -61,12 +71,17 @@ public class SortingService {
 
     /**
      * Sort sentences by number of words.
+     *
+     * @param text Text component to be sorted.
+     * @throws ServiceException if component type is wrong.
      */
-    public void sortByWordsNumber() {
+    public static void sortByWordsNumber(final Component text)
+            throws ServiceException {
+        checkType(text);
         List<Component> paragraphs = MonkeyService.obtain(text, PARAGRAPH);
         paragraphs.forEach(paragraph -> {
             List<Component> sentences = MonkeyService.obtain(paragraph,
-                                                             SENTENCE);
+                    SENTENCE);
             sentences.sort(Comparator.comparingInt(Component::size));
             paragraph.removeAll();
             paragraph.addAll(sentences);
@@ -77,10 +92,15 @@ public class SortingService {
      * Sorts lexemes by number of specific char in descending order, if number
      * is equals, then sort lexicographically.
      *
+     * @param text      Text component to be sorted.
      * @param character The character by the number of occurrences of which
      *                  lexemes will be sorted.
+     * @throws ServiceException if component type is wrong.
      */
-    public void sortByCharsNumber(final char character) {
+    public static void sortByCharsNumber(final Component text,
+                                         final char character)
+            throws ServiceException {
+        checkType(text);
         List<Component> sentences = MonkeyService.obtain(text, SENTENCE);
         sentences.forEach(sentence -> {
             List<Component> lexemes = MonkeyService.obtain(sentence, LEXEME);
@@ -99,5 +119,21 @@ public class SortingService {
             sentence.removeAll();
             sentence.addAll(lexemes);
         });
+    }
+
+    /**
+     * Check if component type is correct.
+     *
+     * @param component component which type will be checked.
+     * @throws ServiceException if component type is wrong.
+     */
+    private static void checkType(final Component component)
+            throws ServiceException {
+        if (component == null) {
+            throw new ServiceException("Component is null.");
+        }
+        if (component.getType() != ComponentType.TEXT) {
+            throw new ServiceException("Wrong component type. 'TEXT' needed.");
+        }
     }
 }
