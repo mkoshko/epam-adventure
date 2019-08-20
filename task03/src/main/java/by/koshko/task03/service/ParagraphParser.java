@@ -6,7 +6,7 @@ import by.koshko.task03.entity.SentenceComposite;
 import java.util.stream.Stream;
 
 public class ParagraphParser implements Parser {
-    private final String regex = "(?<=[.])\\s+(?=[A-Z]|[(])";
+    private final String regex = "(?<=[.!?])\\s+(?=[A-Z])";
     private Parser next;
 
     @Override

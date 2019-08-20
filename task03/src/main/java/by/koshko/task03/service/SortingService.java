@@ -26,7 +26,7 @@ public class SortingService {
     /**
      * Sort paragraphs by number of sentences.
      */
-    public void sort0() {
+    public void sortBySentencesNumber() {
         List<Component> paragraphs = MonkeyService.obtain(text, PARAGRAPH);
         paragraphs.sort(Comparator.comparingInt(Component::size));
         text.removeAll();
@@ -36,7 +36,7 @@ public class SortingService {
     /**
      * Sort words in sentences by length.
      */
-    public void sort1() {
+    public void sortByWordsLength() {
         List<Component> sentences = MonkeyService.obtain(text, SENTENCE);
         sentences.forEach(sentence -> {
             List<Component> lexemes = MonkeyService.obtain(sentence, LEXEME);
@@ -57,7 +57,7 @@ public class SortingService {
     /**
      * Sort sentences by number of words.
      */
-    public void sort2() {
+    public void sortByWordsNumber() {
         List<Component> paragraphs = MonkeyService.obtain(text, PARAGRAPH);
         paragraphs.forEach(paragraph -> {
             List<Component> sentences = MonkeyService.obtain(paragraph,
@@ -68,9 +68,14 @@ public class SortingService {
         });
     }
 
-    //Отсортировать лексемы в тексте по убыванию количества вхождений заданного
-    //символа, а в случае равенства – по алфавиту.
-    public void sort3(final char ch) {
+    /**
+     * Sorts lexemes by number of specific char, if number is equals, then sort
+     * lexicographically.
+     *
+     * @param character The character by the number of occurrences of which
+     *                  lexemes will be sorted.
+     */
+    public void sortByCharsNumber(final char character) {
         List<Component> sentences = MonkeyService.obtain(text, SENTENCE);
         sentences.forEach(sentence -> {
             List<Component> lexemes = MonkeyService.obtain(sentence, LEXEME);
@@ -78,7 +83,7 @@ public class SortingService {
                     Comparator.comparingInt(s -> {
                         int number = 0;
                         for (char c : s.toCharArray()) {
-                            if (ch == c) {
+                            if (character == c) {
                                 number++;
                             }
                         }

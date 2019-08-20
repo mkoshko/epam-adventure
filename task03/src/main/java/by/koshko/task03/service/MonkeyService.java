@@ -12,6 +12,13 @@ public final class MonkeyService {
     private MonkeyService() {
     }
 
+    public static List<Component> obtain(final Component component,
+                                         final ComponentType type) {
+        var components = new ArrayList<Component>();
+        find(component, type, components);
+        return components;
+    }
+
     private static void find(final Component component,
                              final ComponentType type,
                              final List<Component> components) {
@@ -24,12 +31,5 @@ public final class MonkeyService {
                 }
             }
         }
-    }
-
-    public static List<Component> obtain(final Component component,
-                                         final ComponentType type) {
-        var components = new ArrayList<Component>();
-        find(component, type, components);
-        return components;
     }
 }

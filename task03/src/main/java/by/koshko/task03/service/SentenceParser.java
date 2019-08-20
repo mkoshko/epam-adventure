@@ -6,7 +6,7 @@ import by.koshko.task03.entity.LexemeComposite;
 import java.util.stream.Stream;
 
 public class SentenceParser implements Parser {
-    private final String regex = "(?<=(.))(\\s+)(?=(.))";
+    private final String regex = "\\s+";
     private Parser next;
 
     @Override
