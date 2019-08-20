@@ -6,7 +6,7 @@ public class TextComposite extends AbstractComposite {
     private static final String DELIMITER = "\n\t";
 
     public TextComposite() {
-        type = ComponentType.TEXT;
+        setType(ComponentType.TEXT);
     }
 
     @Override

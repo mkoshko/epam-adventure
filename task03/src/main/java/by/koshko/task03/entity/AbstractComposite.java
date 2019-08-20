@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 public abstract class AbstractComposite implements Component {
-    protected ComponentType type;
+    private ComponentType type;
     private static final String EMPTY_DELIMITER = "";
     private List<Component> components = new ArrayList<>();
 
@@ -41,6 +41,10 @@ public abstract class AbstractComposite implements Component {
     @Override
     public int size() {
         return components.size();
+    }
+
+    protected void setType(final ComponentType componentType) {
+        type = componentType;
     }
 
     @Override

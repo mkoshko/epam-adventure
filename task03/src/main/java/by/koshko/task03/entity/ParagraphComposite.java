@@ -6,7 +6,7 @@ public class ParagraphComposite extends AbstractComposite {
     private static final String DELIMITER = "\u0020";
 
     public ParagraphComposite() {
-        type = ComponentType.PARAGRAPH;
+        setType(ComponentType.PARAGRAPH);
     }
 
     @Override

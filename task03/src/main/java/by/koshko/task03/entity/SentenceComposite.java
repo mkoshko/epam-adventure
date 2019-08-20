@@ -6,7 +6,7 @@ public class SentenceComposite extends AbstractComposite {
     private static final String DELIMITER = "\u0020";
 
     public SentenceComposite() {
-        type = ComponentType.SENTENCE;
+        setType(ComponentType.SENTENCE);
     }
 
     @Override
