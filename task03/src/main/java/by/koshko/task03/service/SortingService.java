@@ -39,8 +39,11 @@ public final class SortingService {
         checkType(text);
         List<Component> paragraphs = MonkeyService.obtain(text, PARAGRAPH);
         paragraphs.sort(Comparator.comparingInt(Component::size));
-        text.removeAll();
-        text.addAll(paragraphs);
+        var size = paragraphs.size();
+        for (int i = 0; i < size; i++) {
+            text.remove(text.getChild(0));
+        }
+        paragraphs.forEach(text::add);
     }
 
     /**
@@ -64,8 +67,11 @@ public final class SortingService {
                 }
                 return length;
             }));
-            sentence.removeAll();
-            sentence.addAll(lexemes);
+            var size = lexemes.size();
+            for (int i = 0; i < size; i++) {
+                sentence.remove(sentence.getChild(0));
+            }
+            lexemes.forEach(sentence::add);
         });
     }
 
@@ -83,8 +89,11 @@ public final class SortingService {
             List<Component> sentences = MonkeyService.obtain(paragraph,
                     SENTENCE);
             sentences.sort(Comparator.comparingInt(Component::size));
-            paragraph.removeAll();
-            paragraph.addAll(sentences);
+            var size = paragraph.size();
+            for (int i = 0; i < size; i++) {
+                paragraph.remove(paragraph.getChild(0));
+            }
+            sentences.forEach(paragraph::add);
         });
     }
 
@@ -115,9 +124,12 @@ public final class SortingService {
                         return number;
                         //ascending order, for descending call reversed() before
                         // thenComparing()
-                    })).thenComparing(Component::compose).reversed());
-            sentence.removeAll();
-            sentence.addAll(lexemes);
+                    })).reversed().thenComparing(Component::compose));
+            var size = sentence.size();
+            for (int i = 0; i < size; i++) {
+                sentence.remove(sentence.getChild(0));
+            }
+            lexemes.forEach(sentence::add);
         });
     }
 

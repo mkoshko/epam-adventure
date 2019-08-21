@@ -15,11 +15,11 @@ public final class MonkeyService {
     public static List<Component> obtain(final Component component,
                                          final ComponentType type) {
         var components = new ArrayList<Component>();
-        find(component, type, components);
+        collectComponents(component, type, components);
         return components;
     }
 
-    private static void find(final Component component,
+    private static void collectComponents(final Component component,
                              final ComponentType type,
                              final List<Component> components) {
         if (component.getType() == type) {
@@ -27,7 +27,7 @@ public final class MonkeyService {
         } else {
             if (component.size() > 0 && component.getType() != SYMBOL) {
                 for (int i = 0; i < component.size(); i++) {
-                    find(component.getChild(i), type, components);
+                    collectComponents(component.getChild(i), type, components);
                 }
             }
         }
