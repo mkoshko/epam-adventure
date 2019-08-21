@@ -1,41 +1,28 @@
 package by.koshko.task03.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Runner {
     private static Controller controller = new Controller();
     private static Scanner scanner = new Scanner(System.in);
+    private static Map<String, String> menuItems = new HashMap<>(){
+        {
+            this.put("1", "LOAD_TEXT data/text.txt");
+            this.put("2", "SORT_BY_WORD_LENGTH ");
+            this.put("3", "SORT_BY_WORD_NUMBER ");
+            this.put("4", "SORT_BY_SENTENCE_NUMBER ");
+            this.put("5", "SORT_BY_CHAR  ");
+        }
+    };
     public static void start() {
         var running  = true;
         while (running) {
             printMenu();
             var menu = scanner.nextLine();
             String response = "";
-            switch (menu) {
-                case "1":
-                    response = controller.executeTask("LOAD_TEXT data/text.txt");
-                    break;
-                case "2":
-                    response = controller.executeTask("SORT_BY_WORD_LENGTH ");
-                    break;
-                case "3":
-                    response = controller.executeTask("SORT_BY_WORD_NUMBER ");
-                    break;
-                case "4":
-                    response = controller.executeTask("SORT_BY_SENTENCE_NUMBER ");
-                    break;
-                case "5":
-                    System.out.println("Enter a char ");
-                    var ch = scanner.nextLine();
-                    response = controller.executeTask("SORT_BY_CHAR " + ch);
-                    break;
-                case "6":
-                    running = false;
-                    break;
-                default:
-                    response = "Missed!";
-                    break;
-            }
+            response = controller.executeTask(menuItems.get(menu));
             System.out.println(response);
         }
     }
