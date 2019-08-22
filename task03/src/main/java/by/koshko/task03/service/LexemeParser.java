@@ -6,15 +6,36 @@ import by.koshko.task03.entity.WordComposite;
 
 import java.util.stream.Stream;
 
+/**
+ * Parser that parse lexemes into word and punctuation marks.
+ */
 public class LexemeParser implements Parser {
+    /**
+     * Regex for parsing lexemes onto words and punctuation marks.
+     */
     private String regex = "(?<=[^.,?!])(?=[.,?!])";
+    /**
+     * Next parser in chain.
+     */
     private Parser next;
 
+    /**
+     * Sets the next parser in chain.
+     *
+     * @param nextParser next parser in chain.
+     */
     @Override
     public void setNext(final Parser nextParser) {
         next = nextParser;
     }
 
+    /**
+     * Split string that must represent a lexeme into a word and punctuation
+     * mark.
+     *
+     * @param text      string to be parsed.
+     * @param component in which parsed parts will be stored.
+     */
     @Override
     public void parse(final String text, final Component component) {
         Stream.of(text.split(regex)).forEach(s -> {
