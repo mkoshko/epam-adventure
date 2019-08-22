@@ -58,15 +58,8 @@ public final class SortingService {
         List<Component> sentences = MonkeyService.obtain(text, SENTENCE);
         sentences.forEach(sentence -> {
             List<Component> lexemes = MonkeyService.obtain(sentence, LEXEME);
-            lexemes.sort(Comparator.comparingInt(value -> {
-                int length = 0;
-                for (int i = 0; i < value.size(); i++) {
-                    if (value.getChild(i).getType() == WORD) {
-                        length += value.getChild(i).size();
-                    }
-                }
-                return length;
-            }));
+            lexemes.sort(Comparator.comparingInt(value ->
+                    value.getChild(0).size()));
             var size = lexemes.size();
             for (int i = 0; i < size; i++) {
                 sentence.remove(sentence.getChild(0));

@@ -4,6 +4,9 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
+/**
+ * Tests for {@code TextReader} class.
+ */
 public class TextReaderTest {
     /**
      * Path to text file.
@@ -18,6 +21,8 @@ public class TextReaderTest {
 
     /**
      * Positive test for reading from file.
+     *
+     * @throws DaoException if path argument is null or empty.
      */
     @Test
     public void testRead() throws DaoException {

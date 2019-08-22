@@ -4,7 +4,7 @@ package by.koshko.task03.service;
  * Class creates and holds {@code TextParser}. Contain method for obtain
  * {@code TextParser} instance.
  */
-final class ParserHolder {
+public final class ParserHolder {
     /**
      * Text parser.
      */
@@ -21,7 +21,7 @@ final class ParserHolder {
      *
      * @return text parser.
      */
-    static TextParser getTextParser() {
+    public static TextParser getTextParser() {
         if (textParser != null) {
             return textParser;
         } else {

@@ -3,6 +3,8 @@ package by.koshko.task03.service;
 import by.koshko.task03.entity.Component;
 import by.koshko.task03.entity.MarkComposite;
 import by.koshko.task03.entity.WordComposite;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.stream.Stream;
 
@@ -10,6 +12,10 @@ import java.util.stream.Stream;
  * Parser that parse lexemes into word and punctuation marks.
  */
 public class LexemeParser implements Parser {
+    /**
+     * Logger.
+     */
+    private final Logger logger = LogManager.getLogger(getClass());
     /**
      * Regex for parsing lexemes onto words and punctuation marks.
      */
@@ -38,6 +44,10 @@ public class LexemeParser implements Parser {
      */
     @Override
     public void parse(final String text, final Component component) {
+        if (text == null || component == null) {
+            logger.warn("Null arguments passed to parse method");
+            return;
+        }
         Stream.of(text.split(regex)).forEach(s -> {
             if (s.matches("[^,.?!]+")) {
                 var word = new WordComposite();

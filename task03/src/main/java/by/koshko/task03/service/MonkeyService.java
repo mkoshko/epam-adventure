@@ -20,7 +20,7 @@ public final class MonkeyService {
     }
 
     /**
-     * Collects all component with specified type argument, from given component
+     * Collects all component with specified type, from given component
      * to a list.
      * @param component Component from where components with specified types
      *                  will be collected.
