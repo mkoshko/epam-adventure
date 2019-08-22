@@ -1,28 +1,28 @@
 package by.koshko.task03.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
-public class Runner {
+public final class Runner {
+    private ResourceBundle rb
+            = ResourceBundle.getBundle("mainMenu", Locale.getDefault());
     private static Controller controller = new Controller();
     private static Scanner scanner = new Scanner(System.in);
-    private static Map<String, String> menuItems = new HashMap<>(){
-        {
-            this.put("1", "LOAD_TEXT data/text.txt");
-            this.put("2", "SORT_BY_WORD_LENGTH ");
-            this.put("3", "SORT_BY_WORD_NUMBER ");
-            this.put("4", "SORT_BY_SENTENCE_NUMBER ");
-            this.put("5", "SORT_BY_CHAR  ");
-        }
-    };
+    private static Map<String, String> menuItems = new HashMap<>();
+    Properties properties = new Properties();
+    static {
+        menuItems.put("1", "LOAD_TEXT data/text.txt");
+        menuItems.put("2", "SORT_BY_WORD_LENGTH ");
+        menuItems.put("3", "SORT_BY_WORD_NUMBER ");
+        menuItems.put("4", "SORT_BY_SENTENCE_NUMBER ");
+        menuItems.put("5", "SORT_BY_CHAR ");
+    }
+
     public static void start() {
-        var running  = true;
+        var running = true;
         while (running) {
             printMenu();
             var menu = scanner.nextLine();
-            String response = "";
-            response = controller.executeTask(menuItems.get(menu));
+            var response = controller.executeTask(menuItems.get(menu));
             System.out.println(response);
         }
     }
