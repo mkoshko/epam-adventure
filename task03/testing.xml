@@ -11,6 +11,8 @@
                 <include name="sentenceParser"/>
                 <include name="paragraphParser"/>
                 <include name="textParser"/>
+                <include name="componentTest"/>
+                <include name="wordComponent"/>
             </run>
         </groups>
         <classes>
@@ -19,7 +21,7 @@
             <class name="by.koshko.task03.service.SentenceParserTest"/>
             <class name="by.koshko.task03.service.ParagraphParserTest"/>
             <class name="by.koshko.task03.service.TextParserTest"/>
+            <class name="by.koshko.task03.entity.WordCompositeTest"/>
         </classes>
     </test>
-
 </suite>
