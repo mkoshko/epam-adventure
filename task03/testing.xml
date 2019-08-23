@@ -8,11 +8,17 @@
                 <include name="parseTest"/>
                 <include name="symbolParser"/>
                 <include name="lexemeParser"/>
+                <include name="sentenceParser"/>
+                <include name="paragraphParser"/>
+                <include name="textParser"/>
             </run>
         </groups>
         <classes>
             <class name="by.koshko.task03.service.SymbolParserTest"/>
             <class name="by.koshko.task03.service.LexemeParserTest"/>
+            <class name="by.koshko.task03.service.SentenceParserTest"/>
+            <class name="by.koshko.task03.service.ParagraphParserTest"/>
+            <class name="by.koshko.task03.service.TextParserTest"/>
         </classes>
     </test>
 

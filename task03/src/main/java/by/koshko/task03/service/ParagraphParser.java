@@ -18,7 +18,7 @@ public class ParagraphParser implements Parser {
     /**
      * Regex for split paragraph into sentences.
      */
-    private final String regex = "(?<=[.!?])\\s+(?=[A-Z])";
+    private final String regex = "(?<=[.!?])\\s+(?=[-A-Z])";
     /**
      * Next parser in chain.
      */

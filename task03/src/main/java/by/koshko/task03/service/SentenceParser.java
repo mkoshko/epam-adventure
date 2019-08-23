@@ -42,7 +42,7 @@ public class SentenceParser implements Parser {
      */
     @Override
     public void parse(final String text, final Component component) {
-        if (text == null || component == null) {
+        if (text == null || text.isEmpty() || component == null) {
             logger.warn("Null arguments passed to parse method");
             return;
         }
