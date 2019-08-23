@@ -11,12 +11,13 @@ public class TextReaderTest {
     /**
      * Path to text file.
      */
-    private final String path = "src/test/resources/data/testText.txt";
+    private final String path = getClass()
+            .getResource("/data/testText.txt").getPath();
     /**
      * Expected string with text.
      */
     private final String expectedText = "An operating system (OS) is system"
-            + " software that manages computer hardware and software resources"
+            + " software that manages computer hardware\nand software resources"
             + " and provides common services for computer programs.";
 
     /**

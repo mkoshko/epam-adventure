@@ -9,7 +9,6 @@ import java.util.List;
 import static by.koshko.task03.entity.ComponentType.LEXEME;
 import static by.koshko.task03.entity.ComponentType.PARAGRAPH;
 import static by.koshko.task03.entity.ComponentType.SENTENCE;
-import static by.koshko.task03.entity.ComponentType.WORD;
 
 /**
  * Class contains static methods for sorting components in
