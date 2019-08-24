@@ -14,6 +14,7 @@
                 <include name="componentTest"/>
                 <include name="wordComponent"/>
                 <include name="lexemeComponent"/>
+                <include name="sentenceComponent"/>
             </run>
         </groups>
         <classes>
@@ -24,6 +25,7 @@
             <class name="by.koshko.task03.service.TextParserTest"/>
             <class name="by.koshko.task03.entity.WordCompositeTest"/>
             <class name="by.koshko.task03.entity.LexemeCompositeTest"/>
+            <class name="by.koshko.task03.entity.SentenceCompositeTest"/>
         </classes>
     </test>
 </suite>
