@@ -13,6 +13,7 @@
                 <include name="textParser"/>
                 <include name="componentTest"/>
                 <include name="wordComponent"/>
+                <include name="lexemeComponent"/>
             </run>
         </groups>
         <classes>
@@ -22,6 +23,7 @@
             <class name="by.koshko.task03.service.ParagraphParserTest"/>
             <class name="by.koshko.task03.service.TextParserTest"/>
             <class name="by.koshko.task03.entity.WordCompositeTest"/>
+            <class name="by.koshko.task03.entity.LexemeCompositeTest"/>
         </classes>
     </test>
 </suite>
