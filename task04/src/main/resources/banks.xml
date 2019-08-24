@@ -2,7 +2,7 @@
 <banks xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://www.epam.adventuretime.by/banks"
        xsi:schemaLocation="http://www.epam.adventuretime.by/banks banks.xsd">
-    <bank>
+    <bank location="BY">
         <name>Беларусбанк</name>
         <country>Беларусь</country>
         <site>www.belarusbank.by</site>
