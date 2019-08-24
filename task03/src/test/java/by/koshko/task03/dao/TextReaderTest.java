@@ -25,7 +25,7 @@ public class TextReaderTest {
      *
      * @throws DaoException if path argument is null or empty.
      */
-    @Test
+    @Test(groups = "textReader")
     public void testRead() throws DaoException {
         String actual = TextReader.read(path);
         assertEquals(expectedText, actual);

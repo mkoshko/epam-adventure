@@ -2,9 +2,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Suite1">
-    <test name="parseTest">
+    <test name="appTests">
         <groups>
             <run>
+                <include name="textReader"/>
                 <include name="parseTest"/>
                 <include name="symbolParser"/>
                 <include name="lexemeParser"/>
@@ -16,9 +17,11 @@
                 <include name="lexemeComponent"/>
                 <include name="sentenceComponent"/>
                 <include name="paragraphComponent"/>
+                <include name="textComponent"/>
             </run>
         </groups>
         <classes>
+            <class name="by.koshko.task03.dao.TextReaderTest"></class>
             <class name="by.koshko.task03.service.SymbolParserTest"/>
             <class name="by.koshko.task03.service.LexemeParserTest"/>
             <class name="by.koshko.task03.service.SentenceParserTest"/>
@@ -28,6 +31,7 @@
             <class name="by.koshko.task03.entity.LexemeCompositeTest"/>
             <class name="by.koshko.task03.entity.SentenceCompositeTest"/>
             <class name="by.koshko.task03.entity.ParagraphCompositeTest"/>
+            <class name="by.koshko.task03.entity.TextCompositeTest"/>
         </classes>
     </test>
 </suite>
