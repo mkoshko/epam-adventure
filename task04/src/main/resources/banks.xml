@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<banks xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.epam.adventuretime.by/banks"
+       xsi:schemaLocation="http://www.epam.adventuretime.by/banks banks.xsd">
+    <bank>
+        <name>Беларусбанк</name>
+        <country>Беларусь</country>
+        <site>www.belarusbank.by</site>
+    </bank>
+</banks>
