@@ -2,9 +2,66 @@
 <banks xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://www.epam.adventuretime.by/banks"
        xsi:schemaLocation="http://www.epam.adventuretime.by/banks banks.xsd">
-    <bank location="BY">
-        <name>Беларусбанк</name>
-        <country>Беларусь</country>
-        <site>www.belarusbank.by</site>
+    <bank name="Беларусбанк" country="Беларусь" site="www.belarusbank.by">
+        <deposits>
+            <deposit ID="SD000001" xsi:type="DemandDeposit">
+                <depositor>
+                    <firstName>Максим</firstName>
+                    <middleName>Игоревич</middleName>
+                    <lastName>Кошко</lastName>
+                    <identification>4536585F354DS2</identification>
+                </depositor>
+                <iban>BY51MMBN84682548654823479652</iban>
+                <depositDate>2019-05-25</depositDate>
+                <depositAmount>
+                    <amount>50.0</amount>
+                    <currency>RUB</currency>
+                </depositAmount>
+                <profitability>15</profitability>
+                <withdrawal>Да</withdrawal>
+                <refill>Да</refill>
+                <depositTerm>unlimited</depositTerm>
+            </deposit>
+
+            <deposit ID="DD0000002" xsi:type="SavingDeposit">
+                <depositor>
+                    <firstName>Петр</firstName>
+                    <middleName>Асётр</middleName>
+                    <lastName>Сомович</lastName>
+                    <identification>4565585F354DS2</identification>
+                </depositor>
+                <iban>BY51MMBN84682548654823479652</iban>
+                <depositDate>2018-12-05</depositDate>
+                <depositAmount>
+                    <amount>500</amount>
+                    <currency>EUR</currency>
+                </depositAmount>
+                <profitability>5</profitability>
+                <withdrawal>Нет</withdrawal>
+                <refill>Нет</refill>
+                <depositTerm>12</depositTerm>
+                <payout>Ежемесячно</payout>
+            </deposit>
+
+            <deposit ID="AS0000003" xsi:type="SettlementDeposit">
+                <depositor>
+                    <firstName>Ванька</firstName>
+                    <middleName>Встанька</middleName>
+                    <lastName>Присядька</lastName>
+                    <identification>4565585F354DS2</identification>
+                </depositor>
+                <iban>BY51MMBN84682548654823479652</iban>
+                <depositDate>2018-01-12</depositDate>
+                <depositAmount>
+                    <amount>1500</amount>
+                    <currency>BYN</currency>
+                </depositAmount>
+                <profitability>10</profitability>
+                <withdrawal>Да</withdrawal>
+                <refill>Да</refill>
+                <depositTerm>unlimited</depositTerm>
+                <minBalance>10</minBalance>
+            </deposit>
+        </deposits>
     </bank>
 </banks>
