@@ -1,9 +1,6 @@
 package by.koshko.task03.service;
 
-import by.koshko.task03.dao.DaoException;
-import by.koshko.task03.dao.TextReader;
 import by.koshko.task03.entity.TextComposite;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
