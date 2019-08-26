@@ -1,67 +1,348 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <banks xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.epam.adventuretime.by/banks"
-       xsi:schemaLocation="http://www.epam.adventuretime.by/banks banks.xsd">
-    <bank name="Беларусбанк" country="Беларусь" site="www.belarusbank.by">
-        <deposits>
-            <deposit ID="SD000001" xsi:type="DemandDeposit">
-                <depositor>
-                    <firstName>Максим</firstName>
-                    <middleName>Игоревич</middleName>
-                    <lastName>Кошко</lastName>
-                    <identification>4536585F354DS2</identification>
-                </depositor>
-                <iban>BY51MMBN84682548654823479652</iban>
-                <depositDate>2019-05-25</depositDate>
-                <depositAmount>
-                    <amount>50.0</amount>
-                    <currency>RUB</currency>
-                </depositAmount>
-                <profitability>15</profitability>
-                <withdrawal>Да</withdrawal>
-                <refill>Да</refill>
-                <depositTerm>unlimited</depositTerm>
-            </deposit>
-
-            <deposit ID="DD0000002" xsi:type="SavingDeposit">
-                <depositor>
-                    <firstName>Петр</firstName>
-                    <middleName>Асётр</middleName>
-                    <lastName>Сомович</lastName>
-                    <identification>4565585F354DS2</identification>
-                </depositor>
-                <iban>BY51MMBN84682548654823479652</iban>
-                <depositDate>2018-12-05</depositDate>
-                <depositAmount>
-                    <amount>500</amount>
-                    <currency>EUR</currency>
-                </depositAmount>
-                <profitability>5</profitability>
-                <withdrawal>Нет</withdrawal>
-                <refill>Нет</refill>
-                <depositTerm>12</depositTerm>
-                <payout>Ежемесячно</payout>
-            </deposit>
-
-            <deposit ID="AS0000003" xsi:type="SettlementDeposit">
-                <depositor>
-                    <firstName>Ванька</firstName>
-                    <middleName>Встанька</middleName>
-                    <lastName>Присядька</lastName>
-                    <identification>4565585F354DS2</identification>
-                </depositor>
-                <iban>BY51MMBN84682548654823479652</iban>
-                <depositDate>2018-01-12</depositDate>
-                <depositAmount>
-                    <amount>1500</amount>
-                    <currency>BYN</currency>
-                </depositAmount>
-                <profitability>10</profitability>
-                <withdrawal>Да</withdrawal>
-                <refill>Да</refill>
-                <depositTerm>unlimited</depositTerm>
-                <minBalance>10</minBalance>
-            </deposit>
-        </deposits>
+       xmlns="http://www.epam.training.by/banks"
+       xsi:schemaLocation="http://www.epam.training.by/banks banks.xsd">
+    <bank country="Беларусь" site="www.belarusbank.by" licence="true">
+        <name>БеларусБанк</name>
+        <deposit ID="DD0001">
+            <type>До востребования</type>
+            <iban>BY51MMBN84682548654823479652</iban>
+            <depositor>
+                <firstName>Максим</firstName>
+                <middleName>Игоревич</middleName>
+                <lastName>Кошко</lastName>
+                <identification>4536585F354DS2</identification>
+            </depositor>
+            <depositDate>2019-08-26</depositDate>
+            <amount>1000</amount>
+            <currency>USD</currency>
+            <profitability>9</profitability>
+            <term>Не установлен</term>
+            <withdrawal>true</withdrawal>
+            <refill>false</refill>
+            <capitalization>true</capitalization>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="www.ideabank.by" licence="true">
+        <name>Идея Банк</name>
+        <deposit ID="DD0002">
+            <type>Накопительный</type>
+            <iban>BY34IDBN15478648654823479652</iban>
+            <depositor>
+                <firstName>Асер</firstName>
+                <middleName>Предаторович</middleName>
+                <lastName>Лептопов</lastName>
+                <identification>7634985F354DS2</identification>
+            </depositor>
+            <depositDate>2018-12-07</depositDate>
+            <amount>2500</amount>
+            <currency>BYR</currency>
+            <profitability>6</profitability>
+            <term>12</term>
+            <withdrawal>true</withdrawal>
+            <refill>true</refill>
+            <capitalization>false</capitalization>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="www.belveb.by" licence="true">
+        <name>Банк БелВЭБ</name>
+        <deposit ID="DD0003" xsi:type="settlementDeposit">
+            <type>Расчетный</type>
+            <iban>BY34BVBN15478648654824763452</iban>
+            <depositor>
+                <firstName>Elon</firstName>
+                <middleName>Reeve</middleName>
+                <lastName>Musk</lastName>
+                <identification>0000000A000AA0</identification>
+            </depositor>
+            <depositDate>2002-05-06</depositDate>
+            <amount>33390238900</amount>
+            <currency>USD</currency>
+            <profitability>20.4</profitability>
+            <term>6</term>
+            <withdrawal>true</withdrawal>
+            <refill>true</refill>
+            <capitalization>false</capitalization>
+            <minBalance>250000</minBalance>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="www.mmbank.by" licence="false">
+        <name>Банк Дабрабыт</name>
+        <deposit ID="DD0004" xsi:type="savingDeposit">
+            <type>Сберегательный</type>
+            <iban>BY34MMBN15477638654824761357</iban>
+            <depositor>
+                <firstName>William</firstName>
+                <middleName>Henry</middleName>
+                <lastName>Gates</lastName>
+                <identification>7634575C354SD2</identification>
+            </depositor>
+            <depositDate>1975-04-04</depositDate>
+            <amount>135000</amount>
+            <currency>USD</currency>
+            <profitability>100.0</profitability>
+            <term>12</term>
+            <withdrawal>false</withdrawal>
+            <refill>false</refill>
+            <capitalization>false</capitalization>
+            <payout>Ежемесячно</payout>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="alfa-bank.by" licence="true">
+        <name>Альфа-Банк</name>
+        <deposit ID="DD0005">
+            <type>Срочный</type>
+            <iban>BY34MMBN15477638654824761357</iban>
+            <depositor>
+                <firstName>Лоуренс</firstName>
+                <middleName>Эдвард</middleName>
+                <lastName>Пейдж</lastName>
+                <identification>3434885G354SD3</identification>
+            </depositor>
+            <depositDate>1998-09-04</depositDate>
+            <amount>4500</amount>
+            <currency>USD</currency>
+            <profitability>48.6</profitability>
+            <term>300</term>
+            <withdrawal>false</withdrawal>
+            <refill>true</refill>
+            <capitalization>true</capitalization>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="www.bps-sberbank.by" licence="true">
+        <name>БПС-Сбербанк</name>
+        <deposit ID="DD0006" xsi:type="settlementDeposit">
+            <type>Расчетный</type>
+            <iban>BY34BVBN15478548962458243452</iban>
+            <depositor>
+                <firstName>Александр</firstName>
+                <middleName>Сергеевич</middleName>
+                <lastName>Пушкин</lastName>
+                <identification>0000000A000AA0</identification>
+            </depositor>
+            <depositDate>20019-01-06</depositDate>
+            <amount>500</amount>
+            <currency>RUB</currency>
+            <profitability>5</profitability>
+            <term>12</term>
+            <withdrawal>true</withdrawal>
+            <refill>true</refill>
+            <capitalization>false</capitalization>
+            <minBalance>150</minBalance>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="www.vtb-bank.by" licence="true">
+        <name>ВТБ Беларусь</name>
+        <deposit ID="DD0007">
+            <type>До востребования</type>
+            <iban>BY51MMBN84682578696596848246</iban>
+            <depositor>
+                <firstName>Плутон</firstName>
+                <middleName>Солнцевич</middleName>
+                <lastName>Млечнепутов</lastName>
+                <identification>4568428F354DS2</identification>
+            </depositor>
+            <depositDate>2018-04-26</depositDate>
+            <amount>6500</amount>
+            <currency>BYR</currency>
+            <profitability>12</profitability>
+            <term>Не установлен</term>
+            <withdrawal>true</withdrawal>
+            <refill>false</refill>
+            <capitalization>true</capitalization>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="www.belgazprombank.by" licence="true">
+        <name>БелГазпромБанк</name>
+        <deposit ID="DD0008" xsi:type="settlementDeposit">
+            <type>Расчетный</type>
+            <iban>BY34BVBN15476546434863453452</iban>
+            <depositor>
+                <firstName>Кило</firstName>
+                <middleName>Ом</middleName>
+                <lastName>Сопротивляев</lastName>
+                <identification>6578500A000AA0</identification>
+            </depositor>
+            <depositDate>2019-07-06</depositDate>
+            <amount>5000</amount>
+            <currency>EUR</currency>
+            <profitability>4.5</profitability>
+            <term>12</term>
+            <withdrawal>true</withdrawal>
+            <refill>true</refill>
+            <capitalization>false</capitalization>
+            <minBalance>250000</minBalance>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="	www.belapb.by" licence="true">
+        <name>БелАгроПромБанк</name>
+        <deposit ID="DD0009">
+            <type>Накопительный</type>
+            <iban>BY34IDBN15478654457868345852</iban>
+            <depositor>
+                <firstName>I'll</firstName>
+                <middleName>Be</middleName>
+                <lastName>Backovich</lastName>
+                <identification>6548525F354DS2</identification>
+            </depositor>
+            <depositDate>2019-03-15</depositDate>
+            <amount>600</amount>
+            <currency>USD</currency>
+            <profitability>24</profitability>
+            <term>7</term>
+            <withdrawal>true</withdrawal>
+            <refill>true</refill>
+            <capitalization>false</capitalization>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="www.belinvestbank.by" licence="true">
+        <name>БелИнвестБанк</name>
+        <deposit ID="DD0010">
+            <type>Накопительный</type>
+            <iban>BY34IDBN15478665431687649352</iban>
+            <depositor>
+                <firstName>Паблик</firstName>
+                <middleName>Войд</middleName>
+                <lastName>Мейнович</lastName>
+                <identification>7634985F354DS2</identification>
+            </depositor>
+            <depositDate>2016-05-05</depositDate>
+            <amount>550.40</amount>
+            <currency>EUR</currency>
+            <profitability>6.7</profitability>
+            <term>24</term>
+            <withdrawal>true</withdrawal>
+            <refill>true</refill>
+            <capitalization>false</capitalization>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="www.bnb.by" licence="false">
+        <name>Белорусский Народный Банк</name>
+        <deposit ID="DD0011" xsi:type="savingDeposit">
+            <type>Сберегательный</type>
+            <iban>BY34MMBN15477546873645861357</iban>
+            <depositor>
+                <firstName>Влево</firstName>
+                <middleName>Вправо</middleName>
+                <lastName>Неопределившевич</lastName>
+                <identification>7685755C354SD2</identification>
+            </depositor>
+            <depositDate>2019-06-21</depositDate>
+            <amount>470</amount>
+            <currency>RUB</currency>
+            <profitability>13.7</profitability>
+            <term>36</term>
+            <withdrawal>false</withdrawal>
+            <refill>false</refill>
+            <capitalization>false</capitalization>
+            <payout>В конце срока</payout>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="www.rrb.by" licence="true">
+        <name>РРБ-Банк</name>
+        <deposit ID="DD0012">
+            <type>До востребования</type>
+            <iban>BY51MMBN86575672672567383465</iban>
+            <depositor>
+                <firstName>Герберт</firstName>
+                <middleName>Мистейков</middleName>
+                <lastName>Шилдт</lastName>
+                <identification>3463685F354DS2</identification>
+            </depositor>
+            <depositDate>2018-12-31</depositDate>
+            <amount>1500</amount>
+            <currency>EUR</currency>
+            <profitability>6</profitability>
+            <term>Не установлен</term>
+            <withdrawal>true</withdrawal>
+            <refill>false</refill>
+            <capitalization>true</capitalization>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="www.paritetbank.by" licence="true">
+        <name>Паритетбанк</name>
+        <deposit ID="DD0013">
+            <type>До востребования</type>
+            <iban>BY51MMBN84682643267657345246</iban>
+            <depositor>
+                <firstName>Jebediah</firstName>
+                <middleName>Jeb</middleName>
+                <lastName>Kerman</lastName>
+                <identification>4535848V354DS2</identification>
+            </depositor>
+            <depositDate>2017-10-25</depositDate>
+            <amount>750</amount>
+            <currency>USD</currency>
+            <profitability>5.5</profitability>
+            <term>Не установлен</term>
+            <withdrawal>true</withdrawal>
+            <refill>false</refill>
+            <capitalization>false</capitalization>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="www.priorbank.by" licence="true">
+        <name>ПриорБанк</name>
+        <deposit ID="DD0014" xsi:type="savingDeposit">
+            <type>Сберегательный</type>
+            <iban>BY34MMBN15312765795796425357</iban>
+            <depositor>
+                <firstName>Loch</firstName>
+                <middleName>Monster</middleName>
+                <lastName>Ness</lastName>
+                <identification>7654742C354SD2</identification>
+            </depositor>
+            <depositDate>2015-10-11</depositDate>
+            <amount>1500.50</amount>
+            <currency>EUR</currency>
+            <profitability>6.4</profitability>
+            <term>24</term>
+            <withdrawal>false</withdrawal>
+            <refill>false</refill>
+            <capitalization>false</capitalization>
+            <payout>Поквартально</payout>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="	www.mtb.by" licence="true">
+        <name>МТБанк</name>
+        <deposit ID="DD0015" xsi:type="settlementDeposit">
+            <type>Расчетный</type>
+            <iban>BY34BVBN61785978297575353452</iban>
+            <depositor>
+                <firstName>Михаил</firstName>
+                <middleName>Спотыкун</middleName>
+                <lastName>Раздолбаевич</lastName>
+                <identification>6748500A156AA0</identification>
+            </depositor>
+            <depositDate>2019-01-21</depositDate>
+            <amount>800</amount>
+            <currency>BYR</currency>
+            <profitability>8.2</profitability>
+            <term>12</term>
+            <withdrawal>true</withdrawal>
+            <refill>true</refill>
+            <capitalization>false</capitalization>
+            <minBalance>100</minBalance>
+        </deposit>
+    </bank>
+    <bank country="Беларусь" site="www.homecredit.by" licence="true">
+        <name>Хоум Кредит Банк</name>
+        <deposit ID="DD0016">
+            <type>До востребования</type>
+            <iban>BY23HCBN84682353467456848246</iban>
+            <depositor>
+                <firstName>Epam</firstName>
+                <middleName>Training</middleName>
+                <lastName>Centrovich</lastName>
+                <identification>4868455H354PB3</identification>
+            </depositor>
+            <depositDate>2017-08-15</depositDate>
+            <amount>450</amount>
+            <currency>EUR</currency>
+            <profitability>6</profitability>
+            <term>Не установлен</term>
+            <withdrawal>true</withdrawal>
+            <refill>false</refill>
+            <capitalization>true</capitalization>
+        </deposit>
     </bank>
 </banks>

@@ -1,206 +1,131 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://www.epam.adventuretime.by/banks"
-           xmlns="http://www.epam.adventuretime.by/banks"
-           elementFormDefault="qualified">
-    <!--    Root    -->
+        targetNamespace="http://www.epam.training.by/banks"
+        xmlns="http://www.epam.training.by/banks"
+        elementFormDefault="qualified">
     <xs:element name="banks">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element name="bank" type="bank" maxOccurs="unbounded"/>
+            <xs:sequence maxOccurs="unbounded">
+                <xs:element name="bank" type="bank"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!--    Bank type   -->
     <xs:complexType name="bank">
         <xs:sequence>
-            <xs:element name="deposits" type="Deposits"/>
+            <xs:element name="name" type="xs:normalizedString"/>
+            <xs:element name="deposit" type="deposit" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="country" type="xs:string" use="required"/>
-        <xs:attribute name="site" type="xs:string"/>
+        <xs:attribute name="site" type="xs:string" use="optional"/>
+        <xs:attribute name="licence" type="xs:boolean" default="true"/>
     </xs:complexType>
 
-    <!--    Deposits list   -->
-    <xs:complexType name="Deposits">
-        <xs:sequence maxOccurs="unbounded">
-            <xs:element name="deposit" type="Deposit"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <!--    Deposit type    -->
-    <xs:complexType name="Deposit" abstract="true">
+    <xs:complexType name="deposit">
         <xs:sequence>
-            <xs:element name="depositor" type="fullName"/>
-            <xs:element name="iban" type="accountFormat"/>
+            <xs:element name="type" type="type"/>
+            <xs:element name="iban" type="iban"/>
+            <xs:element name="depositor" type="depositor"/>
             <xs:element name="depositDate" type="xs:date"/>
-            <xs:element name="depositAmount" type="Money"/>
-            <xs:element name="profitability" type="positiveDouble"/>
-            <xs:element name="withdrawal" type="YesNo"/>
-            <xs:element name="refill" type="YesNo"/>
+            <xs:element name="amount" type="positiveDouble"/>
+            <xs:element name="currency" type="currency"/>
+            <xs:element name="profitability" type="profitability"/>
+            <xs:element name="term" type="term"/>
+            <xs:element name="withdrawal" type="xs:boolean"/>
+            <xs:element name="refill" type="xs:boolean"/>
+            <xs:element name="capitalization" type="xs:boolean"/>
         </xs:sequence>
         <xs:attribute name="ID" type="xs:ID" use="required"/>
     </xs:complexType>
     
-<!--    Сберегательный депозит-->
-    <xs:complexType name="SavingDeposit">
+    <xs:complexType name="savingDeposit">
         <xs:complexContent>
-            <xs:extension base="Deposit">
+            <xs:extension base="deposit">
                 <xs:sequence>
-                    <xs:element name="depositTerm" type="depositTerms"/>
-                    <xs:element name="payout">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                                <xs:enumeration value="Ежемесячно"/>
-                                <xs:enumeration value="Поквартально"/>
-                                <xs:enumeration value="В конце срока"/>
-                            </xs:restriction>
-                        </xs:simpleType>
-                    </xs:element>
+                    <xs:element name="payout" type="payout"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
-<!--    Расчетный депозит-->
-    <xs:complexType name="SettlementDeposit">
+
+    <xs:complexType name="settlementDeposit">
         <xs:complexContent>
-            <xs:extension base="Deposit">
+            <xs:extension base="deposit">
                 <xs:sequence>
-                    <xs:element name="depositTerm" type="depositTermUnlim"/>
                     <xs:element name="minBalance" type="positiveDouble"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
-<!--    До востребования-->
-    <xs:complexType name="DemandDeposit">
-        <xs:complexContent>
-            <xs:extension base="Deposit">
-                <xs:sequence>
-                    <xs:element name="depositTerm" type="depositTermUnlim"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-<!--    Full name-->
-    <xs:complexType name="fullName">
-        <xs:sequence>
-            <xs:element name="firstName" type="xs:normalizedString"/>
-            <xs:element name="middleName" type="xs:normalizedString"/>
-            <xs:element name="lastName" type="xs:normalizedString"/>
-            <xs:element name="identification" type="IdentificationNo"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="Money">
-        <xs:sequence>
-            <xs:element name="amount">
-                <xs:simpleType>
-                    <xs:restriction base="xs:double">
-                        <xs:minInclusive value="0.0"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
-            <xs:element name="currency" type="money"/>
-        </xs:sequence>
-        <xs:attribute name="capitalization" type="xs:boolean" default="false"/>
-    </xs:complexType>
-
-    <xs:complexType name="Metals">
-        <xs:sequence>
-            <xs:element name="mass" type="xs:positiveInteger"/>
-        </xs:sequence>
-    </xs:complexType>
-    <!--Address-->
-    <xs:complexType name="address">
-        <xs:sequence>
-            <xs:element name="postal-code" type="zip"/>
-            <xs:element name="country" type="xs:string"/>
-            <xs:element name="city" type="xs:string"/>
-            <xs:element name="street" type="xs:string"/>
-            <xs:element name="number" type="xs:string"/>
-            <xs:element name="apartment" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:simpleType name="zip">
-        <xs:restriction>
-            <xs:maxLength value="6"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <!--Address types-->
-
-    <!--Simple types-->
-    <xs:simpleType name="accountFormat">
-        <xs:restriction base="xs:string">
-<!--            BY51MMBN84682548654823479652-->
-            <xs:pattern value="[A-Z]{2}[0-9]{2}[A-Z]{4}[0-9]{4}[0-9]{16}"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:simpleType name="IdentificationNo">
-        <xs:restriction base="xs:string">
-<!--            4536585F354DS2-->
-            <xs:pattern value="[0-9]{7}[A-Z][0-9]{3}[A-Z]{2}[0-9]"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="YesNo">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="Да"/>
-            <xs:enumeration value="Нет"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="money">
-        <xs:restriction>
-            <xs:enumeration value="BYN"/>
-            <xs:enumeration value="BYN"/>
-            <xs:enumeration value="RUB"/>
-            <xs:enumeration value="USD"/>
-            <xs:enumeration value="EUR"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="metal">
-        <xs:restriction>
-            <xs:enumeration value="Gold"/>
-            <xs:enumeration value="Silver"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="depositType">
+    <xs:simpleType name="type">
         <xs:restriction base="xs:string">
             <xs:enumeration value="До востребования"/>
+            <xs:enumeration value="Срочный"/>
             <xs:enumeration value="Сберегательный"/>
             <xs:enumeration value="Накопительный"/>
             <xs:enumeration value="Расчетный"/>
         </xs:restriction>
     </xs:simpleType>
-    
-    <xs:simpleType name="metalUnit">
+
+    <xs:simpleType name="iban">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="gram"/>
+            <xs:pattern value="[A-Z]{2}[0-9]{2}[A-Z]{4}[0-9]{4}[0-9]{16}"/> <!--BY51MMBN84682548654823479652-->
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="depositTerms">
-        <xs:union memberTypes="xs:positiveInteger depositTermUnlim"/>
-    </xs:simpleType>
-
-    <xs:simpleType name="depositTermUnlim">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="unlimited"/>
-        </xs:restriction>
-    </xs:simpleType>
+    <xs:complexType name="depositor">
+        <xs:sequence>
+            <xs:element name="firstName" type="xs:normalizedString"/>
+            <xs:element name="middleName" type="xs:normalizedString"/>
+            <xs:element name="lastName" type="xs:normalizedString"/>
+            <xs:element name="identification">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="[0-9]{7}[A-Z][0-9]{3}[A-Z]{2}[0-9]"/> <!--4536585F354DS2-->
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 
     <xs:simpleType name="positiveDouble">
         <xs:restriction base="xs:double">
             <xs:minInclusive value="0.0"/>
         </xs:restriction>
     </xs:simpleType>
+
+    <xs:simpleType name="currency">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BYR"/>
+            <xs:enumeration value="USD"/>
+            <xs:enumeration value="RUB"/>
+            <xs:enumeration value="EUR"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="profitability">
+        <xs:restriction base="positiveDouble">
+            <xs:maxInclusive value="100.0"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="term">
+        <xs:union memberTypes="xs:positiveInteger undetermined"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="undetermined">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Не установлен"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="payout">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Ежемесячно"/>
+            <xs:enumeration value="Поквартально"/>
+            <xs:enumeration value="В конце срока"/>
+        </xs:restriction>
+    </xs:simpleType>
+
 </xs:schema>
