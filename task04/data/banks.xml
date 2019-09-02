@@ -120,7 +120,7 @@
                 <lastName>Пушкин</lastName>
                 <identification>0000000A000AA0</identification>
             </depositor>
-            <depositDate>20019-01-06</depositDate>
+            <depositDate>2019-01-06</depositDate>
             <amount>500</amount>
             <currency>RUB</currency>
             <profitability>5</profitability>
@@ -302,7 +302,7 @@
             <payout>Поквартально</payout>
         </deposit>
     </bank>
-    <bank country="Беларусь" site="	www.mtb.by" licence="true">
+    <bank country="Беларусь" site="www.mtb.by" licence="true">
         <name>МТБанк</name>
         <deposit ID="DD0015" xsi:type="settlementDeposit">
             <type>Расчетный</type>
