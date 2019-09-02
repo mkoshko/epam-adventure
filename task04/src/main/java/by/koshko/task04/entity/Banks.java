@@ -1,4 +1,4 @@
-package by.koshko.task04.bean;
+package by.koshko.task04.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,17 +6,11 @@ import java.util.List;
 /**
  * Storage for {@link Bank} objects.
  */
-public class Banks {
+public final class Banks {
     /**
      * List with {@link  Bank} objects.
      */
     private List<Bank> banks = new ArrayList<>();
-
-    /**
-     * Default constructor.
-     */
-    public Banks() {
-    }
 
     /**
      * Adds {@link Bank} object to {@link #banks} list.
@@ -36,5 +30,12 @@ public class Banks {
      */
     public List<Bank> getBanks() {
         return banks;
+    }
+
+    @Override
+    public String toString() {
+        return "Banks{"
+                + "banks=" + banks
+                + '}';
     }
 }

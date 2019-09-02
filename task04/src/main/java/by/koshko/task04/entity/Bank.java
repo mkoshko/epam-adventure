@@ -1,4 +1,4 @@
-package by.koshko.task04.bean;
+package by.koshko.task04.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Bank {
      */
     private String name;
     /**
-     * List of {@linl Deposit} objects.
+     * List of {@link Deposit} objects.
      */
     private List<Deposit> deposits = new ArrayList<>();
     /**

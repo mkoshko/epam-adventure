@@ -1,4 +1,4 @@
-package by.koshko.task04.bean;
+package by.koshko.task04.entity;
 
 public class SettlementDeposit extends Deposit {
     /**

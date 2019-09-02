@@ -1,13 +1,13 @@
 package by.koshko.task04.service;
 
-import by.koshko.task04.bean.Bank;
-import by.koshko.task04.bean.Banks;
-import by.koshko.task04.bean.Currency;
-import by.koshko.task04.bean.Deposit;
-import by.koshko.task04.bean.Depositor;
-import by.koshko.task04.bean.ElementType;
-import by.koshko.task04.bean.SavingDeposit;
-import by.koshko.task04.bean.SettlementDeposit;
+import by.koshko.task04.entity.Bank;
+import by.koshko.task04.entity.Banks;
+import by.koshko.task04.entity.Currency;
+import by.koshko.task04.entity.Deposit;
+import by.koshko.task04.entity.Depositor;
+import by.koshko.task04.entity.ElementType;
+import by.koshko.task04.entity.SavingDeposit;
+import by.koshko.task04.entity.SettlementDeposit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -18,17 +18,16 @@ import java.util.Optional;
 
 import static java.lang.Boolean.parseBoolean;
 import static java.lang.Double.parseDouble;
-import static java.lang.String.valueOf;
 
 /**
  * Class represent realization of SAX API.
  */
-public final class BankSAXHandler extends DefaultHandler {
+public final class BankHandler extends DefaultHandler {
 
     /**
      * Logger.
      */
-    private static Logger logger = LogManager.getLogger(BankSAXHandler.class);
+    private static Logger logger = LogManager.getLogger(BankHandler.class);
     /**
      * Root object.
      */
@@ -65,7 +64,10 @@ public final class BankSAXHandler extends DefaultHandler {
                              final String qName,
                              final Attributes attr) {
         type = ElementType.fromValue(localName);
-        switch (ElementType.fromValue(localName)) {
+        if (type == null) {
+            return;
+        }
+        switch (type) {
             case BANK:
                 handleBank(attr);
                 break;
@@ -75,6 +77,8 @@ public final class BankSAXHandler extends DefaultHandler {
             case DEPOSITOR:
                 currentDepositor = new Depositor();
                 currentDeposit.setDepositor(currentDepositor);
+                break;
+            default:
                 break;
         }
     }
@@ -95,7 +99,8 @@ public final class BankSAXHandler extends DefaultHandler {
     public void characters(final char[] ch,
                            final int start,
                            final int length) {
-        var str = valueOf(ch, start, length);
+        String str = String.valueOf(ch, start, length);
+        logger.debug("element = {}, element value = {}", type, str);
         switch (type) {
             case NAME:
                 currentBank.setName(str);
@@ -119,6 +124,8 @@ public final class BankSAXHandler extends DefaultHandler {
                 currentDepositor.setIdentification(str);
                 break;
             case DEPOSITDATE:
+                logger.debug(str);
+                logger.debug(type);
                 currentDeposit.setDepositDate(LocalDate.parse(str));
                 break;
             case AMOUNT:
@@ -150,7 +157,7 @@ public final class BankSAXHandler extends DefaultHandler {
                         .setMinBalance(parseDouble(str));
                 break;
             default:
-                logger.info("Unknown element {}", type);
+                break;
         }
     }
 

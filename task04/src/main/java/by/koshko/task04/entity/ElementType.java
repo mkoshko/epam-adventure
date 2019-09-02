@@ -1,4 +1,4 @@
-package by.koshko.task04.bean;
+package by.koshko.task04.entity;
 
 /**
  * All elements from {code banks.xsd}.
