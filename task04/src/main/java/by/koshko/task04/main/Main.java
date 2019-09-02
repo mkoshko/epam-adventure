@@ -1,6 +1,6 @@
 package by.koshko.task04.main;
 
-import by.koshko.task04.service.BanksHandler;
+import by.koshko.task04.service.BankSAXHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
@@ -17,7 +17,7 @@ public class Main {
 
     public static void main(final String[] args) throws SAXException, ParserConfigurationException, IOException, DatatypeConfigurationException {
 
-        BanksHandler handler = new BanksHandler();
+        BankSAXHandler handler = new BankSAXHandler();
         String constant = XMLConstants.W3C_XML_SCHEMA_NS_URI;
         SchemaFactory schemaFactory = SchemaFactory.newInstance(constant);
         Schema schema = schemaFactory.newSchema(new File("data/banks.xsd"));

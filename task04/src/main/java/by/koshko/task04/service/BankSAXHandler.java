@@ -1,11 +1,11 @@
 package by.koshko.task04.service;
 
-import by.koshko.task04.bean.Currency;
-import by.koshko.task04.bean.Depositor;
-import by.koshko.task04.bean.ElementType;
 import by.koshko.task04.bean.Bank;
 import by.koshko.task04.bean.Banks;
+import by.koshko.task04.bean.Currency;
 import by.koshko.task04.bean.Deposit;
+import by.koshko.task04.bean.Depositor;
+import by.koshko.task04.bean.ElementType;
 import by.koshko.task04.bean.SavingDeposit;
 import by.koshko.task04.bean.SettlementDeposit;
 import org.apache.logging.log4j.LogManager;
@@ -20,15 +20,41 @@ import static java.lang.Boolean.parseBoolean;
 import static java.lang.Double.parseDouble;
 import static java.lang.String.valueOf;
 
-public final class BanksHandler extends DefaultHandler {
+/**
+ * Class represent realization of SAX API.
+ */
+public final class BankSAXHandler extends DefaultHandler {
 
-    private static Logger logger = LogManager.getLogger(BanksHandler.class);
+    /**
+     * Logger.
+     */
+    private static Logger logger = LogManager.getLogger(BankSAXHandler.class);
+    /**
+     * Root object.
+     */
     private Banks banks = new Banks();
+    /**
+     * Current {@link Bank} object to work with.
+     */
     private Bank currentBank;
+    /**
+     * Current {@link Deposit} object to work with.
+     */
     private Deposit currentDeposit;
+    /**
+     * Current {@link Depositor} object to work with.
+     */
     private Depositor currentDepositor;
+    /**
+     * Current type of element we working on.
+     */
     private ElementType type;
 
+    /**
+     * Returns {@link #banks} object.
+     *
+     * @return {@link #banks} object.
+     */
     public Banks getBanks() {
         return banks;
     }
@@ -154,6 +180,11 @@ public final class BanksHandler extends DefaultHandler {
         }
     }
 
+    /**
+     * Handles the {@code deposit} element.
+     *
+     * @param attr attributes from the element.
+     */
     private void handleDeposit(final Attributes attr) {
         Optional<String> type0 = Optional.ofNullable(attr.getValue("xsi:type"));
         String id0 = attr.getValue("ID");
