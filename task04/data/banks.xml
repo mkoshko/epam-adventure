@@ -2,7 +2,7 @@
 <banks xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://www.epam.training.by/banks"
        xsi:schemaLocation="http://www.epam.training.by/banks banks.xsd">
-    <bank country="Беларусь" site="www.belarusbank.by" licence="true">
+    <bank country="Беларусь" licence="true">
         <name>БеларусБанк</name>
         <deposit ID="DD0001">
             <type>До востребования</type>

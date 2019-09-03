@@ -64,6 +64,7 @@ public final class BankHandler extends DefaultHandler {
                              final String qName,
                              final Attributes attr) {
         type = ElementType.fromValue(localName);
+        logger.debug("element: {}", localName);
         if (type == null) {
             return;
         }
@@ -100,7 +101,7 @@ public final class BankHandler extends DefaultHandler {
                            final int start,
                            final int length) {
         String str = String.valueOf(ch, start, length);
-        logger.debug("element = {}, element value = {}", type, str);
+        logger.debug("element value: {}", str);
         switch (type) {
             case NAME:
                 currentBank.setName(str);
