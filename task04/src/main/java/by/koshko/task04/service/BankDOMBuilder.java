@@ -13,7 +13,7 @@ import javax.xml.validation.SchemaFactory;
 import java.io.File;
 import java.io.IOException;
 
-public final class BankDOMBuilder {
+public final class BankDOMBuilder implements BanksBuilder {
     /**
      * Logger.
      */
@@ -38,12 +38,15 @@ public final class BankDOMBuilder {
             throw new BankBuilderException("Path to schema is empty.");
         }
         try {
+            logger.debug("Configuring DOM builder...");
             DocumentBuilderFactory factory
                     = DocumentBuilderFactory.newDefaultInstance();
             factory.setNamespaceAware(true);
+            logger.info("Setting schema '{}'", pathToSchema);
             factory.setSchema(SchemaFactory.newDefaultInstance()
                     .newSchema(new File(pathToSchema)));
             builder = factory.newDocumentBuilder();
+            logger.info("DOM builder configuration complete.");
         } catch (ParserConfigurationException e) {
             throw new BankBuilderException("SAXParser configuration error.", e);
         } catch (SAXException e) {

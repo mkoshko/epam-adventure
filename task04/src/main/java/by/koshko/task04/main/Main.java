@@ -1,8 +1,11 @@
 package by.koshko.task04.main;
 
+import by.koshko.task04.entity.Banks;
 import by.koshko.task04.service.BankBuilderException;
 import by.koshko.task04.service.BankDOMBuilder;
 import by.koshko.task04.service.BankSAXBuilder;
+import by.koshko.task04.service.BanksBuilder;
+import by.koshko.task04.service.BanksBuilderFactory;
 
 public class Main {
 
@@ -10,13 +13,10 @@ public class Main {
     private static final String XML = "data/banks.xml";
 
     public static void main(final String[] args) throws BankBuilderException {
-        BankSAXBuilder builder = new BankSAXBuilder(SCHEMA);
-        var banks = builder.buildBanks(XML);
+        BanksBuilderFactory factory = new BanksBuilderFactory();
+        BanksBuilder builder = factory.createBanksBuilder("dom", SCHEMA);
+        Banks banks = builder.buildBanks(XML);
         System.out.println(banks);
-        System.out.println("========================================");
-        BankDOMBuilder builder0 = new BankDOMBuilder(SCHEMA);
-        var banks0 = builder0.buildBanks(XML);
-        System.out.println(banks0);
     }
 
 }

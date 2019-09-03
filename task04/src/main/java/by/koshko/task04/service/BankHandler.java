@@ -125,8 +125,6 @@ public final class BankHandler extends DefaultHandler {
                 currentDepositor.setIdentification(str);
                 break;
             case DEPOSITDATE:
-                logger.debug(str);
-                logger.debug(type);
                 currentDeposit.setDepositDate(LocalDate.parse(str));
                 break;
             case AMOUNT:

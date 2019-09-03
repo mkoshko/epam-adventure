@@ -12,7 +12,7 @@ import javax.xml.validation.SchemaFactory;
 import java.io.File;
 import java.io.IOException;
 
-public final class BankSAXBuilder {
+public final class BankSAXBuilder implements BanksBuilder {
     /**
      * Logger.
      */
