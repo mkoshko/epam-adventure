@@ -48,9 +48,9 @@ public final class BankDOMBuilder implements BanksBuilder {
             builder = factory.newDocumentBuilder();
             logger.info("DOM builder configuration complete.");
         } catch (ParserConfigurationException e) {
-            throw new BankBuilderException("SAXParser configuration error.", e);
+            throw new BankBuilderException("DOMParser configuration error.", e);
         } catch (SAXException e) {
-            throw new BankBuilderException("SAXParser creation error.", e);
+            throw new BankBuilderException("DOMParser creation error.", e);
         }
 
     }
