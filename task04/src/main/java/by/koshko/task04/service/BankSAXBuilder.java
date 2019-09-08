@@ -71,6 +71,7 @@ public final class BankSAXBuilder implements BanksBuilder {
      */
     public Banks buildBanks(final String xmlFilePath)
             throws BankBuilderException {
+        logger.info("Path to xml file: '{}'", xmlFilePath);
         if (xmlFilePath == null || xmlFilePath.isEmpty()) {
             throw new BankBuilderException("Path to xml file is empty.");
         }

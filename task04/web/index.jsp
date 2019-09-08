@@ -27,6 +27,7 @@
                                     name="parser">
                                 <option value="dom">DOM</option>
                                 <option value="sax">SAX</option>
+                                <option value="stax">StAX</option>
                             </select><br>
                         </div>
                     </div>
@@ -42,6 +43,14 @@
             </form>
         </div>
     </div>
+</div>
+<div class="container">
+<c:if test="${error != null}">
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Something went wrong!</strong> ${error}
+    </div>
+</c:if>
 </div>
 <div class="row">
     <div class="col-12 table-responsive">

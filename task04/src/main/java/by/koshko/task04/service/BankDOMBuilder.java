@@ -65,19 +65,20 @@ public final class BankDOMBuilder implements BanksBuilder {
      */
     public Banks buildBanks(final String xmlFilePath)
             throws BankBuilderException {
+        logger.info("Path to xml file: '{}'", xmlFilePath);
         if (xmlFilePath == null || xmlFilePath.isEmpty()) {
-            throw new BankBuilderException("Path to xml file is null or empty");
+            throw new BankBuilderException("Path to xml file is null or empty.");
         }
         try {
             Document document = builder.parse(new File(xmlFilePath));
             return BankDOMHandler.build(document);
         } catch (SAXException newE) {
             throw new BankBuilderException(
-                    String.format("Error while parsing xml file %s",
+                    String.format("Error while parsing xml file '%s'.",
                             xmlFilePath));
         } catch (IOException newE) {
             throw new BankBuilderException(
-                    String.format("Error while reading from file %s",
+                    String.format("Error while reading from file '%s'.",
                             xmlFilePath));
         }
     }
