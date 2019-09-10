@@ -1,0 +1,36 @@
+USE `cyberwikia`;
+
+CREATE TABLE country (
+    id TINYINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    name VARCHAR(45) UNIQUE,
+    code CHAR(2) UNIQUE,
+    icon varchar(255) NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE user (
+    id INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(254) NOT NULL UNIQUE,
+    role TINYINT(1) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE team (
+    id INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    team_name VARCHAR(40) NOT NULL UNIQUE,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE role (
+    id TINYINT(1) UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT PRIMARY KEY,
+    role_name VARCHAR(20) NOT NULL UNIQUE
+);
+
+CREATE TABLE user_team (
+    user_id INT UNSIGNED NOT NULL,
+    team_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (user_id, team_id),
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (team_id) REFERENCES team(id)
+);
