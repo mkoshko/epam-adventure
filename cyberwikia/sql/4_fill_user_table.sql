@@ -2,7 +2,7 @@
 INSERT INTO user (username, email, role)
 VALUES ('buster', 'buster@gmail.com', 2);
 
-INSERT INTO user (username, email, role)
+INSERT INTO user (login, email, role)
 VALUES ('qikert', 'qikert@gmail.com', 2);
 
 INSERT INTO user (username, email, role)
