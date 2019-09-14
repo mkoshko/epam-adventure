@@ -32,6 +32,7 @@ CREATE TABLE player
     lastName   VARCHAR(30)      NOT NULL,
     birth      DATE,
     country_id TINYINT UNSIGNED NOT NULL,
+    INDEX (id, nickname),
     CONSTRAINT PK_player PRIMARY KEY (id)
 );
 
@@ -46,6 +47,7 @@ CREATE TABLE team
     coach      INT UNSIGNED,
     game       INT UNSIGNED     NOT NULL,
     overview   MEDIUMTEXT,
+    INDEX (id, name),
     CONSTRAINT PK_team PRIMARY KEY (id),
     CONSTRAINT UQ_team UNIQUE (id, name)
 );
@@ -77,6 +79,7 @@ CREATE TABLE tournament
     overview   MEDIUMTEXT,
     start_date DATE         NOT NULL,
     end_date   DATE         NOT NULL,
+    INDEX (id, name),
     CONSTRAINT PK_tournament PRIMARY KEY (id)
 );
 
@@ -103,6 +106,7 @@ CREATE TABLE m2m_player_team
     active     BOOL         NOT NULL,
     join_date  DATE         NOT NULL,
     leave_date DATE         NOT NULL,
+    INDEX (user_id, team_id),
     CONSTRAINT PK_player_team PRIMARY KEY (user_id, team_id)
 );
 
