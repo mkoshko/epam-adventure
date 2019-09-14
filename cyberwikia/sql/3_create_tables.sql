@@ -16,7 +16,8 @@ CREATE TABLE user
     id       INT UNSIGNED        NOT NULL AUTO_INCREMENT,
     login    VARCHAR(100)        NOT NULL,
     email    VARCHAR(254)        NOT NULL,
-    password CHAR(64)            NOT NULL,
+    #Argon2 hashing algorithm
+    password CHAR(99)            NOT NULL,
     role     TINYINT(1) UNSIGNED NOT NULL,
     INDEX (id, login),
     CONSTRAINT PK_user PRIMARY KEY (id),
@@ -90,6 +91,7 @@ CREATE TABLE m2m_tournament_team
 (
     tournament_id INT UNSIGNED NOT NULL,
     team_id       INT UNSIGNED NOT NULL,
+    placement     TINYINT UNSIGNED,
     INDEX (tournament_id, team_id),
     CONSTRAINT PK_tournament_team PRIMARY KEY (tournament_id, team_id)
 );
@@ -105,7 +107,7 @@ CREATE TABLE m2m_player_team
 );
 
 ALTER TABLE player
-    ADD CONSTRAINT FK_player_id FOREIGN KEY (id) REFERENCES user(id),
+    ADD CONSTRAINT FK_player_id FOREIGN KEY (id) REFERENCES user (id),
     ADD CONSTRAINT FK_player_country_id FOREIGN KEY (country_id) REFERENCES country (id);
 
 ALTER TABLE team
