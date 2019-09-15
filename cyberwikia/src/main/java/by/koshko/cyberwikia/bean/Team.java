@@ -33,7 +33,7 @@ public class Team extends Entity {
      */
     private String overview;
     /**
-     * Path to team logo image.
+     * Path to team logo image file.
      */
     private String logoFile;
 

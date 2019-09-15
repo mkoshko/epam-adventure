@@ -42,12 +42,13 @@ CREATE TABLE user
 
 CREATE TABLE player
 (
-    id         INT UNSIGNED     NOT NULL AUTO_INCREMENT,
-    nickname   VARCHAR(50)      NOT NULL,
-    firstName  VARCHAR(30)      NOT NULL,
-    lastName   VARCHAR(30)      NOT NULL,
-    birth      DATE,
-    country_id TINYINT UNSIGNED NOT NULL,
+    id            INT UNSIGNED     NOT NULL AUTO_INCREMENT,
+    profile_photo VARCHAR(4096),
+    nickname      VARCHAR(50)      NOT NULL,
+    firstName     VARCHAR(30)      NOT NULL,
+    lastName      VARCHAR(30)      NOT NULL,
+    birth         DATE,
+    country_id    TINYINT UNSIGNED NOT NULL,
     INDEX (nickname),
     CONSTRAINT FK_player_id FOREIGN KEY (id) REFERENCES user (id),
     CONSTRAINT FK_player_country_id FOREIGN KEY (country_id) REFERENCES country (id),

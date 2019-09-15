@@ -11,6 +11,10 @@ public class Player extends Entity {
      */
     private String nickname;
     /**
+     * Path to profile photo file.
+     */
+    private String profilePhoto;
+    /**
      * Players first name.
      */
     private String firstName;
@@ -43,6 +47,24 @@ public class Player extends Entity {
      */
     public void setNickname(final String playerNickname) {
         nickname = playerNickname;
+    }
+
+    /**
+     * Returns the path to the profile photo image.
+     *
+     * @return the path to the profile photo image.
+     */
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    /**
+     * Sets the path to the profile photo image.
+     *
+     * @param playerProfilePhoto Path to be set to {@link #profilePhoto}.
+     */
+    public void setProfilePhoto(final String playerProfilePhoto) {
+        this.profilePhoto = playerProfilePhoto;
     }
 
     /**
