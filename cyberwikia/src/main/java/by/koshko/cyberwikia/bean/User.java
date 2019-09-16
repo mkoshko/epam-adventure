@@ -3,7 +3,7 @@ package by.koshko.cyberwikia.bean;
 /**
  * User entity class.
  */
-public class User extends Entity {
+public final class User extends Entity {
 
     /**
      * User role.
@@ -97,5 +97,15 @@ public class User extends Entity {
      */
     public void setPassword(final String userPassword) {
         password = userPassword;
+    }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "role=" + role
+                + ", login='" + login + '\''
+                + ", email='" + email + '\''
+                + ", password='" + password + '\''
+                + '}';
     }
 }

@@ -1,4 +1,4 @@
-USE `cyberwikia`;
+USE cyberwikia;
 
 CREATE TABLE country
 (
@@ -35,10 +35,10 @@ CREATE TABLE user
     #Argon2 hashing algorithm.
     password CHAR(99)            NOT NULL,
     role     TINYINT(1) UNSIGNED NOT NULL,
-    INDEX (login),
     CONSTRAINT PK_user PRIMARY KEY (id),
     CONSTRAINT UQ_user UNIQUE (login, email)
 );
+CREATE INDEX IDX_user_login ON user(login);
 
 CREATE TABLE player
 (
@@ -49,11 +49,12 @@ CREATE TABLE player
     lastName      VARCHAR(30)      NOT NULL,
     birth         DATE,
     country_id    TINYINT UNSIGNED NOT NULL,
-    INDEX (nickname),
+    overview      MEDIUMTEXT,
+    CONSTRAINT PK_player PRIMARY KEY (id),
     CONSTRAINT FK_player_id FOREIGN KEY (id) REFERENCES user (id),
-    CONSTRAINT FK_player_country_id FOREIGN KEY (country_id) REFERENCES country (id),
-    CONSTRAINT PK_player PRIMARY KEY (id)
+    CONSTRAINT FK_player_country_id FOREIGN KEY (country_id) REFERENCES country (id)
 );
+CREATE INDEX IDX_player_nickname ON player(nickname);
 
 CREATE TABLE team
 (
@@ -66,7 +67,6 @@ CREATE TABLE team
     coach      INT UNSIGNED,
     game       INT UNSIGNED     NOT NULL,
     overview   MEDIUMTEXT,
-    INDEX (name),
     CONSTRAINT PK_team PRIMARY KEY (id),
     CONSTRAINT UQ_team UNIQUE (id, name),
     CONSTRAINT FK_team_creator FOREIGN KEY (creator) REFERENCES player (id),
@@ -74,6 +74,7 @@ CREATE TABLE team
     CONSTRAINT FK_team_captain FOREIGN KEY (coach) REFERENCES player (id),
     CONSTRAINT FK_team_game FOREIGN KEY (game) REFERENCES game (id)
 );
+CREATE INDEX IDX_team_name ON team(name);
 
 CREATE TABLE tournament
 (
@@ -114,3 +115,5 @@ CREATE TABLE m2m_player_team
     CONSTRAINT CH_player_team_join_leave_date CHECK ( DATEDIFF(leave_date, join_date) >= 0 )
 );
 CREATE INDEX IDX_player_team_team_id ON m2m_player_team (team_id);
+
+ALTER TABLE player ADD overview MEDIUMTEXT;

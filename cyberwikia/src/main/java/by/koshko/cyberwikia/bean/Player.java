@@ -30,6 +30,10 @@ public class Player extends Entity {
      * Players country.
      */
     private String country;
+    /**
+     * Text overview.
+     */
+    private String overview;
 
     /**
      * Returns the nickname of the player.
@@ -137,5 +141,23 @@ public class Player extends Entity {
      */
     public void setCountry(final String playerCountry) {
         country = playerCountry;
+    }
+
+    /**
+     * Returns text overview of the player.
+     *
+     * @return text overview of the player.
+     */
+    public String getOverview() {
+        return overview;
+    }
+
+    /**
+     * Sets the text overview of the player.
+     *
+     * @param playerOverview Text to be set to {@link #overview}.
+     */
+    public void setOverview(final String playerOverview) {
+        overview = playerOverview;
     }
 }
