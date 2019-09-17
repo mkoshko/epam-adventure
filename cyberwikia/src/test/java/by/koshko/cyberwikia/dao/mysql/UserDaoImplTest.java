@@ -3,6 +3,7 @@ package by.koshko.cyberwikia.dao.mysql;
 import by.koshko.cyberwikia.ConnectorDB;
 import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.dao.DaoException;
+import by.koshko.cyberwikia.dao.UserDao;
 import org.testng.annotations.Test;
 
 import java.sql.Connection;
@@ -27,7 +28,7 @@ public class UserDaoImplTest {
     @Test
     public void testGet() throws SQLException, DaoException {
         Connection connection = ConnectorDB.getConnection();
-        UserDaoImpl userDao = new UserDaoImpl();
+        UserDao userDao = new UserDaoImpl();
         userDao.setConnection(connection);
         Optional<User> user = userDao.get(2);
         user.ifPresent(System.out::println);

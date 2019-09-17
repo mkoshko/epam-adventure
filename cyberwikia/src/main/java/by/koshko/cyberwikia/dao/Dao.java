@@ -5,7 +5,7 @@ import by.koshko.cyberwikia.bean.Entity;
 import java.util.List;
 import java.util.Optional;
 
-public interface Dao<T extends Entity> {
+public interface Dao<T extends Entity> extends Connectable {
 
     Optional<T> get(long id) throws DaoException;
 

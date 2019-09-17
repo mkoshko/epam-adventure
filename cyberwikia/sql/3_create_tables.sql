@@ -20,7 +20,7 @@ CREATE TABLE tournament_tier
 
 CREATE TABLE game
 (
-    id        INT UNSIGNED NOT NULL,
+    id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
     title     VARCHAR(50)  NOT NULL,
     icon_file VARCHAR(4096),
     CONSTRAINT PK_games PRIMARY KEY (id),
@@ -38,7 +38,7 @@ CREATE TABLE user
     CONSTRAINT PK_user PRIMARY KEY (id),
     CONSTRAINT UQ_user UNIQUE (login, email)
 );
-CREATE INDEX IDX_user_login ON user(login);
+CREATE INDEX IDX_user_login ON user (login);
 
 CREATE TABLE player
 (
@@ -51,10 +51,11 @@ CREATE TABLE player
     country_id    TINYINT UNSIGNED NOT NULL,
     overview      MEDIUMTEXT,
     CONSTRAINT PK_player PRIMARY KEY (id),
-    CONSTRAINT FK_player_id FOREIGN KEY (id) REFERENCES user (id),
+    CONSTRAINT UQ_player_nickname UNIQUE (nickname),
+    CONSTRAINT FK_player_id FOREIGN KEY (id) REFERENCES user (id) ON DELETE CASCADE,
     CONSTRAINT FK_player_country_id FOREIGN KEY (country_id) REFERENCES country (id)
 );
-CREATE INDEX IDX_player_nickname ON player(nickname);
+CREATE INDEX IDX_player_nickname ON player (nickname);
 
 CREATE TABLE team
 (
@@ -62,19 +63,19 @@ CREATE TABLE team
     name       VARCHAR(50)      NOT NULL,
     logo_file  VARCHAR(4096),
     country_id TINYINT UNSIGNED NOT NULL,
-    creator    INT UNSIGNED     NOT NULL,
+    creator    INT UNSIGNED,
     captain    INT UNSIGNED,
     coach      INT UNSIGNED,
     game       INT UNSIGNED     NOT NULL,
     overview   MEDIUMTEXT,
     CONSTRAINT PK_team PRIMARY KEY (id),
     CONSTRAINT UQ_team UNIQUE (id, name),
-    CONSTRAINT FK_team_creator FOREIGN KEY (creator) REFERENCES player (id),
+    CONSTRAINT FK_team_creator FOREIGN KEY (creator) REFERENCES player (id) ON DELETE SET NULL,
     CONSTRAINT FK_team_location FOREIGN KEY (country_id) REFERENCES country (id),
-    CONSTRAINT FK_team_captain FOREIGN KEY (coach) REFERENCES player (id),
+    CONSTRAINT FK_team_captain FOREIGN KEY (coach) REFERENCES player (id) ON DELETE SET NULL,
     CONSTRAINT FK_team_game FOREIGN KEY (game) REFERENCES game (id)
 );
-CREATE INDEX IDX_team_name ON team(name);
+CREATE INDEX IDX_team_name ON team (name);
 
 CREATE TABLE tournament
 (
@@ -97,8 +98,8 @@ CREATE TABLE m2m_tournament_team
     team_id       INT UNSIGNED NOT NULL,
     placement     TINYINT UNSIGNED,
     CONSTRAINT PK_tournament_team PRIMARY KEY (tournament_id, team_id),
-    CONSTRAINT FK_m2m_tournament_team_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournament (id),
-    CONSTRAINT FK_m2m_tournament_team_team_id FOREIGN KEY (team_id) REFERENCES team (id)
+    CONSTRAINT FK_m2m_tournament_team_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournament (id) ON DELETE CASCADE,
+    CONSTRAINT FK_m2m_tournament_team_team_id FOREIGN KEY (team_id) REFERENCES team (id) ON DELETE CASCADE
 );
 CREATE INDEX IDX_tournament_team_team_id ON m2m_tournament_team (team_id);
 
@@ -110,10 +111,8 @@ CREATE TABLE m2m_player_team
     join_date  DATE         NOT NULL,
     leave_date DATE,
     CONSTRAINT PK_player_team PRIMARY KEY (player_id, team_id),
-    CONSTRAINT FK_user_team_player_id FOREIGN KEY (player_id) REFERENCES player (id),
-    CONSTRAINT FK_user_team_team_id FOREIGN KEY (team_id) REFERENCES team (id),
+    CONSTRAINT FK_user_team_player_id FOREIGN KEY (player_id) REFERENCES player (id) ON DELETE CASCADE,
+    CONSTRAINT FK_user_team_team_id FOREIGN KEY (team_id) REFERENCES team (id) ON DELETE CASCADE,
     CONSTRAINT CH_player_team_join_leave_date CHECK ( DATEDIFF(leave_date, join_date) >= 0 )
 );
 CREATE INDEX IDX_player_team_team_id ON m2m_player_team (team_id);
-
-ALTER TABLE player ADD overview MEDIUMTEXT;

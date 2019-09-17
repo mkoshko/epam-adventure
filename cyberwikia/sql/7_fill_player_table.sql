@@ -1,0 +1,21 @@
+USE cyberwikia;
+INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
+VALUES ('images/profile/dev1ce.jpg', 'dev1ce', 'Nicolai', 'Reedtz', '1995-09-08', 61, 'Nicolai "dev1ce" Reedtz (formerly known as device and devve; born September 8, 1995) is a Danish professional Counter-Strike: Global Offensive player and former Counter-Strike: Source player. He is known as one of the best players of all time, consistently playing at a very high level for years since 2014. He is currently playing for Astralis as the AWPer.');
+
+INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
+VALUES ('images/profile/dupreeh.jpg', 'dupreeh', 'Peter', 'Rasmussen', '1994-05-18', 61, 'Peter "dupreeh" Rasmussen (born March 26th, 1993) is a Danish professional Counter-Strike: Global Offensive player and former Counter-Strike: Source player. He is currently playing for Astralis as an entry fragger which he returns to after being the team''s lurker for 2017. He has been a core member of this lineup since the very beginning, when it started in Copenhagen Wolves in January 2013, consisting of current teammate, Nicolai "device" Reedtz, former in-game leader, Henrik "FeTiSh" Christensen, former coach, Steffen "3k2" Markussen, and former teammate, René "cajunb" Borg.');
+
+INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
+VALUES ('images/profile/Xyp9x.jpg', 'Xyp9x', 'Andreas', 'Højsleth', '1994-08-20', 61, 'Andreas "Xyp9x" Højsleth (born September 11, 1995) is a Danish professional Counter-Strike: Global Offensive player and former Counter-Strike 1.6 player. He currently plays as a support player for Astralis.');
+
+INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
+VALUES ('images/profile/gla1ve.jpg', 'gla1ve', 'Lukas', 'Rossander', '1996-10-15', 61, 'ALukas "gla1ve" Rossander (born June 7, 1995) is a Danish Counter-Strike: Global Offensive player and former Counter-Strike: Source player. He currently plays the role of in-game leader for Astralis.');
+
+INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
+VALUES ('images/profile/Magisk.jpg', 'Magisk', 'Emil', 'Reif', '1993-04-15', 61, 'Emil "Magisk" Reif (formerly known as "Magiskb0Y") (born March 5, 1998) is a Danish Counter-Strike: Global Offensive player. He currently plays for Astralis.')
+
+INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
+VALUES ('images/profile/zonic.jpg', 'zonic', 'Danny', 'Sørensen', '1985-03-01', 61, 'Danny "zonic" Sørensen (born July 30, 1986) is a former Danish professional Counter-Strike 1.6 player. Arguably the greatest Danish 1.6-player of all time, zonic had huge success with several Danish teams, winning around 110,000 dollars in prize money. He was one of the founding members of the legendary mTw.dk, one of the most dominant 1.6 teams in history. He retired as teams started transitioning over to Counter-Strike: Global Offensive. He joined Team Dignitas as coach in 2015, and later returned to actively playing for mTw. Though, after an unsuccessful return as a player, he joined Questionmark as a coach and then transferred to Astralis with the rest of the players in January 2016.')
+
+INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
+VALUES ('images/profile/flamie.jpg', 'flamie', 'Egor', 'Vasilev', '1985-03-01', 61, 'Danny "zonic" Sørensen (born July 30, 1986) is a former Danish professional Counter-Strike 1.6 player. Arguably the greatest Danish 1.6-player of all time, zonic had huge success with several Danish teams, winning around 110,000 dollars in prize money. He was one of the founding members of the legendary mTw.dk, one of the most dominant 1.6 teams in history. He retired as teams started transitioning over to Counter-Strike: Global Offensive. He joined Team Dignitas as coach in 2015, and later returned to actively playing for mTw. Though, after an unsuccessful return as a player, he joined Questionmark as a coach and then transferred to Astralis with the rest of the players in January 2016.')

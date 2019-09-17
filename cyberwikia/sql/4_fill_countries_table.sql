@@ -1,3 +1,4 @@
+USE cyberwikia;
 INSERT INTO country (name, code, icon_file) VALUES ('Afghanistan', 'AF', 'images/flags/af.png');
 INSERT INTO country (name, code, icon_file) VALUES ('Aland Islands', 'AX', 'images/flags/ax.png');
 INSERT INTO country (name, code, icon_file) VALUES ('Albania', 'AL', 'images/flags/al.png');

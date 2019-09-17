@@ -8,24 +8,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class AbstractDao {
+public class AbstractDao implements Connectable {
     protected final Logger logger = LogManager.getLogger(getClass());
     private Connection connection;
 
-    public void setConnection(final Connection conn) {
+    public void setConnection(final Connection conn) throws DaoException {
+        requireNonNullConnection(conn);
         connection = conn;
     }
 
-    public Connection getConnection() {
+    public Connection getConnection() throws DaoException {
+        requireNonNullConnection(connection);
         return connection;
-    }
-
-    protected void requireNonNullConnection(final String logMsg)
-            throws DaoException {
-        if (connection == null) {
-            logger.error(logMsg);
-            throw new DaoException("Connection is null.");
-        }
     }
 
     protected final void closeStatement(final Statement statement) {
@@ -45,6 +39,13 @@ public class AbstractDao {
             }
         } catch (SQLException e) {
             logger.error("Error during closing result set. {}", e.getMessage());
+        }
+    }
+
+    private void requireNonNullConnection(final Connection conn)
+            throws DaoException {
+        if (conn == null) {
+            throw new DaoException("Connection is null.");
         }
     }
 }

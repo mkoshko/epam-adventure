@@ -1,11 +1,12 @@
 package by.koshko.cyberwikia.bean;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * Player entity class.
  */
-public class Player extends Entity {
+public final class Player extends Entity {
     /**
      * Players nickname.
      */
@@ -159,5 +160,37 @@ public class Player extends Entity {
      */
     public void setOverview(final String playerOverview) {
         overview = playerOverview;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{"
+                + "nickname='" + nickname + '\''
+                + ", profilePhoto='" + profilePhoto + '\''
+                + ", firstName='" + firstName + '\''
+                + ", lastName='" + lastName + '\''
+                + ", birth=" + birth
+                + ", country='" + country + '\''
+                + ", overview='" + overview + '\''
+                + '}';
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return nickname.equals(player.nickname) &&
+                Objects.equals(profilePhoto, player.profilePhoto) &&
+                firstName.equals(player.firstName) &&
+                lastName.equals(player.lastName) &&
+                Objects.equals(birth, player.birth) &&
+                country.equals(player.country) &&
+                Objects.equals(overview, player.overview);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nickname, profilePhoto, firstName, lastName, birth, country, overview);
     }
 }
