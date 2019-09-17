@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface TeamDao extends Dao<Team> {
 
-    Optional<Team> findByTeamName(String name);
+    Optional<Team> findByName(String name) throws DaoException;
 }

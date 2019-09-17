@@ -69,10 +69,11 @@ CREATE TABLE team
     game       INT UNSIGNED     NOT NULL,
     overview   MEDIUMTEXT,
     CONSTRAINT PK_team PRIMARY KEY (id),
-    CONSTRAINT UQ_team UNIQUE (id, name),
+    CONSTRAINT UQ_team UNIQUE (name),
     CONSTRAINT FK_team_creator FOREIGN KEY (creator) REFERENCES player (id) ON DELETE SET NULL,
     CONSTRAINT FK_team_location FOREIGN KEY (country_id) REFERENCES country (id),
-    CONSTRAINT FK_team_captain FOREIGN KEY (coach) REFERENCES player (id) ON DELETE SET NULL,
+    CONSTRAINT FK_team_captain FOREIGN KEY (captain) REFERENCES player (id) ON DELETE SET NULL,
+    CONSTRAINT FK_team_coach FOREIGN KEY (coach) REFERENCES player (id) ON DELETE SET NULL,
     CONSTRAINT FK_team_game FOREIGN KEY (game) REFERENCES game (id)
 );
 CREATE INDEX IDX_team_name ON team (name);

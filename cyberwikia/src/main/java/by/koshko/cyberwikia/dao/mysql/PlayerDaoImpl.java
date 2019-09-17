@@ -1,7 +1,6 @@
 package by.koshko.cyberwikia.dao.mysql;
 
 import by.koshko.cyberwikia.bean.Player;
-import by.koshko.cyberwikia.dao.AbstractDao;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerDao;
 

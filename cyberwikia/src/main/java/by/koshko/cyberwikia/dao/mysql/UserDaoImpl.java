@@ -1,11 +1,9 @@
 package by.koshko.cyberwikia.dao.mysql;
 
 import by.koshko.cyberwikia.bean.User;
-import by.koshko.cyberwikia.dao.AbstractDao;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.UserDao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,12 +29,11 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public Optional<User> findByLogin(final String login) throws DaoException {
-        Connection connection = getConnection();
         String query = SELECT_STATEMENT  + " WHERE login=?;";
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
-            statement = connection.prepareStatement(query);
+            statement = getConnection().prepareStatement(query);
             statement.setString(1, login);
             rs = statement.executeQuery();
             return Optional.ofNullable(buildSingleInstance(rs));
@@ -53,12 +50,11 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public Optional<User> get(final long id) throws DaoException {
-        Connection connection = getConnection();
         String query = SELECT_STATEMENT + " WHERE id=?;";
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
-            statement = connection.prepareStatement(query);
+            statement = getConnection().prepareStatement(query);
             statement.setLong(1, id);
             rs = statement.executeQuery();
             return Optional.ofNullable(buildSingleInstance(rs));
@@ -74,12 +70,11 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() throws DaoException {
-        Connection connection = getConnection();
         String query = SELECT_STATEMENT + ";";
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
-            statement = connection.prepareStatement(query);
+            statement = getConnection().prepareStatement(query);
             rs = statement.executeQuery();
             return buildMultipleInstances(rs);
         } catch (SQLException e) {
@@ -94,12 +89,12 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public void save(final User entity) throws DaoException {
-        Connection connection = getConnection();
+        requireNonNullEntity(entity);
         String query = "INSERT INTO user(login, email, password, role) "
                      + "VALUES (?, ?, ?, ?)";
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(query);
+            statement = getConnection().prepareStatement(query);
             setUpStatement(statement, entity);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -113,13 +108,13 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public void update(final User entity) throws DaoException {
-        Connection connection = getConnection();
+        requireNonNullEntity(entity);
         String query = "UPDATE user "
                 + "SET login=?, email=?, password=?, role=? "
                 + "WHERE id=?";
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(query);
+            statement = getConnection().prepareStatement(query);
             setUpStatement(statement, entity);
             statement.setLong(USER_ID, entity.getId());
             var code = statement.executeUpdate();
@@ -137,12 +132,12 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public void delete(final User entity) throws DaoException {
-        Connection connection = getConnection();
+        requireNonNullEntity(entity);
         String query = "DELETE FROM user "
                      + "WHERE id=?";
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(query);
+            statement = getConnection().prepareStatement(query);
             statement.setLong(1, entity.getId());
             var code = statement.executeUpdate();
             if (code == 1) {

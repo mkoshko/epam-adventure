@@ -1,9 +1,11 @@
 package by.koshko.cyberwikia.bean;
 
+import java.util.Objects;
+
 /**
  * Team entity class.
  */
-public class Team extends Entity {
+public final class Team extends Entity {
     /**
      * Team name.
      */
@@ -179,5 +181,39 @@ public class Team extends Entity {
      */
     public void setLogoFile(final String pathToLogoImage) {
         logoFile = pathToLogoImage;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Team team = (Team) o;
+        return name.equals(team.name) &&
+                location.equals(team.location) &&
+                Objects.equals(creator, team.creator) &&
+                Objects.equals(captain, team.captain) &&
+                Objects.equals(coach, team.coach) &&
+                game.equals(team.game) &&
+                Objects.equals(overview, team.overview) &&
+                Objects.equals(logoFile, team.logoFile);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, location, creator, captain, coach, game, overview, logoFile);
+    }
+
+    @Override
+    public String toString() {
+        return "Team{"
+                + "name='" + name + '\''
+                + ", location='" + location + '\''
+                + ", creator='" + creator + '\''
+                + ", captain='" + captain + '\''
+                + ", coach='" + coach + '\''
+                + ", game='" + game + '\''
+                + ", overview='" + overview + '\''
+                + ", logoFile='" + logoFile + '\''
+                + '}';
     }
 }
