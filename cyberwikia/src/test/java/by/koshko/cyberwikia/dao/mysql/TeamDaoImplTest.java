@@ -1,8 +1,10 @@
 package by.koshko.cyberwikia.dao.mysql;
 
 import by.koshko.cyberwikia.ConnectorDB;
+import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.dao.DaoException;
+import by.koshko.cyberwikia.dao.PlayerDao;
 import by.koshko.cyberwikia.dao.TeamDao;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -17,6 +19,7 @@ import static org.testng.Assert.*;
 
 public class TeamDaoImplTest {
 
+    private PlayerDao playerDao;
     private TeamDao teamDao;
     private Connection connection;
 
@@ -24,6 +27,8 @@ public class TeamDaoImplTest {
     public void setUp() throws SQLException, DaoException {
         connection = ConnectorDB.getConnection();
         teamDao = new TeamDaoImpl();
+        playerDao = new PlayerDaoImpl();
+        playerDao.setConnection(connection);
         teamDao.setConnection(connection);
     }
 
@@ -34,8 +39,8 @@ public class TeamDaoImplTest {
 
     @Test
     public void testFindByName() throws DaoException {
-        Optional<Team> team = teamDao.findByName("NaVi");
-        assertEquals(team.get().getName(), "NaVi");
+        Optional<Team> team = teamDao.findByName("Astralis");
+        assertEquals(team.get().getName(), "Astralis");
     }
 
     @Test
@@ -82,5 +87,19 @@ public class TeamDaoImplTest {
         Optional<Team> team = teamDao.findByName("NaVi");
         teamDao.delete(team.get());
         assertTrue(teamDao.findByName("NaVi").isEmpty());
+    }
+
+    @Test
+    public void testAddPlayer() throws DaoException {
+        Optional<Player> player = playerDao.findByNickname("zonic");
+        Optional<Team> team = teamDao.findByName("Astralis");
+        teamDao.addPlayer(player.get(), team.get());
+    }
+
+    @Test
+    public void testDisbandPlayer() throws DaoException {
+        Optional<Player> player = playerDao.findByNickname("zonic");
+        Optional<Team> team = teamDao.findByName("Astralis");
+        teamDao.disbandPlayer(player.get(), team.get());
     }
 }

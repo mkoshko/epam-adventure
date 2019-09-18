@@ -1,5 +1,6 @@
 package by.koshko.cyberwikia.dao.mysql;
 
+import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TeamDao;
@@ -7,6 +8,7 @@ import by.koshko.cyberwikia.dao.TeamDao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,14 +28,36 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
             + "LEFT JOIN player p1 on team.creator = p1.id "
             + "LEFT JOIN player p2 on team.coach = p2.id "
             + "LEFT JOIN game g on team.game = g.id";
-
+    private static final String FIND_BY_NAME_QUERY = SELECT + " WHERE team.name=?";
+    private static final String GET_QUERY = SELECT + " WHERE team.id=?;";
+    private static final String GET_ALL_QUERY = SELECT + ";";
+    private static final String UPDATE_QUERY = "UPDATE team "
+            + "SET name=?, logo_file=?, "
+            + "country_id=(SELECT country.id FROM country WHERE country.name=?),"
+            + " creator=(SELECT player.id FROM player WHERE player.nickname=?),"
+            + " captain=(SELECT player.id FROM player WHERE player.nickname=?),"
+            + " coach=(SELECT player.id FROM player WHERE player.nickname=?),"
+            + " game=(SELECT game.id FROM game WHERE game.title=?),"
+            + " overview=? WHERE team.id=?";
+    private static final String DELETE_QUERY = "DELETE team FROM team WHERE id=?";
+    private static final String SAVE_QUERY = "INSERT INTO team (name, logo_file, country_id, creator,"
+            + " captain, coach, game, overview)"
+            + " VALUES (?, ?,"
+            + " (SELECT country.id FROM country WHERE country.name=?),"
+            + " (SELECT player.id FROM player WHERE player.nickname=?),"
+            + " (SELECT player.id FROM player WHERE player.nickname=?),"
+            + " (SELECT player.id FROM player WHERE player.nickname=?),"
+            + " (SELECT game.id FROM game WHERE game.title=?), ?);";
+    private static final String REMOVE_PLAYER_QUERY = "DELETE m2m_player_team FROM m2m_player_team" +
+            " WHERE player_id=? AND team_id=?";
+    private static final String ADD_PLAYER_QUERY = "INSERT INTO m2m_player_team (player_id, team_id, active, join_date)" +
+            " VALUES (?, ?, 1, ?)";
     @Override
     public Optional<Team> findByName(final String name) throws DaoException {
-        String query = SELECT + " WHERE team.name=?";
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
-            statement = getConnection().prepareStatement(query);
+            statement = getConnection().prepareStatement(FIND_BY_NAME_QUERY);
             statement.setString(1, name);
             rs = statement.executeQuery();
             return Optional.ofNullable(buildSingleInstance(rs));
@@ -50,11 +74,10 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
 
     @Override
     public Optional<Team> get(final long id) throws DaoException {
-        String query = SELECT + " WHERE team.id=?;";
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
-            statement = getConnection().prepareStatement(query);
+            statement = getConnection().prepareStatement(GET_QUERY);
             statement.setLong(1, id);
             rs = statement.executeQuery();
             return Optional.ofNullable(buildSingleInstance(rs));
@@ -71,12 +94,10 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
 
     @Override
     public List<Team> getAll() throws DaoException {
-        String query = SELECT + ";";
-        System.out.println(query);
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
-            statement = getConnection().prepareStatement(query);
+            statement = getConnection().prepareStatement(GET_ALL_QUERY);
             rs = statement.executeQuery();
             return buildMultipleInstances(rs);
         } catch (SQLException e) {
@@ -92,17 +113,9 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
 
     @Override
     public void save(final Team entity) throws DaoException {
-        String query = "INSERT INTO team (name, logo_file, country_id, creator,"
-                + " captain, coach, game, overview)"
-                + " VALUES (?, ?,"
-                + " (SELECT country.id FROM country WHERE country.name=?),"
-                + " (SELECT player.id FROM player WHERE player.nickname=?),"
-                + " (SELECT player.id FROM player WHERE player.nickname=?),"
-                + " (SELECT player.id FROM player WHERE player.nickname=?),"
-                + " (SELECT game.id FROM game WHERE game.title=?), ?);";
         PreparedStatement statement = null;
         try {
-            statement = getConnection().prepareStatement(query);
+            statement = getConnection().prepareStatement(SAVE_QUERY);
             setUpStatement(statement, entity);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -117,17 +130,9 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
 
     @Override
     public void update(final Team entity) throws DaoException {
-        String query = "UPDATE team "
-           + "SET name=?, logo_file=?, "
-           + "country_id=(SELECT country.id FROM country WHERE country.name=?),"
-           + " creator=(SELECT player.id FROM player WHERE player.nickname=?),"
-           + " captain=(SELECT player.id FROM player WHERE player.nickname=?),"
-           + " coach=(SELECT player.id FROM player WHERE player.nickname=?),"
-           + " game=(SELECT game.id FROM game WHERE game.title=?),"
-           + " overview=? WHERE team.id=?";
         PreparedStatement statement = null;
         try {
-            statement = getConnection().prepareStatement(query);
+            statement = getConnection().prepareStatement(UPDATE_QUERY);
             setUpStatement(statement, entity);
             statement.setLong(9, entity.getId());
             if (statement.executeUpdate() == 1) {
@@ -145,10 +150,9 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
 
     @Override
     public void delete(final Team entity) throws DaoException {
-        String query = "DELETE team FROM team WHERE id=?";
         PreparedStatement statement = null;
         try {
-            statement = getConnection().prepareStatement(query);
+            statement = getConnection().prepareStatement(DELETE_QUERY);
             statement.setLong(1, entity.getId());
             if (statement.executeUpdate() == 1) {
                 logger.info("'{}' was successfully removed.", entity.getName());
@@ -157,6 +161,67 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
             logger.error("Cannot remove team. SQL state: {}. Message: {}",
                     e.getSQLState(), e.getMessage());
             throw new DaoException("Cannot remove team from database "
+                    + "due to internal errors.");
+        } finally {
+            closeStatement(statement);
+        }
+    }
+
+    public void removePlayer(final Player player, final Team team) throws DaoException {
+        PreparedStatement statement = null;
+        try {
+            statement = getConnection().prepareStatement(REMOVE_PLAYER_QUERY);
+            statement.setLong(1, player.getId());
+            statement.setLong(2, team.getId());
+            if ( statement.executeUpdate() == 1){
+                logger.info("Player {} was successfully removed from team {}.", player.getNickname(), team.getName());
+            }
+        } catch (SQLException e) {
+            logger.error("Cannot remove player from team. SQL state: {}. Message: {}",
+                    e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot remove player from team "
+                    + "due to internal errors.");
+        } finally {
+            closeStatement(statement);
+        }
+    }
+
+    public void addPlayer(final Player player, final Team team) throws DaoException {
+        PreparedStatement statement = null;
+        try {
+            statement = getConnection().prepareStatement(ADD_PLAYER_QUERY);
+            statement.setLong(1, player.getId());
+            statement.setLong(2, team.getId());
+            statement.setString(3, LocalDate.now().toString());
+            if (statement.executeUpdate() == 1) {
+                logger.info("Player {} was successfully added to team {}.", player.getNickname(), team.getName());
+            }
+        } catch (SQLException e) {
+            logger.error("Cannot add player to team. SQL state: {}. Message: {}",
+                    e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot add player to team "
+                    + "due to internal errors.");
+        } finally {
+            closeStatement(statement);
+        }
+    }
+
+    public void disbandPlayer(final Player player, final Team team) throws DaoException {
+        String DISBAND_QUERY = "UPDATE m2m_player_team SET active=0, leave_date=?" +
+                " WHERE player_id=? AND team_id=?";
+        PreparedStatement statement = null;
+        try {
+            statement = getConnection().prepareStatement(DISBAND_QUERY);
+            statement.setString(1, LocalDate.now().toString());
+            statement.setLong(2, player.getId());
+            statement.setLong(3, team.getId());
+            if (statement.executeUpdate() == 1) {
+                logger.info("Player {} was disband from team {}", player.getNickname(), team.getName());
+            }
+        } catch (SQLException e) {
+            logger.error("Cannot disband player from team. SQL state: {}. Message: {}",
+                    e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot disband player from team "
                     + "due to internal errors.");
         } finally {
             closeStatement(statement);
