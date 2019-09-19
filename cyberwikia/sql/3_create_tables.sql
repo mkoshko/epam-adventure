@@ -36,7 +36,9 @@ CREATE TABLE user
     password CHAR(99)            NOT NULL,
     role     TINYINT(1) UNSIGNED NOT NULL,
     CONSTRAINT PK_user PRIMARY KEY (id),
-    CONSTRAINT UQ_user UNIQUE (login, email)
+    CONSTRAINT UQ_user_login UNIQUE (login),
+    CONSTRAINT UQ_user_email UNIQUE (email),
+    CONSTRAINT CH_user_role CHECK ( role > 0 )
 );
 CREATE INDEX IDX_user_login ON user (login);
 

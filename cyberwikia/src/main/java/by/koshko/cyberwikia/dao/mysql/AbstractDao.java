@@ -20,7 +20,7 @@ public class AbstractDao implements Connectable {
         connection = conn;
     }
 
-    public Connection getConnection() throws DaoException {
+    protected Connection getConnection() throws DaoException {
         requireNonNullConnection(connection);
         return connection;
     }
@@ -45,16 +45,16 @@ public class AbstractDao implements Connectable {
         }
     }
 
+    protected void requireNonNullEntity(final Entity entity) throws DaoException {
+        if (entity == null) {
+            throw new DaoException("Cannot perform operations with null entity.");
+        }
+    }
+
     private void requireNonNullConnection(final Connection conn)
             throws DaoException {
         if (conn == null) {
             throw new DaoException("Connection is null.");
-        }
-    }
-
-    protected void requireNonNullEntity(final Entity entity) throws DaoException {
-        if (entity == null) {
-            throw new DaoException("Cannot perform operations with null entity.");
         }
     }
 }

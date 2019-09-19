@@ -28,9 +28,9 @@ public final class Player extends Entity {
      */
     private LocalDate birth;
     /**
-     * Players country.
+     * Players countryID id.
      */
-    private String country;
+    private long countryID;
     /**
      * Text overview.
      */
@@ -127,21 +127,21 @@ public final class Player extends Entity {
     }
 
     /**
-     * Returns the country of the player.
+     * Returns the countryID id of the player.
      *
-     * @return the country of the player.
+     * @return the countryID id of the player.
      */
-    public String getCountry() {
-        return country;
+    public long getCountryID() {
+        return countryID;
     }
 
     /**
-     * Sets the country of the player.
+     * Sets the countryID id of the player.
      *
-     * @param playerCountry Country to be set to {@link #country}.
+     * @param playerCountry Country id to be set to {@link #countryID}.
      */
-    public void setCountry(final String playerCountry) {
-        country = playerCountry;
+    public void setCountryID(final long playerCountry) {
+        countryID = playerCountry;
     }
 
     /**
@@ -170,27 +170,33 @@ public final class Player extends Entity {
                 + ", firstName='" + firstName + '\''
                 + ", lastName='" + lastName + '\''
                 + ", birth=" + birth
-                + ", country='" + country + '\''
+                + ", countryID='" + countryID + '\''
                 + ", overview='" + overview + '\''
                 + '}';
     }
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Player player = (Player) o;
-        return nickname.equals(player.nickname) &&
-                Objects.equals(profilePhoto, player.profilePhoto) &&
-                firstName.equals(player.firstName) &&
-                lastName.equals(player.lastName) &&
-                Objects.equals(birth, player.birth) &&
-                country.equals(player.country) &&
-                Objects.equals(overview, player.overview);
+        return Objects.equals(getId(), player.getId())
+               && countryID == player.countryID
+               && Objects.equals(nickname, player.nickname)
+               && Objects.equals(profilePhoto, player.profilePhoto)
+               && Objects.equals(firstName, player.firstName)
+               && Objects.equals(lastName, player.lastName)
+               && Objects.equals(birth, player.birth)
+               && Objects.equals(overview, player.overview);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nickname, profilePhoto, firstName, lastName, birth, country, overview);
+        return Objects.hash(nickname, profilePhoto, firstName, lastName, birth,
+                countryID, overview, getId());
     }
 }

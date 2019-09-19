@@ -1,11 +1,12 @@
 package by.koshko.cyberwikia.bean;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * Tournament entity class.
  */
-public class Tournament extends Entity {
+public final class Tournament extends Entity {
     /**
      * Name of the tournament.
      */
@@ -13,7 +14,7 @@ public class Tournament extends Entity {
     /**
      * Tier of the tournament.
      */
-    private String tier;
+    private long tier;
     /**
      * Prize pool of the tournament.
      */
@@ -54,7 +55,7 @@ public class Tournament extends Entity {
      *
      * @return the tier of the tournament.
      */
-    public String getTier() {
+    public long getTier() {
         return tier;
     }
 
@@ -63,7 +64,7 @@ public class Tournament extends Entity {
      *
      * @param tournamentTier Tier to be set to {@link #tier}.
      */
-    public void setTier(final String tournamentTier) {
+    public void setTier(final long tournamentTier) {
         tier = tournamentTier;
     }
 
@@ -137,5 +138,41 @@ public class Tournament extends Entity {
      */
     public void setEndDate(final LocalDate tournamentEndDate) {
         endDate = tournamentEndDate;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Tournament that = (Tournament) o;
+        return Objects.equals(getId(), that.getId())
+               && tier == that.tier
+               && prize == that.prize
+               && name.equals(that.name)
+               && Objects.equals(overview, that.overview)
+               && startDate.equals(that.startDate)
+               && endDate.equals(that.endDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, tier, prize, overview, startDate, endDate,
+                getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Tournament{"
+               + "name='" + name + '\''
+               + ", tier=" + tier
+               + ", prize=" + prize
+               + ", overview='" + overview + '\''
+               + ", startDate=" + startDate
+               + ", endDate=" + endDate
+               + '}';
     }
 }

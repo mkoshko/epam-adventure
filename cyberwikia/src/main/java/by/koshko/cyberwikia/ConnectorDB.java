@@ -17,6 +17,7 @@ public class ConnectorDB {
         prop.put("user", user);
         prop.put("useSSL", "false");
         prop.put("allowPublicKeyRetrieval", "true");
+        prop.put("password", pass);
         return DriverManager.getConnection(url, prop);
     }
 

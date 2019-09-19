@@ -1,5 +1,7 @@
 package by.koshko.cyberwikia.bean;
 
+import java.util.Objects;
+
 /**
  * User entity class.
  */
@@ -7,9 +9,9 @@ public final class User extends Entity {
 
     /**
      * User role.
-     * 0 - Administrator.
-     * 1 - Event moderator.
-     * 2 - User.
+     * 1 - Administrator.
+     * 2 - Event moderator.
+     * 3 - User.
      */
     private int role;
     /**
@@ -105,7 +107,27 @@ public final class User extends Entity {
                 + "role=" + role
                 + ", login='" + login + '\''
                 + ", email='" + email + '\''
-                + ", password='" + password + '\''
                 + '}';
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId())
+               && role == user.role
+               && login.equals(user.login)
+               && email.equals(user.email)
+               && password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(role, login, email, password, getId());
     }
 }

@@ -11,25 +11,25 @@ public final class Team extends Entity {
      */
     private String name;
     /**
-     * Team location.
+     * Team country id.
      */
-    private String location;
+    private long countryID;
     /**
      * Creator of the team.
      */
-    private String creator;
+    private Player creator;
     /**
      * Team captain.
      */
-    private String captain;
+    private Player captain;
     /**
      * Team coach.
      */
-    private String coach;
+    private Player coach;
     /**
      * Game that team plays.
      */
-    private String game;
+    private long gameID;
     /**
      * Information about the team.
      */
@@ -58,21 +58,21 @@ public final class Team extends Entity {
     }
 
     /**
-     * Returns the team location.
+     * Returns the team countryID.
      *
-     * @return the team location.
+     * @return the team countryID.
      */
-    public String getLocation() {
-        return location;
+    public long getCountryID() {
+        return countryID;
     }
 
     /**
-     * Sets the team location.
+     * Sets the team countryID.
      *
-     * @param teamLocation Country name to be set to {@link #location}.
+     * @param teamLocation Country name to be set to {@link #countryID}.
      */
-    public void setLocation(final String teamLocation) {
-        location = teamLocation;
+    public void setCountryID(final long teamLocation) {
+        countryID = teamLocation;
     }
 
     /**
@@ -80,7 +80,7 @@ public final class Team extends Entity {
      *
      * @return team creator name.
      */
-    public String getCreator() {
+    public Player getCreator() {
         return creator;
     }
 
@@ -89,7 +89,7 @@ public final class Team extends Entity {
      *
      * @param teamCreator The name to be set to {@link #creator}.
      */
-    public void setCreator(final String teamCreator) {
+    public void setCreator(final Player teamCreator) {
         creator = teamCreator;
     }
 
@@ -98,7 +98,7 @@ public final class Team extends Entity {
      *
      * @return team captain.
      */
-    public String getCaptain() {
+    public Player getCaptain() {
         return captain;
     }
 
@@ -107,7 +107,7 @@ public final class Team extends Entity {
      *
      * @param teamCaptain Captain name to be set to {@link #captain}.
      */
-    public void setCaptain(final String teamCaptain) {
+    public void setCaptain(final Player teamCaptain) {
         captain = teamCaptain;
     }
 
@@ -116,7 +116,7 @@ public final class Team extends Entity {
      *
      * @return team coach.
      */
-    public String getCoach() {
+    public Player getCoach() {
         return coach;
     }
 
@@ -125,7 +125,7 @@ public final class Team extends Entity {
      *
      * @param teamCoach Name to be set to {@link #coach}.
      */
-    public void setCoach(final String teamCoach) {
+    public void setCoach(final Player teamCoach) {
         coach = teamCoach;
     }
 
@@ -134,17 +134,17 @@ public final class Team extends Entity {
      *
      * @return the name of the game.
      */
-    public String getGame() {
-        return game;
+    public long getGameID() {
+        return gameID;
     }
 
     /**
      * Sets the name of the game.
      *
-     * @param teamGame Name to be set to {@link #game}.
+     * @param teamGame Name to be set to {@link #gameID}.
      */
-    public void setGame(final String teamGame) {
-        game = teamGame;
+    public void setGameID(final long teamGame) {
+        gameID = teamGame;
     }
 
     /**
@@ -188,32 +188,34 @@ public final class Team extends Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Team team = (Team) o;
-        return name.equals(team.name) &&
-                location.equals(team.location) &&
-                Objects.equals(creator, team.creator) &&
-                Objects.equals(captain, team.captain) &&
-                Objects.equals(coach, team.coach) &&
-                game.equals(team.game) &&
-                Objects.equals(overview, team.overview) &&
-                Objects.equals(logoFile, team.logoFile);
+        return Objects.equals(getId(), team.getId())
+               && countryID == team.countryID
+               && gameID == team.gameID
+               && name.equals(team.name)
+               && Objects.equals(creator, team.creator)
+               && Objects.equals(captain, team.captain)
+               && Objects.equals(coach, team.coach)
+               && Objects.equals(overview, team.overview)
+               && Objects.equals(logoFile, team.logoFile);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, location, creator, captain, coach, game, overview, logoFile);
+        return Objects.hash(name, countryID, creator, captain, coach, gameID,
+                overview, logoFile, getId());
     }
 
     @Override
     public String toString() {
         return "Team{"
-                + "name='" + name + '\''
-                + ", location='" + location + '\''
-                + ", creator='" + creator + '\''
-                + ", captain='" + captain + '\''
-                + ", coach='" + coach + '\''
-                + ", game='" + game + '\''
-                + ", overview='" + overview + '\''
-                + ", logoFile='" + logoFile + '\''
-                + '}';
+               + "name='" + name + '\''
+               + ", countryID='" + countryID + '\''
+               + ", creator='" + creator + '\''
+               + ", captain='" + captain + '\''
+               + ", coach='" + coach + '\''
+               + ", game='" + gameID + '\''
+               + ", overview='" + overview + '\''
+               + ", logoFile='" + logoFile + '\''
+               + '}';
     }
 }

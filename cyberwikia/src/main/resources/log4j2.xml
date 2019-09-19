@@ -5,14 +5,14 @@
         xmlns="http://logging.apache.org/log4j/2.0/config">
     <Properties>
         <Property name="filename">logs/log.txt</Property>
-        <Property name="defaultPattern">%d{dd MMM yyyy HH:mm:ss} [%-5level] [%t] %c{4} - %msg%n</Property>
+        <Property name="defaultPattern">%d{dd MMM yyyy HH:mm:ss} [%-4level] [%t] %c{4} - %msg%n</Property>
     </Properties>
     <Appenders>
         <Appender type="console" name="console" >
             <Layout type="PatternLayout" pattern="${defaultPattern}" />
         </Appender>
         <Appender type="File" name="file" fileName="${filename}">
-            <Layout type="PatternLayout" pattern="%d{dd MMM yyyy HH:mm:ss} [%-5level] [%t] %c{1} - %m%n" />
+            <Layout type="PatternLayout" pattern="%d{dd MMM yyyy HH:mm:ss} [%-4level] [%t] %c{1} - %msg%n" />
             <Filter type="ThresholdFilter" level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
         </Appender>
     </Appenders>
