@@ -49,7 +49,7 @@ CREATE TABLE player
     nickname      VARCHAR(50)      NOT NULL,
     firstName     VARCHAR(30)      NOT NULL,
     lastName      VARCHAR(30)      NOT NULL,
-    birth         DATE,
+    birth         DATE             NOT NULL,
     country_id    TINYINT UNSIGNED NOT NULL,
     overview      MEDIUMTEXT,
     CONSTRAINT PK_player PRIMARY KEY (id),

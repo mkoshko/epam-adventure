@@ -26,6 +26,10 @@ public final class User extends Entity {
      * Users password hash value.
      */
     private String password;
+    /**
+     * Player profile of the user.
+     */
+    private Player profile;
 
     /**
      * Returns the {@link #role} of the user.
@@ -101,13 +105,32 @@ public final class User extends Entity {
         password = userPassword;
     }
 
+    /**
+     * Returns the profile of the user.
+     *
+     * @return the profile of the user.
+     */
+    public Player getProfile() {
+        return profile;
+    }
+
+    /**
+     * Sets the profile of the user.
+     *
+     * @param playerProfile Player profile to be set to {@link #profile}.
+     */
+    public void setProfile(final Player playerProfile) {
+        profile = playerProfile;
+    }
+
     @Override
     public String toString() {
         return "User{"
-                + "role=" + role
-                + ", login='" + login + '\''
-                + ", email='" + email + '\''
-                + '}';
+               + "role=" + role
+               + ", login='" + login + '\''
+               + ", email='" + email + '\''
+               + ", profile=" + profile
+               + '}';
     }
 
     @Override
@@ -123,11 +146,12 @@ public final class User extends Entity {
                && role == user.role
                && login.equals(user.login)
                && email.equals(user.email)
-               && password.equals(user.password);
+               && password.equals(user.password)
+               && profile.equals(user.profile);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(role, login, email, password, getId());
+        return Objects.hash(role, login, email, password, getId(), profile);
     }
 }

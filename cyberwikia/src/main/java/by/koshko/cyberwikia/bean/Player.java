@@ -28,9 +28,9 @@ public final class Player extends Entity {
      */
     private LocalDate birth;
     /**
-     * Players countryID id.
+     * Players country.
      */
-    private long countryID;
+    private Country country;
     /**
      * Text overview.
      */
@@ -127,21 +127,21 @@ public final class Player extends Entity {
     }
 
     /**
-     * Returns the countryID id of the player.
+     * Returns the country of the player.
      *
-     * @return the countryID id of the player.
+     * @return the country of the player.
      */
-    public long getCountryID() {
-        return countryID;
+    public Country getCountry() {
+        return country;
     }
 
     /**
-     * Sets the countryID id of the player.
+     * Sets the country of the player.
      *
-     * @param playerCountry Country id to be set to {@link #countryID}.
+     * @param playerCountry Country id to be set to {@link #country}.
      */
-    public void setCountryID(final long playerCountry) {
-        countryID = playerCountry;
+    public void setCountry(final Country playerCountry) {
+        country = playerCountry;
     }
 
     /**
@@ -170,7 +170,7 @@ public final class Player extends Entity {
                 + ", firstName='" + firstName + '\''
                 + ", lastName='" + lastName + '\''
                 + ", birth=" + birth
-                + ", countryID='" + countryID + '\''
+                + ", countryID='" + country + '\''
                 + ", overview='" + overview + '\''
                 + '}';
     }
@@ -185,7 +185,7 @@ public final class Player extends Entity {
         }
         Player player = (Player) o;
         return Objects.equals(getId(), player.getId())
-               && countryID == player.countryID
+               && country.equals(player.country)
                && Objects.equals(nickname, player.nickname)
                && Objects.equals(profilePhoto, player.profilePhoto)
                && Objects.equals(firstName, player.firstName)
@@ -197,6 +197,6 @@ public final class Player extends Entity {
     @Override
     public int hashCode() {
         return Objects.hash(nickname, profilePhoto, firstName, lastName, birth,
-                countryID, overview, getId());
+                country, overview, getId());
     }
 }

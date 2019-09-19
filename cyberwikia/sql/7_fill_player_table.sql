@@ -18,4 +18,19 @@ INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country
 VALUES ('images/profile/zonic.jpg', 'zonic', 'Danny', 'Sørensen', '1985-03-01', 61, 'Danny "zonic" Sørensen (born July 30, 1986) is a former Danish professional Counter-Strike 1.6 player. Arguably the greatest Danish 1.6-player of all time, zonic had huge success with several Danish teams, winning around 110,000 dollars in prize money. He was one of the founding members of the legendary mTw.dk, one of the most dominant 1.6 teams in history. He retired as teams started transitioning over to Counter-Strike: Global Offensive. He joined Team Dignitas as coach in 2015, and later returned to actively playing for mTw. Though, after an unsuccessful return as a player, he joined Questionmark as a coach and then transferred to Astralis with the rest of the players in January 2016.')
 
 INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
-VALUES ('images/profile/flamie.jpg', 'flamie', 'Egor', 'Vasilev', '1985-03-01', 61, 'Danny "zonic" Sørensen (born July 30, 1986) is a former Danish professional Counter-Strike 1.6 player. Arguably the greatest Danish 1.6-player of all time, zonic had huge success with several Danish teams, winning around 110,000 dollars in prize money. He was one of the founding members of the legendary mTw.dk, one of the most dominant 1.6 teams in history. He retired as teams started transitioning over to Counter-Strike: Global Offensive. He joined Team Dignitas as coach in 2015, and later returned to actively playing for mTw. Though, after an unsuccessful return as a player, he joined Questionmark as a coach and then transferred to Astralis with the rest of the players in January 2016.')
+VALUES ('images/profile/flamie.jpg', 'flamie', 'Egor', 'Vasilev', '1985-03-01', 61, 'Egor "flamie" Vasilev (born April 5, 1997) is a Russian professional Counter-Strike: Global Offensive player and former Counter-Strike: Source player. He is currently playing for Natus Vincere as a Rifler.');
+
+INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
+VALUES ('images/profile/s1mple.jpg', 's1mple', 'Oleksandr', 'Kostyliev', '1997-08-02', '233', 'Oleksandr "s1mple" Kostyliev (born October 2, 1997) is a Ukrainian professional Counter-Strike: Global Offensive player. He currently plays for Natus Vincere as an AWPer.');
+
+INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
+VALUES ('images/profile/electronic.jpg', 'electronic', 'Denis', 'Sharipov', '1998-09-02', '183', 'Denis "electronic" Sharipov (born September 2, 1998) is a Russian professional Counter-Strike: Global Offensive player, who currently plays for Natus Vincere.')
+
+INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
+VALUES ('imgaes/profile/boombi4.jpg', 'BoombI4', 'Kirill', 'Mikhailov', '1998-12-20', '183', 'Kirill Boombl4 Mikhailov (born December 20, 1998) is a Russian professional Counter-Strike: Global Offensive player who currently plays for Natus Vincere.');
+
+INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
+VALUES ('images/profile/zeus.jpg', 'Zeus', 'Danylo', 'Teslenko', '1987-10-08', '233', 'Danylo "Zeus" Teslenko (born October 8, 1987) is a Ukrainian retired professional Counter-Strike: Global Offensive player and former Counter-Strike 1.6 player from Kharkiv.');
+
+INSERT INTO player (profile_photo, nickname, firstName, lastName, birth, country_id, overview)
+VALUES ('images/profile/kane.jpg', 'kane', 'Mykhailo', 'Blagin', '1986-01-04', '233', 'Mykhailo "kane" Blagin (born January 4, 1986) is a former professional Counter-Strike player from Ukraine. He is known for his achievements in the role of in-game leader of pro100 and Virtus.pro. He recently was the coach of Natus Vincere.');

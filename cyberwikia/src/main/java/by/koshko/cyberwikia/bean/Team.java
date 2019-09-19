@@ -1,5 +1,6 @@
 package by.koshko.cyberwikia.bean;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -29,7 +30,7 @@ public final class Team extends Entity {
     /**
      * Game that team plays.
      */
-    private long gameID;
+    private Game game;
     /**
      * Information about the team.
      */
@@ -38,6 +39,30 @@ public final class Team extends Entity {
      * Path to team logo image file.
      */
     private String logoFile;
+
+    /**
+     * List of tournaments in which the team participated.
+     */
+    private List<Tournament> tournaments;
+
+    /**
+     * Returns the list of the tournaments.
+     *
+     * @return the list of the tournaments.
+     */
+    public List<Tournament> getTournaments() {
+        return tournaments;
+    }
+
+    /**
+     * Sets the list of the tournaments.
+     *
+     * @param teamTournaments list of tournaments to be set to
+     *                        {@link #tournaments}.
+     */
+    public void setTournaments(final List<Tournament> teamTournaments) {
+        tournaments = teamTournaments;
+    }
 
     /**
      * Returns team name.
@@ -130,21 +155,21 @@ public final class Team extends Entity {
     }
 
     /**
-     * Returns the name of the game.
+     * Returns the game.
      *
-     * @return the name of the game.
+     * @return the game.
      */
-    public long getGameID() {
-        return gameID;
+    public Game getGame() {
+        return game;
     }
 
     /**
-     * Sets the name of the game.
+     * Sets the game.
      *
-     * @param teamGame Name to be set to {@link #gameID}.
+     * @param teamGame Game to be set to {@link #game}.
      */
-    public void setGameID(final long teamGame) {
-        gameID = teamGame;
+    public void setGame(final Game teamGame) {
+        game = teamGame;
     }
 
     /**
@@ -185,12 +210,16 @@ public final class Team extends Entity {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Team team = (Team) o;
         return Objects.equals(getId(), team.getId())
                && countryID == team.countryID
-               && gameID == team.gameID
+               && game.equals(team.game)
                && name.equals(team.name)
                && Objects.equals(creator, team.creator)
                && Objects.equals(captain, team.captain)
@@ -201,7 +230,7 @@ public final class Team extends Entity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, countryID, creator, captain, coach, gameID,
+        return Objects.hash(name, countryID, creator, captain, coach, game,
                 overview, logoFile, getId());
     }
 
@@ -213,7 +242,7 @@ public final class Team extends Entity {
                + ", creator='" + creator + '\''
                + ", captain='" + captain + '\''
                + ", coach='" + coach + '\''
-               + ", game='" + gameID + '\''
+               + ", game='" + game + '\''
                + ", overview='" + overview + '\''
                + ", logoFile='" + logoFile + '\''
                + '}';

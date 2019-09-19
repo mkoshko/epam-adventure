@@ -1,10 +1,10 @@
 package by.koshko.cyberwikia.dao.mysql;
 
+import by.koshko.cyberwikia.bean.Country;
 import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerDao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -212,7 +212,9 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
         player.setFirstName(rs.getString("firstName"));
         player.setLastName(rs.getString("lastName"));
         player.setBirth(LocalDate.parse(rs.getString("birth")));
-        player.setCountryID(rs.getLong("country_id"));
+        Country c = new Country();
+        c.setId(rs.getLong("country_id"));
+        player.setCountry(c);
         player.setOverview(rs.getString("overview"));
         logger.debug("Player object was build successfully.");
         return player;

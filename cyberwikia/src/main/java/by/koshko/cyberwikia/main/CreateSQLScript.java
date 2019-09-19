@@ -19,7 +19,7 @@ public class CreateSQLScript {
         StringJoiner joiner = new StringJoiner(";\n");
         for (int i = 0; i < 100; i++) {
             String password = argon2.hash(4, 1024 * 1024, 4, String.format("user%d", i));
-            joiner.add(String.format("INSERT INTO user (login, email, password, role) VALUES ('user%d', 'user%d@gmail.com', '%s', 2)", i, i, password));
+            joiner.add(String.format("INSERT INTO user (login, email, password, role) VALUES ('user%d', 'user%d@gmail.com', '%s', 3)", i, i, password));
         }
         Files.writeString(Paths.get("sql/5_fill_user_table.sql"), joiner.toString());
     }
