@@ -14,7 +14,7 @@ public final class Team extends Entity {
     /**
      * Team country id.
      */
-    private long countryID;
+    private Country country;
     /**
      * Creator of the team.
      */
@@ -87,17 +87,17 @@ public final class Team extends Entity {
      *
      * @return the team countryID.
      */
-    public long getCountryID() {
-        return countryID;
+    public Country getCountry() {
+        return country;
     }
 
     /**
-     * Sets the team countryID.
+     * Sets the team country.
      *
-     * @param teamLocation Country name to be set to {@link #countryID}.
+     * @param teamCountry Country to be set to {@link #country}.
      */
-    public void setCountryID(final long teamLocation) {
-        countryID = teamLocation;
+    public void setCountry(final Country teamCountry) {
+        country = teamCountry;
     }
 
     /**
@@ -218,7 +218,7 @@ public final class Team extends Entity {
         }
         Team team = (Team) o;
         return Objects.equals(getId(), team.getId())
-               && countryID == team.countryID
+               && country.equals(team.country)
                && game.equals(team.game)
                && name.equals(team.name)
                && Objects.equals(creator, team.creator)
@@ -230,7 +230,7 @@ public final class Team extends Entity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, countryID, creator, captain, coach, game,
+        return Objects.hash(name, country, creator, captain, coach, game,
                 overview, logoFile, getId());
     }
 
@@ -238,11 +238,11 @@ public final class Team extends Entity {
     public String toString() {
         return "Team{"
                + "name='" + name + '\''
-               + ", countryID='" + countryID + '\''
-               + ", creator='" + creator + '\''
-               + ", captain='" + captain + '\''
-               + ", coach='" + coach + '\''
-               + ", game='" + game + '\''
+               + ", country=" + country
+               + ", creator=" + creator
+               + ", captain=" + captain
+               + ", coach=" + coach
+               + ", game=" + game
                + ", overview='" + overview + '\''
                + ", logoFile='" + logoFile + '\''
                + '}';

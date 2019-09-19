@@ -1,6 +1,7 @@
 package by.koshko.cyberwikia.dao.mysql;
 
 import by.koshko.cyberwikia.ConnectorDB;
+import by.koshko.cyberwikia.bean.Country;
 import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerDao;
@@ -127,7 +128,9 @@ public class PlayerDaoImplTest {
         player.setFirstName(fName);
         player.setLastName(lName);
         player.setBirth(LocalDate.parse(birth));
-        player.setCountryID(cID);
+        Country c = new Country();
+        c.setId(cID);
+        player.setCountry(c);
         player.setOverview(overview);
         playerDao.save(player);
         Optional<Player> player1 = playerDao.findByNickname("nickname0");
@@ -145,7 +148,10 @@ public class PlayerDaoImplTest {
         player.setFirstName(fName);
         player.setLastName(lName);
         player.setBirth(LocalDate.parse(birth));
-        player.setCountryID(cID);
+        Country c = new Country();
+        c.setId(cID);
+        player.setCountry(c);
+        player.setCountry(c);
         player.setOverview(overview);
         playerDao.save(player);
     }
@@ -157,7 +163,9 @@ public class PlayerDaoImplTest {
         player.setNickname("Montajnaya");
         player.setLastName("Pena");
         player.setBirth(LocalDate.parse("1999-10-10"));
-        player.setCountryID(183);
+        Country c = new Country();
+        c.setId(183);
+        player.setCountry(c);
         playerDao.save(player);
         Optional<Player> player1 = playerDao.findByNickname("Montajnaya");
         player.setId(player1.get().getId());

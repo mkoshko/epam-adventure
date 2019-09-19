@@ -14,14 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
-    private static final int PLAYER_PHOTO = 1;
-    private static final int PLAYER_NICKNAME = 2;
-    private static final int PLAYER_FIRST_NAME = 3;
-    private static final int PLAYER_LAST_NAME = 4;
-    private static final int PLAYER_BIRTH = 5;
-    private static final int PLAYER_COUNTRY = 6;
-    private static final int PLAYER_OVERVIEW = 7;
-    private static final int PLAYER_ID = 8;
+    private static final int PLAYER_ID = 1;
+    private static final int PLAYER_PHOTO = 2;
+    private static final int PLAYER_NICKNAME = 3;
+    private static final int PLAYER_FIRST_NAME = 4;
+    private static final int PLAYER_LAST_NAME = 5;
+    private static final int PLAYER_BIRTH = 6;
+    private static final int PLAYER_COUNTRY = 7;
+    private static final int PLAYER_OVERVIEW = 8;
+    private static final int WHERE_ID = 9;
 
     private static final String SELECT_FROM
             = "SELECT id, profile_photo, nickname, firstName, lastName, birth, "
@@ -34,12 +35,12 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
     private static final String GET_QUERY
             = SELECT_FROM + "WHERE id=?;";
     private static final String SAVE_QUERY
-            = "INSERT INTO player (profile_photo, nickname, firstName, "
+            = "INSERT INTO player (id, profile_photo, nickname, firstName, "
               + "lastName, birth, country_id, overview) "
-              + "VALUES (?, ?, ?, ?, ?, ?, ?);";
+              + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String UPDATE_PLAYER_QUERY
             = "UPDATE player "
-              + "SET profile_photo=?, nickname=?, firstName=?, lastName=?, "
+              + "SET id=?, profile_photo=?, nickname=?, firstName=?, lastName=?, "
               + "birth=?, country_id=?, overview=? WHERE id=?;";
     private static final String DELETE_QUERY = "DELETE FROM player WHERE id=?;";
 
@@ -155,7 +156,7 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
         try {
             statement = getConnection().prepareStatement(UPDATE_PLAYER_QUERY);
             setUpStatement(statement, entity);
-            statement.setLong(PLAYER_ID, entity.getId());
+            statement.setLong(WHERE_ID, entity.getId());
             if (statement.executeUpdate() == 1) {
                 logger.info("Player profile '{}' has been updated.",
                         entity.getNickname());
@@ -223,12 +224,14 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
     private void setUpStatement(final PreparedStatement st, final Player obj)
             throws SQLException {
         logger.debug("Preparing statement for execution.");
+        st.setLong(PLAYER_ID, obj.getId());
         st.setString(PLAYER_PHOTO, obj.getProfilePhoto());
         st.setString(PLAYER_NICKNAME, obj.getNickname());
         st.setString(PLAYER_FIRST_NAME, obj.getFirstName());
         st.setString(PLAYER_LAST_NAME, obj.getLastName());
         st.setString(PLAYER_BIRTH, obj.getBirth().toString());
-        st.setLong(PLAYER_COUNTRY, obj.getCountryID());
+        //TODO getCountry() check for null.
+        st.setLong(PLAYER_COUNTRY, obj.getCountry().getId());
         st.setString(PLAYER_OVERVIEW, obj.getOverview());
     }
 }

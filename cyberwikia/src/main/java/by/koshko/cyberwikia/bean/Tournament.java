@@ -1,6 +1,7 @@
 package by.koshko.cyberwikia.bean;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -31,6 +32,17 @@ public final class Tournament extends Entity {
      * End date of the tournament.
      */
     private LocalDate endDate;
+
+    //TODO javadoc.
+    private List<TournamentParticipant> participants;
+
+    public List<TournamentParticipant> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(final List<TournamentParticipant> participants) {
+        this.participants = participants;
+    }
 
     /**
      * Returns the name of the tournament.

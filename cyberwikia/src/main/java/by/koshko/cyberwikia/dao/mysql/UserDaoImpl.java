@@ -171,7 +171,7 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
         while (rs.next()) {
             users.add(buildUser(rs));
         }
-        logger.debug("{} users was fetched from database", users.size());
+        logger.debug("{} users was fetched from database.", users.size());
         return users;
     }
 

@@ -147,7 +147,7 @@ public final class User extends Entity {
                && login.equals(user.login)
                && email.equals(user.email)
                && password.equals(user.password)
-               && profile.equals(user.profile);
+               && Objects.equals(profile, user.profile);
     }
 
     @Override

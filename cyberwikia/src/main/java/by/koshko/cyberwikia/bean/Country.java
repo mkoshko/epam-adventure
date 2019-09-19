@@ -83,8 +83,8 @@ public final class Country extends Entity {
         }
         Country country = (Country) o;
         return Objects.equals(getId(), country.getId())
-               && name.equals(country.name)
-               && code.equals(country.code)
+               && Objects.equals(country.name, name)
+               && Objects.equals(country.code, code)
                && Objects.equals(flag, country.flag);
     }
 

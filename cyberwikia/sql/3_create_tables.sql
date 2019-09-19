@@ -44,7 +44,7 @@ CREATE INDEX IDX_user_login ON user (login);
 
 CREATE TABLE player
 (
-    id            INT UNSIGNED     NOT NULL AUTO_INCREMENT,
+    id            INT UNSIGNED     NOT NULL,
     profile_photo VARCHAR(4096),
     nickname      VARCHAR(50)      NOT NULL,
     firstName     VARCHAR(30)      NOT NULL,
