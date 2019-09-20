@@ -6,10 +6,7 @@ import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerTeamDao;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +30,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             + "FROM m2m_player_team WHERE player_id=?";
 
     @Override
-    public List<PlayerTeam> findPlayerTeam(Team team) throws DaoException {
+    public List<PlayerTeam> findPlayerTeam(final Team team) throws DaoException {
         requireNonNullEntity(team);
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -44,15 +41,16 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             List<PlayerTeam> playerTeams = buildMultipleInstances(rs, team);
             return playerTeams;
         } catch (SQLException e) {
-            //TODO handle sql exception
-            throw new DaoException("");
+            logger.error("Cannot find player into team. SQL state: {}."
+                         + " Message: {}", e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot put player into team.");
         } finally {
             closeStatement(statement);
         }
     }
 
     @Override
-    public List<PlayerTeam> findPlayerTeam(Player player) throws DaoException {
+    public List<PlayerTeam> findPlayerTeam(final Player player) throws DaoException {
         requireNonNullEntity(player);
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -73,7 +71,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
     }
 
     @Override
-    public Optional<PlayerTeam> get(long id) throws DaoException {
+    public Optional<PlayerTeam> get(final long id) throws DaoException {
         throw new DaoException("Unsupported operation.");
     }
 
@@ -83,7 +81,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
     }
 
     @Override
-    public void save(PlayerTeam entity) throws DaoException {
+    public void save(final PlayerTeam entity) throws DaoException {
         requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
@@ -102,7 +100,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
     }
 
     @Override
-    public void update(PlayerTeam entity) throws DaoException {
+    public void update(final PlayerTeam entity) throws DaoException {
         requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
@@ -121,7 +119,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
     }
 
     @Override
-    public void delete(PlayerTeam entity) throws DaoException {
+    public void delete(final PlayerTeam entity) throws DaoException {
         requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
@@ -129,16 +127,19 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             statement.setLong(1, entity.getPlayer().getId());
             statement.setLong(2, entity.getTeam().getId());
             if (statement.executeUpdate() == 1) {
-                //TODO log
+                logger.info("Player '{}' has been remove from team '{}'",
+                entity.getPlayer().getNickname(), entity.getTeam().getName());
             }
         } catch (SQLException e) {
-            throw new DaoException("");
+            logger.error("Cannot delete player from team. SQL state: {}."
+                         + " Message: {}", e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot delete player from team.");
         } finally {
             closeStatement(statement);
         }
     }
 
-    private List<PlayerTeam> buildMultipleInstances(ResultSet rs, Player player) throws SQLException {
+    private List<PlayerTeam> buildMultipleInstances(final ResultSet rs, final Player player) throws SQLException {
         List<PlayerTeam> playerTeams = new ArrayList<>();
         while (rs.next()) {
             playerTeams.add(buildPlayerTeam(rs, player));
@@ -147,7 +148,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
     }
 
 
-    private List<PlayerTeam> buildMultipleInstances(ResultSet rs, Team team) throws SQLException {
+    private List<PlayerTeam> buildMultipleInstances(final ResultSet rs, final Team team) throws SQLException {
         List<PlayerTeam> playerTeams = new ArrayList<>();
         while (rs.next()) {
             playerTeams.add(buildPlayerTeam(rs, team));
@@ -155,7 +156,8 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
         return playerTeams;
     }
 
-    private PlayerTeam buildPlayerTeam(ResultSet rs, Player player) throws SQLException {
+    private PlayerTeam buildPlayerTeam(final ResultSet rs,
+                                       final Player player) throws SQLException {
         PlayerTeam playerTeam = new PlayerTeam();
         playerTeam.setPlayer(player);
         Team team = new Team();
@@ -164,7 +166,8 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
         return build(rs, playerTeam);
     }
 
-    private PlayerTeam buildPlayerTeam(ResultSet rs, Team team) throws SQLException {
+    private PlayerTeam buildPlayerTeam(final ResultSet rs,
+                                       final Team team) throws SQLException {
         PlayerTeam playerTeam = new PlayerTeam();
         playerTeam.setTeam(team);
         Player player = new Player();
@@ -173,7 +176,8 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
         return build(rs, playerTeam);
     }
 
-    private PlayerTeam build(ResultSet rs, PlayerTeam playerTeam) throws SQLException {
+    private PlayerTeam build(final ResultSet rs,
+                             final PlayerTeam playerTeam) throws SQLException {
         playerTeam.setJoinDate(LocalDate.parse(rs.getString("join_date")));
         String leaveDate = rs.getString("leave_date");
         if (leaveDate != null) {
@@ -192,8 +196,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
         if (pt.getLeaveDate() != null) {
             st.setDate(5, Date.valueOf(pt.getLeaveDate()));
         } else {
-            //TODO check sql type
-            st.setNull(5, 0);
+            st.setNull(5, Types.NULL);
         }
     }
 }

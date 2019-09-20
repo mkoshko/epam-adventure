@@ -3,8 +3,8 @@ USE cyberwikia;
 CREATE TABLE country
 (
     id        TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name      VARCHAR(50),
-    code      CHAR(2),
+    name      VARCHAR(50) NOT NULL,
+    code      CHAR(2) NOT NULL,
     icon_file VARCHAR(4096),
     CONSTRAINT PK_country PRIMARY KEY (id),
     CONSTRAINT UQ_country UNIQUE (id, name, code)

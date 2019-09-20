@@ -137,6 +137,17 @@ public class PlayerDaoImplTest {
         assertFalse(player1.isEmpty());
     }
 
+    @Test
+    public void testSave2() throws DaoException {
+        Player player = new Player();
+        player.setId(1);
+        player.setProfilePhoto(null);
+        player.setNickname("player");
+        player.setFirstName(null);
+        player.setLastName(null);
+        playerDao.save(player);
+    }
+
     @Test(dataProvider = "provider1", dependsOnMethods = {"testFindByNickname"},
     expectedExceptions = DaoException.class)
     public void testSaveInvalidArgs(final String photo, final String nick, final String fName,

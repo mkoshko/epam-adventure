@@ -221,17 +221,16 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
         return player;
     }
 
-    private void setUpStatement(final PreparedStatement st, final Player obj)
+    private void setUpStatement(final PreparedStatement st, final Player player)
             throws SQLException {
         logger.debug("Preparing statement for execution.");
-        st.setLong(PLAYER_ID, obj.getId());
-        st.setString(PLAYER_PHOTO, obj.getProfilePhoto());
-        st.setString(PLAYER_NICKNAME, obj.getNickname());
-        st.setString(PLAYER_FIRST_NAME, obj.getFirstName());
-        st.setString(PLAYER_LAST_NAME, obj.getLastName());
-        st.setString(PLAYER_BIRTH, obj.getBirth().toString());
-        //TODO getCountry() check for null.
-        st.setLong(PLAYER_COUNTRY, obj.getCountry().getId());
-        st.setString(PLAYER_OVERVIEW, obj.getOverview());
+        st.setLong(PLAYER_ID, player.getId());
+        st.setString(PLAYER_PHOTO, player.getProfilePhoto());
+        st.setString(PLAYER_NICKNAME, player.getNickname());
+        st.setString(PLAYER_FIRST_NAME, player.getFirstName());
+        st.setString(PLAYER_LAST_NAME, player.getLastName());
+        st.setString(PLAYER_BIRTH, player.getBirth().toString());
+        st.setLong(PLAYER_COUNTRY, player.getCountry().getId());
+        st.setString(PLAYER_OVERVIEW, player.getOverview());
     }
 }
