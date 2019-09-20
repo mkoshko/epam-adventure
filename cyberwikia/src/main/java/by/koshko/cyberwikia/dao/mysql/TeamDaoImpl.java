@@ -141,6 +141,7 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
 
     @Override
     public void delete(final Team entity) throws DaoException {
+        requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(DELETE_QUERY);
@@ -151,8 +152,7 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
         } catch (SQLException e) {
             logger.error("Cannot remove team. SQL state: {}. Message: {}",
                     e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot remove team from database "
-                    + "due to internal errors.");
+            throw new DaoException("Cannot remove team.");
         } finally {
             closeStatement(statement);
         }
@@ -176,7 +176,7 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
 
     private Team buildTeam(final ResultSet rs) throws SQLException {
         Team team = new Team();
-        logger.debug("Building 'Team' object...");
+        logger.debug("Building Team object.");
         team.setId(rs.getLong("id"));
         team.setName(rs.getString("name"));
         team.setLogoFile(rs.getString("logo_file"));

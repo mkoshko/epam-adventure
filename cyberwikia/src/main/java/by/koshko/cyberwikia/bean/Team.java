@@ -45,6 +45,7 @@ public final class Team extends Entity {
      */
     private List<Tournament> tournaments;
 
+    private List<PlayerTeam> players;
     /**
      * Returns the list of the tournaments.
      *

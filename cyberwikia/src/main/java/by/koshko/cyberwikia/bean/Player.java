@@ -1,6 +1,7 @@
 package by.koshko.cyberwikia.bean;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -35,6 +36,16 @@ public final class Player extends Entity {
      * Text overview.
      */
     private String overview;
+
+    private List<PlayerTeam> playerTeams;
+
+    public List<PlayerTeam> getPlayerTeams() {
+        return playerTeams;
+    }
+
+    public void setPlayerTeams(List<PlayerTeam> playerTeams) {
+        this.playerTeams = playerTeams;
+    }
 
     /**
      * Returns the nickname of the player.

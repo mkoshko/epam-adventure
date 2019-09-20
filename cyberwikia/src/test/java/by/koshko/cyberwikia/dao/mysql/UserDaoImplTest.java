@@ -61,6 +61,13 @@ public class UserDaoImplTest {
     }
 
     @Test
+    public void testGetNull() throws DaoException {
+        Long id = null;
+        Optional<User> user = userDao.get(id);
+        assertEquals(user.get().getId(), 1);
+    }
+
+    @Test
     public void testGetWrongIndex() throws DaoException {
         Optional<User> user = userDao.get(0);
         assertTrue(user.isEmpty());
