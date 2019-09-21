@@ -3,8 +3,8 @@ USE cyberwikia;
 CREATE TABLE country
 (
     id        TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name      VARCHAR(50) NOT NULL,
-    code      CHAR(2) NOT NULL,
+    name      VARCHAR(50)      NOT NULL,
+    code      CHAR(2)          NOT NULL,
     icon_file VARCHAR(4096),
     CONSTRAINT PK_country PRIMARY KEY (id),
     CONSTRAINT UQ_country UNIQUE (id, name, code)
@@ -14,7 +14,7 @@ CREATE INDEX IDX_county_id_name ON country (name);
 CREATE TABLE tournament_tier
 (
     id   INT UNSIGNED AUTO_INCREMENT,
-    name VARCHAR(30),
+    name VARCHAR(30) NOT NULL,
     CONSTRAINT PK_tournament_tier PRIMARY KEY (id)
 );
 
@@ -82,15 +82,15 @@ CREATE INDEX IDX_team_name ON team (name);
 
 CREATE TABLE tournament
 (
-    id         INT UNSIGNED AUTO_INCREMENT,
-    name       VARCHAR(100),
-    tier       INT UNSIGNED NOT NULL,
-    prize      INT UNSIGNED,
-    overview   MEDIUMTEXT,
-    start_date DATE         NOT NULL,
-    end_date   DATE         NOT NULL,
+    id                 INT UNSIGNED AUTO_INCREMENT,
+    name               VARCHAR(100),
+    tournament_tier_id INT UNSIGNED NOT NULL,
+    prize              INT UNSIGNED,
+    overview           MEDIUMTEXT,
+    start_date         DATE         NOT NULL,
+    end_date           DATE         NOT NULL,
     CONSTRAINT PK_tournament PRIMARY KEY (id),
-    CONSTRAINT FK_tournament_tier FOREIGN KEY (tier) REFERENCES tournament_tier (id),
+    CONSTRAINT FK_tournament_tier FOREIGN KEY (tournament_tier_id) REFERENCES tournament_tier (id),
     CONSTRAINT CH_tournament_start_end_date CHECK ( DATEDIFF(end_date, start_date) >= 0 )
 );
 CREATE INDEX IDX_tournament_name ON tournament (name);

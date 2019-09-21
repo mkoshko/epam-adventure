@@ -15,7 +15,7 @@ public final class Tournament extends Entity {
     /**
      * Tier of the tournament.
      */
-    private long tier;
+    private TournamentTier tier;
     /**
      * Prize pool of the tournament.
      */
@@ -67,7 +67,7 @@ public final class Tournament extends Entity {
      *
      * @return the tier of the tournament.
      */
-    public long getTier() {
+    public TournamentTier getTier() {
         return tier;
     }
 
@@ -76,7 +76,7 @@ public final class Tournament extends Entity {
      *
      * @param tournamentTier Tier to be set to {@link #tier}.
      */
-    public void setTier(final long tournamentTier) {
+    public void setTier(final TournamentTier tournamentTier) {
         tier = tournamentTier;
     }
 
@@ -162,7 +162,7 @@ public final class Tournament extends Entity {
         }
         Tournament that = (Tournament) o;
         return Objects.equals(getId(), that.getId())
-               && tier == that.tier
+               && tier.equals(that.tier)
                && prize == that.prize
                && name.equals(that.name)
                && Objects.equals(overview, that.overview)

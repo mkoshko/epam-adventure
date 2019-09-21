@@ -13,7 +13,7 @@ public class PlayerTeam extends Entity {
         return player;
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(final Player player) {
         this.player = player;
     }
 
@@ -21,7 +21,7 @@ public class PlayerTeam extends Entity {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void setTeam(final Team team) {
         this.team = team;
     }
 
@@ -29,7 +29,7 @@ public class PlayerTeam extends Entity {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(final boolean active) {
         this.active = active;
     }
 
@@ -37,7 +37,7 @@ public class PlayerTeam extends Entity {
         return joinDate;
     }
 
-    public void setJoinDate(LocalDate joinDate) {
+    public void setJoinDate(final LocalDate joinDate) {
         this.joinDate = joinDate;
     }
 
@@ -45,7 +45,7 @@ public class PlayerTeam extends Entity {
         return leaveDate;
     }
 
-    public void setLeaveDate(LocalDate leaveDate) {
+    public void setLeaveDate(final LocalDate leaveDate) {
         this.leaveDate = leaveDate;
     }
 }
