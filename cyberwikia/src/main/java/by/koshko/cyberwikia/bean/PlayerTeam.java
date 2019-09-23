@@ -48,4 +48,14 @@ public class PlayerTeam extends Entity {
     public void setLeaveDate(final LocalDate leaveDate) {
         this.leaveDate = leaveDate;
     }
+
+    @Override
+    public String toString() {
+        return "PlayerTeam{"
+               + ", team=" + team
+               + ", active=" + active
+               + ", joinDate=" + joinDate
+               + ", leaveDate=" + leaveDate
+               + '}';
+    }
 }

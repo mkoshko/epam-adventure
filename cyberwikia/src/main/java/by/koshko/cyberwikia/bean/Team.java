@@ -239,6 +239,7 @@ public final class Team extends Entity {
     public String toString() {
         return "Team{"
                + "name='" + name + '\''
+               + ", id= " + getId() + '\''
                + ", country=" + country
                + ", creator=" + creator
                + ", captain=" + captain

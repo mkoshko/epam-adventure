@@ -1,34 +1,39 @@
 package by.koshko.cyberwikia.main;
 
-import by.koshko.cyberwikia.ConnectorDB;
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
+import by.koshko.cyberwikia.dao.DaoException;
+import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.util.ResourceBundle;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
-    public static void main(final String[] args) throws SQLException {
-        LocalDate date = LocalDate.of(2009, 05, 21);
-        System.out.println(date.toString());
-//        ResourceBundle bundle = ResourceBundle.getBundle("database");
-//        Connection connection = ConnectorDB.getConnection();
-//        Statement statement = connection.createStatement();
-//        statement.executeQuery("SELECT name FROM country;");
-//        ResultSet rs = statement.getResultSet();
-//        rs.next();
-//        System.out.println(rs.getString("name"));
-//        statement.close();
-//        rs.close();
-//        connection.close();
-//        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id, 16, 32);
-//        String password = "KLmALSK-0#%(_)kpo,m3_)%IJ_)#J%";
-//        String hash = argon2.hash(4, 1024*1024, 4, password);
-//        System.out.printf("hash length: %d\n", hash.length());
-//        System.out.println(argon2.verify(hash, password));
+    public static void main(final String[] args) throws DaoException, InterruptedException {
+        ConnectionPool connectionPool = ConnectionPool.access();
+        connectionPool.init();
+        List<Connection> connections = new ArrayList<>();
+        ExecutorService service = Executors.newFixedThreadPool(8);
+        for (int i = 0; i < 16; i++) {
+            service.execute(() -> {
+                try {
+                    Connection connection = connectionPool.getConnection();
+                    System.out.println(Thread.currentThread().getName() + " got a connection");
+                    TimeUnit.MILLISECONDS.sleep(5000);
+                    connection.close();
+                    System.out.println(Thread.currentThread().getName() + " release a connection");
+                } catch (DaoException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        service.shutdown();
     }
 }

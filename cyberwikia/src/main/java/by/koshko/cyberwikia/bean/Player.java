@@ -176,14 +176,15 @@ public final class Player extends Entity {
     @Override
     public String toString() {
         return "Player{"
-                + "nickname='" + nickname + '\''
-                + ", profilePhoto='" + profilePhoto + '\''
-                + ", firstName='" + firstName + '\''
-                + ", lastName='" + lastName + '\''
-                + ", birth=" + birth
-                + ", countryID='" + country + '\''
-                + ", overview='" + overview + '\''
-                + '}';
+               + "nickname='" + nickname + '\''
+               + ", profilePhoto='" + profilePhoto + '\''
+               + ", firstName='" + firstName + '\''
+               + ", lastName='" + lastName + '\''
+               + ", birth=" + birth
+               + ", country=" + country
+               + ", overview='" + overview + '\''
+               + ", playerTeams=" + playerTeams
+               + '}';
     }
 
     @Override

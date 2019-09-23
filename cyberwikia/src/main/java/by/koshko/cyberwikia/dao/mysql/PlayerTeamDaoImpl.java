@@ -15,7 +15,7 @@ import java.util.Optional;
 public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDao {
 
     private static final String FIND_PLAYERS
-            = "SELECT team_id, active, join_date, leave_date "
+            = "SELECT player_id, active, join_date, leave_date "
             + "FROM m2m_player_team WHERE team_id=?";
     private static final String SAVE
             = "INSERT INTO m2m_player_team (player_id, team_id, active, join_date, leave_date) "
@@ -38,8 +38,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             statement = getConnection().prepareStatement(FIND_PLAYERS);
             statement.setLong(1, team.getId());
             rs = statement.executeQuery();
-            List<PlayerTeam> playerTeams = buildMultipleInstances(rs, team);
-            return playerTeams;
+            return buildMultipleInstances(rs, team);
         } catch (SQLException e) {
             logger.error("Cannot find player into team. SQL state: {}."
                          + " Message: {}", e.getSQLState(), e.getMessage());
@@ -58,9 +57,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             statement = getConnection().prepareStatement(FIND_TEAMS);
             statement.setLong(1, player.getId());
             rs = statement.executeQuery();
-            List<PlayerTeam> playerTeams = buildMultipleInstances(rs, player);
-//            playerTeams.forEach(playerTeam -> playerTeam.setPlayer(player));
-            return playerTeams;
+            return buildMultipleInstances(rs, player);
         } catch (SQLException e) {
             logger.error("Cannot find players teams. SQL state: {}."
                     + " Message: {}", e.getSQLState(), e.getMessage());

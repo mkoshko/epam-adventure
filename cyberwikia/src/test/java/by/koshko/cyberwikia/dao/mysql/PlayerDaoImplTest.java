@@ -1,10 +1,10 @@
 package by.koshko.cyberwikia.dao.mysql;
 
-import by.koshko.cyberwikia.ConnectorDB;
 import by.koshko.cyberwikia.bean.Country;
 import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerDao;
+import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
@@ -26,7 +26,8 @@ public class PlayerDaoImplTest {
     @BeforeTest
     public void setUp() throws SQLException, DaoException {
         playerDao = new PlayerDaoImpl();
-        connection = ConnectorDB.getConnection();
+        ConnectionPool.access().init();
+        connection = ConnectionPool.access().getConnection();
         playerDao.setConnection(connection);
     }
 
