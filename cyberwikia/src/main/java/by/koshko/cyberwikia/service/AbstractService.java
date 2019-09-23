@@ -8,9 +8,17 @@ import org.apache.logging.log4j.Logger;
 
 public class AbstractService {
 
-    protected Logger logger = LogManager.getLogger(getClass());
-    protected Transaction transaction;
-    protected boolean autoClose;
+    private Logger logger = LogManager.getLogger(getClass());
+    private Transaction transaction;
+    private boolean autoClose;
+
+    protected Transaction getTransaction() {
+        return transaction;
+    }
+
+    protected Logger getLogger() {
+        return logger;
+    }
 
     public AbstractService() throws ServiceException {
         try {

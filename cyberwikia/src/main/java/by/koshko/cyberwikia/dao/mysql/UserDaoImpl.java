@@ -38,7 +38,7 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
     private static final String DELETE_QUERY = "DELETE FROM user WHERE id=?;";
 
     @Override
-    public Optional<User> findByLogin(final String login) throws DaoException {
+    public User findByLogin(final String login) throws DaoException {
         PreparedStatement statement = null;
         if (login == null) {
             logger.warn("Attempt to find user by login with null argument.");
@@ -48,7 +48,7 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
             statement = getConnection().prepareStatement(FIND_BY_LOGIN_QUERY);
             statement.setString(1, login);
             rs = statement.executeQuery();
-            return Optional.ofNullable(buildSingleInstance(rs));
+            return buildSingleInstance(rs);
         } catch (SQLException e) {
             logger.error("Cannot find user by login. SQL state: {}. "
                          + "Message: {}", e.getSQLState(), e.getMessage());
@@ -60,14 +60,14 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public Optional<User> get(final long id) throws DaoException {
+    public User get(final long id) throws DaoException {
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
             statement = getConnection().prepareStatement(GET_QUERY);
             statement.setLong(1, id);
             rs = statement.executeQuery();
-            return Optional.ofNullable(buildSingleInstance(rs));
+            return buildSingleInstance(rs);
         } catch (SQLException e) {
             logger.error("Cannot find user by id. SQL state: {}. Message: {}",
                     e.getSQLState(), e.getMessage());

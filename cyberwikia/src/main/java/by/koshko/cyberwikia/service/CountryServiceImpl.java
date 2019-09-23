@@ -6,8 +6,6 @@ import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.DaoTypes;
 import by.koshko.cyberwikia.dao.Transaction;
 
-import java.util.Optional;
-
 public class CountryServiceImpl extends AbstractService implements CountryService {
 
     public CountryServiceImpl() throws ServiceException {
@@ -20,11 +18,11 @@ public class CountryServiceImpl extends AbstractService implements CountryServic
 
     public Country getCountryById(final long id) throws ServiceException {
         try {
-            CountryDao countryDao = transaction.getDao(DaoTypes.COUNTRYDAO);
-            Optional<Country> country = countryDao.get(id);
-            return country.orElse(null);
+            CountryDao countryDao = getTransaction().getDao(DaoTypes.COUNTRYDAO);
+            return countryDao.get(id);
         } catch (DaoException e) {
-            throw new ServiceException("");
+            getLogger().error(e.getMessage());
+            throw new ServiceException("Cannot load country");
         }
     }
 

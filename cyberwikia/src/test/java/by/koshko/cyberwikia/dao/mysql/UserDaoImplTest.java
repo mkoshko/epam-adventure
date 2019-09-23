@@ -30,48 +30,48 @@ public class UserDaoImplTest {
 
     @AfterTest
     public void tearDown() throws SQLException, DaoException {
-        Optional<User> user = userDao.findByLogin("testUser3");
-        userDao.delete(user.get());
+        User user = userDao.findByLogin("testUser3");
+        userDao.delete(user);
         connection.close();
     }
 
     @Test
     public void testFindByLogin() throws DaoException {
         String userLogin = "user1";
-        Optional<User> user = userDao.findByLogin(userLogin);
-        assertEquals(user.get().getLogin(), userLogin);
+        User user = userDao.findByLogin(userLogin);
+        assertEquals(user.getLogin(), userLogin);
     }
 
     @Test
     public void testFindByLoginEmpty() throws DaoException {
         String userLogin = "";
-        Optional<User> user = userDao.findByLogin(userLogin);
-        assertTrue(user.isEmpty());
+        User user = userDao.findByLogin(userLogin);
+        assertNull(user);
     }
 
     @Test
     public void testFindByLoginNull() throws DaoException {
-        Optional<User> user = userDao.findByLogin(null);
-        assertTrue(user.isEmpty());
+        User user = userDao.findByLogin(null);
+        assertNull(user);
     }
 
     @Test
     public void testGet() throws DaoException {
-        Optional<User> user = userDao.get(1);
-        assertEquals(user.get().getId(), 1);
+        User user = userDao.get(1);
+        assertEquals(user.getId(), 1);
     }
 
     @Test
     public void testGetNull() throws DaoException {
         Long id = null;
-        Optional<User> user = userDao.get(id);
-        assertEquals(user.get().getId(), 1);
+        User user = userDao.get(id);
+        assertEquals(user.getId(), 1);
     }
 
     @Test
     public void testGetWrongIndex() throws DaoException {
-        Optional<User> user = userDao.get(0);
-        assertTrue(user.isEmpty());
+        User user = userDao.get(0);
+        assertNull(user);
     }
 
     @Test
@@ -88,9 +88,9 @@ public class UserDaoImplTest {
         user.setPassword("uZCjA^P4%L&+.cNb");
         user.setRole(1);
         userDao.save(user);
-        Optional<User> user1 = userDao.findByLogin("testUser");
-        user.setId(user1.get().getId());
-        assertEquals(user1.get(), user);
+        User user1 = userDao.findByLogin("testUser");
+        user.setId(user1.getId());
+        assertEquals(user1, user);
     }
 
     /**
@@ -119,18 +119,18 @@ public class UserDaoImplTest {
         user.setEmail("mail2@gmail.com");
         user.setRole(2);
         user.setPassword("password2");
-        Optional<User> user1 = userDao.findByLogin("testUser2");
-        user.setId(user1.get().getId());
+        User user1 = userDao.findByLogin("testUser2");
+        user.setId(user1.getId());
         userDao.update(user);
         user1 = userDao.findByLogin("testUser3");
-        assertEquals(user1.get(), user);
+        assertEquals(user1, user);
     }
 
     @Test(dependsOnMethods = "testSave")
     public void testDelete() throws DaoException {
-        Optional<User> user = userDao.findByLogin("testUser");
-        userDao.delete(user.get());
+        User user = userDao.findByLogin("testUser");
+        userDao.delete(user);
         user = userDao.findByLogin("testUser");
-        assertTrue(user.isEmpty());
+        assertNull(user);
     }
 }

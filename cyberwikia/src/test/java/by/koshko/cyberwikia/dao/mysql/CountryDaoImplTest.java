@@ -33,8 +33,8 @@ public class CountryDaoImplTest {
 
     @Test
     public void testGet() throws DaoException {
-        Optional<Country> country = countryDao.get(1);
-        assertEquals(country.get().getName(), "Afghanistan");
+        Country country = countryDao.get(1);
+        assertEquals(country.getName(), "Afghanistan");
     }
 
     @Test

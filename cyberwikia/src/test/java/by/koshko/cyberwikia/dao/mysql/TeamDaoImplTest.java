@@ -61,8 +61,8 @@ public class TeamDaoImplTest {
         team.setCreator(creator);
         team.setOverview("overview");
         teamDao.save(team);
-        Optional<Team> team1 = teamDao.findByName("AVANGAR");
-        assertEquals(team1.get().getName(), "AVANGAR");
+        Team team1 = teamDao.findByName("AVANGAR");
+        assertEquals(team1.getName(), "AVANGAR");
     }
 
     @Test
@@ -71,9 +71,9 @@ public class TeamDaoImplTest {
 
     @Test(dependsOnMethods = {"testSave"})
     public void testDelete() throws DaoException {
-        Optional<Team> team = teamDao.findByName("AVANGAR");
-        teamDao.delete(team.get());
-        Optional<Team> team1 = teamDao.findByName("AVANGAR");
-        assertTrue(team1.isEmpty());
+        Team team = teamDao.findByName("AVANGAR");
+        teamDao.delete(team);
+        Team team1 = teamDao.findByName("AVANGAR");
+        assertNull(team1);
     }
 }

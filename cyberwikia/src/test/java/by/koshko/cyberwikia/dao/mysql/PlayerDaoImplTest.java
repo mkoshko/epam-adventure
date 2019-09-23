@@ -33,46 +33,46 @@ public class PlayerDaoImplTest {
 
     @AfterTest
     public void tearDown() throws SQLException, DaoException {
-        Optional<Player> pl = playerDao.findByNickname("nickname0");
-        playerDao.delete(pl.get());
-        pl = playerDao.findByNickname("nickname1");
-        playerDao.delete(pl.get());
+        Player player = playerDao.findByNickname("nickname0");
+        playerDao.delete(player);
+        player = playerDao.findByNickname("nickname1");
+        playerDao.delete(player);
         connection.close();
     }
 
     @DataProvider(name = "provider0")
     private Object[][] provide0() {
         return new Object[][] {
-                {null, "nickname0", "firstName0", "lastName0", "2000-05-05", Long.valueOf(183), "Overview"},
-                {"images/profile/t1.jpg", "nickname1", "firstName1", "lastName1", "1995-07-18", Long.valueOf(183), null}
+                {1, null, "nickname0", "firstName0", "lastName0", "2000-05-05", Long.valueOf(183), "Overview"},
+                {2, "images/profile/t1.jpg", "nickname1", "firstName1", "lastName1", "1995-07-18", Long.valueOf(183), null}
         };
     }
 
     @DataProvider(name = "provider1")
     private Object[][] provide1() {
         return new Object[][] {
-                {"images/profile/t1.jpg", null, "firstName0", "lastName0", "2000-05-05", Long.valueOf(183), "Overview"},
-                {"images/profile/t2.jpg", "nickname1", null, "lastName1", "1995-07-18", Long.valueOf(183), null},
-                {"images/profile/t2.jpg", "nickname1", "firstName1", null, "1995-07-18", Long.valueOf(183), null}
+                {1, "images/profile/t1.jpg", null, "firstName0", "lastName0", "2000-05-05", Long.valueOf(183), "Overview"},
+                {2, "images/profile/t2.jpg", "nickname1", null, "lastName1", "1995-07-18", Long.valueOf(183), null},
+                {3, "images/profile/t2.jpg", "nickname1", "firstName1", null, "1995-07-18", Long.valueOf(183), null}
         };
     }
 
     @Test
     public void testFindByNickname() throws DaoException {
-        Optional<Player> player = playerDao.findByNickname("flamie");
-        assertEquals(player.get().getNickname(), "flamie");
+        Player player = playerDao.findByNickname("flamie");
+        assertEquals(player.getNickname(), "flamie");
     }
 
     @Test
     public void testFindByNicknameEmpty() throws DaoException {
-        Optional<Player> player = playerDao.findByNickname("");
-        assertTrue(player.isEmpty());
+        Player player = playerDao.findByNickname("");
+        assertNull(player);
     }
 
     @Test
     public void testFindByNicknameNull() throws DaoException {
-        Optional<Player> player = playerDao.findByNickname(null);
-        assertTrue(player.isEmpty());
+        Player player = playerDao.findByNickname(null);
+        assertNull(player);
     }
 
     @Test
@@ -97,20 +97,14 @@ public class PlayerDaoImplTest {
 
     @Test
     public void testGet() throws DaoException {
-        Optional<Player> player = playerDao.get(1);
-        assertEquals(player.get().getId(), 1);
+        Player player = playerDao.get(1);
+        assertEquals(player.getId(), 1);
     }
 
     @Test
     public void testGetInvalidId() throws DaoException {
-        Optional<Player> player = playerDao.get(0);
-        assertTrue(player.isEmpty());
-    }
-
-    @Test
-    public void testGetInvalidId2() throws DaoException {
-        Optional<Player> player = playerDao.get(-1);
-        assertTrue(player.isEmpty());
+        Player player = playerDao.get(0);
+        assertNull(player);
     }
 
     @Test
@@ -120,10 +114,11 @@ public class PlayerDaoImplTest {
     }
 
     @Test(dataProvider = "provider0", dependsOnMethods = {"testFindByNickname"})
-    public void testSave(final String photo, final String nick, final String fName,
+    public void testSave(final long id, final String photo, final String nick, final String fName,
                          final String lName, final String birth, final Long cID,
                          final String overview) throws DaoException {
         Player player = new Player();
+        player.setId(id);
         player.setProfilePhoto(photo);
         player.setNickname(nick);
         player.setFirstName(fName);
@@ -134,27 +129,17 @@ public class PlayerDaoImplTest {
         player.setCountry(c);
         player.setOverview(overview);
         playerDao.save(player);
-        Optional<Player> player1 = playerDao.findByNickname("nickname0");
-        assertFalse(player1.isEmpty());
-    }
-
-    @Test
-    public void testSave2() throws DaoException {
-        Player player = new Player();
-        player.setId(1);
-        player.setProfilePhoto(null);
-        player.setNickname("player");
-        player.setFirstName(null);
-        player.setLastName(null);
-        playerDao.save(player);
+        Player player1 = playerDao.findByNickname("nickname0");
+        assertNotNull(player1);
     }
 
     @Test(dataProvider = "provider1", dependsOnMethods = {"testFindByNickname"},
     expectedExceptions = DaoException.class)
-    public void testSaveInvalidArgs(final String photo, final String nick, final String fName,
+    public void testSaveInvalidArgs(final long id, final String photo, final String nick, final String fName,
                          final String lName, final String birth, final Long cID,
                          final String overview) throws DaoException {
         Player player = new Player();
+        player.setId(id);
         player.setProfilePhoto(photo);
         player.setNickname(nick);
         player.setFirstName(fName);
@@ -179,19 +164,19 @@ public class PlayerDaoImplTest {
         c.setId(183);
         player.setCountry(c);
         playerDao.save(player);
-        Optional<Player> player1 = playerDao.findByNickname("Montajnaya");
-        player.setId(player1.get().getId());
+        Player player1 = playerDao.findByNickname("Montajnaya");
+        player.setId(player1.getId());
         player.setNickname("Pojarnaya");
         playerDao.update(player);
         player1 = playerDao.findByNickname("Pojarnaya");
-        assertEquals(player1.get(), player);
+        assertEquals(player1, player);
     }
 
     @Test(dependsOnMethods = {"testUpdate"})
     public void testDelete() throws DaoException {
-        Optional<Player> player = playerDao.findByNickname("Pojarnaya");
-        playerDao.delete(player.get());
+        Player player = playerDao.findByNickname("Pojarnaya");
+        playerDao.delete(player);
         player = playerDao.findByNickname("Pojarnaya");
-        assertTrue(player.isEmpty());
+        assertNull(player);
     }
 }

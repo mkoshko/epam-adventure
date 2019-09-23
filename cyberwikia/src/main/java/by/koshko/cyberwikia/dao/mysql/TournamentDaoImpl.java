@@ -34,14 +34,14 @@ public final class TournamentDaoImpl extends AbstractDao implements TournamentDa
             = "DELETE FROM tournament WHERE id=?;";
 
     @Override
-    public Optional<Tournament> get(final long id) throws DaoException {
+    public Tournament get(final long id) throws DaoException {
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
             statement = getConnection().prepareStatement(GET);
             rs = statement.executeQuery();
             statement.setLong(1, id);
-            return Optional.ofNullable(buildSingleInstance(rs));
+            return buildSingleInstance(rs);
         } catch (SQLException e) {
             logger.error("Cannot fetch tournament. SQL state: {}. Message: {}",
                     e.getSQLState(), e.getMessage());

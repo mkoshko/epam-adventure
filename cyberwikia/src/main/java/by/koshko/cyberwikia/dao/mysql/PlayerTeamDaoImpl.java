@@ -10,24 +10,23 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDao {
 
     private static final String FIND_PLAYERS
             = "SELECT player_id, active, join_date, leave_date "
-            + "FROM m2m_player_team WHERE team_id=?";
+              + "FROM m2m_player_team WHERE team_id=?";
     private static final String SAVE
             = "INSERT INTO m2m_player_team (player_id, team_id, active, join_date, leave_date) "
-            + "VALUES (?, ?, ?, ?, ?)";
+              + "VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE
             = "UPDATE m2m_player_team SET player_id=?, team_id=?,"
-            + " active=?, join_date=?, leave_date=? WHERE player_id=? AND team_id=?;";
+              + " active=?, join_date=?, leave_date=? WHERE player_id=? AND team_id=?;";
     private static final String DELETE
             = "DELETE FROM m2m_player_team WHERE player_id=? AND team_id=?";
     private static final String FIND_TEAMS
             = "SELECT team_id, active, join_date, leave_date "
-            + "FROM m2m_player_team WHERE player_id=?";
+              + "FROM m2m_player_team WHERE player_id=?";
 
     @Override
     public List<PlayerTeam> findPlayerTeam(final Team team) throws DaoException {
@@ -60,7 +59,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             return buildMultipleInstances(rs, player);
         } catch (SQLException e) {
             logger.error("Cannot find players teams. SQL state: {}."
-                    + " Message: {}", e.getSQLState(), e.getMessage());
+                         + " Message: {}", e.getSQLState(), e.getMessage());
             throw new DaoException("Cannot find players teams.");
         } finally {
             closeStatement(statement);
@@ -68,7 +67,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
     }
 
     @Override
-    public Optional<PlayerTeam> get(final long id) throws DaoException {
+    public PlayerTeam get(final long id) throws DaoException {
         throw new DaoException("Unsupported operation.");
     }
 
@@ -85,11 +84,12 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             statement = getConnection().prepareStatement(SAVE);
             setUpStatement(statement, entity);
             if (statement.executeUpdate() == 1) {
-                //TODO logger
+                logger.info("Player {} joined to the team {}.",
+                entity.getPlayer().getNickname(), entity.getTeam().getName());
             }
         } catch (SQLException e) {
             logger.error("Cannot put player into team. SQL state: {}."
-                    + " Message: {}", e.getSQLState(), e.getMessage());
+                         + " Message: {}", e.getSQLState(), e.getMessage());
             throw new DaoException("Cannot put player into team.");
         } finally {
             closeStatement(statement);
@@ -105,9 +105,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             setUpStatement(statement, entity);
             statement.setLong(6, entity.getPlayer().getId());
             statement.setLong(7, entity.getTeam().getId());
-            if (statement.executeUpdate() == 1) {
-                //TODO logger
-            }
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException("");
         } finally {
@@ -125,7 +123,7 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             statement.setLong(2, entity.getTeam().getId());
             if (statement.executeUpdate() == 1) {
                 logger.info("Player '{}' has been remove from team '{}'",
-                entity.getPlayer().getNickname(), entity.getTeam().getName());
+                        entity.getPlayer().getNickname(), entity.getTeam().getName());
             }
         } catch (SQLException e) {
             logger.error("Cannot delete player from team. SQL state: {}."

@@ -25,23 +25,22 @@ public final class PlayerServiceImpl extends AbstractService implements PlayerSe
 
     public Player loadProfile(final long id) throws ServiceException {
         try {
-            PlayerDao playerDao = transaction.getDao(DaoTypes.PLAYERDAO);
-            Optional<Player> playerOptional = playerDao.get(id);
-            CountryServiceImpl cs = new CountryServiceImpl(transaction);
-            TeamServiceImpl ts = new TeamServiceImpl(transaction);
-            PlayerTeamService pts = new PlayerTeamService();
-            if (playerOptional.isEmpty()) {
+            PlayerDao playerDao = getTransaction().getDao(DaoTypes.PLAYERDAO);
+            Player player = playerDao.get(id);
+            if (player == null) {
                 return null;
             }
-            Player player = playerOptional.get();
+            CountryServiceImpl cs = new CountryServiceImpl(getTransaction());
+            TeamServiceImpl ts = new TeamServiceImpl(getTransaction());
+            PlayerTeamService pts = new PlayerTeamService();
             player.setCountry(cs.getCountryById(player.getCountry().getId()));
-            player.setPlayerTeams(pts.findPlayerTeam(player));
+            player.setPlayerTeams(pts.loadPlayerTeams(player));
             for (PlayerTeam pt : player.getPlayerTeams()) {
                 pt.setTeam(ts.findTeamById(pt.getTeam().getId()));
             }
             return player;
         } catch (DaoException e) {
-            logger.error(e.getMessage());
+            getLogger().error(e.getMessage());
             throw new ServiceException("Cannot load player profile.");
         }
     }
@@ -49,7 +48,7 @@ public final class PlayerServiceImpl extends AbstractService implements PlayerSe
     @Override
     public List<Player> findAll() throws ServiceException {
         try {
-            PlayerDao playerDao = transaction.getDao(DaoTypes.PLAYERDAO);
+            PlayerDao playerDao = getTransaction().getDao(DaoTypes.PLAYERDAO);
             return playerDao.getAll();
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());

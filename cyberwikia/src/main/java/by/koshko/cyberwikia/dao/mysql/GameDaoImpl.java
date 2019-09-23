@@ -21,13 +21,13 @@ public class GameDaoImpl extends AbstractDao implements GameDao {
     private static final String UPDATE
             = "UPDATE game SET title=?, icon_file=? WHERE id=?;";
     @Override
-    public Optional<Game> get(final long id) throws DaoException {
+    public Game get(final long id) throws DaoException {
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
             statement = getConnection().prepareStatement(GET);
             rs = statement.executeQuery();
-            return Optional.ofNullable(buildSingleInstance(rs));
+            return buildSingleInstance(rs);
         } catch (SQLException e) {
             logger.error("Cannot find game by ID. SQL state: {}."
                          + " Message: {}", e.getSQLState(), e.getMessage());

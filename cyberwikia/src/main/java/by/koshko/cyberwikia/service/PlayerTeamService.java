@@ -14,9 +14,9 @@ public class PlayerTeamService extends AbstractService {
         super();
     }
 
-    public List<PlayerTeam> findPlayerTeam(final Player player) throws ServiceException {
+    public List<PlayerTeam> loadPlayerTeams(final Player player) throws ServiceException {
         try {
-            PlayerTeamDao ptd = transaction.getDao(DaoTypes.PLAYERTEAMDAO);
+            PlayerTeamDao ptd = getTransaction().getDao(DaoTypes.PLAYERTEAMDAO);
             close();
             return ptd.findPlayerTeam(player);
         } catch (DaoException e) {

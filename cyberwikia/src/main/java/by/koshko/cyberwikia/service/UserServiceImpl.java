@@ -30,13 +30,12 @@ public class UserServiceImpl extends AbstractService implements UserService {
     public User signIn(final String login, final String password)
             throws ServiceException {
         try {
-            UserDao userDao = transaction.getDao(DaoTypes.USERDAO);
-            Optional<User> user = userDao.findByLogin(login);
-            if (user.isPresent()) {
-                User u = user.get();
+            UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
+            User user = userDao.findByLogin(login);
+            if (user != null) {
                 Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
-                if (argon2.verify(u.getPassword(), password)) {
-                    return u;
+                if (argon2.verify(user.getPassword(), password)) {
+                    return user;
                 } else {
                     return null;
                 }
@@ -47,5 +46,8 @@ public class UserServiceImpl extends AbstractService implements UserService {
         } finally {
             close();
         }
+    }
+
+    public void saveUser(final User user) throws ServiceException {
     }
 }

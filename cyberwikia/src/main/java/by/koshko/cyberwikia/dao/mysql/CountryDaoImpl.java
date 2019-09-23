@@ -20,14 +20,14 @@ public final class CountryDaoImpl extends AbstractDao implements CountryDao {
             = "SELECT id, name, code, icon_file FROM country;";
 
     @Override
-    public Optional<Country> get(final long id) throws DaoException {
+    public Country get(final long id) throws DaoException {
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
             statement = getConnection().prepareStatement(GET);
             statement.setLong(1, id);
             rs = statement.executeQuery();
-            return Optional.ofNullable(buildSingleInstance(rs));
+            return buildSingleInstance(rs);
         } catch (SQLException e) {
             logger.error("Cannot find country by ID. SQL state: {}."
                          + " Message: {}", e.getSQLState(), e.getMessage());

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface Dao<T extends Entity> extends Connectable {
 
-    Optional<T> get(long id) throws DaoException;
+    T get(long id) throws DaoException;
 
     List<T> getAll() throws DaoException;
 

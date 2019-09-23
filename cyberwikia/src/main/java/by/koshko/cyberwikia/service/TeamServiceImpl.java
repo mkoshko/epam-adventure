@@ -1,13 +1,7 @@
 package by.koshko.cyberwikia.service;
 
 import by.koshko.cyberwikia.bean.Team;
-import by.koshko.cyberwikia.dao.DaoException;
-import by.koshko.cyberwikia.dao.DaoTypes;
-import by.koshko.cyberwikia.dao.TeamDao;
-import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.dao.TransactionImpl;
-
-import java.util.Optional;
+import by.koshko.cyberwikia.dao.*;
 
 public class TeamServiceImpl extends AbstractService {
 
@@ -23,8 +17,7 @@ public class TeamServiceImpl extends AbstractService {
         try {
             Transaction transaction = new TransactionImpl();
             TeamDao teamDao = transaction.getDao(DaoTypes.TEAMDAO);
-            Optional<Team> team = teamDao.get(id);
-            return team.orElse(null);
+            return teamDao.get(id);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
         }

@@ -45,7 +45,7 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
     private static final String DELETE_QUERY = "DELETE FROM player WHERE id=?;";
 
     @Override
-    public Optional<Player> findByNickname(final String nickname)
+    public Player findByNickname(final String nickname)
             throws DaoException {
         if (nickname == null) {
             logger.warn("Attempt to find player by nickname with null"
@@ -57,7 +57,7 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
             statement = getConnection().prepareStatement(FIND_BY_NICKNAME_QUERY);
             statement.setString(1, nickname);
             rs = statement.executeQuery();
-            return Optional.ofNullable(buildSingleInstance(rs));
+            return buildSingleInstance(rs);
         } catch (SQLException e) {
             logger.error("Cannot find player by nickname. SQL state: {}."
                          + " Message: {}", e.getSQLState(), e.getMessage());
@@ -93,14 +93,14 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
     }
 
     @Override
-    public Optional<Player> get(final long id) throws DaoException {
+    public Player get(final long id) throws DaoException {
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
             statement = getConnection().prepareStatement(GET_QUERY);
             statement.setLong(1, id);
             rs = statement.executeQuery();
-            return Optional.ofNullable(buildSingleInstance(rs));
+            return buildSingleInstance(rs);
         } catch (SQLException e) {
             logger.error("Cannot find player by id. SQL state: {}. Message: {}",
                     e.getSQLState(), e.getMessage());

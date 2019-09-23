@@ -44,7 +44,7 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
             + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     @Override
-    public Optional<Team> findByName(final String name) throws DaoException {
+    public Team findByName(final String name) throws DaoException {
         if (name == null) {
             logger.warn("Attempt to find team by name with null argument.");
         }
@@ -54,7 +54,7 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
             statement = getConnection().prepareStatement(FIND_BY_NAME_QUERY);
             statement.setString(1, name);
             rs = statement.executeQuery();
-            return Optional.ofNullable(buildSingleInstance(rs));
+            return buildSingleInstance(rs);
         } catch (SQLException e) {
             logger.error("Cannot find team by name. SQL state: {}."
                          + " Message: {}", e.getSQLState(), e.getMessage());
@@ -66,14 +66,14 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
     }
 
     @Override
-    public Optional<Team> get(final long id) throws DaoException {
+    public Team get(final long id) throws DaoException {
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
             statement = getConnection().prepareStatement(GET_QUERY);
             statement.setLong(1, id);
             rs = statement.executeQuery();
-            return Optional.ofNullable(buildSingleInstance(rs));
+            return buildSingleInstance(rs);
         } catch (SQLException e) {
             logger.error("Cannot find team by ID. SQL state: {}. Message: {}",
                     e.getSQLState(), e.getMessage());
