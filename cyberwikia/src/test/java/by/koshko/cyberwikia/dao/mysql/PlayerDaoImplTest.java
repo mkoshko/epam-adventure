@@ -14,7 +14,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static org.testng.Assert.*;
 
@@ -73,6 +72,13 @@ public class PlayerDaoImplTest {
     public void testFindByNicknameNull() throws DaoException {
         Player player = playerDao.findByNickname(null);
         assertNull(player);
+    }
+
+    @Test
+    public void getAllTest() throws DaoException {
+        List<Player> players = playerDao.getAll(5, 5);
+        assertEquals(players.size(), 5);
+        System.out.println(players);
     }
 
     @Test

@@ -13,13 +13,13 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
     private static final ConnectionPool INSTANCE = new ConnectionPool();
-    private static Logger logger = LogManager.getLogger(ConnectionPool.class);
+    private Logger logger = LogManager.getLogger(getClass());
     private LinkedList<ConnectionWrapper> pool
             = new LinkedList<>();
     private TreeSet<ConnectionWrapper> used
             = new TreeSet<>();
     private ReentrantLock locker = new ReentrantLock();
-    private MysqlDataSource source = new MysqlDataSource();
+    private MysqlDataSource source;
     private int maxPoolSize;
     private int connectionNumber;
     private int checkConnectionTimeout;
@@ -33,13 +33,18 @@ public class ConnectionPool {
 
     public void init() throws DaoException {
         try {
+            logger.info("Connection pool initialization...");
             ResourceBundle bundle = ResourceBundle.getBundle("database");
+            String driver = bundle.getString("db.driver");
+            Class.forName(driver);
             String url = bundle.getString("db.url");
             String user = bundle.getString("db.user");
             String pass = bundle.getString("db.pass");
+            //TODO validate parameters
             int initPoolSize = Integer.parseInt(bundle.getString("db.init-pool-size"));
             maxPoolSize = Integer.parseInt(bundle.getString("db.max-pool-size"));
             checkConnectionTimeout = Integer.parseInt(bundle.getString("db.connection-timeout"));
+            source = new MysqlDataSource();
             source.setURL(url);
             source.setUser(user);
             source.setPassword(pass);
@@ -47,8 +52,12 @@ public class ConnectionPool {
                 pool.add(new ConnectionWrapper(source.getConnection()));
             }
             connectionNumber = initPoolSize;
+            logger.info("Connection pool is successfully initialized. Idle connections: {}", pool.size());
         } catch (SQLException e) {
             logger.error("Initialization error. {}", e.getMessage());
+            throw new DaoException("Cannot initialize connection pool.");
+        } catch (ClassNotFoundException e) {
+            logger.error("Connection pool error. {}", e.getMessage());
             throw new DaoException("Cannot initialize connection pool.");
         }
     }

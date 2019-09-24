@@ -11,5 +11,7 @@ public interface PlayerService {
 
     List<Player> findAll() throws ServiceException;
 
+    List<Player> findAll(int offset, int limit) throws ServiceException;
+
     Player loadProfile(long id) throws ServiceException;
 }

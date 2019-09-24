@@ -2,16 +2,16 @@
   Created by IntelliJ IDEA.
   User: maxim
   Date: 9/23/19
-  Time: 3:32 PM
+  Time: 10:25 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-    <a href="countries.html">Player list</a>
-  </body>
+<head>
+    <title>Title</title>
+</head>
+<body>
+
+</body>
 </html>

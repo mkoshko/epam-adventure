@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
     private static final int PLAYER_ID = 1;
@@ -28,6 +27,10 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
             = "SELECT id, profile_photo, nickname, firstName, lastName, birth, "
               + "country_id, overview "
               + "FROM player ";
+    private static final String PAGINATION
+            = "SELECT id, profile_photo, nickname, firstName, lastName, birth,"
+              + " country_id, overview"
+              + " FROM player LIMIT ?, ?;";
     private static final String FIND_BY_NICKNAME_QUERY
             = SELECT_FROM + "WHERE nickname=?;";
     private static final String FIND_BY_FULLNAME_QUERY
@@ -121,6 +124,26 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
             return buildMultipleInstances(rs);
         } catch (SQLException e) {
             logger.error("Cannot find all players. SQL state: {}. Message: {}",
+                    e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot fetch players.");
+        } finally {
+            closeResultSet(rs);
+            closeStatement(statement);
+        }
+    }
+
+    public List<Player> getAll(final int offset, final int limit)
+            throws DaoException {
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            statement = getConnection().prepareStatement(PAGINATION);
+            statement.setInt(1, offset);
+            statement.setInt(2, limit);
+            rs = statement.executeQuery();
+            return buildMultipleInstances(rs);
+        } catch (SQLException e) {
+            logger.error("Cannot find players. SQL state: {}. Message: {}",
                     e.getSQLState(), e.getMessage());
             throw new DaoException("Cannot fetch players.");
         } finally {

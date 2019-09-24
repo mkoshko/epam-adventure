@@ -2,7 +2,7 @@ package by.koshko.cyberwikia.service;
 
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.dao.TransactionImpl;
+import by.koshko.cyberwikia.dao.mysql.TransactionImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

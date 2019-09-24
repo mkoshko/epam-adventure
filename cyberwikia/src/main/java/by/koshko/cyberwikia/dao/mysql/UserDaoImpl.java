@@ -3,13 +3,13 @@ package by.koshko.cyberwikia.dao.mysql;
 import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.UserDao;
+import by.koshko.cyberwikia.dao.mysql.AbstractDao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public final class UserDaoImpl extends AbstractDao implements UserDao {
     private static final int USER_LOGIN = 1;

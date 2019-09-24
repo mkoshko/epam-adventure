@@ -10,10 +10,8 @@ import by.koshko.cyberwikia.dao.TeamDao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public final class TeamDaoImpl extends AbstractDao implements TeamDao {
     private static final int TEAM_NAME = 1;

@@ -2,10 +2,11 @@ package by.koshko.cyberwikia.service;
 
 import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.bean.PlayerTeam;
-import by.koshko.cyberwikia.dao.*;
+import by.koshko.cyberwikia.dao.DaoException;
+import by.koshko.cyberwikia.dao.DaoTypes;
+import by.koshko.cyberwikia.dao.PlayerDao;
 
 import java.util.List;
-import java.util.Optional;
 
 public final class PlayerServiceImpl extends AbstractService implements PlayerService {
 
@@ -53,6 +54,15 @@ public final class PlayerServiceImpl extends AbstractService implements PlayerSe
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
         }
+    }
 
+    @Override
+    public List<Player> findAll(final int offset, final int limit) throws ServiceException {
+        try {
+            PlayerDao playerDao = getTransaction().getDao(DaoTypes.PLAYERDAO);
+            return playerDao.getAll(offset, limit);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage());
+        }
     }
 }

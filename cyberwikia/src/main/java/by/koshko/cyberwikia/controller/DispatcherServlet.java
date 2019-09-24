@@ -20,7 +20,7 @@ public class DispatcherServlet extends HttpServlet {
         try {
             ConnectionPool.access().init();
         } catch (DaoException e) {
-            logger.error("Cannot initialize application.");
+            logger.error("Cannot initialize application. {}", e.getMessage());
             destroy();
         }
     }

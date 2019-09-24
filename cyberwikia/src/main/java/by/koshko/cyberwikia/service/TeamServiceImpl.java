@@ -2,6 +2,7 @@ package by.koshko.cyberwikia.service;
 
 import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.dao.*;
+import by.koshko.cyberwikia.dao.mysql.TransactionImpl;
 
 public class TeamServiceImpl extends AbstractService {
 

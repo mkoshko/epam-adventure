@@ -1,9 +1,9 @@
-package by.koshko.cyberwikia.dao;
+package by.koshko.cyberwikia.dao.mysql;
 
 import by.koshko.cyberwikia.bean.Entity;
+import by.koshko.cyberwikia.dao.*;
 import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
 import by.koshko.cyberwikia.dao.cyberpool.ConnectionWrapper;
-import by.koshko.cyberwikia.dao.mysql.*;
 
 public class TransactionImpl implements Transaction {
     private ConnectionWrapper connection;

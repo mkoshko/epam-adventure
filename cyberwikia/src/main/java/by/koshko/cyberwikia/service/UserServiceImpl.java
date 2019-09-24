@@ -8,10 +8,6 @@ import by.koshko.cyberwikia.dao.UserDao;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import java.util.Optional;
-
 public class UserServiceImpl extends AbstractService implements UserService {
 
     public UserServiceImpl() throws ServiceException {
@@ -49,5 +45,19 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     public void saveUser(final User user) throws ServiceException {
+        if (user == null) {
+            throw new ServiceException("User argument is null.");
+        }
+        try {
+            UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
+            if (user.getId() == 0) {
+                userDao.save(user);
+            } else {
+                userDao.update(user);
+            }
+        } catch (DaoException e) {
+            getLogger().error(e.getMessage());
+            throw new ServiceException("Cannot save the user.");
+        }
     }
 }

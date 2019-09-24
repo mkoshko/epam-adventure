@@ -1,11 +1,19 @@
 package by.koshko.cyberwikia.service;
 
 import by.koshko.cyberwikia.bean.User;
+import by.koshko.cyberwikia.dao.DaoException;
+import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
 public class UserServiceImplTest {
+
+    @BeforeTest
+    public void init() throws DaoException {
+        ConnectionPool.access().init();
+    }
 
     @Test
     public void testSignIn() throws ServiceException {
