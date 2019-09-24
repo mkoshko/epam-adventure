@@ -27,11 +27,15 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        logger.info("GET, {}", req.getRequestURI());
+        resp.sendRedirect("registration.jsp");
     }
 
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        logger.info("POST, {}", req.getRequestURI());
+        logger.info("login: {}", req.getParameter("login"));
+        CreateUser createUser = new CreateUser();
+        createUser.execute(req, resp);
     }
 }

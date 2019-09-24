@@ -7,5 +7,6 @@ public interface UserService {
 
     User findByLogin(String login) throws ServiceException;
     User signIn(String login, String password) throws ServiceException;
+    void saveUser(User user) throws ServiceException;
 
 }

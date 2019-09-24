@@ -10,23 +10,39 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CyberWikia</title>
+    <style>
+      .border {
+        display: inline-block;
+        width: 70px;
+        height: 70px;
+        margin: 6px;
+      }
+      .content {
+        margin: auto;
+        width: 60%;
+        border: 3px solid #73AD21;
+        padding: 10px;;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
-          <a href="players.html">Players</a>
+        <div class="col-md-3">
+            <a href="players.html">Players</a>
         </div>
-        <div class="col-md-4">
-          <a href="tournaments.html">Teams</a>
+        <div class="col-md-3">
+          <a href="teams.html">Teams</a>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <a href="tournaments.html">Tournaments</a>
+        </div>
+        <div class="col-md-3">
+          <a href="registration.html">Registration</a>
         </div>
       </div>
     </div>

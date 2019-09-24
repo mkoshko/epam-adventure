@@ -51,6 +51,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
         try {
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
             if (user.getId() == 0) {
+                user.setPassword(Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id)
+                        .hash(4, 1024 * 1024, 4, user.getPassword()));
+                user.setRole(2);
                 userDao.save(user);
             } else {
                 userDao.update(user);
@@ -58,6 +61,8 @@ public class UserServiceImpl extends AbstractService implements UserService {
         } catch (DaoException e) {
             getLogger().error(e.getMessage());
             throw new ServiceException("Cannot save the user.");
+        } finally {
+            getTransaction().close();
         }
     }
 }
