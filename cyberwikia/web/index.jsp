@@ -7,11 +7,31 @@
 --%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
   <head>
-    <title>$Title$</title>
+    <meta>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CyberWikia</title>
   </head>
   <body>
-    <a href="countries.html">Player list</a>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <a href="players.html">Players</a>
+        </div>
+        <div class="col-md-4">
+          <a href="tournaments.html">Teams</a>
+        </div>
+        <div class="col-md-4">
+          <a href="tournaments.html">Tournaments</a>
+        </div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   </body>
 </html>

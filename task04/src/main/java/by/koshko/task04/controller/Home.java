@@ -27,10 +27,10 @@ public final class Home extends HttpServlet {
                     .getResource("data/banks.xsd").getPath());
             Banks b = builder.buildBanks(path);
             req.setAttribute("banks", b.getBanks());
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            req.getRequestDispatcher("index.jsp").forward(req, resp);
         } catch (BankBuilderException e) {
             req.setAttribute("error", e.getMessage());
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            req.getRequestDispatcher("index.jsp").forward(req, resp);
             LogManager.getLogger(getClass()).error(e.getMessage());
         }
     }
