@@ -12,7 +12,7 @@ public class UserServiceImplTest {
 
     @BeforeTest
     public void init() throws DaoException {
-        ConnectionPool.access().init();
+        ConnectionPool.getInstance().init();
     }
 
     @Test

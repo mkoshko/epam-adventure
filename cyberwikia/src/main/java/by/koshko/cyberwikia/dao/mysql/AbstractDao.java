@@ -1,6 +1,5 @@
 package by.koshko.cyberwikia.dao.mysql;
 
-import by.koshko.cyberwikia.bean.Entity;
 import by.koshko.cyberwikia.dao.Connectable;
 import by.koshko.cyberwikia.dao.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -42,12 +41,6 @@ public class AbstractDao implements Connectable {
             }
         } catch (SQLException e) {
             logger.error("Error during closing result set. {}", e.getMessage());
-        }
-    }
-
-    protected void requireNonNullEntity(final Entity entity) throws DaoException {
-        if (entity == null) {
-            throw new DaoException("Cannot perform operations with null entity.");
         }
     }
 

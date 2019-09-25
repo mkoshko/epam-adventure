@@ -9,40 +9,38 @@ public class TransactionImpl implements Transaction {
     private ConnectionWrapper connection;
 
     public TransactionImpl() throws DaoException {
-        this.connection = ConnectionPool
-                .access()
-                .getConnection();
+        this.connection = ConnectionPool.getInstance().getConnection();
     }
 
     public <T extends Dao<? extends Entity>> T getDao(final DaoTypes type)
             throws DaoException {
         switch (type) {
             case USERDAO:
-                UserDao userDao = new UserDaoImpl();
+                UserDao userDao = DaoFactory.getUserDao();
                 userDao.setConnection(connection);
                 return (T) userDao;
             case PLAYERDAO:
-                PlayerDao playerDao = new PlayerDaoImpl();
+                PlayerDao playerDao = DaoFactory.getPlayerDao();
                 playerDao.setConnection(connection);
                 return (T) playerDao;
             case TEAMDAO:
-                TeamDao teamDao = new TeamDaoImpl();
+                TeamDao teamDao = DaoFactory.getTeamDao();
                 teamDao.setConnection(connection);
                 return (T) teamDao;
             case GAMEDAO:
-                GameDao gameDao = new GameDaoImpl();
+                GameDao gameDao = DaoFactory.getGameDao();
                 gameDao.setConnection(connection);
                 return (T) gameDao;
             case COUNTRYDAO:
-                CountryDao countryDao = new CountryDaoImpl();
+                CountryDao countryDao = DaoFactory.getCountryDao();
                 countryDao.setConnection(connection);
                 return (T) countryDao;
             case PLAYERTEAMDAO:
-                PlayerTeamDao playerTeamDao = new PlayerTeamDaoImpl();
+                PlayerTeamDao playerTeamDao = DaoFactory.getPlayerTeamDao();
                 playerTeamDao.setConnection(connection);
                 return (T) playerTeamDao;
             case TOURNAMENTDAO:
-                TournamentDao tournamentDao = new TournamentDaoImpl();
+                TournamentDao tournamentDao = DaoFactory.getTournamentDao();
                 tournamentDao.setConnection(connection);
                 return (T) tournamentDao;
             default:

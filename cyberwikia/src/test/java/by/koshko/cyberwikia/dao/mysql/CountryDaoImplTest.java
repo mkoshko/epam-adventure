@@ -19,8 +19,8 @@ public class CountryDaoImplTest {
 
     @BeforeTest
     public void setUp() throws SQLException, DaoException {
-        ConnectionPool.access().init();
-        connection = ConnectionPool.access().getConnection();
+        ConnectionPool.getInstance().init();
+        connection = ConnectionPool.getInstance().getConnection();
         countryDao = new CountryDaoImpl();
         countryDao.setConnection(connection);
     }

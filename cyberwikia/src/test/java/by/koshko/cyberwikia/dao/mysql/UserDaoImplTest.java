@@ -22,8 +22,8 @@ public class UserDaoImplTest {
     @BeforeTest
     public void setUp() throws SQLException, DaoException {
         userDao = new UserDaoImpl();
-        ConnectionPool.access().init();
-        connection = ConnectionPool.access().getConnection();
+        ConnectionPool.getInstance().init();
+        connection = ConnectionPool.getInstance().getConnection();
         userDao.setConnection(connection);
     }
 

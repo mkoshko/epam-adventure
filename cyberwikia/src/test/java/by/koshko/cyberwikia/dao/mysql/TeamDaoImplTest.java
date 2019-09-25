@@ -21,8 +21,8 @@ public class TeamDaoImplTest {
 
     @BeforeTest
     public void setUp() throws SQLException, DaoException {
-        ConnectionPool.access().init();
-        connection = ConnectionPool.access().getConnection();
+        ConnectionPool.getInstance().init();
+        connection = ConnectionPool.getInstance().getConnection();
         teamDao = new TeamDaoImpl();
         teamDao.setConnection(connection);
     }

@@ -102,7 +102,6 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
 
     @Override
     public void save(final Team entity) throws DaoException {
-        requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(SAVE_QUERY);
@@ -119,7 +118,6 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
 
     @Override
     public void update(final Team entity) throws DaoException {
-        requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(UPDATE_QUERY);
@@ -139,7 +137,6 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
 
     @Override
     public void delete(final Team entity) throws DaoException {
-        requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(DELETE_QUERY);

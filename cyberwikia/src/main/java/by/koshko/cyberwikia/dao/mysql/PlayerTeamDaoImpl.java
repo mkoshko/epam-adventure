@@ -6,7 +6,11 @@ import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerTeamDao;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +34,6 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
 
     @Override
     public List<PlayerTeam> findPlayerTeam(final Team team) throws DaoException {
-        requireNonNullEntity(team);
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
@@ -49,7 +52,6 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
 
     @Override
     public List<PlayerTeam> findPlayerTeam(final Player player) throws DaoException {
-        requireNonNullEntity(player);
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
@@ -78,7 +80,6 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
 
     @Override
     public void save(final PlayerTeam entity) throws DaoException {
-        requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(SAVE);
@@ -98,7 +99,6 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
 
     @Override
     public void update(final PlayerTeam entity) throws DaoException {
-        requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(UPDATE);
@@ -115,7 +115,6 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
 
     @Override
     public void delete(final PlayerTeam entity) throws DaoException {
-        requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(DELETE);

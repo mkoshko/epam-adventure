@@ -22,6 +22,11 @@ public final class ConnectionWrapper implements Connection, Comparable<Connectio
     }
 
     @Override
+    public void close() {
+        ConnectionPool.getInstance().releaseConnection(this);
+    }
+
+    @Override
     public Statement createStatement() throws SQLException {
         return connection.createStatement();
     }
@@ -59,13 +64,6 @@ public final class ConnectionWrapper implements Connection, Comparable<Connectio
     @Override
     public void rollback() throws SQLException {
         connection.rollback();
-    }
-
-    @Override
-    public void close() {
-        ConnectionPool
-                .access()
-                .releaseConnection(this);
     }
 
     @Override

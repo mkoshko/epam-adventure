@@ -154,7 +154,6 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
 
     @Override
     public void save(final Player entity) throws DaoException {
-        requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(SAVE_QUERY);
@@ -174,7 +173,6 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
 
     @Override
     public void update(final Player entity) throws DaoException {
-        requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(UPDATE_PLAYER_QUERY);

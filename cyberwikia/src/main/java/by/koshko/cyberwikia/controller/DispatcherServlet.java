@@ -18,7 +18,7 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     public void init() {
         try {
-            ConnectionPool.access().init();
+            ConnectionPool.getInstance().init();
         } catch (DaoException e) {
             logger.error("Cannot initialize application. {}", e.getMessage());
             destroy();
