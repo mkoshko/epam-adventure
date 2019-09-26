@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ConnectionPool {
+public final class ConnectionPool {
     private static final ConnectionPool INSTANCE = new ConnectionPool();
     private Logger logger = LogManager.getLogger(getClass());
     private ConcurrentLinkedQueue<ConnectionWrapper> pool
@@ -138,6 +138,7 @@ public class ConnectionPool {
     }
 
     private ConnectionWrapper createConnection() throws SQLException {
+        logger.debug("Creating a connection.");
         ConnectionWrapper connection
                 = new ConnectionWrapper(source.getConnection());
         used.add(connection);

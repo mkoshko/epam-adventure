@@ -43,7 +43,7 @@ public final class Player extends Entity {
         return playerTeams;
     }
 
-    public void setPlayerTeams(List<PlayerTeam> playerTeams) {
+    public void setPlayerTeams(final List<PlayerTeam> playerTeams) {
         this.playerTeams = playerTeams;
     }
 

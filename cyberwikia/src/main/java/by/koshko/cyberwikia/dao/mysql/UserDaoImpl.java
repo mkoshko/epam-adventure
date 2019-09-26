@@ -98,7 +98,6 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public void save(final User entity) throws DaoException {
-        requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(SAVE_QUERY);
@@ -118,7 +117,6 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public void update(final User entity) throws DaoException {
-        requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(UPDATE_QUERY);
@@ -139,7 +137,6 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public void delete(final User entity) throws DaoException {
-        requireNonNullEntity(entity);
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(DELETE_QUERY);

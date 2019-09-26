@@ -28,7 +28,16 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         logger.info("GET, {}", req.getRequestURI());
-        resp.sendRedirect("registration.jsp");
+        if (req.getRequestURI().contains("/profile/")) {
+            PlayerProfileCommand c = new PlayerProfileCommand();
+            c.execute(req, resp);
+        } else if (req.getRequestURI().contains("/players")) {
+            PlayerListCommand c1 = new PlayerListCommand();
+            c1.execute(req, resp);
+        } else if (req.getRequestURI().contains("/teams")) {
+            TeamListCommand c2 = new TeamListCommand();
+            c2.execute(req, resp);
+        }
     }
 
     @Override

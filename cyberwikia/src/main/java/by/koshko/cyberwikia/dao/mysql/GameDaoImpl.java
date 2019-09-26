@@ -25,6 +25,7 @@ public class GameDaoImpl extends AbstractDao implements GameDao {
         ResultSet rs = null;
         try {
             statement = getConnection().prepareStatement(GET);
+            statement.setLong(1, id);
             rs = statement.executeQuery();
             return buildSingleInstance(rs);
         } catch (SQLException e) {

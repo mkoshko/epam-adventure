@@ -1,7 +1,7 @@
 package by.koshko.cyberwikia.controller;
 
 import by.koshko.cyberwikia.service.PlayerService;
-import by.koshko.cyberwikia.service.PlayerServiceImpl;
+import by.koshko.cyberwikia.service.impl.PlayerServiceImpl;
 import by.koshko.cyberwikia.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +21,7 @@ public class PlayerListCommand implements Command {
         try {
             PlayerService playerService = new PlayerServiceImpl();
             request.setAttribute("players", playerService.findAll());
-            request.getRequestDispatcher("/players.jsp").forward(request, response);
+            request.getRequestDispatcher("players.jsp").forward(request, response);
         } catch (ServiceException e) {
 
         } catch (ServletException e) {

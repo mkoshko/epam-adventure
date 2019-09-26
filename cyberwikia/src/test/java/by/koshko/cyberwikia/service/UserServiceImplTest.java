@@ -3,6 +3,7 @@ package by.koshko.cyberwikia.service;
 import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
+import by.koshko.cyberwikia.service.impl.UserServiceImpl;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 

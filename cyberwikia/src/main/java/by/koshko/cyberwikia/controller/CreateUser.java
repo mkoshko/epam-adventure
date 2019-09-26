@@ -3,7 +3,7 @@ package by.koshko.cyberwikia.controller;
 import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.UserService;
-import by.koshko.cyberwikia.service.UserServiceImpl;
+import by.koshko.cyberwikia.service.impl.UserServiceImpl;
 import by.koshko.cyberwikia.service.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
