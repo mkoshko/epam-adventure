@@ -1,7 +1,10 @@
 package by.koshko.cyberwikia.service.impl;
 
 import by.koshko.cyberwikia.bean.Game;
-import by.koshko.cyberwikia.dao.*;
+import by.koshko.cyberwikia.dao.DaoException;
+import by.koshko.cyberwikia.dao.DaoTypes;
+import by.koshko.cyberwikia.dao.GameDao;
+import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.service.GameService;
 import by.koshko.cyberwikia.service.ServiceException;
 

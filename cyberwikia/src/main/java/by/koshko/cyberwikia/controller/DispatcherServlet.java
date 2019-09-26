@@ -44,7 +44,7 @@ public class DispatcherServlet extends HttpServlet {
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         logger.info("POST, {}", req.getRequestURI());
         logger.info("login: {}", req.getParameter("login"));
-        CreateUser createUser = new CreateUser();
+        CreateUserCommand createUser = new CreateUserCommand();
         createUser.execute(req, resp);
     }
 }

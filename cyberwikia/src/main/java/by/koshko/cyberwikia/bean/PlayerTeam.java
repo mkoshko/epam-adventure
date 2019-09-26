@@ -2,7 +2,7 @@ package by.koshko.cyberwikia.bean;
 
 import java.time.LocalDate;
 
-public class PlayerTeam extends Entity {
+public final class PlayerTeam extends Entity {
     private Player player;
     private Team team;
     private boolean active;

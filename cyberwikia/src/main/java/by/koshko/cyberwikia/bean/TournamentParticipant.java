@@ -1,6 +1,6 @@
 package by.koshko.cyberwikia.bean;
 
-public class TournamentParticipant extends Entity {
+public final class TournamentParticipant extends Entity {
 
     private Team team;
     private int placement;
