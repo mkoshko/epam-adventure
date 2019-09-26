@@ -11,13 +11,6 @@ CREATE TABLE country
 );
 CREATE INDEX IDX_county_id_name ON country (name);
 
-CREATE TABLE tournament_tier
-(
-    id   INT UNSIGNED AUTO_INCREMENT,
-    name VARCHAR(30) NOT NULL,
-    CONSTRAINT PK_tournament_tier PRIMARY KEY (id)
-);
-
 CREATE TABLE game
 (
     id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -33,7 +26,7 @@ CREATE TABLE user
     login    VARCHAR(100)        NOT NULL,
     email    VARCHAR(254)        NOT NULL,
     #Argon2 hashing algorithm.
-    password CHAR(99)            NOT NULL,
+    password VARCHAR(99)         NOT NULL,
     role     TINYINT(1) UNSIGNED NOT NULL,
     CONSTRAINT PK_user PRIMARY KEY (id),
     CONSTRAINT UQ_user_login UNIQUE (login),
@@ -82,15 +75,13 @@ CREATE INDEX IDX_team_name ON team (name);
 
 CREATE TABLE tournament
 (
-    id                 INT UNSIGNED AUTO_INCREMENT,
-    name               VARCHAR(100),
-    tournament_tier_id INT UNSIGNED NOT NULL,
-    prize              INT UNSIGNED,
-    overview           MEDIUMTEXT,
-    start_date         DATE         NOT NULL,
-    end_date           DATE         NOT NULL,
+    id         INT UNSIGNED AUTO_INCREMENT,
+    name       VARCHAR(100),
+    prize      INT UNSIGNED,
+    overview   MEDIUMTEXT,
+    start_date DATE NOT NULL,
+    end_date   DATE NOT NULL,
     CONSTRAINT PK_tournament PRIMARY KEY (id),
-    CONSTRAINT FK_tournament_tier FOREIGN KEY (tournament_tier_id) REFERENCES tournament_tier (id),
     CONSTRAINT CH_tournament_start_end_date CHECK ( DATEDIFF(end_date, start_date) >= 0 )
 );
 CREATE INDEX IDX_tournament_name ON tournament (name);

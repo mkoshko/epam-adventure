@@ -13,10 +13,6 @@ public final class Tournament extends Entity {
      */
     private String name;
     /**
-     * Tier of the tournament.
-     */
-    private TournamentTier tier;
-    /**
      * Prize pool of the tournament.
      */
     private int prize;
@@ -60,24 +56,6 @@ public final class Tournament extends Entity {
      */
     public void setName(final String tournamentName) {
         name = tournamentName;
-    }
-
-    /**
-     * Returns the tier of the tournament.
-     *
-     * @return the tier of the tournament.
-     */
-    public TournamentTier getTier() {
-        return tier;
-    }
-
-    /**
-     * Sets the tier of the tournament.
-     *
-     * @param tournamentTier Tier to be set to {@link #tier}.
-     */
-    public void setTier(final TournamentTier tournamentTier) {
-        tier = tournamentTier;
     }
 
     /**
@@ -162,7 +140,6 @@ public final class Tournament extends Entity {
         }
         Tournament that = (Tournament) o;
         return Objects.equals(getId(), that.getId())
-               && tier.equals(that.tier)
                && prize == that.prize
                && name.equals(that.name)
                && Objects.equals(overview, that.overview)
@@ -172,7 +149,7 @@ public final class Tournament extends Entity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, tier, prize, overview, startDate, endDate,
+        return Objects.hash(name, prize, overview, startDate, endDate,
                 getId());
     }
 
@@ -180,7 +157,6 @@ public final class Tournament extends Entity {
     public String toString() {
         return "Tournament{"
                + "name='" + name + '\''
-               + ", tier=" + tier
                + ", prize=" + prize
                + ", overview='" + overview + '\''
                + ", startDate=" + startDate
