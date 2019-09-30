@@ -91,7 +91,7 @@ CREATE TABLE m2m_tournament_team
     tournament_id INT UNSIGNED NOT NULL,
     team_id       INT UNSIGNED NOT NULL,
     placement     TINYINT UNSIGNED,
-    CONSTRAINT PK_tournament_team PRIMARY KEY (tournament_id, team_id, placement),
+    CONSTRAINT PK_tournament_team PRIMARY KEY (tournament_id, team_id),
     CONSTRAINT FK_m2m_tournament_team_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournament (id) ON DELETE CASCADE,
     CONSTRAINT FK_m2m_tournament_team_team_id FOREIGN KEY (team_id) REFERENCES team (id) ON DELETE CASCADE
 );

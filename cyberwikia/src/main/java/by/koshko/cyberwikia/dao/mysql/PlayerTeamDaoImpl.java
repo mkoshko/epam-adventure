@@ -183,14 +183,15 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
 
     private void setUpStatement(final PreparedStatement st, final PlayerTeam pt)
             throws SQLException {
-        st.setLong(1, pt.getPlayer().getId());
-        st.setLong(2, pt.getTeam().getId());
-        st.setBoolean(3, pt.isActive());
-        st.setDate(4, Date.valueOf(pt.getJoinDate()));
+        int index = 1;
+        st.setLong(index++, pt.getPlayer().getId());
+        st.setLong(index++, pt.getTeam().getId());
+        st.setBoolean(index++, pt.isActive());
+        st.setDate(index++, Date.valueOf(pt.getJoinDate()));
         if (pt.getLeaveDate() != null) {
-            st.setDate(5, Date.valueOf(pt.getLeaveDate()));
+            st.setDate(index, Date.valueOf(pt.getLeaveDate()));
         } else {
-            st.setNull(5, Types.NULL);
+            st.setNull(index, Types.NULL);
         }
     }
 }

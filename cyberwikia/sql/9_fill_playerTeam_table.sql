@@ -1,0 +1,13 @@
+use cyberwikia;
+insert into m2m_player_team (player_id, team_id, active, join_date, leave_date) VALUES (1,1,1,'2019-09-17',null);
+insert into m2m_player_team (player_id, team_id, active, join_date, leave_date) VALUES (2,1,1,'2019-09-17',null);
+insert into m2m_player_team (player_id, team_id, active, join_date, leave_date) VALUES (3,1,1,'2019-09-17',null);
+insert into m2m_player_team (player_id, team_id, active, join_date, leave_date) VALUES (4,1,1,'2019-09-17',null);
+insert into m2m_player_team (player_id, team_id, active, join_date, leave_date) VALUES (5,1,1,'2019-09-17',null);
+insert into m2m_player_team (player_id, team_id, active, join_date, leave_date) VALUES (6,1,1,'2019-09-17',null);
+insert into m2m_player_team (player_id, team_id, active, join_date, leave_date) VALUES (7,2,1,'2019-09-17',null);
+insert into m2m_player_team (player_id, team_id, active, join_date, leave_date) VALUES (8,2,1,'2019-09-17',null);
+insert into m2m_player_team (player_id, team_id, active, join_date, leave_date) VALUES (9,2,1,'2019-09-17',null);
+insert into m2m_player_team (player_id, team_id, active, join_date, leave_date) VALUES (10,2,1,'2019-09-17',null);
+insert into m2m_player_team (player_id, team_id, active, join_date, leave_date) VALUES (11,2,1,'2019-09-17',null);
+insert into m2m_player_team (player_id, team_id, active, join_date, leave_date) VALUES (12,2,1,'2019-09-17',null);

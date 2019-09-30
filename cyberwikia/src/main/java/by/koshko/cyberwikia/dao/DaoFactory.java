@@ -34,4 +34,8 @@ public final class DaoFactory {
     public static PlayerTeamDao getPlayerTeamDao() {
         return new PlayerTeamDaoImpl();
     }
+
+    public static TournamentTeamDao getTournamentTeamDao() {
+        return new TournamentTeamDaoImpl();
+    }
 }

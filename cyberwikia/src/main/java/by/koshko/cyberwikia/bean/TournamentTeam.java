@@ -1,9 +1,18 @@
 package by.koshko.cyberwikia.bean;
 
-public final class TournamentParticipant extends Entity {
+public final class TournamentTeam extends Entity {
 
+    private Tournament tournament;
     private Team team;
     private int placement;
+
+    public Tournament getTournament() {
+        return tournament;
+    }
+
+    public void setTournament(final Tournament tournament) {
+        this.tournament = tournament;
+    }
 
     public Team getTeam() {
         return team;
