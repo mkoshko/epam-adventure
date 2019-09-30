@@ -23,7 +23,7 @@ CREATE TABLE game
 CREATE TABLE user
 (
     id       INT UNSIGNED        NOT NULL AUTO_INCREMENT,
-    login    VARCHAR(100)        NOT NULL,
+    login    VARCHAR(50)        NOT NULL,
     email    VARCHAR(254)        NOT NULL,
     #Argon2 hashing algorithm.
     password VARCHAR(99)         NOT NULL,

@@ -4,7 +4,8 @@ import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.service.impl.*;
 
 public class ServiceFactory {
-    private ServiceFactory(){
+
+    private ServiceFactory() {
     }
 
     public static CountryService getCountryService() throws ServiceException {

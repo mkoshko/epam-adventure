@@ -9,11 +9,11 @@ public final class User extends Entity {
 
     /**
      * User role.
-     * 1 - Administrator.
-     * 2 - Event moderator.
-     * 3 - User.
+     * 0 - Administrator.
+     * 1 - Event moderator.
+     * 2 - User.
      */
-    private int role;
+    private Role role;
     /**
      * Users login.
      */
@@ -36,7 +36,7 @@ public final class User extends Entity {
      *
      * @return the role of the user.
      */
-    public int getRole() {
+    public Role getRole() {
         return role;
     }
 
@@ -46,7 +46,7 @@ public final class User extends Entity {
      * @param userRole New value to be set to the users {@link #role}.
      */
     public void setRole(final int userRole) {
-        role = userRole;
+        role = Role.valueOf(userRole);
     }
 
     /**

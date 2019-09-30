@@ -190,6 +190,6 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
         st.setString(USER_LOGIN, user.getLogin());
         st.setString(USER_EMAIL, user.getEmail());
         st.setString(USER_PASSWORD, user.getPassword());
-        st.setInt(USER_ROLE, user.getRole());
+        st.setInt(USER_ROLE, user.getRole().ordinal());
     }
 }

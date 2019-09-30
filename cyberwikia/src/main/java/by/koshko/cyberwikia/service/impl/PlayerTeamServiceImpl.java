@@ -24,10 +24,11 @@ public class PlayerTeamServiceImpl extends AbstractService implements PlayerTeam
     public List<PlayerTeam> loadPlayerTeams(final Player player) throws ServiceException {
         try {
             PlayerTeamDao ptd = getTransaction().getDao(DaoTypes.PLAYERTEAMDAO);
-            close();
             return ptd.findPlayerTeam(player);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
+        } finally {
+            close();
         }
     }
 }

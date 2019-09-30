@@ -17,9 +17,7 @@ public class PlayerProfileCommand implements Command {
     @Override
     public void execute(final HttpServletRequest request, final HttpServletResponse response) {
         try {
-            int a = request.getRequestURI().lastIndexOf("profile/");
-            int c = request.getRequestURI().lastIndexOf(".html");
-            int b = Integer.parseInt(request.getRequestURI().substring(a + "profile/".length(), c));
+            int b = Integer.parseInt(request.getParameter("id"));
             logger.debug("profile id: {}", b);
             PlayerService ps = new PlayerServiceImpl();
             Player player = ps.loadProfile(b);

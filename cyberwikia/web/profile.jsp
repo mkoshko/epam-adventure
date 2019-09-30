@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: maxim
-  Date: 9/26/19
-  Time: 1:17 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -26,7 +19,7 @@
         </div>
         <div class="col-md-4">
             <div class="card">
-                <img src="<c:url value="../${player.profilePhoto}"/>"
+                <img src="<c:url value="${player.profilePhoto}"/>"
                      class="card-img-top" alt="${player.nickname}">
                 <div class="card-body">
                     <h3 class="card-title">Player information</h3>
@@ -36,7 +29,7 @@
                     <p class="card-text">
                         <b>Birth:</b> ${player.birth.toString()}</p>
                     <p class="card-text"><b>Nationality:</b> <img
-                            src="<c:url value="../${player.country.flag}"/>">${player.country.name}
+                            src="<c:url value="${player.country.flag}"/>">${player.country.name}
                     </p>
                     <p class="card-text">
                         <b>Games:</b>
