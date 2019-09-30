@@ -20,38 +20,32 @@ public final class CountryDaoImpl extends AbstractDao implements CountryDao {
 
     @Override
     public Country get(final long id) throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(GET);
+        try (PreparedStatement statement
+                = getConnection().prepareStatement(GET)) {
             statement.setLong(1, id);
-            rs = statement.executeQuery();
-            return buildSingleInstance(rs);
+            try (ResultSet rs = statement.executeQuery()) {
+                return buildSingleInstance(rs);
+            }
         } catch (SQLException e) {
-            logger.error("Cannot find country by ID. SQL state: {}."
-                         + " Message: {}", e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot find country.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
+                    e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot find country by ID.");
         }
     }
 
     @Override
     public List<Country> getAll() throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(GET_ALL);
-            rs = statement.executeQuery();
-            return buildMultipleInstances(rs);
+        try (PreparedStatement statement
+                = getConnection().prepareStatement(GET_ALL)) {
+            try (ResultSet rs = statement.executeQuery()) {
+                return buildMultipleInstances(rs);
+            }
         } catch (SQLException e) {
-            logger.error("Cannot fetch all countries. SQL state: {}."
-                         + " Message: {}", e.getSQLState(), e.getMessage());
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
+                    e.getSQLState(), e.getMessage());
             throw new DaoException("Cannot fetch all countries.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
         }
     }
 

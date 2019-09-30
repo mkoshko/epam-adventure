@@ -12,11 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class UserDaoImpl extends AbstractDao implements UserDao {
-    private static final int USER_LOGIN = 1;
-    private static final int USER_EMAIL = 2;
-    private static final int USER_PASSWORD = 3;
-    private static final int USER_ROLE = 4;
-    private static final int USER_ID = 5;
     private static final String FIND_BY_LOGIN_QUERY
             = "SELECT id, login, email, password, role "
               + "FROM user "
@@ -121,7 +116,7 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             statement = getConnection().prepareStatement(UPDATE_QUERY);
             setUpStatement(statement, entity);
-            statement.setLong(USER_ID, entity.getId());
+            statement.setLong(5, entity.getId());
             if (statement.executeUpdate() == 1) {
                 logger.info("User '{}' has been updated.",
                         entity.getLogin());
@@ -168,28 +163,25 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
         while (rs.next()) {
             users.add(buildUser(rs));
         }
-        logger.debug("{} users was fetched from database.", users.size());
         return users;
     }
 
     private User buildUser(final ResultSet rs) throws SQLException {
-        logger.debug("Building User object.");
         User user = new User();
         user.setId(rs.getLong("id"));
         user.setLogin(rs.getString("login"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
         user.setRole(rs.getInt("role"));
-        logger.debug("User object was build successfully.");
         return user;
     }
 
     private void setUpStatement(final PreparedStatement st, final User user)
             throws SQLException {
-        logger.debug("Preparing statement for execution.");
-        st.setString(USER_LOGIN, user.getLogin());
-        st.setString(USER_EMAIL, user.getEmail());
-        st.setString(USER_PASSWORD, user.getPassword());
-        st.setInt(USER_ROLE, user.getRole().ordinal());
+        int index = 1;
+        st.setString(index++, user.getLogin());
+        st.setString(index++, user.getEmail());
+        st.setString(index++, user.getPassword());
+        st.setInt(index, user.getRole().ordinal());
     }
 }
