@@ -7,10 +7,14 @@ import by.koshko.cyberwikia.dao.DaoTypes;
 import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.service.CountryService;
 import by.koshko.cyberwikia.service.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class CountryServiceImpl extends AbstractService implements CountryService {
+
+    private Logger logger = LogManager.getLogger(CountryServiceImpl.class);
 
     public CountryServiceImpl() throws ServiceException {
         super();
@@ -23,12 +27,12 @@ public class CountryServiceImpl extends AbstractService implements CountryServic
     public Country getCountryById(final long id) throws ServiceException {
         try {
             CountryDao countryDao = getTransaction().getDao(DaoTypes.COUNTRYDAO);
-            Country country = countryDao.get(id);
-            close();
-            return country;
+            return countryDao.get(id);
         } catch (DaoException e) {
-            getLogger().error(e.getMessage());
+            logger.error(e.getMessage());
             throw new ServiceException("Cannot load country");
+        } finally {
+            close();
         }
     }
     @Override
@@ -39,7 +43,7 @@ public class CountryServiceImpl extends AbstractService implements CountryServic
             getTransaction().close();
             return countries;
         } catch (DaoException e) {
-            getLogger().error(e.getMessage());
+            logger.error(e.getMessage());
             throw new ServiceException("Cannot load countries.");
         }
     }

@@ -8,10 +8,14 @@ import by.koshko.cyberwikia.dao.PlayerDao;
 import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.service.PlayerService;
 import by.koshko.cyberwikia.service.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public final class PlayerServiceImpl extends AbstractService implements PlayerService {
+
+    private Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
 
     public PlayerServiceImpl() throws ServiceException {
         super();
@@ -49,7 +53,7 @@ public final class PlayerServiceImpl extends AbstractService implements PlayerSe
             close();
             return player;
         } catch (DaoException e) {
-            getLogger().error(e.getMessage());
+            logger.error(e.getMessage());
             throw new ServiceException("Cannot load player profile.");
         }
     }

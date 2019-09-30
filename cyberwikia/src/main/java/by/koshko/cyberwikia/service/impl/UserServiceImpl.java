@@ -11,8 +11,12 @@ import by.koshko.cyberwikia.service.UserService;
 import by.koshko.cyberwikia.service.validation.UserValidator;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UserServiceImpl extends AbstractService implements UserService {
+
+    private Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
     private Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
     private static final int ITERATION = 4;
@@ -50,22 +54,18 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     public void create(final User user) throws ServiceException {
-        getLogger().debug("service start");
         if (!UserValidator.test(user, true)) {
             throw new ServiceException("Invalid user parameters.");
         }
-        getLogger().debug("validation passed");
+        logger.debug("validation passed");
         try {
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
-            getLogger().debug("preparing to hashing password");
             user.setPassword(argon2
                     .hash(ITERATION, MEMORY, THREADS, user.getPassword()));
             user.setRole(DEFAULT_ROLE.ordinal());
-            getLogger().debug("saving user");
             userDao.save(user);
-            getLogger().debug("saved.");
         } catch (DaoException e) {
-            getLogger().error(e.getMessage());
+            logger.error(e.getMessage());
             throw new ServiceException("Cannot save the user.");
         } finally {
             close();
@@ -79,9 +79,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
         try {
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
             userDao.update(user);
-            getLogger().debug("User '{}' was successfully updated.", user.getLogin());
+            logger.debug("User '{}' was successfully updated.", user.getLogin());
         } catch (DaoException e) {
-            getLogger().error("Cannot update user. {}", e.getMessage());
+            logger.error("Cannot update user. {}", e.getMessage());
             throw new ServiceException("Cannot update user.");
         } finally {
             close();

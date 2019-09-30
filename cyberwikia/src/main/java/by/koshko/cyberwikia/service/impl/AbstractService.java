@@ -4,21 +4,13 @@ import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.dao.mysql.TransactionImpl;
 import by.koshko.cyberwikia.service.ServiceException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class AbstractService {
-
-    private Logger logger = LogManager.getLogger(getClass());
     private Transaction transaction;
     private boolean isAutoClose;
 
     protected Transaction getTransaction() {
         return transaction;
-    }
-
-    protected Logger getLogger() {
-        return logger;
     }
 
     public AbstractService() throws ServiceException {
@@ -29,8 +21,8 @@ public class AbstractService {
         }
     }
 
-    public AbstractService(final Transaction transaction) {
-        this.transaction = transaction;
+    public AbstractService(final Transaction externalTransaction) {
+        transaction = externalTransaction;
         isAutoClose = true;
     }
 

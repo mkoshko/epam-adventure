@@ -1,7 +1,11 @@
 package by.koshko.cyberwikia.service;
 
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.impl.*;
+import by.koshko.cyberwikia.service.impl.CountryServiceImpl;
+import by.koshko.cyberwikia.service.impl.GameServiceImpl;
+import by.koshko.cyberwikia.service.impl.PlayerServiceImpl;
+import by.koshko.cyberwikia.service.impl.TeamServiceImpl;
+import by.koshko.cyberwikia.service.impl.UserServiceImpl;
 
 public class ServiceFactory {
 

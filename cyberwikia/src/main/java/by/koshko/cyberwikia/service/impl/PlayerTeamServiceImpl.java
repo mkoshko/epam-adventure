@@ -8,10 +8,14 @@ import by.koshko.cyberwikia.dao.PlayerTeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.service.PlayerTeamService;
 import by.koshko.cyberwikia.service.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class PlayerTeamServiceImpl extends AbstractService implements PlayerTeamService {
+
+    private Logger logger = LogManager.getLogger(PlayerTeamServiceImpl.class);
 
     public PlayerTeamServiceImpl() throws ServiceException {
         super();
