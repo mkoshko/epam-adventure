@@ -5,9 +5,12 @@ import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.DaoTypes;
 import by.koshko.cyberwikia.dao.TeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.dao.mysql.TransactionImpl;
+import by.koshko.cyberwikia.service.CountryService;
 import by.koshko.cyberwikia.service.GameService;
+import by.koshko.cyberwikia.service.PlayerService;
+import by.koshko.cyberwikia.service.PlayerTeamService;
 import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
 import by.koshko.cyberwikia.service.TeamService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,9 +32,20 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
     public Team findTeamById(final long id) throws ServiceException {
         try {
             TeamDao teamDao = getTransaction().getDao(DaoTypes.TEAMDAO);
-            GameService gs = new GameServiceImpl(getTransaction());
+            GameService gs = ServiceFactory.getGameService(getTransaction());
+            PlayerService ps = ServiceFactory.getPlayerService(getTransaction());
+            CountryService cs = ServiceFactory.getCountryService(getTransaction());
+            PlayerTeamService pts = ServiceFactory.getPlayerTeamService(getTransaction());
             Team team = teamDao.get(id);
             team.setGame(gs.findById(team.getGame().getId()));
+            team.setCountry(cs.getCountryById(team.getCountry().getId()));
+            team.setPlayers(pts.loadPlayerTeams(team));
+            team.setCaptain(ps.findById(team.getCaptain().getId()));
+            team.setCoach(ps.findById(team.getCoach().getId()));
+            for (int i = 0; i < team.getPlayers().size(); i++) {
+                long idx = team.getPlayers().get(i).getPlayer().getId();
+                team.getPlayers().get(i).setPlayer(ps.findById(idx));
+            }
             return team;
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
@@ -42,8 +56,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
 
     public List<Team> findAll() throws ServiceException {
         try {
-            Transaction transaction = new TransactionImpl();
-            TeamDao teamDao = transaction.getDao(DaoTypes.TEAMDAO);
+            TeamDao teamDao = getTransaction().getDao(DaoTypes.TEAMDAO);
             return teamDao.getAll();
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());

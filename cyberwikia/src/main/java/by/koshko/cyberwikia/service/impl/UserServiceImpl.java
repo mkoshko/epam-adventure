@@ -57,7 +57,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
         if (!UserValidator.test(user, true)) {
             throw new ServiceException("Invalid user parameters.");
         }
-        logger.debug("validation passed");
         try {
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
             user.setPassword(argon2
@@ -95,9 +94,17 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
         try {
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
-
+            User oldUser = userDao.get(user.getId());
+            if (argon2.verify(oldUser.getPassword(), oldPass)) {
+                String newPassword = argon2.hash(ITERATION, MEMORY, THREADS, user.getPassword());
+                user.setPassword(newPassword);
+                userDao.update(user);
+            } else {
+                throw new ServiceException(String.format("User %s wasn't updated", user.getLogin()));
+            }
         } catch (DaoException e) {
-
+            logger.error(e.getMessage());
+            throw new ServiceException("Cannot update user");
         } finally {
             close();
         }

@@ -1,5 +1,6 @@
 package by.koshko.cyberwikia.dao.mysql;
 
+import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.bean.Tournament;
 import by.koshko.cyberwikia.bean.TournamentTeam;
@@ -26,6 +27,15 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
             = "SELECT tournament_id, team_id, placement"
               + " FROM m2m_tournament_team"
               + " WHERE tournament_id=?;";
+    private static final String FIND_PLAYER_TOURNAMENTS
+            = "SELECT tournament_id, m2m_tournament_team.team_id, placement"
+              + " FROM m2m_tournament_team"
+              + " JOIN m2m_player_team m2mpt"
+              + " ON m2m_tournament_team.team_id = m2mpt.team_id"
+              + " JOIN tournament t on tournament_id = t.id"
+              + " WHERE m2mpt.player_id=?"
+              + " AND IF(ISNULL(m2mpt.leave_date), true, leave_date >= end_date)"
+              + " AND m2mpt.join_date <= t.start_date;";
     public static final String SAVE
             = "INSERT INTO m2m_tournament_team"
               + " (tournament_id, team_id, placement)"
@@ -69,6 +79,23 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
                          + " SQL state: {}. SQL message: {}.",
                     e.getSQLState(), e.getMessage());
             throw new DaoException("Cannot find tournament teams.");
+        }
+    }
+
+    @Override
+    public List<TournamentTeam> findTournamentTeam(final Player player)
+            throws DaoException {
+        try (PreparedStatement statement
+                 = getConnection().prepareStatement(FIND_PLAYER_TOURNAMENTS)) {
+            statement.setLong(1, player.getId());
+            try (ResultSet rs = statement.executeQuery()) {
+                return buildMultipleInstances(rs);
+            }
+        } catch (SQLException e) {
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
+                    e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot find tournaments.");
         }
     }
 
@@ -128,11 +155,26 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
     }
 
     private void setUpStatement(final PreparedStatement statement,
-                                final TournamentTeam entity) throws SQLException {
+                                final TournamentTeam entity)
+            throws SQLException {
         int index = 1;
         statement.setLong(index++, entity.getTournament().getId());
         statement.setLong(index++, entity.getTeam().getId());
         statement.setInt(index, entity.getPlacement());
+    }
+
+    private List<TournamentTeam> buildMultipleInstances(final ResultSet rs)
+            throws SQLException {
+        List<TournamentTeam> tournaments = new ArrayList<>();
+        while (rs.next()) {
+            tournaments.add(buildTournamentTeam(rs));
+        }
+        logger.debug("Tournament list size: {}", tournaments.size());
+        tournaments.forEach(tournamentTeam ->  {
+            logger.debug("Team ID: {}", tournamentTeam.getTeam().getId());
+            logger.debug("Team ID: {}", tournamentTeam.getTournament().getId());
+        });
+        return tournaments;
     }
 
     private List<TournamentTeam> buildMultipleInstances(final ResultSet rs,
@@ -172,6 +214,18 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
         tournamentTeam.setTeam(team);
         Tournament tournament = new Tournament();
         tournament.setId(rs.getLong(TOURNAMENT_ID));
+        return build(rs, tournamentTeam);
+    }
+
+    private TournamentTeam buildTournamentTeam(final ResultSet rs)
+            throws SQLException {
+        TournamentTeam tournamentTeam = new TournamentTeam();
+        Team team = new Team();
+        team.setId(rs.getLong(TEAM_ID));
+        tournamentTeam.setTeam(team);
+        Tournament tournament = new Tournament();
+        tournament.setId(rs.getLong(TOURNAMENT_ID));
+        tournamentTeam.setTournament(tournament);
         return build(rs, tournamentTeam);
     }
 

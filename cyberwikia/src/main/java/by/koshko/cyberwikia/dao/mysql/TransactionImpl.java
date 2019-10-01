@@ -43,6 +43,10 @@ public class TransactionImpl implements Transaction {
                 TournamentDao tournamentDao = DaoFactory.getTournamentDao();
                 tournamentDao.setConnection(connection);
                 return (T) tournamentDao;
+            case TOURNAMENTTEAMDAO:
+                TournamentTeamDao tournamentTeamDao = DaoFactory.getTournamentTeamDao();
+                tournamentTeamDao.setConnection(connection);
+                return (T) tournamentTeamDao;
             default:
                 //TODO log
                 return null;

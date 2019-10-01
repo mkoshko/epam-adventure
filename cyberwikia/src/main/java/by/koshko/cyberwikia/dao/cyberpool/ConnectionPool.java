@@ -105,7 +105,7 @@ public final class ConnectionPool {
                 connection.clearWarnings();
                 used.remove(connection);
                 pool.add(connection);
-                logger.info("Connection released. "
+                logger.debug("Connection released. "
                             + "Idle connections: {}, used connections: {}",
                                pool.size(), used.size());
             }

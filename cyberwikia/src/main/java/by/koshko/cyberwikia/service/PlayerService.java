@@ -7,7 +7,7 @@ import java.util.List;
 public interface PlayerService {
     Player findByNickname(String nickname);
 
-    Player findById(long id);
+    Player findById(long id) throws ServiceException;
 
     List<Player> findAll() throws ServiceException;
 

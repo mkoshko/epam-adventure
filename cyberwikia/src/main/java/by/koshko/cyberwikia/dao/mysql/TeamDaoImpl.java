@@ -171,7 +171,6 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
 
     private Team buildTeam(final ResultSet rs) throws SQLException {
         Team team = new Team();
-        logger.debug("Building Team object.");
         team.setId(rs.getLong("id"));
         team.setName(rs.getString("name"));
         team.setLogoFile(rs.getString("logo_file"));
@@ -200,7 +199,6 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
         game.setId(rs.getLong("game"));
         team.setGame(game);
         team.setOverview(rs.getString("overview"));
-        logger.debug("'Team' object was build successfully.");
         return team;
     }
 

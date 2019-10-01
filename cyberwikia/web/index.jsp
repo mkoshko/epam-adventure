@@ -25,17 +25,20 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
           <a href="players.html">Players</a>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <a href="teams.html">Teams</a>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <a href="tournaments.html">Tournaments</a>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <a href="registration.html">Registration</a>
+        </div>
+        <div class="col-md-2">
+          <a href="create.html">Create team</a>
         </div>
       </div>
     </div>

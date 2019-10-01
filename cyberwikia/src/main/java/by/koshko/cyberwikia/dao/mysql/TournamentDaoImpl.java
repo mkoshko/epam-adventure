@@ -37,8 +37,8 @@ public final class TournamentDaoImpl extends AbstractDao implements TournamentDa
         ResultSet rs = null;
         try {
             statement = getConnection().prepareStatement(GET);
-            rs = statement.executeQuery();
             statement.setLong(1, id);
+            rs = statement.executeQuery();
             return buildSingleInstance(rs);
         } catch (SQLException e) {
             logger.error("Cannot fetch tournament. SQL state: {}. Message: {}",

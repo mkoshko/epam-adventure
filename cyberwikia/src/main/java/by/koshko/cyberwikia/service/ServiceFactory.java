@@ -1,11 +1,7 @@
 package by.koshko.cyberwikia.service;
 
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.impl.CountryServiceImpl;
-import by.koshko.cyberwikia.service.impl.GameServiceImpl;
-import by.koshko.cyberwikia.service.impl.PlayerServiceImpl;
-import by.koshko.cyberwikia.service.impl.TeamServiceImpl;
-import by.koshko.cyberwikia.service.impl.UserServiceImpl;
+import by.koshko.cyberwikia.service.impl.*;
 
 public class ServiceFactory {
 
@@ -50,5 +46,21 @@ public class ServiceFactory {
 
     public static TeamService getTeamService(final Transaction t) {
         return new TeamServiceImpl(t);
+    }
+
+    public static PlayerTeamService getPlayerTeamService() throws ServiceException {
+        return new PlayerTeamServiceImpl();
+    }
+
+    public static PlayerTeamService getPlayerTeamService(final Transaction t) {
+        return new PlayerTeamServiceImpl(t);
+    }
+
+    public static TournamentService getTournamentService() throws ServiceException {
+        return new TournamentServiceImpl();
+    }
+
+    public static TournamentService getTournamentService(final Transaction t) {
+        return new TournamentServiceImpl(t);
     }
 }

@@ -61,7 +61,7 @@
                     <c:if test="${team.active == true}">
                         <tr>
                             <td>
-                                <a href="/team/${team.team.id}.html">${team.team.name}</a>
+                                <a href="team.html?id=${team.team.id}">${team.team.name}</a>
                             </td>
                             <td>
                                     ${team.joinDate.toString()}
@@ -95,7 +95,7 @@
                     <c:if test="${team.active == false}">
                         <tr>
                             <td>
-                                    <a href="../team/${team.team.id}.html">${team.team.name}</a>
+                                    <a href="team.html?id=/${team.team.id}">${team.team.name}</a>
                             </td>
                             <td>
                                     ${team.joinDate.toString()}
@@ -106,6 +106,28 @@
                         </tr>
                     </c:if>
                 </c:forEach>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>Tournament</td>
+                    <td>Team</td>
+                    <td>Placement</td>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${player.tournaments}" var="tournament">
+                    <tr>
+                        <td>${tournament.tournament.name}</td>
+                        <td>${tournament.team.name}</td>
+                        <td>${tournament.placement}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
             </table>
         </div>
     </div>

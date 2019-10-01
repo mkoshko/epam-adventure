@@ -39,6 +39,16 @@ public final class Player extends Entity {
 
     private List<PlayerTeam> playerTeams;
 
+    private List<TournamentTeam> tournaments;
+
+    public List<TournamentTeam> getTournaments() {
+        return tournaments;
+    }
+
+    public void setTournaments(final List<TournamentTeam> tournamentList) {
+        tournaments = tournamentList;
+    }
+
     public List<PlayerTeam> getPlayerTeams() {
         return playerTeams;
     }

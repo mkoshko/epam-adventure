@@ -16,7 +16,7 @@
             <table class="table">
                 <c:forEach items="${teams}" var="team">
                     <tr>
-                        <td><a href="team/${team.id}.html">${team.name}</a></td>
+                        <td><a href="team.html?id=${team.id}">${team.name}</a></td>
                     </tr>
                 </c:forEach>
             </table>

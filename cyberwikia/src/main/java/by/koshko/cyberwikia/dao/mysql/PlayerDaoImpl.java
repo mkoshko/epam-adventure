@@ -226,7 +226,6 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
     }
 
     private Player buildPlayer(final ResultSet rs) throws SQLException {
-        logger.debug("Building Player object.");
         Player player = new Player();
         player.setId(rs.getInt("id"));
         player.setProfilePhoto(rs.getString("profile_photo"));
@@ -238,13 +237,11 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
         c.setId(rs.getLong("country_id"));
         player.setCountry(c);
         player.setOverview(rs.getString("overview"));
-        logger.debug("Player object was build successfully.");
         return player;
     }
 
     private void setUpStatement(final PreparedStatement st, final Player player)
             throws SQLException {
-        logger.debug("Preparing statement for execution.");
         st.setLong(PLAYER_ID, player.getId());
         st.setString(PLAYER_PHOTO, player.getProfilePhoto());
         st.setString(PLAYER_NICKNAME, player.getNickname());
