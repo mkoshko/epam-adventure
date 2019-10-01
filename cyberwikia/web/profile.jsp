@@ -19,8 +19,16 @@
         </div>
         <div class="col-md-4">
             <div class="card">
-                <img src="<c:url value="${player.profilePhoto}"/>"
-                     class="card-img-top" alt="${player.nickname}">
+                <c:choose>
+                    <c:when test="${player.profilePhoto == null}">
+                        <img src="<c:url value="images/profile/_default.png"/>"
+                             class="card-img-top" alt="${player.nickname}">
+                    </c:when>
+                    <c:otherwise>
+                        <img src="<c:url value="${player.profilePhoto}"/>"
+                             class="card-img-top" alt="${player.nickname}">
+                    </c:otherwise>
+                </c:choose>
                 <div class="card-body">
                     <h3 class="card-title">Player information</h3>
                     <p class="card-text"><b>Full

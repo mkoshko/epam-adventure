@@ -7,6 +7,6 @@ import by.koshko.cyberwikia.bean.Team;
 import java.util.List;
 
 public interface PlayerTeamService {
-    List<PlayerTeam> loadPlayerTeams(Player player) throws ServiceException;
-    List<PlayerTeam> loadPlayerTeams(Team team) throws ServiceException;
+    List<PlayerTeam> loadTeamPlayers(Player player) throws ServiceException;
+    List<PlayerTeam> loadTeamPlayers(Team team, boolean deepLoad) throws ServiceException;
 }

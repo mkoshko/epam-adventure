@@ -23,133 +23,119 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
     private static final int GAME_ID = 7;
     private static final int OVERVIEW = 8;
     private static final int TEAM_ID = 9;
-    private static final String FIND_BY_NAME_QUERY
+    private static final String FIND_BY_NAME
             = "SELECT id, name, logo_file, country_id, creator, captain, coach,"
               + " game, overview FROM team WHERE name=?;";
-    private static final String GET_QUERY
+    private static final String GET
             = "SELECT id, name, logo_file, country_id, creator, captain, coach,"
                     + " game, overview FROM team WHERE id=?;";
-    private static final String GET_ALL_QUERY
+    private static final String GET_ALL
             = "SELECT id, name, logo_file, country_id, creator, captain, coach,"
               + " game, overview FROM team;";
-    private static final String UPDATE_QUERY
+    private static final String UPDATE
             = "UPDATE team SET name=?, logo_file=?, country_id=?, creator=?, "
               + "captain=?, coach=?, game=?, overview=? WHERE id=?;";
-    private static final String DELETE_QUERY = "DELETE FROM team WHERE id=?";
-    private static final String SAVE_QUERY
+    private static final String DELETE = "DELETE FROM team WHERE id=?";
+    private static final String SAVE
             = "INSERT INTO team (name, logo_file, country_id, creator,"
             + " captain, coach, game, overview)"
             + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     @Override
     public Team findByName(final String name) throws DaoException {
-        if (name == null) {
-            logger.warn("Attempt to find team by name with null argument.");
-        }
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(FIND_BY_NAME_QUERY);
+        try (PreparedStatement statement
+                = getConnection().prepareStatement(FIND_BY_NAME)) {
             statement.setString(1, name);
-            rs = statement.executeQuery();
-            return buildSingleInstance(rs);
+            try (ResultSet rs = statement.executeQuery()) {
+                return buildSingleInstance(rs);
+            }
         } catch (SQLException e) {
-            logger.error("Cannot find team by name. SQL state: {}."
-                         + " Message: {}", e.getSQLState(), e.getMessage());
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
+                    e.getSQLState(), e.getMessage());
             throw new DaoException("Cannot find team by name.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
         }
     }
 
     @Override
     public Team get(final long id) throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(GET_QUERY);
+        try (PreparedStatement statement
+                = getConnection().prepareStatement(GET)) {
             statement.setLong(1, id);
-            rs = statement.executeQuery();
-            return buildSingleInstance(rs);
+            try (ResultSet rs = statement.executeQuery()) {
+                return buildSingleInstance(rs);
+            }
         } catch (SQLException e) {
-            logger.error("Cannot find team by ID. SQL state: {}. Message: {}",
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
                     e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot find team by id.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            throw new DaoException("Cannot find team by ID.");
         }
     }
 
     @Override
     public List<Team> getAll() throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(GET_ALL_QUERY);
-            rs = statement.executeQuery();
-            return buildMultipleInstances(rs);
+        try (PreparedStatement statement
+                = getConnection().prepareStatement(GET_ALL)) {
+            try (ResultSet rs = statement.executeQuery()) {
+                return buildMultipleInstances(rs);
+            }
         } catch (SQLException e) {
-            logger.error("Cannot fetch all teams. SQL state: {}. Message: {}",
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
                     e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch all teams.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            throw new DaoException("Cannot get team list.");
         }
     }
 
     @Override
     public void save(final Team entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(SAVE_QUERY);
+        try (PreparedStatement statement
+                = getConnection().prepareStatement(SAVE)) {
             setUpStatement(statement, entity);
-            statement.executeUpdate();
+            if (statement.executeUpdate() == 1) {
+                logger.debug("Team {} was saved successfully.",
+                        entity.getName());
+            }
         } catch (SQLException e) {
-            logger.error("Cannot save team. SQL state: {}. Message: {}",
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
                     e.getSQLState(), e.getMessage());
             throw new DaoException("Cannot save team.");
-        } finally {
-            closeStatement(statement);
         }
     }
 
     @Override
     public void update(final Team entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(UPDATE_QUERY);
+        try (PreparedStatement statement
+                = getConnection().prepareStatement(UPDATE)) {
             setUpStatement(statement, entity);
             statement.setLong(TEAM_ID, entity.getId());
             if (statement.executeUpdate() == 1) {
                 logger.info("Team '{}' has been updated", entity.getName());
             }
         } catch (SQLException e) {
-            logger.error("Cannot update team. SQL state: {}. Message: {}",
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
                     e.getSQLState(), e.getMessage());
             throw new DaoException("Cannot update team.");
-        } finally {
-            closeStatement(statement);
         }
     }
 
     @Override
     public void delete(final Team entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(DELETE_QUERY);
+        try (PreparedStatement statement
+                = getConnection().prepareStatement(DELETE)) {
             statement.setLong(1, entity.getId());
             if (statement.executeUpdate() == 1) {
-                logger.info("'{}' was successfully removed.", entity.getName());
+                logger.info("Team {} was successfully removed.",
+                        entity.getName());
             }
         } catch (SQLException e) {
-            logger.error("Cannot remove team. SQL state: {}. Message: {}",
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
                     e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot remove team.");
-        } finally {
-            closeStatement(statement);
+            throw new DaoException("Cannot delete team.");
         }
     }
 
@@ -190,7 +176,7 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
             team.setCaptain(captain);
         }
         var coachID = rs.getLong("coach");
-        if (coachID != 0) {
+        if (coachID > 0) {
             Player coach = new Player();
             coach.setId(coachID);
             team.setCoach(coach);

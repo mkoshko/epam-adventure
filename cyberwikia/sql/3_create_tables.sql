@@ -46,7 +46,6 @@ CREATE TABLE player
     country_id    TINYINT UNSIGNED NOT NULL,
     overview      MEDIUMTEXT,
     CONSTRAINT PK_player PRIMARY KEY (id),
-    CONSTRAINT UQ_player_nickname UNIQUE (nickname),
     CONSTRAINT FK_player_id FOREIGN KEY (id) REFERENCES user (id) ON DELETE CASCADE,
     CONSTRAINT FK_player_country_id FOREIGN KEY (country_id) REFERENCES country (id)
 );

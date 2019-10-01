@@ -43,7 +43,7 @@ public final class Team extends Entity {
     /**
      * List of tournaments in which the team participated.
      */
-    private List<Tournament> tournaments;
+    private List<TournamentTeam> tournaments;
 
     private List<PlayerTeam> players;
 
@@ -60,7 +60,7 @@ public final class Team extends Entity {
      *
      * @return the list of the tournaments.
      */
-    public List<Tournament> getTournaments() {
+    public List<TournamentTeam> getTournaments() {
         return tournaments;
     }
 
@@ -70,7 +70,7 @@ public final class Team extends Entity {
      * @param teamTournaments list of tournaments to be set to
      *                        {@link #tournaments}.
      */
-    public void setTournaments(final List<Tournament> teamTournaments) {
+    public void setTournaments(final List<TournamentTeam> teamTournaments) {
         tournaments = teamTournaments;
     }
 

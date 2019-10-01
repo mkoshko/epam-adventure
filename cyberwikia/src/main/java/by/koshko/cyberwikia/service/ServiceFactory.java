@@ -63,4 +63,12 @@ public class ServiceFactory {
     public static TournamentService getTournamentService(final Transaction t) {
         return new TournamentServiceImpl(t);
     }
+
+    public static TournamentTeamService getTournamentTeamService() throws ServiceException {
+        return new TournamentTeamServiceImpl();
+    }
+
+    public static TournamentTeamService getTournamentTeamService(final Transaction t) {
+        return new TournamentTeamServiceImpl(t);
+    }
 }

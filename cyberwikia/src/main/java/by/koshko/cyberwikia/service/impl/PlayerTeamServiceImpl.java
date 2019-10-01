@@ -4,17 +4,21 @@ import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.bean.PlayerTeam;
 import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.dao.DaoException;
-import by.koshko.cyberwikia.dao.DaoTypes;
 import by.koshko.cyberwikia.dao.PlayerTeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
+import by.koshko.cyberwikia.service.PlayerService;
 import by.koshko.cyberwikia.service.PlayerTeamService;
 import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerTeamServiceImpl extends AbstractService implements PlayerTeamService {
+import static by.koshko.cyberwikia.dao.DaoTypes.PLAYERTEAMDAO;
+
+public final class PlayerTeamServiceImpl extends AbstractService implements PlayerTeamService {
 
     private Logger logger = LogManager.getLogger(PlayerTeamServiceImpl.class);
 
@@ -26,25 +30,61 @@ public class PlayerTeamServiceImpl extends AbstractService implements PlayerTeam
         super(transaction);
     }
 
-    public List<PlayerTeam> loadPlayerTeams(final Player player) throws ServiceException {
+    @Override
+    public List<PlayerTeam> loadTeamPlayers(final Player player)
+            throws ServiceException {
+        if (player == null) {
+            logger.warn("Method argument 'player' is null."
+                        + " Empty 'PlayerTeam' list will returned.");
+            return new ArrayList<>();
+        }
         try {
-            PlayerTeamDao ptd = getTransaction().getDao(DaoTypes.PLAYERTEAMDAO);
+            logger.debug("Constructing 'PlayerTeam' list for player '{}'.",
+                    player.getNickname());
+            PlayerTeamDao ptd = getTransaction().getDao(PLAYERTEAMDAO);
             return ptd.findPlayerTeam(player);
         } catch (DaoException e) {
-            throw new ServiceException(e.getMessage());
+            logger.error("");
+            throw new ServiceException("Cannot get 'PlayerTeam' list"
+                                       + " for specified player");
         } finally {
             close();
         }
     }
 
-    public List<PlayerTeam> loadPlayerTeams(final Team team) throws ServiceException {
+    @Override
+    public List<PlayerTeam> loadTeamPlayers(final Team team,
+                                            final boolean deepLoad)
+            throws ServiceException {
+        if (team == null) {
+            logger.warn("Method argument 'team' is null."
+                        + " Empty 'PlayerTeam' list will returned.");
+            return new ArrayList<>();
+        }
         try {
-            PlayerTeamDao ptd = getTransaction().getDao(DaoTypes.PLAYERTEAMDAO);
-            return ptd.findPlayerTeam(team);
+            logger.debug("Constructing 'PlayerTeam' list for team '{}'.",
+                    team.getName());
+            PlayerTeamDao playerTeamDao = getTransaction().getDao(PLAYERTEAMDAO);
+            List<PlayerTeam> players = playerTeamDao.findPlayerTeam(team);
+            if (deepLoad) {
+                fillPlayerProfiles(players);
+            }
+            return players;
         } catch (DaoException e) {
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException("Cannot get 'PlayerTeam' list"
+                                       + " for specified team");
         } finally {
             close();
+        }
+    }
+
+    private void fillPlayerProfiles(final List<PlayerTeam> players)
+            throws ServiceException {
+        PlayerService playerService
+                = ServiceFactory.getPlayerService(getTransaction());
+        for (PlayerTeam playerTeam : players) {
+            long playerID = playerTeam.getPlayer().getId();
+            playerTeam.setPlayer(playerService.findById(playerID));
         }
     }
 }

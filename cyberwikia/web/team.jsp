@@ -44,11 +44,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${team.players}" var="info">
+                        <c:forEach items="${team.players}" var="playerTeam">
                             <tr>
-                                <td>${info.player.nickname}</td>
-                                <td>${info.player.firstName} ${info.player.lastName}</td>
-                                <td>${info.joinDate.toString()}</td>
+                                <td>${playerTeam.player.nickname}</td>
+                                <td>${playerTeam.player.firstName} ${playerTeam.player.lastName}</td>
+                                <td>${playerTeam.joinDate}</td>
                             </tr>
                         </c:forEach>
                     </tbody>
