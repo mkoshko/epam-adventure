@@ -22,7 +22,7 @@ public class PlayerProfileCommand implements Command {
             PlayerService ps = new PlayerServiceImpl();
             Player player = ps.loadProfile(b);
             request.setAttribute("player", player);
-            request.getRequestDispatcher("/profile.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/jsp/profile.jsp").forward(request, response);
         } catch (ServiceException e) {
             e.printStackTrace();
         } catch (ServletException e) {

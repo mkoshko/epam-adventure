@@ -8,6 +8,7 @@ import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.dao.UserDao;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.UserService;
+import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import by.koshko.cyberwikia.service.validation.UserValidator;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
@@ -53,8 +54,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
     }
 
-    public void create(final User user) throws ServiceException {
-        if (!UserValidator.test(user, true)) {
+    public void sighUp(final User user) throws ServiceException {
+        UserValidator userValidator = ValidationFactory.getUserValidator();
+        if (!userValidator.test(user, true)) {
             throw new ServiceException("Invalid user parameters.");
         }
         try {
@@ -72,7 +74,8 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     public void update(final User user) throws ServiceException {
-        if (!UserValidator.test(user, false)) {
+        UserValidator userValidator = ValidationFactory.getUserValidator();
+        if (!userValidator.test(user, false)) {
             throw new ServiceException("Invalid user parameters.");
         }
         try {
@@ -89,18 +92,21 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     public void updatePassword(final User user, final String oldPass)
             throws ServiceException {
-        if (!UserValidator.test(user, true)) {
+        UserValidator userValidator = ValidationFactory.getUserValidator();
+        if (!userValidator.test(user, true)) {
             throw new ServiceException("Invalid user parameters.");
         }
         try {
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
             User oldUser = userDao.get(user.getId());
             if (argon2.verify(oldUser.getPassword(), oldPass)) {
-                String newPassword = argon2.hash(ITERATION, MEMORY, THREADS, user.getPassword());
+                String newPassword = argon2.hash(ITERATION, MEMORY, THREADS,
+                        user.getPassword());
                 user.setPassword(newPassword);
                 userDao.update(user);
             } else {
-                throw new ServiceException(String.format("User %s wasn't updated", user.getLogin()));
+                throw new ServiceException(String.format("User %s wasn't updated",
+                        user.getLogin()));
             }
         } catch (DaoException e) {
             logger.error(e.getMessage());

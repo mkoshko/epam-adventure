@@ -40,12 +40,22 @@ public final class Team extends Entity {
      */
     private String logoFile;
 
+    private RawData rawData;
+
     /**
      * List of tournaments in which the team participated.
      */
     private List<TournamentTeam> tournaments;
 
     private List<PlayerTeam> players;
+
+    public RawData getRawData() {
+        return rawData;
+    }
+
+    public void setRawData(final RawData rawData) {
+        this.rawData = rawData;
+    }
 
     public List<PlayerTeam> getPlayers() {
         return players;

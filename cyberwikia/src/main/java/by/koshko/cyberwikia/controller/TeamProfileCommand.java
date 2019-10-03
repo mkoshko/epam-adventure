@@ -18,7 +18,7 @@ public final class TeamProfileCommand implements Command {
             TeamService teamService = ServiceFactory.getTeamService();
             Team team = teamService.loadTeamProfile(teamID);
             request.setAttribute("team", team);
-            request.getRequestDispatcher("team.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/team.jsp").forward(request, response);
         } catch (ServiceException e) {
         } catch (ServletException e) {
             e.printStackTrace();

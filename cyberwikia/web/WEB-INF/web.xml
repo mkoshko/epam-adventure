@@ -5,7 +5,7 @@
          version="4.0">
     <display-name>cyberwikia</display-name>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>/WEB-INF/jsp/index.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>Dispatcher</servlet-name>
@@ -19,10 +19,6 @@
     <filter>
         <filter-name>URIFilter</filter-name>
         <filter-class>by.koshko.cyberwikia.controller.URLActionFilter</filter-class>
-        <init-param>
-            <param-name>greeting</param-name>
-            <param-value>Hello Mr. Filterman.</param-value>
-        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>URIFilter</filter-name>

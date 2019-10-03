@@ -5,4 +5,5 @@ import by.koshko.cyberwikia.bean.Team;
 public interface TeamService {
     Team findTeamById(long id) throws ServiceException;
     Team loadTeamProfile(long id) throws ServiceException;
+    void createTeam(Team team) throws ServiceException;
 }

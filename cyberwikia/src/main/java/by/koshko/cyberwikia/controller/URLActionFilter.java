@@ -28,12 +28,13 @@ public class URLActionFilter implements Filter {
         int endRequestIndex = requestURI.lastIndexOf(".html");
         String action = requestURI.substring(contextLength, endRequestIndex);
         logger.debug("Requested action: {}", action);
+        request.setAttribute("action", action);
         chain.doFilter(req, resp);
     }
 
     @Override
     public void init(final FilterConfig filterConfig) throws ServletException {
-        logger.debug(filterConfig.getInitParameter("greeting"));
+
     }
 
     @Override

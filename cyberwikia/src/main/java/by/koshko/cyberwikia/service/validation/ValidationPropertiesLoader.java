@@ -1,5 +1,6 @@
-package by.koshko.cyberwikia.service;
+package by.koshko.cyberwikia.service.validation;
 
+import by.koshko.cyberwikia.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,23 +14,28 @@ public class ValidationPropertiesLoader {
     private static Logger logger = LogManager.getLogger(ValidationPropertiesLoader.class);
     private static Map<String, String> values = new HashMap<>();
     private static boolean isLoad = false;
+    private static List<Validator> validatorList = new ArrayList<>();
+    static {
+        validatorList.add(ValidationFactory.getUserValidator());
+    }
 
-    public static void loadProperties(final String name) throws ServiceException {
+    public static void loadProperties(final String bundleName)
+            throws ServiceException {
         values.clear();
-        if (name == null || name.isEmpty()) {
+        if (bundleName == null || bundleName.isEmpty()) {
             throw new ServiceException("Empty bundle name.");
         }
         try {
-            ResourceBundle bundle = ResourceBundle.getBundle(name);
+            ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
             Enumeration<String> keys = bundle.getKeys();
             while (keys.hasMoreElements()) {
                 String key = keys.nextElement();
                 values.put(key, bundle.getString(key));
             }
             isLoad = true;
-            logger.debug("Validation properties is loaded. {}", values);
+            initValidators();
         } catch (MissingResourceException e) {
-            logger.error("Cannot load '{}' properties file.", name);
+            logger.error("Cannot load '{}' properties file.", bundleName);
             throw new ServiceException("Cannot load properties.");
         }
     }
@@ -42,4 +48,9 @@ public class ValidationPropertiesLoader {
         }
     }
 
+    private static void initValidators() throws ServiceException {
+        for (Validator validator : validatorList) {
+            validator.init();
+        }
+    }
 }

@@ -41,7 +41,8 @@ public final class PlayerServiceImpl extends AbstractService implements PlayerSe
             return null;
         }
         try {
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            Transaction transaction = getTransaction();
+            PlayerDao playerDao = transaction.getDao(PLAYERDAO);
             return playerDao.findByNickname(nickname);
         } catch (DaoException e) {
             throw new ServiceException("Cannot get player by nickname.");
@@ -63,27 +64,27 @@ public final class PlayerServiceImpl extends AbstractService implements PlayerSe
     }
 
     public Player loadProfile(final long id) throws ServiceException {
+        Transaction transaction = getTransaction();
         try {
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            PlayerDao playerDao = transaction.getDao(PLAYERDAO);
             Player player = playerDao.get(id);
             if (player == null) {
                 return null;
             }
-            TournamentTeamDao ttd = getTransaction().getDao(DaoTypes.TOURNAMENTTEAMDAO);
-            CountryService cs = ServiceFactory.getCountryService(getTransaction());
-            TeamService ts = ServiceFactory.getTeamService(getTransaction());
-            PlayerTeamService pts = ServiceFactory.getPlayerTeamService(getTransaction());
-            TournamentService trs = ServiceFactory.getTournamentService(getTransaction());
-            player.setCountry(cs.getCountryById(player.getCountry().getId()));
-            player.setPlayerTeams(pts.loadTeamPlayers(player));
-            for (PlayerTeam pt : player.getPlayerTeams()) {
-                pt.setTeam(ts.findTeamById(pt.getTeam().getId()));
-            }
-            player.setTournaments(ttd.findTournamentTeam(player));
-            for (TournamentTeam tt : player.getTournaments()) {
-                tt.setTeam(ts.findTeamById(tt.getTeam().getId()));
-                tt.setTournament(trs.getTournamentById(tt.getTournament().getId()));
-            }
+            TournamentTeamDao tournamentTeamDao
+                    = transaction.getDao(DaoTypes.TOURNAMENTTEAMDAO);
+            CountryService countryService
+                    = ServiceFactory.getCountryService(transaction);
+            TeamService teamService
+                    = ServiceFactory.getTeamService(transaction);
+            PlayerTeamService playerTeamService
+                    = ServiceFactory.getPlayerTeamService(transaction);
+            TournamentService tournamentService
+                    = ServiceFactory.getTournamentService(transaction);
+            long countryID = player.getCountry().getId();
+            player.setCountry(countryService.getCountryById(countryID));
+            player.setPlayerTeams(playerTeamService.loadTeamPlayers(player, true));
+            //TODO доделать после сервисов. Загрузить турниры.
             return player;
         } catch (DaoException e) {
             logger.error(e.getMessage());

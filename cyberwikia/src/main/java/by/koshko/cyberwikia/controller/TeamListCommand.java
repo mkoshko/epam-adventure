@@ -17,7 +17,7 @@ public final class TeamListCommand implements Command {
             TeamServiceImpl ts = new TeamServiceImpl();
             List<Team> teams = ts.findAll();
             request.setAttribute("teams", teams);
-            request.getRequestDispatcher("teams.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/teams.jsp").forward(request, response);
         } catch (ServiceException e) {
             e.printStackTrace();
         } catch (ServletException e) {

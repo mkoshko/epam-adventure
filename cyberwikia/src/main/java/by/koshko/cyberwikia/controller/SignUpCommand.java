@@ -15,23 +15,21 @@ public class SignUpCommand implements Command {
 
     @Override
     public void execute(final HttpServletRequest request, final HttpServletResponse response) {
-        logger.debug("execution");
         String login = request.getParameter("login");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        logger.debug("Creation user.");
         User user = new User();
         user.setLogin(login);
         user.setPassword(password);
         user.setEmail(email);
         try {
-            logger.debug("saving user.");
-            ServiceFactory.getUserService().create(user);
+            ServiceFactory.getUserService().sighUp(user);
             response.sendRedirect("index.jsp");
-            logger.debug("saved.");
         } catch (ServiceException e) {
+            request.setAttribute("error", "Unable to save user.");
         } catch (IOException e) {
-            e.printStackTrace();
+            //TODO is this the end?
+            logger.debug(e.getMessage());
         }
     }
 }

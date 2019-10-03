@@ -10,6 +10,7 @@ import by.koshko.cyberwikia.service.PlayerService;
 import by.koshko.cyberwikia.service.PlayerTeamService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
+import by.koshko.cyberwikia.service.TeamService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,7 +19,8 @@ import java.util.List;
 
 import static by.koshko.cyberwikia.dao.DaoTypes.PLAYERTEAMDAO;
 
-public final class PlayerTeamServiceImpl extends AbstractService implements PlayerTeamService {
+public final class PlayerTeamServiceImpl extends AbstractService
+        implements PlayerTeamService {
 
     private Logger logger = LogManager.getLogger(PlayerTeamServiceImpl.class);
 
@@ -31,7 +33,8 @@ public final class PlayerTeamServiceImpl extends AbstractService implements Play
     }
 
     @Override
-    public List<PlayerTeam> loadTeamPlayers(final Player player)
+    public List<PlayerTeam> loadTeamPlayers(final Player player,
+                                            final boolean deepLoad)
             throws ServiceException {
         if (player == null) {
             logger.warn("Method argument 'player' is null."
@@ -41,8 +44,13 @@ public final class PlayerTeamServiceImpl extends AbstractService implements Play
         try {
             logger.debug("Constructing 'PlayerTeam' list for player '{}'.",
                     player.getNickname());
-            PlayerTeamDao ptd = getTransaction().getDao(PLAYERTEAMDAO);
-            return ptd.findPlayerTeam(player);
+            PlayerTeamDao playerTeamDao
+                    = getTransaction().getDao(PLAYERTEAMDAO);
+            List<PlayerTeam> playerTeams = playerTeamDao.findPlayerTeam(player);
+            if (deepLoad) {
+                fillTeamProfiles(playerTeams);
+            }
+            return playerTeams;
         } catch (DaoException e) {
             logger.error("");
             throw new ServiceException("Cannot get 'PlayerTeam' list"
@@ -61,10 +69,11 @@ public final class PlayerTeamServiceImpl extends AbstractService implements Play
                         + " Empty 'PlayerTeam' list will returned.");
             return new ArrayList<>();
         }
+        Transaction transaction = getTransaction();
         try {
             logger.debug("Constructing 'PlayerTeam' list for team '{}'.",
                     team.getName());
-            PlayerTeamDao playerTeamDao = getTransaction().getDao(PLAYERTEAMDAO);
+            PlayerTeamDao playerTeamDao = transaction.getDao(PLAYERTEAMDAO);
             List<PlayerTeam> players = playerTeamDao.findPlayerTeam(team);
             if (deepLoad) {
                 fillPlayerProfiles(players);
@@ -85,6 +94,16 @@ public final class PlayerTeamServiceImpl extends AbstractService implements Play
         for (PlayerTeam playerTeam : players) {
             long playerID = playerTeam.getPlayer().getId();
             playerTeam.setPlayer(playerService.findById(playerID));
+        }
+    }
+
+    private void fillTeamProfiles(final List<PlayerTeam> teams)
+            throws ServiceException {
+        TeamService teamService
+                = ServiceFactory.getTeamService(getTransaction());
+        for (PlayerTeam playerTeam : teams) {
+            long teamID = playerTeam.getTeam().getId();
+            playerTeam.setTeam(teamService.findTeamById(teamID));
         }
     }
 }

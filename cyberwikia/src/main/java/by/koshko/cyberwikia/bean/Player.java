@@ -37,6 +37,8 @@ public final class Player extends Entity {
      */
     private String overview;
 
+    private RawData rawData;
+
     private List<PlayerTeam> playerTeams;
 
     private List<TournamentTeam> tournaments;
@@ -55,6 +57,14 @@ public final class Player extends Entity {
 
     public void setPlayerTeams(final List<PlayerTeam> playerTeams) {
         this.playerTeams = playerTeams;
+    }
+
+    public RawData getRawData() {
+        return rawData;
+    }
+
+    public void setRawData(final RawData rawData) {
+        this.rawData = rawData;
     }
 
     /**

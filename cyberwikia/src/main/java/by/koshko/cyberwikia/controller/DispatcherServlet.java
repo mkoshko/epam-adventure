@@ -1,9 +1,13 @@
 package by.koshko.cyberwikia.controller;
 
 import by.koshko.cyberwikia.dao.DaoException;
+import by.koshko.cyberwikia.dao.DataWriter;
 import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
+import by.koshko.cyberwikia.service.CountryService;
+import by.koshko.cyberwikia.service.RandomStringGenerator;
 import by.koshko.cyberwikia.service.ServiceException;
-import by.koshko.cyberwikia.service.ValidationPropertiesLoader;
+import by.koshko.cyberwikia.service.ServiceFactory;
+import by.koshko.cyberwikia.service.validation.ValidationPropertiesLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,9 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class DispatcherServlet extends HttpServlet {
 
@@ -23,17 +26,20 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     public void init() {
         try {
+            logger.debug(getServletContext().getRealPath("/"));
             ConnectionPool.getInstance().init();
             ValidationPropertiesLoader.loadProperties("validation");
-        } catch (DaoException e) {
+        } catch (DaoException | ServiceException e) {
             logger.error("Cannot initialize application. {}", e.getMessage());
             destroy();
-        } catch (ServiceException e) {
         }
     }
 
     @Override
-    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(final HttpServletRequest req,
+                         final HttpServletResponse resp)
+            throws ServletException, IOException {
+        String action = (String) req.getAttribute("action");
         if (req.getRequestURI().contains("/profile")) {
             Command c = new PlayerProfileCommand();
             c.execute(req, resp);
@@ -46,7 +52,14 @@ public class DispatcherServlet extends HttpServlet {
         } else if (req.getRequestURI().contains("/registration")) {
             req.getRequestDispatcher("registration.jsp").forward(req, resp);
         } else if (req.getRequestURI().contains("/create")) {
-            req.getRequestDispatcher("createTeam.jsp").forward(req, resp);
+            try {
+                CountryService cs = ServiceFactory.getCountryService();
+                req.setAttribute("countries", cs.getAll());
+                req.getRequestDispatcher("WEB-INF/jsp/createTeam.jsp").forward(req, resp);
+            } catch (ServiceException e) {
+                e.printStackTrace();
+            }
+
         } else if (req.getRequestURI().contains("/signup")) {
             Command c3 = new SignUpCommand();
             c3.execute(req, resp);
@@ -60,24 +73,31 @@ public class DispatcherServlet extends HttpServlet {
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         logger.info("POST, {}", req.getRequestURI());
         if (req.getRequestURI().contains("/teamcreate")) {
-            logger.debug("before getPart()");
             Part part = null;
             try {
                 part = req.getPart("team-logo");
+                logger.debug(part == null);
             } catch (IllegalStateException e) {
                 logger.error(e.getMessage());
                 resp.sendRedirect("index.jsp");
                 return;
             }
             logger.debug(part.getContentType());
+            logger.debug("COUNTRY ID: {}", req.getParameter("country"));
             String teamName = req.getParameter("team-name");
             int start = part.getContentType().lastIndexOf("/");
             String type = part.getContentType().substring(++start);
             InputStream in = part.getInputStream();
             byte[] bytes = in.readAllBytes();
-            File file = new File(getServletContext().getResource("/").getPath() + "images/teams/" + teamName + "." + type);
-            file.createNewFile();
-            Files.write(Paths.get(file.getPath()), bytes);
+            logger.debug(bytes.length);
+            logger.debug(part.getContentType());
+            try {
+                String file = DataWriter.write(bytes, getServletContext().getRealPath("/"), "images/upload/", ".png");
+                logger.debug(file);
+            } catch (DaoException e) {
+                e.printStackTrace();
+            }
+
         } else {
             SignUpCommand createUser = new SignUpCommand();
             createUser.execute(req, resp);

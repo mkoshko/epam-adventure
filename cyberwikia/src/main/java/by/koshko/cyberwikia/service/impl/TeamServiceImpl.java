@@ -1,5 +1,6 @@
 package by.koshko.cyberwikia.service.impl;
 
+import by.koshko.cyberwikia.bean.Country;
 import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.bean.PlayerTeam;
 import by.koshko.cyberwikia.bean.Team;
@@ -7,7 +8,16 @@ import by.koshko.cyberwikia.bean.TournamentTeam;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.*;
+import by.koshko.cyberwikia.service.CountryService;
+import by.koshko.cyberwikia.service.GameService;
+import by.koshko.cyberwikia.service.PlayerService;
+import by.koshko.cyberwikia.service.PlayerTeamService;
+import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
+import by.koshko.cyberwikia.service.TeamService;
+import by.koshko.cyberwikia.service.TournamentTeamService;
+import by.koshko.cyberwikia.service.validation.TeamValidator;
+import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,6 +35,36 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
 
     public TeamServiceImpl(final Transaction transaction) {
         super(transaction);
+    }
+
+    public void updateTeam(final Team team) throws ServiceException {
+        TeamValidator teamValidator = ValidationFactory.getTeamValidator();
+        if (!teamValidator.test(team, true)) {
+            throw new ServiceException("Invalid team parameters.");
+        }
+        Transaction transaction = getTransaction();
+        try {
+            TeamDao teamDao = transaction.getDao(TEAMDAO);
+            teamDao.update(team);
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot update team.");
+        }
+    }
+
+    public void createTeam(final Team team) throws ServiceException {
+        TeamValidator teamValidator = ValidationFactory.getTeamValidator();
+        if (!teamValidator.test(team, false)) {
+            throw new ServiceException("Invalid team parameters.");
+        }
+        Transaction transaction = getTransaction();
+        try {
+            TeamDao teamDao = transaction.getDao(TEAMDAO);
+            teamDao.save(team);
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot save team.");
+        } finally {
+            close();
+        }
     }
 
     public Team loadTeamProfile(final long id) throws ServiceException {
@@ -70,7 +110,8 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             List<TournamentTeam> tournaments = tournamentTeamService
                     .findTournamentsForTeam(team);
             team.setTournaments(tournaments);
-            List<PlayerTeam> players = playerTeamService.loadTeamPlayers(team, true);
+            List<PlayerTeam> players
+                    = playerTeamService.loadTeamPlayers(team, true);
             team.setPlayers(players);
             return team;
         } catch (DaoException e) {
@@ -81,36 +122,38 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
     }
 
     public Team findTeamById(final long id) throws ServiceException {
+        Transaction transaction = getTransaction();
         try {
-            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
-            GameService gs = ServiceFactory.getGameService(getTransaction());
-            PlayerService ps = ServiceFactory.getPlayerService(getTransaction());
-            CountryService cs = ServiceFactory.getCountryService(getTransaction());
-            PlayerTeamService pts = ServiceFactory.getPlayerTeamService(getTransaction());
+            TeamDao teamDao = transaction.getDao(TEAMDAO);
             Team team = teamDao.get(id);
-            team.setGame(gs.findById(team.getGame().getId()));
-            team.setCountry(cs.getCountryById(team.getCountry().getId()));
-            team.setPlayers(pts.loadTeamPlayers(team, true));
-            team.setCaptain(ps.findById(team.getCaptain().getId()));
-            team.setCoach(ps.findById(team.getCoach().getId()));
-            for (int i = 0; i < team.getPlayers().size(); i++) {
-                long idx = team.getPlayers().get(i).getPlayer().getId();
-                team.getPlayers().get(i).setPlayer(ps.findById(idx));
-            }
+            CountryService countryService
+                    = ServiceFactory.getCountryService(transaction);
+            long countryID = team.getCountry().getId();
+            Country country = countryService.getCountryById(countryID);
+            team.setCountry(country);
             return team;
         } catch (DaoException e) {
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException("Cannot load team by ID");
         } finally {
             close();
         }
     }
 
     public List<Team> findAll() throws ServiceException {
+        Transaction transaction = getTransaction();
         try {
-            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
-            return teamDao.getAll();
+            TeamDao teamDao = transaction.getDao(TEAMDAO);
+            List<Team> teams = teamDao.getAll();
+            CountryService countryService
+                    = ServiceFactory.getCountryService(transaction);
+            for (Team team : teams) {
+                team.setCountry(
+                        countryService.getCountryById(team.getCountry().getId())
+                );
+            }
+            return teams;
         } catch (DaoException e) {
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException("Cannot get all teams.");
         } finally {
             close();
         }

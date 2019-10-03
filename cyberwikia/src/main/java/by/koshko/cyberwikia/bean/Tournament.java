@@ -12,6 +12,7 @@ public final class Tournament extends Entity {
      * Name of the tournament.
      */
     private String name;
+    private String logoFile;
     /**
      * Prize pool of the tournament.
      */
@@ -56,6 +57,14 @@ public final class Tournament extends Entity {
      */
     public void setName(final String tournamentName) {
         name = tournamentName;
+    }
+
+    public String getLogoFile() {
+        return logoFile;
+    }
+
+    public void setLogoFile(final String newLogoFile) {
+        logoFile = newLogoFile;
     }
 
     /**

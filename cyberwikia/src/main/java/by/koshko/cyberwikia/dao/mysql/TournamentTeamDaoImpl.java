@@ -169,11 +169,6 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
         while (rs.next()) {
             tournaments.add(buildTournamentTeam(rs));
         }
-        logger.debug("Tournament list size: {}", tournaments.size());
-        tournaments.forEach(tournamentTeam ->  {
-            logger.debug("Team ID: {}", tournamentTeam.getTeam().getId());
-            logger.debug("Team ID: {}", tournamentTeam.getTournament().getId());
-        });
         return tournaments;
     }
 

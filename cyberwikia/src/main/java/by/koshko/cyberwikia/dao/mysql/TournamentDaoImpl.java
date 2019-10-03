@@ -16,17 +16,17 @@ import java.util.List;
 public final class TournamentDaoImpl extends AbstractDao implements TournamentDao {
 
     private static final String GET
-            = "SELECT id, name, prize, overview, start_date, end_date"
+            = "SELECT id, name, logo_file, prize, overview, start_date, end_date"
               + " FROM tournament WHERE id=?;";
     private static final String GET_ALL
-            = "SELECT id, name, prize, overview, start_date, end_date"
+            = "SELECT id, name, logo_file, prize, overview, start_date, end_date"
               + " FROM tournament;";
     private static final String SAVE
             = "INSERT INTO tournament"
-              + " (name, prize, overview, start_date, end_date)"
-              + " VALUES (?,?,?,?,?)";
+              + " (name, logo_file, prize, overview, start_date, end_date)"
+              + " VALUES (?,?,?,?,?,?)";
     private static final String UPDATE
-            = "UPDATE tournament SET name=?, prize=?, overview=?,"
+            = "UPDATE tournament SET name=?, logo_file=?, prize=?, overview=?,"
               + "start_date=?, end_date=? WHERE id=?;";
     private static final String DELETE
             = "DELETE FROM tournament WHERE id=?;";
@@ -92,7 +92,7 @@ public final class TournamentDaoImpl extends AbstractDao implements TournamentDa
         try {
             statement = getConnection().prepareStatement(UPDATE);
             setUpStatement(statement, entity);
-            statement.setLong(6, entity.getId());
+            statement.setLong(7, entity.getId());
             if (statement.executeUpdate() == 1) {
                 logger.info("Tournament '{}' has been updated.", entity.getName());
             }
@@ -144,6 +144,7 @@ public final class TournamentDaoImpl extends AbstractDao implements TournamentDa
         Tournament tournament = new Tournament();
         tournament.setId(rs.getLong("id"));
         tournament.setName(rs.getString("name"));
+        tournament.setLogoFile(rs.getString("logo_file"));
         tournament.setPrize(rs.getInt("prize"));
         tournament.setOverview("overview");
         tournament.setStartDate(LocalDate.parse(rs.getString("start_date")));
@@ -153,15 +154,12 @@ public final class TournamentDaoImpl extends AbstractDao implements TournamentDa
 
     private void setUpStatement(final PreparedStatement statement,
                                 final Tournament tournament) throws SQLException {
-        statement.setString(1, tournament.getName());
-        statement.setInt(2, tournament.getPrize());
-        statement.setString(3, tournament.getOverview());
-        statement.setDate(4, Date.valueOf(tournament.getStartDate()));
-        LocalDate endDate = tournament.getEndDate();
-        if (endDate != null) {
-            statement.setDate(5, Date.valueOf(endDate));
-        } else {
-            statement.setNull(5, Types.NULL);
-        }
+        int index = 1;
+        statement.setString(index++, tournament.getName());
+        statement.setString(index++, tournament.getLogoFile());
+        statement.setInt(index++, tournament.getPrize());
+        statement.setString(index++, tournament.getOverview());
+        statement.setDate(index++, Date.valueOf(tournament.getStartDate()));
+        statement.setDate(index, Date.valueOf(tournament.getEndDate()));
     }
 }

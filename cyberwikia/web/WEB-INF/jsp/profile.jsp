@@ -21,7 +21,7 @@
             <div class="card">
                 <c:choose>
                     <c:when test="${player.profilePhoto == null}">
-                        <img src="<c:url value="images/profile/_default.png"/>"
+                        <img src="<c:url value="../../images/upload/_default.png"/>"
                              class="card-img-top" alt="${player.nickname}">
                     </c:when>
                     <c:otherwise>
