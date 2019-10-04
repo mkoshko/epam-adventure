@@ -1,14 +1,15 @@
 package by.koshko.cyberwikia.service.impl;
 
 import by.koshko.cyberwikia.bean.Player;
-import by.koshko.cyberwikia.bean.PlayerTeam;
-import by.koshko.cyberwikia.bean.TournamentTeam;
 import by.koshko.cyberwikia.dao.DaoException;
-import by.koshko.cyberwikia.dao.DaoTypes;
 import by.koshko.cyberwikia.dao.PlayerDao;
-import by.koshko.cyberwikia.dao.TournamentTeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.*;
+import by.koshko.cyberwikia.service.CountryService;
+import by.koshko.cyberwikia.service.PlayerService;
+import by.koshko.cyberwikia.service.PlayerTeamService;
+import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
+import by.koshko.cyberwikia.service.TournamentTeamService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -96,7 +97,9 @@ public final class PlayerServiceImpl extends AbstractService implements PlayerSe
     public List<Player> findAll() throws ServiceException {
         try {
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
-            return playerDao.getAll();
+            List<Player> players = playerDao.getAll();
+            loadCountries(players);
+            return players;
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
         } finally {
@@ -105,12 +108,26 @@ public final class PlayerServiceImpl extends AbstractService implements PlayerSe
     }
 
     @Override
-    public List<Player> findAll(final int offset, final int limit) throws ServiceException {
+    public List<Player> findAll(final int page, final int limit) throws ServiceException {
         try {
+            int offset = page * limit;
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
-            return playerDao.getAll(offset, limit);
+            List<Player> players = playerDao.getAll(offset, limit);
+            loadCountries(players);
+            return players;
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
+        }
+    }
+
+    private void loadCountries(final List<Player> players)
+            throws ServiceException {
+        Transaction transaction = getTransaction();
+        CountryService countryService
+                = ServiceFactory.getCountryService(transaction);
+        for (Player player : players) {
+            long countryID = player.getCountry().getId();
+            player.setCountry(countryService.getCountryById(countryID));
         }
     }
 }

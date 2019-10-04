@@ -20,7 +20,7 @@ public class PlayerListCommand implements Command {
                         final HttpServletResponse response) {
         try {
             PlayerService playerService = new PlayerServiceImpl();
-            request.setAttribute("players", playerService.findAll());
+            request.setAttribute("players", playerService.findAll(2, 5));
             request.getRequestDispatcher("WEB-INF/jsp/players.jsp").forward(request, response);
         } catch (ServiceException e) {
 

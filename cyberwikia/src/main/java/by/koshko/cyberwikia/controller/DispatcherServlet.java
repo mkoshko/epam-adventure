@@ -12,10 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -39,6 +36,14 @@ public class DispatcherServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req,
                          final HttpServletResponse resp)
             throws ServletException, IOException {
+        req.getSession(true).setAttribute("user", "Maxim");
+        if (req.getCookies().length == 0) {
+            Cookie cookie = new Cookie("locale", "ru_RU");
+            resp.addCookie(cookie);
+        } else {
+            logger.debug("User locale: {}", req.getCookies()[0].getName());
+        }
+        logger.debug("user: {}", req.getSession().getAttribute("user"));
         String action = (String) req.getAttribute("action");
         if (req.getRequestURI().contains("/profile")) {
             Command c = new PlayerProfileCommand();
