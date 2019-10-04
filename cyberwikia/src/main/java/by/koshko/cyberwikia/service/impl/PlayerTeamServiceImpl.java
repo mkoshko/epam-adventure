@@ -36,12 +36,12 @@ public final class PlayerTeamServiceImpl extends AbstractService
     public List<PlayerTeam> loadTeamPlayers(final Player player,
                                             final boolean deepLoad)
             throws ServiceException {
-        if (player == null) {
-            logger.warn("Method argument 'player' is null."
-                        + " Empty 'PlayerTeam' list will returned.");
-            return new ArrayList<>();
-        }
         try {
+            if (player == null) {
+                logger.warn("Method argument 'player' is null."
+                            + " Empty 'PlayerTeam' list will returned.");
+                return new ArrayList<>();
+            }
             logger.debug("Constructing 'PlayerTeam' list for player '{}'.",
                     player.getNickname());
             PlayerTeamDao playerTeamDao
@@ -64,13 +64,13 @@ public final class PlayerTeamServiceImpl extends AbstractService
     public List<PlayerTeam> loadTeamPlayers(final Team team,
                                             final boolean deepLoad)
             throws ServiceException {
-        if (team == null) {
-            logger.warn("Method argument 'team' is null."
-                        + " Empty 'PlayerTeam' list will returned.");
-            return new ArrayList<>();
-        }
-        Transaction transaction = getTransaction();
         try {
+            Transaction transaction = getTransaction();
+            if (team == null) {
+                logger.warn("Method argument 'team' is null."
+                            + " Empty 'PlayerTeam' list will returned.");
+                return new ArrayList<>();
+            }
             logger.debug("Constructing 'PlayerTeam' list for team '{}'.",
                     team.getName());
             PlayerTeamDao playerTeamDao = transaction.getDao(PLAYERTEAMDAO);

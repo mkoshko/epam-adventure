@@ -32,10 +32,10 @@ public final class PlayerServiceImpl extends AbstractService implements PlayerSe
     @Override
     public Player findByNickname(final String nickname)
             throws ServiceException {
-        if (nickname == null || nickname.isBlank()) {
-            return null;
-        }
         try {
+            if (nickname == null || nickname.isBlank()) {
+                return null;
+            }
             Transaction transaction = getTransaction();
             PlayerDao playerDao = transaction.getDao(PLAYERDAO);
             return playerDao.findByNickname(nickname);

@@ -38,16 +38,18 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
     }
 
     public void updateTeam(final Team team) throws ServiceException {
-        TeamValidator teamValidator = ValidationFactory.getTeamValidator();
-        if (!teamValidator.test(team, true)) {
-            throw new ServiceException("Invalid team parameters.");
-        }
-        Transaction transaction = getTransaction();
         try {
+            TeamValidator teamValidator = ValidationFactory.getTeamValidator();
+            if (!teamValidator.test(team, true)) {
+                throw new ServiceException("Invalid team parameters.");
+            }
+            Transaction transaction = getTransaction();
             TeamDao teamDao = transaction.getDao(TEAMDAO);
             teamDao.update(team);
         } catch (DaoException e) {
             throw new ServiceException("Cannot update team.");
+        } finally {
+            close();
         }
     }
 

@@ -34,12 +34,12 @@ public class TournamentTeamServiceImpl extends AbstractService
 
     public void updateTournamentTeam(final TournamentTeam tournamentTeam)
             throws ServiceException {
-        if (!TournamentTeamValidator.test(tournamentTeam)) {
-            throw new ServiceException("Cannot update the information about"
-                                       + " the tournament participant.");
-        }
         Transaction transaction = getTransaction();
         try {
+            if (!TournamentTeamValidator.test(tournamentTeam)) {
+                throw new ServiceException("Cannot update the information about"
+                                           + " the tournament participant.");
+            }
             TournamentTeamDao tournamentTeamDao
                     = transaction.getDao(TOURNAMENTTEAMDAO);
             tournamentTeamDao.update(tournamentTeam);
@@ -51,12 +51,12 @@ public class TournamentTeamServiceImpl extends AbstractService
 
     public void addTournamentTeam(final TournamentTeam tournamentTeam)
             throws ServiceException {
-        if (!TournamentTeamValidator.test(tournamentTeam)) {
-            throw new ServiceException("Cannot add team"
-                                       + " to tournament participants list.");
-        }
         Transaction transaction = getTransaction();
         try {
+            if (!TournamentTeamValidator.test(tournamentTeam)) {
+                throw new ServiceException("Cannot add team"
+                                           + " to tournament participants list.");
+            }
             TournamentTeamDao tournamentTeamDao
                     = transaction.getDao(TOURNAMENTTEAMDAO);
             tournamentTeamDao.save(tournamentTeam);
@@ -71,12 +71,12 @@ public class TournamentTeamServiceImpl extends AbstractService
 
     public List<TournamentTeam> findTournamentsForTeam(final Team team)
             throws ServiceException {
-        if (team == null) {
-            logger.warn("Method argument 'team' is null."
-                        + " Empty 'TournamentTeam' list will returned.");
-            return new ArrayList<>();
-        }
         try {
+            if (team == null) {
+                logger.warn("Method argument 'team' is null."
+                            + " Empty 'TournamentTeam' list will returned.");
+                return new ArrayList<>();
+            }
             Transaction transaction = getTransaction();
             TournamentTeamDao tournamentTeamDao
                     = transaction.getDao(TOURNAMENTTEAMDAO);
@@ -100,12 +100,12 @@ public class TournamentTeamServiceImpl extends AbstractService
 
     public List<TournamentTeam> findTournamentsForPlayer(final Player player)
             throws ServiceException {
-        if (player == null) {
-            logger.warn("Method argument 'player' is null."
-                        + " Empty 'TournamentTeam' list will returned.");
-            return new ArrayList<>();
-        }
         try {
+            if (player == null) {
+                logger.warn("Method argument 'player' is null."
+                            + " Empty 'TournamentTeam' list will returned.");
+                return new ArrayList<>();
+            }
             Transaction transaction = getTransaction();
             TournamentTeamDao tournamentTeamDao
                     = transaction.getDao(TOURNAMENTTEAMDAO);

@@ -26,23 +26,25 @@ public class TournamentServiceImpl extends AbstractService implements Tournament
     }
 
     public void save(final Tournament tournament) throws ServiceException {
-        TournamentValidator tournamentValidator
-                = ValidationFactory.getTournamentValidator();
-        if (!tournamentValidator.test(tournament, false)) {
-            throw new ServiceException("Invalid tournament parameters");
-        }
-        Transaction transaction = getTransaction();
         try {
+            TournamentValidator tournamentValidator
+                    = ValidationFactory.getTournamentValidator();
+            if (!tournamentValidator.test(tournament, false)) {
+                throw new ServiceException("Invalid tournament parameters");
+            }
+            Transaction transaction = getTransaction();
             TournamentDao tournamentDao = transaction.getDao(TOURNAMENTDAO);
             tournamentDao.save(tournament);
         } catch (DaoException e) {
             throw new ServiceException("Cannot save tournament.");
+        } finally {
+            close();
         }
     }
 
     public Tournament getTournamentById(final long id) throws ServiceException {
-        Transaction transaction = getTransaction();
         try {
+            Transaction transaction = getTransaction();
             logger.debug("Tournament ID to find: {}", id);
             TournamentDao tournamentDao
                     = transaction.getDao(TOURNAMENTDAO);

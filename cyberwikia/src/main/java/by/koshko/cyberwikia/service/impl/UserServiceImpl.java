@@ -56,10 +56,10 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     public void sighUp(final User user) throws ServiceException {
         UserValidator userValidator = ValidationFactory.getUserValidator();
-        if (!userValidator.test(user, true)) {
-            throw new ServiceException("Invalid user parameters.");
-        }
         try {
+            if (!userValidator.test(user, true)) {
+                throw new ServiceException("Invalid user parameters.");
+            }
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
             user.setPassword(argon2
                     .hash(ITERATION, MEMORY, THREADS, user.getPassword()));
@@ -75,10 +75,10 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     public void update(final User user) throws ServiceException {
         UserValidator userValidator = ValidationFactory.getUserValidator();
-        if (!userValidator.test(user, false)) {
-            throw new ServiceException("Invalid user parameters.");
-        }
         try {
+            if (!userValidator.test(user, false)) {
+                throw new ServiceException("Invalid user parameters.");
+            }
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
             userDao.update(user);
             logger.debug("User '{}' was successfully updated.", user.getLogin());
@@ -93,10 +93,10 @@ public class UserServiceImpl extends AbstractService implements UserService {
     public void updatePassword(final User user, final String oldPass)
             throws ServiceException {
         UserValidator userValidator = ValidationFactory.getUserValidator();
-        if (!userValidator.test(user, true)) {
-            throw new ServiceException("Invalid user parameters.");
-        }
         try {
+            if (!userValidator.test(user, true)) {
+                throw new ServiceException("Invalid user parameters.");
+            }
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
             User oldUser = userDao.get(user.getId());
             if (argon2.verify(oldUser.getPassword(), oldPass)) {
