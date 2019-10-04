@@ -1,4 +1,5 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -10,21 +11,22 @@
     <title>CyberWikia</title>
   </head>
   <body>
-    <div class="container bg-info">
+  <t:Footer></t:Footer>
+    <div class="container">
       <div class="row">
-        <div class="col-md-2">
+        <div class="col-md">
           <a href="players.html">Players</a>
         </div>
-        <div class="col-md-2">
+        <div class="col-md">
           <a href="teams.html">Teams</a>
         </div>
-        <div class="col-md-2">
+        <div class="col-md">
           <a href="tournaments.html">Tournaments</a>
         </div>
-        <div class="col-md-2">
+        <div class="col-md">
           <a href="registration.html">Registration</a>
         </div>
-        <div class="col-md-2">
+        <div class="col-md">
           <a href="create.html">Create team</a>
         </div>
       </div>

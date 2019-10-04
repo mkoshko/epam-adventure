@@ -32,8 +32,8 @@ public class PlayersTable extends TagSupport {
             while (iterator.hasNext()) {
                 Player player = iterator.next();
                 out.write("<tr>");
-                out.write("<td>" + player.getFirstName() + " "
-                + player.getNickname() + " " + player.getLastName() + "</td>");
+                out.write("<td><a href=\"profile.html?id=" + player.getId() + "\">" + player.getFirstName() + " "
+                + player.getNickname() + " " + player.getLastName() + "</a></td>");
                 out.write("</tr>");
             }
         } catch (IOException e) {

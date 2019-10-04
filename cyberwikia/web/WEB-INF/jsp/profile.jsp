@@ -21,7 +21,7 @@
             <div class="card">
                 <c:choose>
                     <c:when test="${player.profilePhoto == null}">
-                        <img src="<c:url value="../../images/upload/_default.png"/>"
+                        <img src="<c:url value="/images/upload/_default.png"/>"
                              class="card-img-top" alt="${player.nickname}">
                     </c:when>
                     <c:otherwise>
@@ -129,11 +129,36 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${player.tournaments}" var="tournament">
-                    <tr>
-                        <td>${tournament.tournament.name}</td>
-                        <td>${tournament.team.name}</td>
-                        <td>${tournament.placement}</td>
-                    </tr>
+                    <c:choose>
+                        <c:when test="${tournament.placement == 1}">
+                            <tr style="background-color: #FFD739">
+                                <td>${tournament.tournament.name}</td>
+                                <td><img style="width: 30px; height: 30px; margin-right: 3px" src="<c:url value="/${tournament.team.logoFile}"/>">${tournament.team.name}</td>
+                                <td>${tournament.placement}</td>
+                            </tr>
+                        </c:when>
+                        <c:when test="${tournament.placement == 2}">
+                            <tr style="background-color:#BEBEBE">
+                                <td>${tournament.tournament.name}</td>
+                                <td><img style="width: 30px; height: 30px; margin-right: 3px" src="<c:url value="/${tournament.team.logoFile}"/>">${tournament.team.name}</td>
+                                <td>${tournament.placement}</td>
+                            </tr>
+                        </c:when>
+                        <c:when test="${tournament.placement == 3}">
+                            <tr style="background-color: #9a5a0d">
+                                <td>${tournament.tournament.name}</td>
+                                <td><img style="width: 30px; height: 30px; margin-right: 3px" src="<c:url value="/${tournament.team.logoFile}"/>">${tournament.team.name}</td>
+                                <td>${tournament.placement}</td>
+                            </tr>
+                        </c:when>
+                        <c:otherwise>
+                            <tr>
+                                <td>${tournament.tournament.name}</td>
+                                <td><img style="width: 30px; height: 30px; margin-right: 3px" src="<c:url value="/${tournament.team.logoFile}"/>">${tournament.team.name}</td>
+                                <td>${tournament.placement}</td>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>
                 </c:forEach>
                 </tbody>
             </table>

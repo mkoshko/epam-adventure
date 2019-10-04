@@ -8,13 +8,7 @@ import by.koshko.cyberwikia.dao.DaoTypes;
 import by.koshko.cyberwikia.dao.PlayerDao;
 import by.koshko.cyberwikia.dao.TournamentTeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.CountryService;
-import by.koshko.cyberwikia.service.PlayerService;
-import by.koshko.cyberwikia.service.PlayerTeamService;
-import by.koshko.cyberwikia.service.ServiceException;
-import by.koshko.cyberwikia.service.ServiceFactory;
-import by.koshko.cyberwikia.service.TeamService;
-import by.koshko.cyberwikia.service.TournamentService;
+import by.koshko.cyberwikia.service.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,8 +48,14 @@ public final class PlayerServiceImpl extends AbstractService implements PlayerSe
     @Override
     public Player findById(final long id) throws ServiceException {
         try {
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
-            return playerDao.get(id);
+            Transaction transaction = getTransaction();
+            PlayerDao playerDao = transaction.getDao(PLAYERDAO);
+            CountryService countryService
+                    = ServiceFactory.getCountryService(transaction);
+            Player player = playerDao.get(id);
+            long countryID = player.getCountry().getId();
+            player.setCountry(countryService.getCountryById(countryID));
+            return player;
         } catch (DaoException e) {
             throw new ServiceException("Cannot get player by ID.");
         } finally {
@@ -71,20 +71,18 @@ public final class PlayerServiceImpl extends AbstractService implements PlayerSe
             if (player == null) {
                 return null;
             }
-            TournamentTeamDao tournamentTeamDao
-                    = transaction.getDao(DaoTypes.TOURNAMENTTEAMDAO);
             CountryService countryService
                     = ServiceFactory.getCountryService(transaction);
-            TeamService teamService
-                    = ServiceFactory.getTeamService(transaction);
             PlayerTeamService playerTeamService
                     = ServiceFactory.getPlayerTeamService(transaction);
-            TournamentService tournamentService
-                    = ServiceFactory.getTournamentService(transaction);
+            TournamentTeamService tournamentTeamService
+                    = ServiceFactory.getTournamentTeamService(transaction);
             long countryID = player.getCountry().getId();
             player.setCountry(countryService.getCountryById(countryID));
-            player.setPlayerTeams(playerTeamService.loadTeamPlayers(player, true));
-            //TODO доделать после сервисов. Загрузить турниры.
+            player.setPlayerTeams(playerTeamService
+                    .loadTeamPlayers(player, true));
+            player.setTournaments(tournamentTeamService
+                    .findTournamentsForPlayer(player));
             return player;
         } catch (DaoException e) {
             logger.error(e.getMessage());

@@ -51,6 +51,8 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
     @Override
     public List<TournamentTeam> findTournamentTeam(final Team team)
             throws DaoException {
+        logger.debug("Attempt to find tournaments for team {}:{}",
+                team.getName(), team.getId());
         try (PreparedStatement statement
                      = getConnection().prepareStatement(FIND_TOURNAMENTS)) {
             statement.setLong(1, team.getId());
@@ -179,6 +181,8 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
         while (rs.next()) {
             tournaments.add(buildTournamentTeam(rs, team));
         }
+        logger.debug("Found {} tournaments for team {}:{}",
+                tournaments.size(), team.getName(), team.getId());
         return tournaments;
     }
 
@@ -209,6 +213,7 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
         tournamentTeam.setTeam(team);
         Tournament tournament = new Tournament();
         tournament.setId(rs.getLong(TOURNAMENT_ID));
+        tournamentTeam.setTournament(tournament);
         return build(rs, tournamentTeam);
     }
 

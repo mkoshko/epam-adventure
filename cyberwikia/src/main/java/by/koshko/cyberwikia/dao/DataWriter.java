@@ -1,6 +1,8 @@
 package by.koshko.cyberwikia.dao;
 
 import by.koshko.cyberwikia.service.RandomStringGenerator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class DataWriter {
+    private static Logger logger = LogManager.getLogger(DataWriter.class);
     private static final int FILENAME_LENGTH = 15;
 
     public static String write(final byte[] bytes,
@@ -25,6 +28,7 @@ public class DataWriter {
                 path = path.replace("//", "/");
                 file = new File(path);
             } while (file.exists());
+            logger.debug("File path: {}", path);
             file.createNewFile();
             Files.write(Paths.get(path), bytes);
             return folder + filename + container;

@@ -92,7 +92,7 @@ public class DispatcherServlet extends HttpServlet {
             logger.debug(bytes.length);
             logger.debug(part.getContentType());
             try {
-                String file = DataWriter.write(bytes, getServletContext().getRealPath("/"), "images/upload/", ".png");
+                String file = DataWriter.write(bytes, getServletContext().getRealPath("/"), "images/upload/", "png");
                 logger.debug(file);
             } catch (DaoException e) {
                 e.printStackTrace();

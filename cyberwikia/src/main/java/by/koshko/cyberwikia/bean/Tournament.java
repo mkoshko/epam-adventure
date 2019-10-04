@@ -30,7 +30,6 @@ public final class Tournament extends Entity {
      */
     private LocalDate endDate;
 
-    //TODO javadoc.
     private List<TournamentTeam> participants;
 
     public List<TournamentTeam> getParticipants() {
