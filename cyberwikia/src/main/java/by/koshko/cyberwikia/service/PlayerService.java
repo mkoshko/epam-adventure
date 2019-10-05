@@ -5,6 +5,8 @@ import by.koshko.cyberwikia.bean.Player;
 import java.util.List;
 
 public interface PlayerService {
+    void createPlayer(Player player) throws ServiceException;
+
     Player findByNickname(String nickname) throws ServiceException;
 
     Player findById(long id) throws ServiceException;

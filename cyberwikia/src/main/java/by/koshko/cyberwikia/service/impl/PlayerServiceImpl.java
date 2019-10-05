@@ -10,6 +10,8 @@ import by.koshko.cyberwikia.service.PlayerTeamService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
 import by.koshko.cyberwikia.service.TournamentTeamService;
+import by.koshko.cyberwikia.service.validation.PlayerValidator;
+import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +19,8 @@ import java.util.List;
 
 import static by.koshko.cyberwikia.dao.DaoTypes.PLAYERDAO;
 
-public final class PlayerServiceImpl extends AbstractService implements PlayerService {
+public final class PlayerServiceImpl extends AbstractService
+        implements PlayerService {
 
     private Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
 
@@ -27,6 +30,22 @@ public final class PlayerServiceImpl extends AbstractService implements PlayerSe
 
     public PlayerServiceImpl(final Transaction transaction) {
         super(transaction);
+    }
+
+    public void createPlayer(final Player player) throws ServiceException {
+        try {
+            PlayerValidator playerValidator
+                    = ValidationFactory.getPlayerValidator();
+            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            if (playerValidator.test(player, true)) {
+                throw new ServiceException("Invalid player parameters.");
+            }
+            player.setProfilePhoto(ServiceFactory.getImageService()
+                    .save(player.getRawData()));
+            playerDao.save(player);
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot create player profile.");
+        }
     }
 
     @Override

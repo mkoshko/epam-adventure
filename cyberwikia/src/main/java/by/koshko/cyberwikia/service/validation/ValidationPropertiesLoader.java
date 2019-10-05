@@ -19,6 +19,7 @@ public class ValidationPropertiesLoader {
         validatorList.add(ValidationFactory.getUserValidator());
         validatorList.add(ValidationFactory.getTeamValidator());
         validatorList.add(ValidationFactory.getTournamentValidator());
+        validatorList.add(ValidationFactory.getPlayerValidator());
     }
 
     public static void loadProperties(final String bundleName)

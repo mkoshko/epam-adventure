@@ -5,6 +5,8 @@ public class ValidationFactory {
     private static TeamValidator teamValidator = new TeamValidator();
     private static TournamentValidator tournamentValidator
             = new TournamentValidator();
+    private static PlayerValidator playerValidator
+            = new PlayerValidator();
 
     public static UserValidator getUserValidator() {
         return userValidator;
@@ -16,5 +18,9 @@ public class ValidationFactory {
 
     public static TournamentValidator getTournamentValidator() {
         return tournamentValidator;
+    }
+
+    public static PlayerValidator getPlayerValidator() {
+        return playerValidator;
     }
 }

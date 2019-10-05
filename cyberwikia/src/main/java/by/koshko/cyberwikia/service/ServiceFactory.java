@@ -5,6 +5,8 @@ import by.koshko.cyberwikia.service.impl.*;
 
 public class ServiceFactory {
 
+    private static ImageService imageService = new ImageServiceImpl();
+
     private ServiceFactory() {
     }
 
@@ -70,5 +72,9 @@ public class ServiceFactory {
 
     public static TournamentTeamService getTournamentTeamService(final Transaction t) {
         return new TournamentTeamServiceImpl(t);
+    }
+
+    public static ImageService getImageService() {
+        return imageService;
     }
 }

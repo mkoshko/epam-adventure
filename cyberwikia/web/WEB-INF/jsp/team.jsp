@@ -1,5 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="ct" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,11 +13,11 @@
 <body>
 <div class="container" style="background-color: white">
     <div class="row">
-        <div class="col-12 col-lg-8">
+        <div class="col-sm-12 col-lg-7">
             <h3>Overview</h3><br>
             <p>${team.overview}</p>
         </div>
-        <div class="col-12 col-lg-4">
+        <div class="col-12 col-lg-5">
             <div class="card">
                 <b><h2 class="card-title text-center">${team.name}</h2></b>
                 <img src="<c:url value="${team.logoFile}"/>"
@@ -53,27 +54,18 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <h3>Active squad</h3><br>
-            <table class="table">
-                <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>Name</td>
-                    <td>Join Date</td>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${team.players}" var="playerTeam">
-                    <tr>
-                        <td><img class="bordered"
-                                 src="<c:url value="/${playerTeam.player.country.flag}"/> "><b>${playerTeam.player.nickname}</b>
-                        </td>
-                        <td>${playerTeam.player.firstName} ${playerTeam.player.lastName}</td>
-                        <td>${playerTeam.joinDate}</td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+            <h3>Active squad</h3>
+            <form action="join.html" method="post">
+                <input type="hidden" value="${team.id}" name="id"/>
+                <button class="btn btn-light" type="submit" />
+            </form><br>
+            <ct:activeplayers playerTeams="${team.players}"/>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-12 m">
+            <h3>Former players</h3>
+            <ct:formerplayers playerTeams="${team.players}"></ct:formerplayers>
         </div>
     </div>
     <div class="row">

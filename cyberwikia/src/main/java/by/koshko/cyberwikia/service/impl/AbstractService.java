@@ -26,7 +26,7 @@ public class AbstractService {
         isAutoClose = true;
     }
 
-    protected void close() {
+    public void close() {
         if (!isAutoClose) {
             transaction.close();
         }

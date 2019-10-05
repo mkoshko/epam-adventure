@@ -16,7 +16,6 @@
     <div class="row">
         <div class="col-md-12">
             <table class="table">
-                <cg:Footer players="${players}"></cg:Footer>
             </table>
             <ul class="pagination">
                 <li class="page-item"><a class="page-link" href="#">Previous</a></li>

@@ -74,10 +74,6 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
     @Override
     public List<Player> findByFullName(final String fullName)
             throws DaoException {
-        if (fullName == null) {
-            logger.warn("Attempt to find player by full name with null"
-                        + " argument.");
-        }
         PreparedStatement statement = null;
         ResultSet rs = null;
         try {
