@@ -31,6 +31,10 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
     private static final String FIND_TEAMS
             = "SELECT team_id, active, join_date, leave_date "
               + "FROM m2m_player_team WHERE player_id=?";
+    public static final String FIND_ACTIVE_TEAM
+            = "SELECT team_id, active, join_date, leave_date "
+              + "FROM m2m_player_team "
+              + "WHERE player_id=? AND active=1;";
 
     @Override
     public List<PlayerTeam> findPlayerTeam(final Team team) throws DaoException {
@@ -65,6 +69,21 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             throw new DaoException("Cannot find players teams.");
         } finally {
             closeStatement(statement);
+        }
+    }
+
+    public PlayerTeam findPlayerTeamActive(final Player player)
+            throws DaoException {
+        try (PreparedStatement statement
+                = getConnection().prepareStatement(FIND_ACTIVE_TEAM)) {
+            statement.setLong(1, player.getId());
+            try (ResultSet rs = statement.executeQuery()) {
+                return buildSingleInstance(rs, player);
+            }
+        } catch (SQLException e) {
+            logger.error("Cannot find players active team. SQL state: {}."
+                         + " Message: {}", e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot find players active team");
         }
     }
 
@@ -130,6 +149,15 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             throw new DaoException("Cannot delete player from team.");
         } finally {
             closeStatement(statement);
+        }
+    }
+
+    private PlayerTeam buildSingleInstance(ResultSet rs, Player player)
+            throws SQLException {
+        if (rs.next()) {
+            return buildPlayerTeam(rs, player);
+        } else {
+            return null;
         }
     }
 

@@ -38,7 +38,7 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
-
+        controller.executeCommand(req, resp);
     }
 
     @Override

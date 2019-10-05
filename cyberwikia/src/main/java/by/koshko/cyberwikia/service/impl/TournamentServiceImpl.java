@@ -2,10 +2,10 @@ package by.koshko.cyberwikia.service.impl;
 
 import by.koshko.cyberwikia.bean.Tournament;
 import by.koshko.cyberwikia.dao.DaoException;
-import by.koshko.cyberwikia.dao.DaoTypes;
 import by.koshko.cyberwikia.dao.TournamentDao;
 import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
 import by.koshko.cyberwikia.service.TournamentService;
 import by.koshko.cyberwikia.service.validation.TournamentValidator;
 import by.koshko.cyberwikia.service.validation.ValidationFactory;
@@ -25,7 +25,7 @@ public class TournamentServiceImpl extends AbstractService implements Tournament
         super(externalTransaction);
     }
 
-    public void save(final Tournament tournament) throws ServiceException {
+    public void createTournament(final Tournament tournament) throws ServiceException {
         try {
             TournamentValidator tournamentValidator
                     = ValidationFactory.getTournamentValidator();
@@ -34,6 +34,8 @@ public class TournamentServiceImpl extends AbstractService implements Tournament
             }
             Transaction transaction = getTransaction();
             TournamentDao tournamentDao = transaction.getDao(TOURNAMENTDAO);
+            tournament.setLogoFile(ServiceFactory
+                    .getImageService().save(tournament.getRawData()));
             tournamentDao.save(tournament);
         } catch (DaoException e) {
             throw new ServiceException("Cannot save tournament.");

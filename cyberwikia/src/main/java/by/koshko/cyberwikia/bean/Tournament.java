@@ -12,7 +12,10 @@ public final class Tournament extends Entity {
      * Name of the tournament.
      */
     private String name;
+
     private String logoFile;
+
+    private RawData rawData;
     /**
      * Prize pool of the tournament.
      */
@@ -38,6 +41,14 @@ public final class Tournament extends Entity {
 
     public void setParticipants(final List<TournamentTeam> participants) {
         this.participants = participants;
+    }
+
+    public RawData getRawData() {
+        return rawData;
+    }
+
+    public void setRawData(final RawData data) {
+        rawData = data;
     }
 
     /**

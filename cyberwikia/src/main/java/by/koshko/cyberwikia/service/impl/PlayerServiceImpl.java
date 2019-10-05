@@ -1,20 +1,18 @@
 package by.koshko.cyberwikia.service.impl;
 
 import by.koshko.cyberwikia.bean.Player;
+import by.koshko.cyberwikia.bean.PlayerTeam;
+import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.CountryService;
-import by.koshko.cyberwikia.service.PlayerService;
-import by.koshko.cyberwikia.service.PlayerTeamService;
-import by.koshko.cyberwikia.service.ServiceException;
-import by.koshko.cyberwikia.service.ServiceFactory;
-import by.koshko.cyberwikia.service.TournamentTeamService;
+import by.koshko.cyberwikia.service.*;
 import by.koshko.cyberwikia.service.validation.PlayerValidator;
 import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static by.koshko.cyberwikia.dao.DaoTypes.PLAYERDAO;
@@ -118,6 +116,7 @@ public final class PlayerServiceImpl extends AbstractService
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
             List<Player> players = playerDao.getAll();
             loadCountries(players);
+            loadActiveTeams(players);
             return players;
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
@@ -133,9 +132,28 @@ public final class PlayerServiceImpl extends AbstractService
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
             List<Player> players = playerDao.getAll(offset, limit);
             loadCountries(players);
+            loadActiveTeams(players);
             return players;
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
+        }
+    }
+
+    private void loadActiveTeams(final List<Player> players)
+            throws ServiceException {
+        PlayerTeamService playerTeamService
+                = ServiceFactory.getPlayerTeamService(getTransaction());
+        TeamService teamService
+                = ServiceFactory.getTeamService(getTransaction());
+        for (Player player : players) {
+            PlayerTeam playerTeam = playerTeamService.findActiveTeam(player);
+            if (playerTeam != null) {
+                List<PlayerTeam> teams = new ArrayList<>();
+                long teamID = playerTeam.getTeam().getId();
+                playerTeam.setTeam(teamService.findTeamById(teamID));
+                teams.add(playerTeam);
+                player.setPlayerTeams(teams);
+            }
         }
     }
 

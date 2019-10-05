@@ -1,10 +1,12 @@
 body {
     background-color: #f6f5f3;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
 }
 
-.bordered {
+.content {
+    background-color: white;
+}
+
+.flag {
     border: 1px solid black;
     width: 20px;
     height: 14px;

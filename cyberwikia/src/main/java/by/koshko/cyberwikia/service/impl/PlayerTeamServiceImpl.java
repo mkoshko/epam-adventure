@@ -87,6 +87,16 @@ public final class PlayerTeamServiceImpl extends AbstractService
         }
     }
 
+    public PlayerTeam findActiveTeam(final Player player) throws ServiceException {
+        try {
+            Transaction transaction = getTransaction();
+            PlayerTeamDao playerTeamDao = transaction.getDao(PLAYERTEAMDAO);
+            return playerTeamDao.findPlayerTeamActive(player);
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot find players active team.");
+        }
+    }
+
     private void fillPlayerProfiles(final List<PlayerTeam> players)
             throws ServiceException {
         PlayerService playerService

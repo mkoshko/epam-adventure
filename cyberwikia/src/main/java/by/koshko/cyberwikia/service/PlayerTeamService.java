@@ -11,4 +11,5 @@ public interface PlayerTeamService {
             throws ServiceException;
     List<PlayerTeam> loadTeamPlayers(Team team, boolean deepLoad)
             throws ServiceException;
+    PlayerTeam findActiveTeam(Player player) throws ServiceException;
 }

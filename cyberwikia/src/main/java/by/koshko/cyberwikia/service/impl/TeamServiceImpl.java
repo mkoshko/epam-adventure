@@ -61,6 +61,8 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         Transaction transaction = getTransaction();
         try {
             TeamDao teamDao = transaction.getDao(TEAMDAO);
+            team.setLogoFile(ServiceFactory
+                    .getImageService().save(team.getRawData()));
             teamDao.save(team);
         } catch (DaoException e) {
             throw new ServiceException("Cannot save team.");
