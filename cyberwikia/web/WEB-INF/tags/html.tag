@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="func" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ attribute name="title" required="true" rtexprvalue="true" type="java.lang.String" %>
+<%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,13 +13,15 @@
     <title>${title}</title>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-lg-10 mx-auto content">
+        <div class="col-12 col-xl-8 mx-auto content">
+            <tag:header/>
             <jsp:doBody/>
         </div>
     </div>
 </div>
 <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/js/loading.js"/>"></script>
 </body>
 </html>

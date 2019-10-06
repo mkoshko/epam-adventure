@@ -8,6 +8,7 @@ import by.koshko.cyberwikia.dao.PlayerDao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,22 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
               + "SET id=?, profile_photo=?, nickname=?, firstName=?, lastName=?, "
               + "birth=?, country_id=?, overview=? WHERE id=?;";
     private static final String DELETE_QUERY = "DELETE FROM player WHERE id=?;";
+    public static final String ROWS_NUMBER
+            = "SELECT COUNT(*) FROM player;";
+
+    public int getRowsNumber() throws DaoException {
+        try (Statement statement = getConnection().createStatement()) {
+            try (ResultSet rs = statement.executeQuery(ROWS_NUMBER)) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+            return 0;
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new DaoException("Cannot count rows.");
+        }
+    }
 
     @Override
     public Player findByNickname(final String nickname)

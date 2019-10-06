@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class URLActionFilter implements Filter {
     private static Logger logger = LogManager.getLogger(URLActionFilter.class);
+
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response,
                          final FilterChain chain) throws IOException, ServletException {
@@ -26,7 +27,12 @@ public class URLActionFilter implements Filter {
         logger.debug("Request URI: {}", requestURI);
         int contextLength = context.length();
         int endRequestIndex = requestURI.lastIndexOf(".html");
-        String action = requestURI.substring(contextLength, endRequestIndex);
+        String action;
+        if (endRequestIndex != -1) {
+            action = requestURI.substring(contextLength, endRequestIndex);
+        } else {
+            action = "/";
+        }
         logger.debug("Requested action: {}", action);
         request.setAttribute("action", action);
         chain.doFilter(req, resp);

@@ -20,12 +20,19 @@ public class PlayersCommand implements Command {
     @Override
     public void execute(final HttpServletRequest request, final HttpServletResponse response) {
         try {
-//            int page = Integer.parseInt(request.getParameter("page"));
-//            int pageLimit = Integer.parseInt(request.getParameter("limit"));
             PlayerService playerService = ServiceFactory.getPlayerService();
-//            List<Player> players = playerService.findAll(page * pageLimit, pageLimit);
-            List<Player> players = playerService.findAll();
-            logger.debug(players);
+            int page = 1;
+            if (request.getParameter("page") != null) {
+                try {
+                    page = Integer.parseInt(request.getParameter("page"));
+                } catch (NumberFormatException e) {
+
+                }
+            }
+            List<Player> players = playerService.findAll(page, 10);
+            int records = playerService.getRowsNumber();
+            request.setAttribute("lastPage", records / 10 + 1);
+            request.setAttribute("page", page);
             request.setAttribute("players", players);
             request.getRequestDispatcher("WEB-INF/jsp/players.jsp").forward(request, response);
         } catch (ServiceException | ServletException | IOException e) {

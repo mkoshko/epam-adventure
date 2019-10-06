@@ -7,6 +7,8 @@ import java.util.List;
 public interface PlayerService {
     void createPlayer(Player player) throws ServiceException;
 
+    void deletePlayer(Player player) throws ServiceException;
+
     Player findByNickname(String nickname) throws ServiceException;
 
     Player findById(long id) throws ServiceException;
@@ -16,4 +18,6 @@ public interface PlayerService {
     List<Player> findAll(int offset, int limit) throws ServiceException;
 
     Player loadProfile(long id) throws ServiceException;
+
+    int getRowsNumber() throws ServiceException;
 }

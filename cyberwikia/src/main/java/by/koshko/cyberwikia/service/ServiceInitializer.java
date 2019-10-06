@@ -1,6 +1,6 @@
 package by.koshko.cyberwikia.service;
 
-import by.koshko.cyberwikia.bean.ApplicationPath;
+import by.koshko.cyberwikia.bean.RawData;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
 import by.koshko.cyberwikia.service.validation.ValidationPropertiesLoader;
@@ -15,7 +15,7 @@ public class ServiceInitializer {
         try {
             ConnectionPool.getInstance().init();
             ValidationPropertiesLoader.loadProperties(config.getProperty("bundle"));
-            ApplicationPath.setRoot(config.getProperty("path"));
+            RawData.setRootPath(config.getProperty("path"));
         } catch (DaoException e) {
             logger.error(e.getMessage());
             throw new ServiceException("Cannot initialize services.");

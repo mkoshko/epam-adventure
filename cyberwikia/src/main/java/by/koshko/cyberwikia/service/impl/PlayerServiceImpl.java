@@ -12,6 +12,7 @@ import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,15 +35,37 @@ public final class PlayerServiceImpl extends AbstractService
         try {
             PlayerValidator playerValidator
                     = ValidationFactory.getPlayerValidator();
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
             if (playerValidator.test(player, true)) {
                 throw new ServiceException("Invalid player parameters.");
             }
+            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
             player.setProfilePhoto(ServiceFactory.getImageService()
                     .save(player.getRawData()));
             playerDao.save(player);
         } catch (DaoException e) {
             throw new ServiceException("Cannot create player profile.");
+        }
+    }
+
+    public void deletePlayer(final Player player) throws ServiceException {
+        try {
+            if (player == null) {
+                throw new ServiceException("Cannot delete player.");
+            }
+            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            playerDao.delete(player);
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot delete player.");
+        }
+    }
+
+    @Override
+    public int getRowsNumber() throws ServiceException {
+        try {
+            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            return playerDao.getRowsNumber();
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot get number of records.");
         }
     }
 
@@ -128,7 +151,12 @@ public final class PlayerServiceImpl extends AbstractService
     @Override
     public List<Player> findAll(final int page, final int limit) throws ServiceException {
         try {
-            int offset = page * limit;
+            int offset;
+            if (page == 1) {
+                offset = 0;
+            } else {
+                offset = (page - 1) * limit;
+            }
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
             List<Player> players = playerDao.getAll(offset, limit);
             loadCountries(players);
@@ -136,6 +164,8 @@ public final class PlayerServiceImpl extends AbstractService
             return players;
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
+        } finally {
+            close();
         }
     }
 

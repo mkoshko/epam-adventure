@@ -1,6 +1,6 @@
 package by.koshko.cyberwikia.dao;
 
-import by.koshko.cyberwikia.bean.ApplicationPath;
+import by.koshko.cyberwikia.bean.RawData;
 import by.koshko.cyberwikia.service.RandomStringGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +25,7 @@ public class FileManager {
             String path;
             do {
                 filename = RandomStringGenerator.generate(FILENAME_LENGTH);
-                path = String.format("%s%s/%s.%s", ApplicationPath.getRoot(), folder, filename, container);
+                path = String.format("%s%s/%s.%s", RawData.getRootPath(), folder, filename, container);
                 file = new File(path);
             } while (file.exists());
             logger.debug("File path: {}", path);
@@ -44,9 +44,7 @@ public class FileManager {
             return;
         }
         try {
-            logger.debug("Attempt to delete file.");
-            Path path = Paths.get(String.format("%s%s", ApplicationPath.getRoot(), relativePath));
-            logger.debug("File path: {}", path);
+            Path path = Paths.get(String.format("%s%s", RawData.getRootPath(), relativePath));
             if (Files.deleteIfExists(path)) {
                 logger.debug("{} deleted.", relativePath);
             }
