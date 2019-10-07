@@ -12,7 +12,7 @@ public class MainCommand implements Command {
         try {
             request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
         } catch (IOException | ServletException e) {
-            throw new RuntimeException();
+            e.printStackTrace();
         }
     }
 }

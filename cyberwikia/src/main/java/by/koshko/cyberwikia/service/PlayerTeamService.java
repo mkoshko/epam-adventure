@@ -12,4 +12,6 @@ public interface PlayerTeamService {
     List<PlayerTeam> loadTeamPlayers(Team team, boolean deepLoad)
             throws ServiceException;
     PlayerTeam findActiveTeam(Player player) throws ServiceException;
+    int joinTeam(long userId, long teamId) throws ServiceException;
+    int leaveTeam(long userId) throws ServiceException;
 }

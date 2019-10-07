@@ -150,10 +150,12 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             List<Team> teams = teamDao.getAll();
             CountryService countryService
                     = ServiceFactory.getCountryService(transaction);
+            PlayerService playerService = ServiceFactory.getPlayerService(transaction);
             for (Team team : teams) {
                 team.setCountry(
                         countryService.getCountryById(team.getCountry().getId())
                 );
+                team.setCaptain(playerService.findById(team.getCaptain().getId()));
             }
             return teams;
         } catch (DaoException e) {

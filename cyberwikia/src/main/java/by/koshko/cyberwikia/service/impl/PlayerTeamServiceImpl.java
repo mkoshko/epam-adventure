@@ -14,6 +14,7 @@ import by.koshko.cyberwikia.service.TeamService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,77 @@ public final class PlayerTeamServiceImpl extends AbstractService
 
     public PlayerTeamServiceImpl(final Transaction transaction) {
         super(transaction);
+    }
+
+    // -1 - has no player profile.
+    //  0 - has no active team.
+    //  1 - left.
+    public int leaveTeam(final long userId)
+            throws ServiceException {
+        try {
+            Transaction transaction = getTransaction();
+            PlayerService playerService = ServiceFactory.getPlayerService(transaction);
+            Player player = playerService.findById(userId);
+            if (player == null) {
+                return -1;
+            }
+            PlayerTeam playerTeam = findActiveTeam(player);
+            if (playerTeam == null) {
+                return 0;
+            }
+            playerTeam.setActive(false);
+            playerTeam.setLeaveDate(LocalDate.now());
+            PlayerTeamDao playerTeamDao
+                    = transaction.getDao(PLAYERTEAMDAO);
+            playerTeamDao.update(playerTeam);
+            return 1;
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot leave team.");
+        } finally {
+            close();
+        }
+    }
+
+    // -1 - has no player profile.
+    //  0 - has active team.
+    //  1 - joined.
+    public int joinTeam(final long userId, final long teamId)
+            throws ServiceException {
+        try {
+            Transaction transaction = getTransaction();
+            PlayerService playerService = ServiceFactory.getPlayerService(transaction);
+            Player player = playerService.findById(userId);
+            if (player == null) {
+                return -1;
+            }
+            PlayerTeam playerTeam = findActiveTeam(player);
+            if (playerTeam != null) {
+                return 0;
+            }
+            PlayerTeamDao playerTeamDao = transaction.getDao(PLAYERTEAMDAO);
+            playerTeam = playerTeamDao.findPlayerTeam(userId, teamId);
+            if (playerTeam != null) {
+                playerTeam.setActive(true);
+                playerTeam.setLeaveDate(null);
+                playerTeam.setJoinDate(LocalDate.now());
+                playerTeamDao.update(playerTeam);
+                return 1;
+            }
+            playerTeam = new PlayerTeam();
+            playerTeam.setPlayer(player);
+            Team team = new Team();
+            team.setId(teamId);
+            playerTeam.setTeam(team);
+            //Use ZoneID.
+            playerTeam.setJoinDate(LocalDate.now());
+            playerTeam.setActive(true);
+            playerTeamDao.save(playerTeam);
+            return 1;
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot join team.");
+        } finally {
+            close();
+        }
     }
 
     @Override

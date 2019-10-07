@@ -2,11 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
-<tag:html title="Players">
-    <fmt:setLocale value="${cookie.get('locale').value}"/>
+<tag:html localizedTitle="title.players">
     <fmt:bundle basename="localization">
         <div class="row after-header">
-            <div class="col-sm-12">
+            <div class="col-12">
                 <h2><fmt:message key="title.players"/></h2>
                 <table class="table table-hover">
                     <thead class="thead-dark">
@@ -45,23 +44,6 @@
                 </table>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12 mx-auto">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="players.html?page=">Previous</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="players.html?page=1">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="players.html?page=${lastPage}">${lastPage}</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="players.html?page=${page + 1}">Next</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <tag:pagination page="${page}" lastPage="${lastPage}" pageURL="players"/>
     </fmt:bundle>
 </tag:html>

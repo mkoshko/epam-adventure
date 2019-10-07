@@ -1,31 +1,50 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Teams</title>
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table">
-                <c:forEach items="${teams}" var="team">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
+<tag:html localizedTitle="title.teams">
+    <fmt:bundle basename="localization">
+        <div class="row after-header">
+            <div class="col-12">
+                <h2><fmt:message key="title.teams"/></h2>
+                <table class="table table-hover">
+                    <thead class="thead-dark">
                     <tr>
-                        <td><a href="team.html?id=${team.id}">${team.name}</a></td>
+                        <td><fmt:message key="label.team"/></td>
+                        <td><fmt:message key="label.captain"/></td>
+                        <td><fmt:message key="label.country"/></td>
                     </tr>
-                </c:forEach>
-            </table>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${teams}" var="team">
+                        <jsp:useBean id="team"
+                                     type="by.koshko.cyberwikia.bean.Team"/>
+                        <tr>
+                            <td>
+                                <a href="team.html?id=${team.id}">
+                                    <img class="small-icon"
+                                         src="<c:url value="${team.logoFile}"/>"
+                                         alt="${team.name}"/>${team.name}
+                                </a>
+                            </td>
+                            <td><a href="profile.html?id=${team.captain.id}">
+                                <img class="flag"
+                                     src="<c:url value="${team.country.flag}"/>"
+                                     alt="${team.country.name}"/>${team.captain.nickname}
+                            </a></td>
+                            <td>
+                                <img class="flag"
+                                     src="<c:url value="${team.country.flag}"/>"
+                                     alt="${team.country.name}"/>${team.country.name}
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-</div>
-</body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</html>
+        <tag:pagination page="${page}" lastPage="${lastPage}" pageURL="teams"/>
+    </fmt:bundle>
+</tag:html>
+
 

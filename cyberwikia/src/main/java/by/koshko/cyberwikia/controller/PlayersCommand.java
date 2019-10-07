@@ -30,8 +30,11 @@ public class PlayersCommand implements Command {
                 }
             }
             List<Player> players = playerService.findAll(page, 10);
+            if (players.size() == 0) {
+                page = 1;
+            }
             int records = playerService.getRowsNumber();
-            request.setAttribute("lastPage", records / 10 + 1);
+            request.setAttribute("lastPage", records % 10 == 0 ? records / 10 : records / 10 + 1);
             request.setAttribute("page", page);
             request.setAttribute("players", players);
             request.getRequestDispatcher("WEB-INF/jsp/players.jsp").forward(request, response);

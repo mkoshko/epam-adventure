@@ -35,6 +35,10 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             = "SELECT team_id, active, join_date, leave_date "
               + "FROM m2m_player_team "
               + "WHERE player_id=? AND active=1;";
+    public static final String FIND_PLAYER_TEAM
+            = "SELECT player_id, team_id, active, join_date, leave_date "
+              + "FROM m2m_player_team "
+              + "WHERE player_id=? AND team_id=?;";
 
     @Override
     public List<PlayerTeam> findPlayerTeam(final Team team) throws DaoException {
@@ -51,6 +55,23 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             throw new DaoException("Cannot put player into team.");
         } finally {
             closeStatement(statement);
+        }
+    }
+
+    public PlayerTeam findPlayerTeam(final long playerId, final long teamId)
+            throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(FIND_PLAYER_TEAM)) {
+            statement.setLong(1, playerId);
+            statement.setLong(2, teamId);
+            try (ResultSet rs = statement.executeQuery()) {
+                return buildSingleInstance(rs, playerId, teamId);
+            }
+        } catch (SQLException e) {
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
+                    e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot find player_team record.");
         }
     }
 
@@ -152,7 +173,24 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
         }
     }
 
-    private PlayerTeam buildSingleInstance(ResultSet rs, Player player)
+    private PlayerTeam buildSingleInstance(final ResultSet rs,
+                                           final long playerId,
+                                           final long teamId)
+            throws SQLException {
+        if (rs.next()) {
+            PlayerTeam playerTeam = new PlayerTeam();
+            Player player = new Player();
+            player.setId(playerId);
+            Team team = new Team();
+            team.setId(teamId);
+            playerTeam.setPlayer(player);
+            playerTeam.setTeam(team);
+            return build(rs, playerTeam);
+        }
+        return null;
+    }
+
+    private PlayerTeam buildSingleInstance(final ResultSet rs, final Player player)
             throws SQLException {
         if (rs.next()) {
             return buildPlayerTeam(rs, player);
