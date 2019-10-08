@@ -37,6 +37,17 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         super(transaction);
     }
 
+    public int getRowsNumber() throws ServiceException {
+        try {
+            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            return teamDao.getRows();
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot get number of rows.");
+        } finally {
+            close();
+        }
+    }
+
     public void updateTeam(final Team team) throws ServiceException {
         try {
             TeamValidator teamValidator = ValidationFactory.getTeamValidator();
@@ -148,6 +159,35 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         try {
             TeamDao teamDao = transaction.getDao(TEAMDAO);
             List<Team> teams = teamDao.getAll();
+            CountryService countryService
+                    = ServiceFactory.getCountryService(transaction);
+            PlayerService playerService = ServiceFactory.getPlayerService(transaction);
+            for (Team team : teams) {
+                team.setCountry(
+                        countryService.getCountryById(team.getCountry().getId())
+                );
+                team.setCaptain(playerService.findById(team.getCaptain().getId()));
+            }
+            return teams;
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot get all teams.");
+        } finally {
+            close();
+        }
+    }
+
+    public List<Team> findAll(final int page, final int limit)
+            throws ServiceException {
+        Transaction transaction = getTransaction();
+        try {
+            int offset;
+            if (page == 1) {
+                offset = 0;
+            } else {
+                offset = (page - 1) * limit;
+            }
+            TeamDao teamDao = transaction.getDao(TEAMDAO);
+            List<Team> teams = teamDao.getAll(offset, limit);
             CountryService countryService
                     = ServiceFactory.getCountryService(transaction);
             PlayerService playerService = ServiceFactory.getPlayerService(transaction);

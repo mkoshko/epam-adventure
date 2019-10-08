@@ -9,4 +9,7 @@ public interface TeamService {
     Team loadTeamProfile(long id) throws ServiceException;
     void createTeam(Team team) throws ServiceException;
     List<Team> findAll() throws ServiceException;
+    List<Team> findAll(int page, int limit) throws ServiceException;
+    int getRowsNumber() throws ServiceException;
+
 }

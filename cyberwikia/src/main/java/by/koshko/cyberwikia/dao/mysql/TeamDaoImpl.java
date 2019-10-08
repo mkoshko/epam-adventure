@@ -10,6 +10,7 @@ import by.koshko.cyberwikia.dao.TeamDao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,12 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
     private static final String GET_ALL
             = "SELECT id, name, logo_file, country_id, creator, captain, coach,"
               + " game, overview FROM team;";
+    public static final String GET_ROWS
+            = "SELECT COUNT(*) FROM team;";
+    public static final String GET_ALL_LIMIT
+            = "SELECT id, name, logo_file, country_id, creator, captain, coach,"
+              + " game, overview FROM team"
+              + " LIMIT ?, ?;";
     private static final String UPDATE
             = "UPDATE team SET name=?, logo_file=?, country_id=?, creator=?, "
               + "captain=?, coach=?, game=?, overview=? WHERE id=?;";
@@ -40,6 +47,22 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
             = "INSERT INTO team (name, logo_file, country_id, creator,"
             + " captain, coach, game, overview)"
             + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    public int getRows() throws DaoException {
+        try (Statement statement = getConnection().createStatement()) {
+            try (ResultSet rs = statement.executeQuery(GET_ROWS)) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+                return 0;
+            }
+        } catch (SQLException e) {
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
+                    e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot get number of records.");
+        }
+    }
 
     @Override
     public Team findByName(final String name) throws DaoException {
@@ -70,6 +93,24 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
                          + " SQL state: {}. SQL message: {}.",
                     e.getSQLState(), e.getMessage());
             throw new DaoException("Cannot find team by ID.");
+        }
+    }
+
+    @Override
+    public List<Team> getAll(final int offset, final int limit)
+            throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(GET_ALL_LIMIT)) {
+            statement.setInt(1, offset);
+            statement.setInt(2, limit);
+            try (ResultSet rs = statement.executeQuery()) {
+                return buildMultipleInstances(rs);
+            }
+        } catch (SQLException e) {
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
+                    e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot get team list.");
         }
     }
 
