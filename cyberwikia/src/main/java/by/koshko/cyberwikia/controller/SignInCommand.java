@@ -21,8 +21,8 @@ public class SignInCommand implements Command {
                         final HttpServletResponse response) {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        try {
-            UserService userService = ServiceFactory.getUserService();
+        try (ServiceFactory factory = new ServiceFactory();) {
+            UserService userService = factory.getUserService();
             User user = userService.signIn(login, password);
             if (user != null) {
                 logger.debug("User {} logged in.", user.getLogin());

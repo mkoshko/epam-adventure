@@ -25,11 +25,10 @@ public class TournamentTeamServiceImpl extends AbstractService
 
     private Logger logger = LogManager.getLogger(TournamentTeamServiceImpl.class);
 
-    public TournamentTeamServiceImpl() throws ServiceException {
-    }
 
-    public TournamentTeamServiceImpl(final Transaction externalTransaction) {
-        super(externalTransaction);
+    public TournamentTeamServiceImpl(final Transaction transaction,
+                                     final ServiceFactory factory) {
+        super(transaction, factory);
     }
 
     public void updateTournamentTeam(final TournamentTeam tournamentTeam)
@@ -81,7 +80,7 @@ public class TournamentTeamServiceImpl extends AbstractService
             TournamentTeamDao tournamentTeamDao
                     = transaction.getDao(TOURNAMENTTEAMDAO);
             TournamentService tournamentService
-                    = ServiceFactory.getTournamentService(transaction);
+                    = getFactory().getTournamentService();
             List<TournamentTeam> tournaments
                     =  tournamentTeamDao.findTournamentTeam(team);
             for (TournamentTeam entity : tournaments) {
@@ -110,9 +109,9 @@ public class TournamentTeamServiceImpl extends AbstractService
             TournamentTeamDao tournamentTeamDao
                     = transaction.getDao(TOURNAMENTTEAMDAO);
             TeamService teamService =
-                    ServiceFactory.getTeamService(transaction);
+                    getFactory().getTeamService();
             TournamentService tournamentService
-                    = ServiceFactory.getTournamentService(transaction);
+                    = getFactory().getTournamentService();
             List<TournamentTeam> tournaments
                     =  tournamentTeamDao.findTournamentTeam(player);
             for (TournamentTeam entity : tournaments) {

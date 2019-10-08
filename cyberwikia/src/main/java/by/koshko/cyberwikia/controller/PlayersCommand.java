@@ -19,8 +19,8 @@ public class PlayersCommand implements Command {
 
     @Override
     public void execute(final HttpServletRequest request, final HttpServletResponse response) {
-        try {
-            PlayerService playerService = ServiceFactory.getPlayerService();
+        try (ServiceFactory factory = new ServiceFactory()){
+            PlayerService playerService = factory.getPlayerService();
             int page = 1;
             if (request.getParameter("page") != null) {
                 try {

@@ -25,12 +25,9 @@ public final class PlayerTeamServiceImpl extends AbstractService
 
     private Logger logger = LogManager.getLogger(PlayerTeamServiceImpl.class);
 
-    public PlayerTeamServiceImpl() throws ServiceException {
-        super();
-    }
-
-    public PlayerTeamServiceImpl(final Transaction transaction) {
-        super(transaction);
+    public PlayerTeamServiceImpl(final Transaction transaction,
+                                 final ServiceFactory factory) {
+        super(transaction, factory);
     }
 
     // -1 - has no player profile.
@@ -40,7 +37,7 @@ public final class PlayerTeamServiceImpl extends AbstractService
             throws ServiceException {
         try {
             Transaction transaction = getTransaction();
-            PlayerService playerService = ServiceFactory.getPlayerService(transaction);
+            PlayerService playerService = getFactory().getPlayerService();
             Player player = playerService.findById(userId);
             if (player == null) {
                 return -1;
@@ -54,7 +51,7 @@ public final class PlayerTeamServiceImpl extends AbstractService
             PlayerTeamDao playerTeamDao
                     = transaction.getDao(PLAYERTEAMDAO);
             playerTeamDao.update(playerTeam);
-            TeamService teamService = ServiceFactory.getTeamService(transaction);
+            TeamService teamService = getFactory().getTeamService();
             Team team = teamService.findTeamById(playerTeam.getTeam().getId());
             if (team.getCaptain() != null
                 && userId == team.getCaptain().getId()) {
@@ -83,7 +80,7 @@ public final class PlayerTeamServiceImpl extends AbstractService
             throws ServiceException {
         try {
             Transaction transaction = getTransaction();
-            PlayerService playerService = ServiceFactory.getPlayerService(transaction);
+            PlayerService playerService = getFactory().getPlayerService();
             Player player = playerService.findById(userId);
             if (player == null) {
                 return -1;
@@ -186,7 +183,7 @@ public final class PlayerTeamServiceImpl extends AbstractService
     private void fillPlayerProfiles(final List<PlayerTeam> players)
             throws ServiceException {
         PlayerService playerService
-                = ServiceFactory.getPlayerService(getTransaction());
+                = getFactory().getPlayerService();
         for (PlayerTeam playerTeam : players) {
             long playerID = playerTeam.getPlayer().getId();
             playerTeam.setPlayer(playerService.findById(playerID));
@@ -196,7 +193,7 @@ public final class PlayerTeamServiceImpl extends AbstractService
     private void fillTeamProfiles(final List<PlayerTeam> teams)
             throws ServiceException {
         TeamService teamService
-                = ServiceFactory.getTeamService(getTransaction());
+                = getFactory().getTeamService();
         for (PlayerTeam playerTeam : teams) {
             long teamID = playerTeam.getTeam().getId();
             playerTeam.setTeam(teamService.findTeamById(teamID));

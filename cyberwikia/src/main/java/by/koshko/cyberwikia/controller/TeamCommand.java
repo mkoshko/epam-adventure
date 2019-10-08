@@ -14,9 +14,9 @@ public class TeamCommand implements Command {
     @Override
     public void execute(final HttpServletRequest request,
                         final HttpServletResponse response) {
-        try {
+        try (ServiceFactory factory = new ServiceFactory()) {
             int teamId = Integer.parseInt(request.getParameter("id"));
-            TeamService teamService = ServiceFactory.getTeamService();
+            TeamService teamService = factory.getTeamService();
             Team team = teamService.loadTeamProfile(teamId);
             if (team == null) {
                 response.sendRedirect("index.html");

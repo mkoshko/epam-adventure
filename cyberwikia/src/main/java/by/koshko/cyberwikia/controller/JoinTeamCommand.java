@@ -17,7 +17,7 @@ public class JoinTeamCommand implements Command {
     @Override
     public void execute(final HttpServletRequest request,
                         final HttpServletResponse response) {
-        try {
+        try (ServiceFactory factory = new ServiceFactory()) {
             HttpSession session = request.getSession(false);
             int teamId = Integer.parseInt(request.getParameter("team"));
             if (session == null) {
@@ -25,7 +25,7 @@ public class JoinTeamCommand implements Command {
                 return;
             }
             User user = (User) session.getAttribute("user");
-            PlayerTeamService playerTeamService = ServiceFactory.getPlayerTeamService();
+            PlayerTeamService playerTeamService = factory.getPlayerTeamService();
             logger.debug("Join team status code: {}", playerTeamService.joinTeam(user.getId(), teamId));
             response.sendRedirect("team.html?id=" + teamId);
         } catch (IOException | ServiceException e) {

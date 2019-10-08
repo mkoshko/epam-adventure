@@ -18,11 +18,10 @@ public class TournamentServiceImpl extends AbstractService implements Tournament
 
     private Logger logger = LogManager.getLogger(TournamentServiceImpl.class);
 
-    public TournamentServiceImpl() throws ServiceException {
-    }
 
-    public TournamentServiceImpl(final Transaction externalTransaction) {
-        super(externalTransaction);
+    public TournamentServiceImpl(final Transaction externalTransaction,
+                                 final ServiceFactory factory) {
+        super(externalTransaction, factory);
     }
 
     public void createTournament(final Tournament tournament) throws ServiceException {
@@ -34,7 +33,7 @@ public class TournamentServiceImpl extends AbstractService implements Tournament
             }
             Transaction transaction = getTransaction();
             TournamentDao tournamentDao = transaction.getDao(TOURNAMENTDAO);
-            tournament.setLogoFile(ServiceFactory
+            tournament.setLogoFile(getFactory()
                     .getImageService().save(tournament.getRawData()));
             tournamentDao.save(tournament);
         } catch (DaoException e) {

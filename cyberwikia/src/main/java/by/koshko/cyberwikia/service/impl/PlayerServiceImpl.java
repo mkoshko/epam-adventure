@@ -2,17 +2,21 @@ package by.koshko.cyberwikia.service.impl;
 
 import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.bean.PlayerTeam;
-import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.*;
+import by.koshko.cyberwikia.service.CountryService;
+import by.koshko.cyberwikia.service.PlayerService;
+import by.koshko.cyberwikia.service.PlayerTeamService;
+import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
+import by.koshko.cyberwikia.service.TeamService;
+import by.koshko.cyberwikia.service.TournamentTeamService;
 import by.koshko.cyberwikia.service.validation.PlayerValidator;
 import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +27,9 @@ public final class PlayerServiceImpl extends AbstractService
 
     private Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
 
-    public PlayerServiceImpl() throws ServiceException {
-        super();
-    }
-
-    public PlayerServiceImpl(final Transaction transaction) {
-        super(transaction);
+    public PlayerServiceImpl(final Transaction transaction,
+                             final ServiceFactory factory) {
+        super(transaction, factory);
     }
 
     public void createPlayer(final Player player) throws ServiceException {
@@ -39,7 +40,7 @@ public final class PlayerServiceImpl extends AbstractService
                 throw new ServiceException("Invalid player parameters.");
             }
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
-            player.setProfilePhoto(ServiceFactory.getImageService()
+            player.setProfilePhoto(getFactory().getImageService()
                     .save(player.getRawData()));
             playerDao.save(player);
         } catch (DaoException e) {
@@ -92,7 +93,7 @@ public final class PlayerServiceImpl extends AbstractService
             Transaction transaction = getTransaction();
             PlayerDao playerDao = transaction.getDao(PLAYERDAO);
             CountryService countryService
-                    = ServiceFactory.getCountryService(transaction);
+                    = getFactory().getCountryService();
             Player player = playerDao.get(id);
             if (player == null) {
                 return null;
@@ -116,11 +117,11 @@ public final class PlayerServiceImpl extends AbstractService
                 return null;
             }
             CountryService countryService
-                    = ServiceFactory.getCountryService(transaction);
+                    = getFactory().getCountryService();
             PlayerTeamService playerTeamService
-                    = ServiceFactory.getPlayerTeamService(transaction);
+                    = getFactory().getPlayerTeamService();
             TournamentTeamService tournamentTeamService
-                    = ServiceFactory.getTournamentTeamService(transaction);
+                    = getFactory().getTournamentTeamService();
             long countryID = player.getCountry().getId();
             player.setCountry(countryService.getCountryById(countryID));
             player.setPlayerTeams(playerTeamService
@@ -152,7 +153,8 @@ public final class PlayerServiceImpl extends AbstractService
     }
 
     @Override
-    public List<Player> findAll(final int page, final int limit) throws ServiceException {
+    public List<Player> findAll(final int page, final int limit)
+            throws ServiceException {
         try {
             int offset;
             if (page == 1) {
@@ -175,9 +177,9 @@ public final class PlayerServiceImpl extends AbstractService
     private void loadActiveTeams(final List<Player> players)
             throws ServiceException {
         PlayerTeamService playerTeamService
-                = ServiceFactory.getPlayerTeamService(getTransaction());
+                = getFactory().getPlayerTeamService();
         TeamService teamService
-                = ServiceFactory.getTeamService(getTransaction());
+                = getFactory().getTeamService();
         for (Player player : players) {
             PlayerTeam playerTeam = playerTeamService.findActiveTeam(player);
             if (playerTeam != null) {
@@ -192,9 +194,8 @@ public final class PlayerServiceImpl extends AbstractService
 
     private void loadCountries(final List<Player> players)
             throws ServiceException {
-        Transaction transaction = getTransaction();
         CountryService countryService
-                = ServiceFactory.getCountryService(transaction);
+                = getFactory().getCountryService();
         for (Player player : players) {
             long countryID = player.getCountry().getId();
             player.setCountry(countryService.getCountryById(countryID));

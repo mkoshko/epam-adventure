@@ -1,11 +1,10 @@
 package by.koshko.cyberwikia.service.impl;
 
-import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.dao.mysql.TransactionImpl;
-import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
 
 public class AbstractService {
+    private ServiceFactory factory;
     private Transaction transaction;
     private boolean isAutoClose;
 
@@ -13,15 +12,13 @@ public class AbstractService {
         return transaction;
     }
 
-    public AbstractService() throws ServiceException {
-        try {
-            transaction = new TransactionImpl();
-        } catch (DaoException e) {
-            throw new ServiceException(e.getMessage());
-        }
+    protected ServiceFactory getFactory() {
+        return factory;
     }
 
-    public AbstractService(final Transaction externalTransaction) {
+    public AbstractService(final Transaction externalTransaction,
+                           final ServiceFactory extFactory) {
+        factory = extFactory;
         transaction = externalTransaction;
         isAutoClose = true;
     }

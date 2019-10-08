@@ -7,6 +7,7 @@ import by.koshko.cyberwikia.dao.DaoTypes;
 import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.dao.UserDao;
 import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
 import by.koshko.cyberwikia.service.UserService;
 import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import by.koshko.cyberwikia.service.validation.UserValidator;
@@ -25,12 +26,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
     private static final int THREADS = 4;
     private static final Role DEFAULT_ROLE = Role.USER;
 
-    public UserServiceImpl() throws ServiceException {
-        super();
-    }
-
-    public UserServiceImpl(final Transaction transaction) {
-        super(transaction);
+    public UserServiceImpl(final Transaction transaction,
+                           final ServiceFactory factory) {
+        super(transaction, factory);
     }
 
     public User signIn(final String login, final String password)

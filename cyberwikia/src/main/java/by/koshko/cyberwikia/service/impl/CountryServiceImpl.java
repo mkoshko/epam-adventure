@@ -7,6 +7,7 @@ import by.koshko.cyberwikia.dao.DaoTypes;
 import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.service.CountryService;
 import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,12 +17,9 @@ public class CountryServiceImpl extends AbstractService implements CountryServic
 
     private Logger logger = LogManager.getLogger(CountryServiceImpl.class);
 
-    public CountryServiceImpl() throws ServiceException {
-        super();
-    }
-
-    public CountryServiceImpl(final Transaction transaction) {
-        super(transaction);
+    public CountryServiceImpl(final Transaction transaction,
+                              final ServiceFactory factory) {
+        super(transaction, factory);
     }
 
     public Country getCountryById(final long id) throws ServiceException {

@@ -29,12 +29,9 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
 
     private Logger logger = LogManager.getLogger(TeamServiceImpl.class);
 
-    public TeamServiceImpl() throws ServiceException {
-        super();
-    }
-
-    public TeamServiceImpl(final Transaction transaction) {
-        super(transaction);
+    public TeamServiceImpl(final Transaction transaction,
+                           final ServiceFactory factory) {
+        super(transaction, factory);
     }
 
     public int getRowsNumber() throws ServiceException {
@@ -72,7 +69,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         Transaction transaction = getTransaction();
         try {
             TeamDao teamDao = transaction.getDao(TEAMDAO);
-            team.setLogoFile(ServiceFactory
+            team.setLogoFile(getFactory()
                     .getImageService().save(team.getRawData()));
             teamDao.save(team);
         } catch (DaoException e) {
@@ -94,15 +91,15 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
                 return null;
             }
             CountryService countryService
-                    = ServiceFactory.getCountryService(transaction);
+                    = getFactory().getCountryService();
             GameService gameService
-                    = ServiceFactory.getGameService(transaction);
+                    = getFactory().getGameService();
             PlayerService playerService
-                    = ServiceFactory.getPlayerService(transaction);
+                    = getFactory().getPlayerService();
             TournamentTeamService tournamentTeamService
-                    = ServiceFactory.getTournamentTeamService(transaction);
+                    = getFactory().getTournamentTeamService();
             PlayerTeamService playerTeamService
-                    = ServiceFactory.getPlayerTeamService(transaction);
+                    = getFactory().getPlayerTeamService();
             long countryID = team.getCountry().getId();
             team.setCountry(countryService.getCountryById(countryID));
             long gameID = team.getGame().getId();
@@ -142,7 +139,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             TeamDao teamDao = transaction.getDao(TEAMDAO);
             Team team = teamDao.get(id);
             CountryService countryService
-                    = ServiceFactory.getCountryService(transaction);
+                    = getFactory().getCountryService();
             long countryID = team.getCountry().getId();
             Country country = countryService.getCountryById(countryID);
             team.setCountry(country);
@@ -160,8 +157,8 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             TeamDao teamDao = transaction.getDao(TEAMDAO);
             List<Team> teams = teamDao.getAll();
             CountryService countryService
-                    = ServiceFactory.getCountryService(transaction);
-            PlayerService playerService = ServiceFactory.getPlayerService(transaction);
+                    = getFactory().getCountryService();
+            PlayerService playerService = getFactory().getPlayerService();
             for (Team team : teams) {
                 team.setCountry(
                         countryService.getCountryById(team.getCountry().getId())
@@ -189,8 +186,8 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             TeamDao teamDao = transaction.getDao(TEAMDAO);
             List<Team> teams = teamDao.getAll(offset, limit);
             CountryService countryService
-                    = ServiceFactory.getCountryService(transaction);
-            PlayerService playerService = ServiceFactory.getPlayerService(transaction);
+                    = getFactory().getCountryService();
+            PlayerService playerService = getFactory().getPlayerService();
             for (Team team : teams) {
                 team.setCountry(
                         countryService.getCountryById(team.getCountry().getId())

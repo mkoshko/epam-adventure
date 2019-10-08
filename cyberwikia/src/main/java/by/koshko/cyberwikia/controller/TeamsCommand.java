@@ -15,7 +15,7 @@ public class TeamsCommand implements Command {
     @Override
     public void execute(final HttpServletRequest request,
                         final HttpServletResponse response) {
-        try {
+        try (ServiceFactory factory = new ServiceFactory()) {
             int page = 1;
             if (request.getParameter("page") != null) {
                 try {
@@ -24,7 +24,7 @@ public class TeamsCommand implements Command {
 
                 }
             }
-            TeamService teamService = ServiceFactory.getTeamService();
+            TeamService teamService = factory.getTeamService();
             int records = teamService.getRowsNumber();
             List<Team> teams = teamService.findAll(page, 10);
             request.setAttribute("teams", teams);

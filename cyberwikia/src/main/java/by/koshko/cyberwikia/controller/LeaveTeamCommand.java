@@ -17,7 +17,7 @@ public class LeaveTeamCommand implements Command {
     @Override
     public void execute(final HttpServletRequest request,
                         final HttpServletResponse response) {
-        try {
+        try (ServiceFactory factory = new ServiceFactory()){
             HttpSession session = request.getSession(false);
             if (session == null) {
                 response.sendRedirect("team?id=");
@@ -31,7 +31,7 @@ public class LeaveTeamCommand implements Command {
                 response.sendRedirect("teams.html");
             }
             PlayerTeamService playerTeamService
-                    = ServiceFactory.getPlayerTeamService();
+                    = factory.getPlayerTeamService();
             logger.debug("Leave team status code: {}", playerTeamService.leaveTeam(user.getId()));
             response.sendRedirect("team.html?id=" + teamId);
         } catch (IOException | ServiceException e) {
