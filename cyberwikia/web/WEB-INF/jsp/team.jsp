@@ -24,11 +24,21 @@
                                 </tr>
                                 <tr>
                                     <td class="td-right"><fmt:message key="team.captain"/></td>
-                                    <td><img class="flag" src="<c:url value="${team.captain.country.flag}"/> "/>${team.captain.nickname}</td>
+                                        <c:choose>
+                                            <c:when test="${team.captain != null}">
+                                                <td><img class="flag" src="<c:url value="${team.captain.country.flag}"/> "/>${team.captain.nickname}</td>
+                                            </c:when>
+                                            <c:otherwise><td></td></c:otherwise>
+                                        </c:choose>
                                 </tr>
                                 <tr>
                                     <td class="td-right"><fmt:message key="team.coach"/></td>
-                                    <td><img class="flag" src="<c:url value="${team.coach.country.flag}"/> "/>${team.coach.nickname}</td>
+                                    <c:choose>
+                                        <c:when test="${team.captain != null}">
+                                            <td><img class="flag" src="<c:url value="${team.coach.country.flag}"/> "/>${team.coach.nickname}</td>
+                                        </c:when>
+                                        <c:otherwise><td></td></c:otherwise>
+                                    </c:choose>
                                 </tr>
                                 <tr>
                                     <td class="td-right"><fmt:message key="team.label.game"/></td>
@@ -72,7 +82,7 @@
                             <jsp:useBean id="player" type="by.koshko.cyberwikia.bean.PlayerTeam"/>
                             <c:if test="${player.active}">
                                 <tr>
-                                    <td><img class="flag" src="<c:url value="${player.player.country.flag}"/> "/>${player.player.nickname}</td>
+                                    <td><img class="flag" src="<c:url value="${player.player.country.flag}"/> "/><a href="player.html?id=${player.id}"> ${player.player.nickname}<a/></td>
                                     <td>${player.player.firstName} ${player.player.lastName}</td>
                                     <td>${player.joinDate}</td>
                                 </tr>
@@ -105,6 +115,35 @@
                                 </tr>
                             </c:if>
                         </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h2><fmt:message key="team.achievements"/></h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td><fmt:message key="team.tournament.date"/></td>
+                        <td><fmt:message key="team.tournament.placement"/></td>
+                        <td><fmt:message key="team.tournament.name"/></td>
+                        <td><fmt:message key="team.tournament.prize"/></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${team.tournaments}" var="tournament">
+                        <tr class="<c:choose>
+<c:when test="${tournament.placement == 1}">gold</c:when>
+<c:when test="${tournament.placement == 2}">silver</c:when>
+<c:when test="${tournament.placement == 3}">bronze</c:when>
+<c:otherwise></c:otherwise></c:choose>">
+                            <td>${tournament.tournament.endDate}</td>
+                            <td>${tournament.placement}</td>
+                            <td>${tournament.tournament.name}</td>
+                            <td>$<fmt:formatNumber value="${tournament.tournament.prize}"/></td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>

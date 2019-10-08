@@ -9,12 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Properties;
-import java.util.stream.Stream;
 
 public class DispatcherServlet extends HttpServlet {
 
     private Logger logger = LogManager.getLogger(getClass());
-    private Controller controller = new Controller();
 
     @Override
     public void init() {
@@ -31,12 +29,14 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
-        controller.executeCommand(req, resp);
+        AbstractCommand command = (AbstractCommand) req.getAttribute("command");
+        command.execute(req, resp);
     }
 
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) {
-        controller.executeCommand(req, resp);
+        AbstractCommand command = (AbstractCommand) req.getAttribute("command");
+        command.execute(req, resp);
     }
 
 

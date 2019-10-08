@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class JoinTeamCommand implements Command {
+public class JoinTeamCommand extends UserCommand {
     private Logger logger = LogManager.getLogger(JoinTeamCommand.class);
     @Override
     public void execute(final HttpServletRequest request,

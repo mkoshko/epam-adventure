@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class PlayersCommand implements Command {
+public class PlayersCommand extends AbstractCommand {
 
     private Logger logger = LogManager.getLogger(PlayersCommand.class);
 
     @Override
     public void execute(final HttpServletRequest request, final HttpServletResponse response) {
-        try (ServiceFactory factory = new ServiceFactory()){
+        try (ServiceFactory factory = new ServiceFactory()) {
             PlayerService playerService = factory.getPlayerService();
             int page = 1;
             if (request.getParameter("page") != null) {

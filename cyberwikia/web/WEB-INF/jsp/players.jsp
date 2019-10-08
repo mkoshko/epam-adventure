@@ -24,7 +24,7 @@
                                value="${player.playerTeams[0].team}"/>
                         <tr>
                             <td>
-                                <a href="profile.html?id=${player.id}">
+                                <a href="player.html?id=${player.id}">
                                     <img class="flag"
                                          src="<c:url value="${country.flag}"/>"
                                          alt="${country.name}"/>${player.nickname}

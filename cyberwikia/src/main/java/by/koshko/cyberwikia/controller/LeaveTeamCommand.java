@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class LeaveTeamCommand implements Command {
+public class LeaveTeamCommand extends UserCommand {
     private Logger logger = LogManager.getLogger(LeaveTeamCommand.class);
     @Override
     public void execute(final HttpServletRequest request,

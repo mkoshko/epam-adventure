@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LanguageCommand implements Command {
+public class LanguageCommand extends AbstractCommand {
     private Logger logger = LogManager.getLogger(LanguageCommand.class);
     private static Map<String, String> lang = new HashMap<>();
 
@@ -25,8 +25,6 @@ public class LanguageCommand implements Command {
                         final HttpServletResponse response) {
         String langParam = request.getParameter("id");
         String locale = lang.get(langParam);
-        String currentPage = (String) request.getAttribute("action");
-        currentPage = currentPage.substring(1) + ".html";
         try {
             if (locale == null) {
                 response.sendRedirect("index.html");

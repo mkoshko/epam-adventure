@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class TeamsCommand implements Command {
+public class TeamsCommand extends AbstractCommand {
     @Override
     public void execute(final HttpServletRequest request,
                         final HttpServletResponse response) {

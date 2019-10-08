@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class SignOutCommand implements Command {
+public class SignOutCommand extends AbstractCommand {
     @Override
     public void execute(final HttpServletRequest request,
                         final HttpServletResponse response) {

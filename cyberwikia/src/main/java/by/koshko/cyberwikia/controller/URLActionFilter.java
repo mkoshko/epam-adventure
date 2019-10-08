@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class URLActionFilter implements Filter {
     private static Logger logger = LogManager.getLogger(URLActionFilter.class);
-
+    private CommandProvider commandProvider = new CommandProvider();
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response,
                          final FilterChain chain) throws IOException, ServletException {
@@ -34,8 +34,13 @@ public class URLActionFilter implements Filter {
             action = "/";
         }
         logger.debug("Requested action: {}", action);
-        request.setAttribute("action", action);
-        chain.doFilter(req, resp);
+        AbstractCommand command = commandProvider.getCommand(action);
+        if (command == null) {
+            resp.sendRedirect("404.html");
+        } else {
+            request.setAttribute("command", command);
+            chain.doFilter(req, resp);
+        }
     }
 
     @Override

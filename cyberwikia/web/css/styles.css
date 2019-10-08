@@ -18,8 +18,35 @@ body {
     min-height: 56px;
 }
 
+.gold {
+    background-color: #ffdf0e;
+}
+
+.silver {
+    background-color: #C0C0C0;
+}
+
+.bronze {
+    background-color: #cd7f32;
+}
+
 .after-header {
     margin-top: 15px;
+}
+
+@media only screen and (min-width: 992px) {
+    .nav-user {
+        display: flex;
+        position: absolute;
+        right: 15px;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .nav-user {
+        position: relative;
+        display: none;
+    }
 }
 
 @media only screen and (min-width: 992px) {

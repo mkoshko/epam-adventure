@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class MainCommand implements Command {
+public class MainCommand extends AbstractCommand {
     @Override
     public void execute(final HttpServletRequest request,
                         final HttpServletResponse response) {

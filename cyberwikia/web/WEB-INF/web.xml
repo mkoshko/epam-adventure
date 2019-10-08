@@ -24,4 +24,12 @@
         <filter-name>URIFilter</filter-name>
         <url-pattern>*.html</url-pattern>
     </filter-mapping>
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>by.koshko.cyberwikia.controller.SecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
 </web-app>
