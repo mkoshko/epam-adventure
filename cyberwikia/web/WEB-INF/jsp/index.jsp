@@ -2,6 +2,6 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
-<tag:html title="title.cyberwikia">
+<tag:html localizedTitle="title.cyberwikia">
 
 </tag:html>
