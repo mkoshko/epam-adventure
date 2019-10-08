@@ -27,11 +27,15 @@
                                          alt="${team.name}"/>${team.name}
                                 </a>
                             </td>
-                            <td><a href="profile.html?id=${team.captain.id}">
-                                <img class="flag"
-                                     src="<c:url value="${team.country.flag}"/>"
-                                     alt="${team.country.name}"/>${team.captain.nickname}
-                            </a></td>
+                            <td>
+                                <c:if test="${team.captain != null}">
+                                    <a href="profile.html?id=${team.captain.id}">
+                                        <img class="flag"
+                                             src="<c:url value="${team.captain.country.flag}"/>"
+                                             alt="${team.captain.country.name}"/>${team.captain.nickname}
+                                    </a>
+                                </c:if>
+                                </td>
                             <td>
                                 <img class="flag"
                                      src="<c:url value="${team.country.flag}"/>"
