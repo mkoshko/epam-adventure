@@ -56,13 +56,13 @@ public final class PlayerTeamServiceImpl extends AbstractService
             if (team.getCaptain() != null
                 && userId == team.getCaptain().getId()) {
                 team.setCaptain(null);
-                teamService.updateTeam(team);
+                teamService.updateTeam(userId, team);
                 return 1;
             }
             if (team.getCoach() != null
                 && userId == team.getCoach().getId()) {
                 team.setCoach(null);
-                teamService.updateTeam(team);
+                teamService.updateTeam(userId, team);
                 return 1;
             }
             return 1;

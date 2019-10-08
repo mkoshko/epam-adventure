@@ -14,7 +14,8 @@ import org.apache.logging.log4j.Logger;
 
 import static by.koshko.cyberwikia.dao.DaoTypes.TOURNAMENTDAO;
 
-public class TournamentServiceImpl extends AbstractService implements TournamentService {
+public class TournamentServiceImpl extends AbstractService
+        implements TournamentService {
 
     private Logger logger = LogManager.getLogger(TournamentServiceImpl.class);
 
@@ -24,6 +25,7 @@ public class TournamentServiceImpl extends AbstractService implements Tournament
         super(externalTransaction, factory);
     }
 
+    @Override
     public void createTournament(final Tournament tournament) throws ServiceException {
         try {
             TournamentValidator tournamentValidator
@@ -41,8 +43,36 @@ public class TournamentServiceImpl extends AbstractService implements Tournament
         }
     }
 
+    @Override
+    public void updateTournament(final Tournament tournament) throws ServiceException {
+        TournamentValidator tournamentValidator
+                = ValidationFactory.getTournamentValidator();
+        if (!tournamentValidator.test(tournament, true)) {
+            throw new ServiceException("Invalid tournament parameters");
+        }
+        try {
+            TournamentDao tournamentDao = getTransaction().getDao(TOURNAMENTDAO);
+            tournamentDao.update(tournament);
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot update tournament.");
+        }
+    }
 
+    @Override
+    public void deleteTournament(final Tournament tournament)
+            throws ServiceException {
+        if (tournament == null) {
+            throw new ServiceException("Cannot delete tournament.");
+        }
+        try {
+            TournamentDao tournamentDao = getTransaction().getDao(TOURNAMENTDAO);
+            tournamentDao.delete(tournament);
+        } catch (DaoException e) {
+            throw new ServiceException("cannot delete tournament.");
+        }
+    }
 
+    @Override
     public Tournament getTournamentById(final long id) throws ServiceException {
         try {
             Transaction transaction = getTransaction();
