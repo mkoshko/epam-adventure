@@ -6,7 +6,6 @@ import by.koshko.cyberwikia.service.ServiceFactory;
 public class AbstractService {
     private ServiceFactory factory;
     private Transaction transaction;
-    private boolean isAutoClose;
 
     protected Transaction getTransaction() {
         return transaction;
@@ -20,12 +19,5 @@ public class AbstractService {
                            final ServiceFactory extFactory) {
         factory = extFactory;
         transaction = externalTransaction;
-        isAutoClose = true;
-    }
-
-    public void close() {
-        if (!isAutoClose) {
-            transaction.close();
-        }
     }
 }

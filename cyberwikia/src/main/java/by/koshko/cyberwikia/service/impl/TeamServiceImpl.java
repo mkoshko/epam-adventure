@@ -40,8 +40,6 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             return teamDao.getRows();
         } catch (DaoException e) {
             throw new ServiceException("Cannot get number of rows.");
-        } finally {
-            close();
         }
     }
 
@@ -56,8 +54,6 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             teamDao.update(team);
         } catch (DaoException e) {
             throw new ServiceException("Cannot update team.");
-        } finally {
-            close();
         }
     }
 
@@ -69,13 +65,11 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         Transaction transaction = getTransaction();
         try {
             TeamDao teamDao = transaction.getDao(TEAMDAO);
-            team.setLogoFile(getFactory()
+            team.setLogoFile(ServiceFactory
                     .getImageService().save(team.getRawData()));
             teamDao.save(team);
         } catch (DaoException e) {
             throw new ServiceException("Cannot save team.");
-        } finally {
-            close();
         }
     }
 
@@ -128,8 +122,6 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             return team;
         } catch (DaoException e) {
             throw new ServiceException("Cannot load team profile.");
-        } finally {
-            close();
         }
     }
 
@@ -146,8 +138,6 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             return team;
         } catch (DaoException e) {
             throw new ServiceException("Cannot load team by ID");
-        } finally {
-            close();
         }
     }
 
@@ -168,8 +158,6 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             return teams;
         } catch (DaoException e) {
             throw new ServiceException("Cannot get all teams.");
-        } finally {
-            close();
         }
     }
 
@@ -200,8 +188,6 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             return teams;
         } catch (DaoException e) {
             throw new ServiceException("Cannot get all teams.");
-        } finally {
-            close();
         }
     }
 

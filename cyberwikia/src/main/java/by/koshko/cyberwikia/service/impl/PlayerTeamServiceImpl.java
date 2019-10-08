@@ -68,8 +68,6 @@ public final class PlayerTeamServiceImpl extends AbstractService
             return 1;
         } catch (DaoException e) {
             throw new ServiceException("Cannot leave team.");
-        } finally {
-            close();
         }
     }
 
@@ -110,8 +108,6 @@ public final class PlayerTeamServiceImpl extends AbstractService
             return 1;
         } catch (DaoException e) {
             throw new ServiceException("Cannot join team.");
-        } finally {
-            close();
         }
     }
 
@@ -138,8 +134,6 @@ public final class PlayerTeamServiceImpl extends AbstractService
             logger.error("");
             throw new ServiceException("Cannot get 'PlayerTeam' list"
                                        + " for specified player");
-        } finally {
-            close();
         }
     }
 
@@ -165,8 +159,6 @@ public final class PlayerTeamServiceImpl extends AbstractService
         } catch (DaoException e) {
             throw new ServiceException("Cannot get 'PlayerTeam' list"
                                        + " for specified team");
-        } finally {
-            close();
         }
     }
 

@@ -29,8 +29,6 @@ public class CountryServiceImpl extends AbstractService implements CountryServic
         } catch (DaoException e) {
             logger.error(e.getMessage());
             throw new ServiceException("Cannot load country");
-        } finally {
-            close();
         }
     }
     @Override
@@ -43,9 +41,6 @@ public class CountryServiceImpl extends AbstractService implements CountryServic
         } catch (DaoException e) {
             logger.error(e.getMessage());
             throw new ServiceException("Cannot load countries.");
-        } finally {
-            close();
         }
     }
-
 }

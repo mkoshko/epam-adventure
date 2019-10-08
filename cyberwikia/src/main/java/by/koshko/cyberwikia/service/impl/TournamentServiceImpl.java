@@ -38,8 +38,6 @@ public class TournamentServiceImpl extends AbstractService implements Tournament
             tournamentDao.save(tournament);
         } catch (DaoException e) {
             throw new ServiceException("Cannot save tournament.");
-        } finally {
-            close();
         }
     }
 
@@ -52,8 +50,6 @@ public class TournamentServiceImpl extends AbstractService implements Tournament
             return tournamentDao.get(id);
         } catch (DaoException e) {
             throw new ServiceException("Cannot get tournament by ID");
-        } finally {
-            close();
         }
     }
 }

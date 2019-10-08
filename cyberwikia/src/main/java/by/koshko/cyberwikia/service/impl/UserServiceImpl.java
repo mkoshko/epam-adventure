@@ -47,8 +47,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
             return null;
         } catch (DaoException e) {
             throw new ServiceException("User authorization error.");
-        } finally {
-            close();
         }
     }
 
@@ -66,8 +64,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
         } catch (DaoException e) {
             logger.error(e.getMessage());
             throw new ServiceException("Cannot save the user.");
-        } finally {
-            close();
         }
     }
 
@@ -83,8 +79,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
         } catch (DaoException e) {
             logger.error("Cannot update user. {}", e.getMessage());
             throw new ServiceException("Cannot update user.");
-        } finally {
-            close();
         }
     }
 
@@ -109,8 +103,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
         } catch (DaoException e) {
             logger.error(e.getMessage());
             throw new ServiceException("Cannot update user");
-        } finally {
-            close();
         }
     }
 }

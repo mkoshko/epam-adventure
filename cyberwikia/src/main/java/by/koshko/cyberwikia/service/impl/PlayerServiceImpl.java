@@ -40,7 +40,7 @@ public final class PlayerServiceImpl extends AbstractService
                 throw new ServiceException("Invalid player parameters.");
             }
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
-            player.setProfilePhoto(getFactory().getImageService()
+            player.setProfilePhoto(ServiceFactory.getImageService()
                     .save(player.getRawData()));
             playerDao.save(player);
         } catch (DaoException e) {
@@ -82,8 +82,6 @@ public final class PlayerServiceImpl extends AbstractService
             return playerDao.findByNickname(nickname);
         } catch (DaoException e) {
             throw new ServiceException("Cannot get player by nickname.");
-        } finally {
-            close();
         }
     }
 
@@ -103,8 +101,6 @@ public final class PlayerServiceImpl extends AbstractService
             return player;
         } catch (DaoException e) {
             throw new ServiceException("Cannot get player by ID.");
-        } finally {
-            close();
         }
     }
 
@@ -132,8 +128,6 @@ public final class PlayerServiceImpl extends AbstractService
         } catch (DaoException e) {
             logger.error(e.getMessage());
             throw new ServiceException("Cannot load player profile.");
-        } finally {
-            close();
         }
     }
 
@@ -147,8 +141,6 @@ public final class PlayerServiceImpl extends AbstractService
             return players;
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
-        } finally {
-            getTransaction().close();
         }
     }
 
@@ -169,8 +161,6 @@ public final class PlayerServiceImpl extends AbstractService
             return players;
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
-        } finally {
-            close();
         }
     }
 

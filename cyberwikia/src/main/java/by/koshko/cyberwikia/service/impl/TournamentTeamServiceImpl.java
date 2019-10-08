@@ -92,8 +92,6 @@ public class TournamentTeamServiceImpl extends AbstractService
             return tournaments;
         } catch (DaoException e) {
             throw new ServiceException("Cannot get tournament list for team.");
-        } finally {
-            close();
         }
     }
 
@@ -124,8 +122,6 @@ public class TournamentTeamServiceImpl extends AbstractService
             return tournaments;
         } catch (DaoException e) {
             throw new ServiceException("Cannot get tournament list for player");
-        } finally {
-            close();
         }
     }
 }

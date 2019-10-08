@@ -27,8 +27,6 @@ public class GameServiceImpl extends AbstractService implements GameService {
         } catch (DaoException e) {
             logger.error("Cannot find game by id. {}", e.getMessage());
             throw new ServiceException("Cannot find game by ID.");
-        } finally {
-            close();
         }
     }
 }

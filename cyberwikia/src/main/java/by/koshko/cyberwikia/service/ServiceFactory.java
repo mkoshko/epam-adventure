@@ -17,7 +17,7 @@ public class ServiceFactory implements AutoCloseable {
 
     private Transaction transaction;
 
-    private ImageService imageService = new ImageServiceImpl();
+    private static ImageService imageService = new ImageServiceImpl();
 
     public ServiceFactory() throws ServiceException {
         try {
@@ -59,7 +59,7 @@ public class ServiceFactory implements AutoCloseable {
         return new TournamentTeamServiceImpl(transaction, this);
     }
 
-    public ImageService getImageService() {
+    public static ImageService getImageService() {
         return imageService;
     }
 
