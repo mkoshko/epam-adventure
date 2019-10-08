@@ -94,6 +94,9 @@ public final class PlayerServiceImpl extends AbstractService
             CountryService countryService
                     = ServiceFactory.getCountryService(transaction);
             Player player = playerDao.get(id);
+            if (player == null) {
+                return null;
+            }
             long countryID = player.getCountry().getId();
             player.setCountry(countryService.getCountryById(countryID));
             return player;
