@@ -31,4 +31,16 @@ public class ImageServiceImpl implements ImageService {
             throw new ServiceException("Cannot save image.");
         }
     }
+    public void delete(final String relativePath) throws ServiceException {
+        if (relativePath == null || relativePath.isBlank()) {
+            logger.debug("Path to file is null");
+            return;
+        }
+        logger.debug("Attempt to delete file: {}", relativePath);
+        try {
+            FileManager.delete(relativePath);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
 }

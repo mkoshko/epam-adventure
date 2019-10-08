@@ -5,9 +5,9 @@ import by.koshko.cyberwikia.bean.Player;
 import java.util.List;
 
 public interface PlayerService {
-    void createPlayer(Player player) throws ServiceException;
+    void createPlayer(long userId, Player player) throws ServiceException;
 
-    void deletePlayer(Player player) throws ServiceException;
+    void deletePlayer(long userId, Player player) throws ServiceException;
 
     Player findByNickname(String nickname) throws ServiceException;
 

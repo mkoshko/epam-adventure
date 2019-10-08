@@ -35,12 +35,6 @@ CREATE TABLE user
 );
 CREATE INDEX IDX_user_login ON user (login);
 
-CREATE FUNCTION COUNT_ROWS()
-RETURNS INT
-    BEGIN
-        DECLARE result INT DEFAULT 0;
-        SET result = SELECT COUNT_ROWS() from player;
-    END;
 CREATE TABLE player
 (
     id            INT UNSIGNED     NOT NULL,

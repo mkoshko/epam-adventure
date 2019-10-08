@@ -32,7 +32,23 @@ public final class PlayerServiceImpl extends AbstractService
         super(transaction, factory);
     }
 
-    public void createPlayer(final Player player) throws ServiceException {
+    @Override
+    public void createPlayer(final long userId,
+                             final Player player) throws ServiceException {
+        try {
+            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            Player newPlayer = playerDao.get(userId);
+            if (newPlayer == null) {
+                createPlayer(player);
+            } else {
+                throw new ServiceException("User already has a player profile.");
+            }
+        } catch (DaoException e) {
+            logger.error("Cannot create player profile.");
+        }
+    }
+
+    private void createPlayer(final Player player) throws ServiceException {
         try {
             PlayerValidator playerValidator
                     = ValidationFactory.getPlayerValidator();
@@ -48,7 +64,26 @@ public final class PlayerServiceImpl extends AbstractService
         }
     }
 
-    public void deletePlayer(final Player player) throws ServiceException {
+    @Override
+    public void deletePlayer(final long userId, final Player player)
+            throws ServiceException {
+        try {
+            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            Player oldPlayer = playerDao.get(userId);
+            if (oldPlayer != null && player != null
+                && oldPlayer.getId() == player.getId()) {
+                deletePlayer(player);
+                logger.debug("Player {}:{} has been deleted.",
+                        oldPlayer.getNickname(), oldPlayer.getId());
+            } else {
+                throw new ServiceException("Cannot delete player.");
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot delete player.");
+        }
+    }
+
+    private void deletePlayer(final Player player) throws ServiceException {
         try {
             if (player == null) {
                 throw new ServiceException("Cannot delete player.");

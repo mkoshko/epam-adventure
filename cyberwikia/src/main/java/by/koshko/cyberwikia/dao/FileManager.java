@@ -29,20 +29,17 @@ public class FileManager {
                 file = new File(path);
             } while (file.exists());
             logger.debug("File path: {}", path);
-            file.createNewFile();
+            if (!file.createNewFile()) {
+                throw new DaoException("Cannot create file.");
+            }
             Files.write(Paths.get(path), bytes);
             return String.format("%s/%s.%s", folder, filename, container);
         } catch (IOException e) {
-            e.printStackTrace();
             throw new DaoException("Cannot write data.");
         }
     }
 
     public static void delete(final String relativePath) throws DaoException {
-        if (relativePath == null || relativePath.isBlank()) {
-            logger.debug("Path to file is empty.");
-            return;
-        }
         try {
             Path path = Paths.get(String.format("%s%s", RawData.getRootPath(), relativePath));
             if (Files.deleteIfExists(path)) {

@@ -33,13 +33,15 @@ public class TournamentServiceImpl extends AbstractService implements Tournament
             }
             Transaction transaction = getTransaction();
             TournamentDao tournamentDao = transaction.getDao(TOURNAMENTDAO);
-            tournament.setLogoFile(getFactory()
+            tournament.setLogoFile(ServiceFactory
                     .getImageService().save(tournament.getRawData()));
             tournamentDao.save(tournament);
         } catch (DaoException e) {
             throw new ServiceException("Cannot save tournament.");
         }
     }
+
+
 
     public Tournament getTournamentById(final long id) throws ServiceException {
         try {

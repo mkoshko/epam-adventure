@@ -43,7 +43,25 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         }
     }
 
-    public void updateTeam(final Team team) throws ServiceException {
+    @Override
+    public void updateTeam(final long userId,
+                           final Team team) throws ServiceException {
+        PlayerService playerService = getFactory().getPlayerService();
+        Player creator = playerService.findById(userId);
+        if (creator == null) {
+            throw new ServiceException("User with no player profile cannot"
+                                       + " update team information.");
+        }
+        if (team != null && team.getCreator() != null
+            && team.getCreator().getId() == creator.getId()) {
+            updateTeam(team);
+        } else {
+            throw new ServiceException("User has no permission"
+                                       + " to update the team.");
+        }
+    }
+
+    private void updateTeam(final Team team) throws ServiceException {
         try {
             TeamValidator teamValidator = ValidationFactory.getTeamValidator();
             if (!teamValidator.test(team, true)) {
@@ -57,7 +75,20 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         }
     }
 
-    public void createTeam(final Team team) throws ServiceException {
+    @Override
+    public void createTeam(final long userId,
+                           final Team team) throws ServiceException {
+        PlayerService playerService = getFactory().getPlayerService();
+        Player player = playerService.findById(userId);
+        if (player == null) {
+            throw new ServiceException("Cannot create team."
+                                       + " User has no player profile.");
+        }
+        team.setCreator(player);
+        createTeam(team);
+    }
+
+    private void createTeam(final Team team) throws ServiceException {
         TeamValidator teamValidator = ValidationFactory.getTeamValidator();
         if (!teamValidator.test(team, false)) {
             throw new ServiceException("Invalid team parameters.");
