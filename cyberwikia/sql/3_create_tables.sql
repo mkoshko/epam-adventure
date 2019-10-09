@@ -110,6 +110,5 @@ CREATE TABLE m2m_player_team
     CONSTRAINT FK_user_team_player_id FOREIGN KEY (player_id) REFERENCES player (id) ON DELETE CASCADE,
     CONSTRAINT FK_user_team_team_id FOREIGN KEY (team_id) REFERENCES team (id) ON DELETE CASCADE,
     CONSTRAINT CH_player_team_join_leave_date CHECK ( DATEDIFF(leave_date, join_date) >= 0 ),
-    CONSTRAINT CH_player_team_active CHECK (  )
 );
 CREATE INDEX IDX_player_team_team_id ON m2m_player_team (team_id);
