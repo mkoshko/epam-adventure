@@ -17,8 +17,7 @@ public class FileManager {
 
     public static String save(final byte[] bytes,
                                final String folder,
-                               final String container)
-            throws DaoException {
+                               final String container) {
         try {
             File file;
             String filename;
@@ -30,12 +29,14 @@ public class FileManager {
             } while (file.exists());
             logger.debug("File path: {}", path);
             if (!file.createNewFile()) {
-                throw new DaoException("Cannot create file.");
+                logger.debug("Cannot create file.");
+                return null;
             }
             Files.write(Paths.get(path), bytes);
             return String.format("%s/%s.%s", folder, filename, container);
         } catch (IOException e) {
-            throw new DaoException("Cannot write data.");
+            logger.error("Cannot write data.");
+            return null;
         }
     }
 

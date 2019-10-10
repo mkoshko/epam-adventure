@@ -48,16 +48,16 @@
                         </table>
                         <c:if test="${sessionScope.get('user') != null}">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-6">
                                     <form action="join.html" method="post">
                                         <input type="hidden" name="team" value="${team.id}">
-                                        <button type="submit"><fmt:message key="team.button.join"/></button>
+                                        <button class="btn btn-dark" type="submit"><fmt:message key="team.button.join"/></button>
                                     </form>
                                 </div>
-                                <div class="col-5">
+                                <div class="col-6 mx-auto">
                                     <form action="leave.html" method="post">
                                         <input type="hidden" name="team" value="${team.id}">
-                                        <button type="submit"><fmt:message key="team.button.leave"/></button>
+                                        <button class="btn btn-dark" type="submit"><fmt:message key="team.button.leave"/></button>
                                     </form>
                                 </div>
                             </div>

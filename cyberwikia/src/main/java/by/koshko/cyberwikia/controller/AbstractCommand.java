@@ -19,7 +19,7 @@ public abstract class AbstractCommand {
         roles = newRoles;
     }
 
-    abstract Forward execute(HttpServletRequest request, HttpServletResponse response);
+    public abstract Forward execute(HttpServletRequest request, HttpServletResponse response);
 
     protected Forward sendError(final int error) {
         Forward forward = new Forward();

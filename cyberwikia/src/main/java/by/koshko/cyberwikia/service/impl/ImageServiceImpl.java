@@ -26,9 +26,10 @@ public class ImageServiceImpl implements ImageService {
         try {
             byte[] data = rawData.getIn().readAllBytes();
             return FileManager.save(data, defaultImageFolder, container);
-        } catch (IOException | DaoException e) {
+        } catch (IOException e) {
             logger.error(e.getMessage());
-            throw new ServiceException("Cannot save image.");
+            logger.error("Cannot save image.");
+            return null;
         }
     }
     public void delete(final String relativePath) throws ServiceException {

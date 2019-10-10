@@ -32,40 +32,76 @@ public final class PlayerServiceImpl extends AbstractService
         super(transaction, factory);
     }
 
+    public boolean editPlayer(final long userId, final Player player)
+            throws ServiceException {
+        if (player == null) {
+            logger.debug("Player object is null.");
+            return false;
+        }
+        try {
+            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            Player oldPlayer = playerDao.get(userId);
+            if (oldPlayer == null) {
+                logger.debug("User:{} don't have permissions to edit"
+                             + " Player:{} profile.", userId, player.getId());
+                return false;
+            }
+            if (!ValidationFactory.getPlayerValidator().test(player, true)) {
+                logger.debug("Cannot edit player profile:{}."
+                             + " Invalid parameters.", player.getId());
+                return false;
+            }
+            if (player.getRawData() != null) {
+                String path = ServiceFactory
+                        .getImageService().save(player.getRawData());
+                if (path != null) {
+                    player.setProfilePhoto(path);
+                }
+            }
+            playerDao.update(player);
+            return true;
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot check user permissions.");
+        }
+    }
+
     @Override
-    public void createPlayer(final long userId,
+    public boolean createPlayer(final long userId,
                              final Player player) throws ServiceException {
         try {
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
             Player newPlayer = playerDao.get(userId);
             if (newPlayer == null) {
-                createPlayer(player);
+                return createPlayer(player);
             } else {
-                throw new ServiceException("User already has a player profile.");
+                logger.debug("User:{} already has a player profile.", userId);
+                return false;
             }
         } catch (DaoException e) {
-            logger.error("Cannot create player profile.");
+            throw new ServiceException("Cannot create player profile.");
         }
     }
 
-    private void createPlayer(final Player player) throws ServiceException {
+    private boolean createPlayer(final Player player) throws ServiceException {
         try {
             PlayerValidator playerValidator
                     = ValidationFactory.getPlayerValidator();
             if (playerValidator.test(player, true)) {
-                throw new ServiceException("Invalid player parameters.");
+                logger.debug("Invalid player parameters.");
+                return false;
             }
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
             player.setProfilePhoto(ServiceFactory.getImageService()
                     .save(player.getRawData()));
             playerDao.save(player);
+            return true;
         } catch (DaoException e) {
             throw new ServiceException("Cannot create player profile.");
         }
     }
 
     @Override
-    public void deletePlayer(final long userId, final Player player)
+    public boolean deletePlayer(final long userId, final Player player)
             throws ServiceException {
         try {
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
@@ -75,21 +111,23 @@ public final class PlayerServiceImpl extends AbstractService
                 deletePlayer(player);
                 logger.debug("Player {}:{} has been deleted.",
                         oldPlayer.getNickname(), oldPlayer.getId());
+                return true;
             } else {
-                throw new ServiceException("Cannot delete player.");
+                return false;
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot delete player.");
         }
     }
 
-    private void deletePlayer(final Player player) throws ServiceException {
+    private boolean deletePlayer(final Player player) throws ServiceException {
         try {
             if (player == null) {
-                throw new ServiceException("Cannot delete player.");
+                return false;
             }
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
             playerDao.delete(player);
+            return true;
         } catch (DaoException e) {
             throw new ServiceException("Cannot delete player.");
         }

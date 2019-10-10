@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
-<tag:html>
+<tag:html title="${player.nickname}">
     <fmt:bundle basename="localization">
         <jsp:useBean id="player" scope="request" type="by.koshko.cyberwikia.bean.Player"/>
         <div class="row after-header">
@@ -13,7 +13,10 @@
             <div class="col-sm-12 col-md-8 col-xl-4 mx-auto">
                 <div class="card">
                     <h1 class="card-title text-center">${player.nickname}</h1>
-                    <img class="card-img-top" src="<c:url value="${player.profilePhoto}"/>" alt="${player.nickname}">
+                    <img class="card-img-top" src="<c:choose>
+                    <c:when test="${player.profilePhoto != null}"><c:url value="${player.profilePhoto}"/></c:when>
+                    <c:otherwise><c:url value="/images/upload/_default.png"/></c:otherwise>
+                    </c:choose>" alt="${player.nickname}">
                     <div class="card-body">
                         <table class="table table-striped">
                             <tr>
@@ -32,11 +35,14 @@
                                 <td class="td-right"><fmt:message key="player.team"/></td>
                                 <c:forEach items="${player.playerTeams}" var="playerTeam">
                                     <c:if test="${playerTeam.active}">
-                                        <td><a href="team.html?id=${playerTeam.team.id}">${playerTeam.team.name}</a></td>
+                                        <td><img class="small-icon" src="<c:url value="${playerTeam.team.logoFile}"/>" alt="${playerTeam.team.country.name}"><a href="team.html?id=${playerTeam.team.id}">${playerTeam.team.name}</a></td>
                                     </c:if>
                                 </c:forEach>
                             </tr>
                         </table>
+                        <c:if test="${sessionScope.get('user') != null && user.id == player.id}">
+                            <a href="editprofile?id=${player.id}" class="btn btn-dark"><fmt:message key="player.edit"/></a>
+                        </c:if>
                     </div>
                 </div>
             </div>
@@ -47,17 +53,16 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <td><fmt:message key="team.name"/></td>
+                        <td><fmt:message key="player.team"/></td>
                         <td><fmt:message key="label.joinDate"/></td>
                         <td><fmt:message key="label.leaveDate"/></td>
                     </tr>
                     </thead>
                     <tbody>
-                    <jsp:useBean id="player" scope="request" type="by.koshko.cyberwikia.bean.Player"/>
                     <c:forEach items="${player.playerTeams}" var="playerTeam">
                         <c:if test="${!playerTeam.active}">
                             <tr>
-                                <td><a href="team.html?id=${playerTeam.team.id}">${playerTeam.team.name}</a></td>
+                                <td><img class="small-icon" src="<c:url value="${playerTeam.team.logoFile}"/>" alt="${playerTeam.team.country.name}"><a href="team.html?id=${playerTeam.team.id}">${playerTeam.team.name}</a></td>
                                 <td>${playerTeam.joinDate}</td>
                                 <td>${playerTeam.leaveDate}</td>
                             </tr>
@@ -89,7 +94,7 @@
                             <td>${tournament.tournament.endDate}</td>
                             <td>${tournament.placement}</td>
                             <td>${tournament.tournament.name}</td>
-                            <td><a href="team.html?id=${tournament.team.id}">${tournament.team.name}</a></td>
+                            <td><img class="small-icon" src="<c:url value="${tournament.team.logoFile}"/>" alt="${tournament.team.country.name}"><a href="team.html?id=${tournament.team.id}">${tournament.team.name}</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
