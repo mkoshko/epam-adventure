@@ -21,12 +21,12 @@ public class TeamCommand extends AbstractCommand {
             try {
                 teamId = Integer.parseInt(request.getParameter("id"));
             } catch (NumberFormatException e) {
-                sendError(404);
+                return sendError(404);
             }
             TeamService teamService = factory.getTeamService();
             Team team = teamService.loadTeamProfile(teamId);
             if (team == null) {
-                sendError(404);
+                return sendError(404);
             }
             request.setAttribute("team", team);
             return new Forward("WEB-INF/jsp/team.jsp");
