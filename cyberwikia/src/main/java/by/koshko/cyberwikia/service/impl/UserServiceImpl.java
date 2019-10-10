@@ -9,8 +9,8 @@ import by.koshko.cyberwikia.dao.UserDao;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
 import by.koshko.cyberwikia.service.UserService;
-import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import by.koshko.cyberwikia.service.validation.UserValidator;
+import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import org.apache.logging.log4j.LogManager;
@@ -36,13 +36,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
         try {
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
             User user = userDao.findByLogin(login);
-            if (user != null) {
-                if (argon2.verify(user.getPassword(), password)) {
-                    user.setPassword(null);
-                    return user;
-                } else {
-                    return null;
-                }
+            if (user != null && argon2.verify(user.getPassword(), password)) {
+                user.setPassword(null);
+                return user;
             }
             return null;
         } catch (DaoException e) {
@@ -50,17 +46,19 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
     }
 
-    public void sighUp(final User user) throws ServiceException {
+    public boolean sighUp(final User user) throws ServiceException {
         UserValidator userValidator = ValidationFactory.getUserValidator();
         try {
             if (!userValidator.test(user, true)) {
-                throw new ServiceException("Invalid user parameters.");
+                logger.debug("Invalid user parameters.");
+                return false;
             }
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
             user.setPassword(argon2
                     .hash(ITERATION, MEMORY, THREADS, user.getPassword()));
             user.setRole(DEFAULT_ROLE.ordinal());
             userDao.save(user);
+            return true;
         } catch (DaoException e) {
             logger.error(e.getMessage());
             throw new ServiceException("Cannot save the user.");

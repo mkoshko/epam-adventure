@@ -34,7 +34,7 @@
                                 <tr>
                                     <td class="td-right"><fmt:message key="team.coach"/></td>
                                     <c:choose>
-                                        <c:when test="${team.captain != null}">
+                                        <c:when test="${team.coach != null}">
                                             <td><img class="flag" src="<c:url value="${team.coach.country.flag}"/> "/>${team.coach.nickname}</td>
                                         </c:when>
                                         <c:otherwise><td></td></c:otherwise>
@@ -82,7 +82,7 @@
                             <jsp:useBean id="player" type="by.koshko.cyberwikia.bean.PlayerTeam"/>
                             <c:if test="${player.active}">
                                 <tr>
-                                    <td><img class="flag" src="<c:url value="${player.player.country.flag}"/> "/><a href="player.html?id=${player.id}"> ${player.player.nickname}<a/></td>
+                                    <td><img class="flag" src="<c:url value="${player.player.country.flag}"/> "/><a href="player.html?id=${player.player.id}"> ${player.player.nickname}<a/></td>
                                     <td>${player.player.firstName} ${player.player.lastName}</td>
                                     <td>${player.joinDate}</td>
                                 </tr>
@@ -108,7 +108,7 @@
                         <c:forEach items="${team.players}" var="player">
                             <c:if test="${!player.active}">
                                 <tr>
-                                    <td><img class="flag" src="<c:url value="${player.player.country.flag}"/> "/>${player.player.nickname}</td>
+                                    <td><img class="flag" src="<c:url value="${player.player.country.flag}"/> "/><a href="player.html?id=${player.player.id}"/>${player.player.nickname}</td>
                                     <td>${player.player.firstName} ${player.player.lastName}</td>
                                     <td>${player.joinDate}</td>
                                     <td>${player.leaveDate}</td>

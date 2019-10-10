@@ -5,10 +5,13 @@ import by.koshko.cyberwikia.service.ServiceInitializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Properties;
+import java.util.stream.Stream;
 
 public class DispatcherServlet extends HttpServlet {
 
@@ -28,16 +31,51 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
+    protected void doGet(final HttpServletRequest req,
+                         final HttpServletResponse resp) {
         AbstractCommand command = (AbstractCommand) req.getAttribute("command");
-        command.execute(req, resp);
+        AbstractCommand.Forward forward = command.execute(req, resp);
+        try {
+            if (!checkError(forward, resp)) {
+                if (forward.isRedirect()) {
+                    resp.sendRedirect(forward.getUrl());
+                } else {
+                    req.getRequestDispatcher(forward.getUrl()).forward(req, resp);
+                }
+            }
+        } catch (ServletException | IOException e) {
+            logger.error("Cannot forward user. {}", e.getMessage());
+        }
     }
 
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) {
         AbstractCommand command = (AbstractCommand) req.getAttribute("command");
-        command.execute(req, resp);
+        AbstractCommand.Forward forward = command.execute(req, resp);
+        try {
+            if (!checkError(forward, resp)) {
+                resp.sendRedirect(forward.getUrl());
+            }
+        } catch (IOException e) {
+            logger.error("Cannot redirect user. {}", e.getMessage());
+        }
+
     }
 
-
+    private boolean checkError(final AbstractCommand.Forward forward,
+                               final HttpServletResponse response) {
+        if (forward.isError()) {
+            logger.debug("Forward is error.");
+            try {
+                int error = (Integer) forward.getAttributes().get("error");
+                response.sendError(error);
+                return true;
+            } catch (IOException e) {
+                logger.error("Cannot redirect user.");
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 }

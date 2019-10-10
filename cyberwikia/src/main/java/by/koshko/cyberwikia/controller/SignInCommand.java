@@ -9,13 +9,12 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class SignInCommand extends AbstractCommand {
     private Logger logger = LogManager.getLogger(SignInCommand.class);
 
     @Override
-    public void execute(final HttpServletRequest request,
+    public Forward execute(final HttpServletRequest request,
                         final HttpServletResponse response) {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
@@ -25,14 +24,15 @@ public class SignInCommand extends AbstractCommand {
             if (user != null) {
                 logger.debug("User {} logged in.", user.getLogin());
                 request.getSession(true).setAttribute("user", user);
-                response.sendRedirect("index.html");
+                return new Forward("index.html");
             } else {
-                response.sendRedirect("index.html");
+                return new Forward("index.html");
             }
         } catch (ServiceException e) {
-
-        } catch (IOException e1) {
-
+            Forward forward = new Forward();
+            forward.setError(true);
+            forward.getAttributes().put("error", 500);
+            return forward;
         }
     }
 }

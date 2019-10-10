@@ -8,6 +8,8 @@ import java.util.Objects;
  * Player entity class.
  */
 public final class Player extends Entity {
+
+    private static final long serialVersionUID = 1948680934600028883L;
     /**
      * Players nickname.
      */

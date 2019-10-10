@@ -1,10 +1,12 @@
 package by.koshko.cyberwikia.bean;
 
+import java.io.Serializable;
+
 /**
- * Super class for all entity classes of this project. All subclasses are
+ * Superclass for all entity classes of this project. All subclasses are
  * following the java bean convention.
  */
-public abstract class Entity {
+public abstract class Entity implements Serializable {
 
     /**
      * Entities id.

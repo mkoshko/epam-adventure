@@ -3,7 +3,6 @@ package by.koshko.cyberwikia.bean;
 import java.io.InputStream;
 
 public class RawData {
-
     private static String rootPath;
     private InputStream in;
     private String contentType;

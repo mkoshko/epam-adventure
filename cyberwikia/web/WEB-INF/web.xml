@@ -32,4 +32,8 @@
         <filter-name>SecurityFilter</filter-name>
         <url-pattern>*.html</url-pattern>
     </filter-mapping>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jsp/error.jsp</location>
+    </error-page>
 </web-app>

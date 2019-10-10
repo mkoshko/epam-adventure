@@ -7,6 +7,7 @@ import java.util.Objects;
  * Team entity class.
  */
 public final class Team extends Entity {
+    private static final long serialVersionUID = 1965499834600028453L;
     /**
      * Team name.
      */

@@ -6,6 +6,8 @@ import java.util.Objects;
  * Game entity class.
  */
 public final class Game extends Entity {
+
+    private static final long serialVersionUID = 1948680934000028453L;
     /**
      * Title of the game.
      */

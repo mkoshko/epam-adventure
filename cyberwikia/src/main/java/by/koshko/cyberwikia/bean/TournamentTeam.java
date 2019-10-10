@@ -2,6 +2,7 @@ package by.koshko.cyberwikia.bean;
 
 public final class TournamentTeam extends Entity {
 
+    private static final long serialVersionUID = 6458680934600028453L;
     private Tournament tournament;
     private Team team;
     private int placement;

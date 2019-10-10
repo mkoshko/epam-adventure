@@ -6,6 +6,8 @@ import java.util.Objects;
  * Country entity class.
  */
 public final class Country extends Entity {
+
+    private static final long serialVersionUID = 1948645834600028453L;
     /**
      * Name of the country.
      */
