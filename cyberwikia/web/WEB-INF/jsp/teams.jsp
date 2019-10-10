@@ -29,7 +29,7 @@
                             </td>
                             <td>
                                 <c:if test="${team.captain != null}">
-                                    <a href="profile.html?id=${team.captain.id}">
+                                    <a href="player.html?id=${team.captain.id}">
                                         <img class="flag"
                                              src="<c:url value="${team.captain.country.flag}"/>"
                                              alt="${team.captain.country.name}"/>${team.captain.nickname}
