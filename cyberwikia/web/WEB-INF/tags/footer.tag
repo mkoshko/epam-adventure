@@ -5,8 +5,8 @@
     <div class="col-12" style="padding: 0">
         <footer class="footer">
             <span class="lang-switch">
-                <span><a href="lang.html?id=ru">ru</a></span>
-                <span><a href="lang.html?id=en"/>en</span>
+                <span><a href="lang.html?id=ru&from=${from}">ru</a></span>
+                <span><a href="lang.html?id=en&from=${from}">en</a></span>
             </span>
         </footer>
     </div>

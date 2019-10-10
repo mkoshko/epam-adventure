@@ -28,14 +28,6 @@ public abstract class AbstractCommand {
         return forward;
     }
 
-    protected Forward tryToReturnLastPage(final HttpServletRequest request) {
-        Optional<Cookie> optCookie = Stream.of(request.getCookies())
-                .filter(c -> c.getName().equals("page"))
-                .findFirst();
-        return optCookie.map(cookie -> new Forward(cookie.getValue()))
-                .orElseGet(() -> new Forward("index.html"));
-    }
-
     public static class Forward {
         private String url;
         private Map<String, Object> attributes = new HashMap<>();

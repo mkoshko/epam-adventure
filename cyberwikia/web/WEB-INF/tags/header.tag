@@ -20,6 +20,7 @@
                             <span class="navbar-text">${user.login}</span>
                         <li class="nav-item">
                             <form action="signout.html" method="post">
+                                <input type="hidden" name="from" value="${from}">
                                 <button type="submit" class="btn btn-link"><fmt:message key="label.logout"/></button>
                             </form>
                         </li>
@@ -32,6 +33,7 @@
                                 <input type="text" class="form-control mb-2 mr-sm-2" id="login" name="login">
                                 <label for="pwd" class="mr-sm-2 mb-sm-2 text-white"><fmt:message key="label.password"/>:</label>
                                 <input type="password" class="form-control mb-2 mr-sm-2" id="pwd" name="password">
+                                <input type="hidden" name="from" value="${from}">
                                 <button type="submit" id="submit-button" class="btn btn-primary mb-2 login-btn">
                                     <span class="spinner-grow login-spinner" id="btn-spinner"></span>
                                     <span id="btn-text" class="text-center" style="display: block"><fmt:message key="label.signin"/></span>

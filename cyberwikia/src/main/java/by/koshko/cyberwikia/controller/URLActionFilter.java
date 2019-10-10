@@ -21,25 +21,20 @@ public class URLActionFilter implements Filter {
                          final FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-        logger.debug("Request method: {}", req.getMethod());
-        String context = req.getContextPath();
-        String requestURI = req.getRequestURI();
-        logger.debug("Request URI: {}", requestURI);
-        int contextLength = context.length();
-        int endRequestIndex = requestURI.lastIndexOf(".html");
-        String action;
-        if (endRequestIndex != -1) {
-            action = requestURI.substring(contextLength, endRequestIndex);
-        } else {
-            action = "/";
-        }
-        logger.debug("Requested action: {}", action);
+        String action = getActionFromURI(req);
         if (req.getMethod().equals("GET")) {
-            req.setAttribute("currentAction", action);
+            if (req.getQueryString() != null) {
+                String redirect = action.substring(1) + ".html?"
+                                  + req.getQueryString();
+                req.setAttribute("from", redirect);
+            } else {
+                req.setAttribute("from", action.substring(1) + ".html");
+            }
         }
         AbstractCommand command = commandProvider.getCommand(action);
         if (command == null) {
-            resp.sendRedirect("404.html");
+            logger.debug("Command is null.");
+            resp.sendError(404);
         } else {
             logger.debug("Got a command.");
             request.setAttribute("command", command);
@@ -55,5 +50,22 @@ public class URLActionFilter implements Filter {
     @Override
     public void destroy() {
 
+    }
+
+    private String getActionFromURI(final HttpServletRequest request) {
+        logger.debug("Request method: {}", request.getMethod());
+        String context = request.getContextPath();
+        String requestURI = request.getRequestURI();
+        logger.debug("Request URI: {}", requestURI);
+        int contextLength = context.length();
+        int endRequestIndex = requestURI.lastIndexOf(".html");
+        String action;
+        if (endRequestIndex != -1) {
+            action = requestURI.substring(contextLength, endRequestIndex);
+        } else {
+            action = "/index";
+        }
+        logger.debug("Requested action: {}", action);
+        return action;
     }
 }

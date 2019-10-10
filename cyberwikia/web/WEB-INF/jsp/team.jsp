@@ -137,7 +137,7 @@
 <c:when test="${tournament.placement == 1}">gold</c:when>
 <c:when test="${tournament.placement == 2}">silver</c:when>
 <c:when test="${tournament.placement == 3}">bronze</c:when>
-<c:otherwise></c:otherwise></c:choose>">
+</c:choose>">
                             <td>${tournament.tournament.endDate}</td>
                             <td>${tournament.placement}</td>
                             <td>${tournament.tournament.name}</td>

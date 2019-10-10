@@ -13,6 +13,6 @@ public class SignOutCommand extends AbstractCommand {
             session.removeAttribute("user");
             session.invalidate();
         }
-        return tryToReturnLastPage(request);
+        return new Forward(request.getParameter("from"));
     }
 }

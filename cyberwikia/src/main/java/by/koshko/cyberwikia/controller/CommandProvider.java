@@ -7,8 +7,7 @@ public class CommandProvider {
     private final Map<String, AbstractCommand> commands = new HashMap<>();
 
     public CommandProvider() {
-        commands.put("/", new MainCommand());
-        commands.put("/index", commands.get("/"));
+        commands.put("/index", new MainCommand());
         commands.put("/players", new PlayersCommand());
         commands.put("/teams", new TeamsCommand());
         commands.put("/team", new TeamCommand());
