@@ -34,10 +34,14 @@ public class URLActionFilter implements Filter {
             action = "/";
         }
         logger.debug("Requested action: {}", action);
+        if (req.getMethod().equals("GET")) {
+            req.setAttribute("currentAction", action);
+        }
         AbstractCommand command = commandProvider.getCommand(action);
         if (command == null) {
             resp.sendRedirect("404.html");
         } else {
+            logger.debug("Got a command.");
             request.setAttribute("command", command);
             chain.doFilter(req, resp);
         }

@@ -30,15 +30,16 @@ public class SecurityFilter implements Filter {
         HttpSession session = req.getSession(false);
         Set<Role> commandRoles = command.getRoles();
         if (commandRoles.isEmpty()) {
+            logger.debug("Roles is empty.");
             chain.doFilter(req, resp);
         } else {
             User user = (User) session.getAttribute("user");
             boolean canExecute = user != null && commandRoles.contains(user.getRole());
             if (canExecute) {
+                logger.debug("Can execute. Continue.");
                 chain.doFilter(req, response);
             } else {
-                req.setAttribute("error", "error.accessdenied");
-                req.getRequestDispatcher("WEB-INF/jsp/error.jsp").forward(req, resp);
+                resp.sendError(404);
             }
         }
     }

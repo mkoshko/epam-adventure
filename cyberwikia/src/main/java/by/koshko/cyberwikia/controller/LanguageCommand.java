@@ -29,7 +29,9 @@ public class LanguageCommand extends AbstractCommand {
             Cookie cookie = new Cookie("locale", locale);
             logger.debug("Add cookie.");
             response.addCookie(cookie);
-            return new Forward("index.html", true);
+            String page = (String) request.getAttribute("page");
+            logger.debug("Page to return: {}", page);
+            return new Forward(page, true);
         }
     }
 }

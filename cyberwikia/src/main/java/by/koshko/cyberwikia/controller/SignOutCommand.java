@@ -7,12 +7,12 @@ import javax.servlet.http.HttpSession;
 public class SignOutCommand extends AbstractCommand {
     @Override
     public Forward execute(final HttpServletRequest request,
-                        final HttpServletResponse response) {
+                           final HttpServletResponse response) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.removeAttribute("user");
             session.invalidate();
         }
-        return new Forward("index.html", true);
+        return tryToReturnLastPage(request);
     }
 }

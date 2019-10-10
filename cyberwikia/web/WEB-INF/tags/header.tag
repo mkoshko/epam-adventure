@@ -19,7 +19,9 @@
                         <div class="nav-user">
                             <span class="navbar-text">${user.login}</span>
                         <li class="nav-item">
-                            <a class="nav-link" href="signout.html"><fmt:message key="label.logout"/></a>
+                            <form action="signout.html" method="post">
+                                <button type="submit" class="btn btn-link"><fmt:message key="label.logout"/></button>
+                            </form>
                         </li>
                         </div>
                     </c:when>

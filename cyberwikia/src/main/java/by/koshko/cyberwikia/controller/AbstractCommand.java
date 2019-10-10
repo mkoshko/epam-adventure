@@ -2,12 +2,11 @@ package by.koshko.cyberwikia.controller;
 
 import by.koshko.cyberwikia.bean.Role;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 public abstract class AbstractCommand {
     private Set<Role> roles = new HashSet<>();
@@ -27,6 +26,14 @@ public abstract class AbstractCommand {
         forward.setError(true);
         forward.getAttributes().put("error", error);
         return forward;
+    }
+
+    protected Forward tryToReturnLastPage(final HttpServletRequest request) {
+        Optional<Cookie> optCookie = Stream.of(request.getCookies())
+                .filter(c -> c.getName().equals("page"))
+                .findFirst();
+        return optCookie.map(cookie -> new Forward(cookie.getValue()))
+                .orElseGet(() -> new Forward("index.html"));
     }
 
     public static class Forward {
