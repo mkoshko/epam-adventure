@@ -1,4 +1,5 @@
 USE cyberwikia;
+DROP PROCEDURE is_active_team;
 
 CREATE TABLE country
 (
@@ -98,6 +99,19 @@ CREATE TABLE m2m_tournament_team
     CONSTRAINT FK_m2m_tournament_team_team_id FOREIGN KEY (team_id) REFERENCES team (id) ON DELETE CASCADE
 );
 CREATE INDEX IDX_tournament_team_team_id ON m2m_tournament_team (team_id);
+
+DELIMITER $$
+
+CREATE PROCEDURE active_team_id (INOUT id INT UNSIGNED)
+BEGIN
+    declare found bigint;
+    SELECT team_id into found FROM m2m_player_team WHERE player_id = id AND active = 1;
+    if (found is null) then set id = 0; else set id = found; end if;
+END; $$
+
+DELIMITER ;
+
+GRANT EXECUTE ON PROCEDURE cyberwikia.active_team_id TO 'cyberwikia_app'@'localhost';
 
 CREATE TABLE m2m_player_team
 (

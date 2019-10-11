@@ -12,4 +12,5 @@ public interface PlayerTeamDao extends Dao<PlayerTeam> {
     List<PlayerTeam> findPlayerTeam(Player player) throws DaoException;
     PlayerTeam findPlayerTeamActive(Player player) throws DaoException;
     PlayerTeam findPlayerTeam(long playerId, long teamId) throws DaoException;
+    long isActiveTeamPlayer(long playerId) throws DaoException;
 }

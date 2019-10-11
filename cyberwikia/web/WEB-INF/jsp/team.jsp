@@ -47,19 +47,34 @@
                             </tbody>
                         </table>
                         <c:if test="${sessionScope.get('user') != null}">
+                            <jsp:useBean id="activeTeamId" scope="request" type="java.lang.Long"/>
                             <div class="row">
-                                <div class="col-6">
-                                    <form action="join.html" method="post">
-                                        <input type="hidden" name="team" value="${team.id}">
-                                        <button class="btn btn-dark" type="submit"><fmt:message key="team.button.join"/></button>
-                                    </form>
-                                </div>
-                                <div class="col-6 mx-auto">
-                                    <form action="leave.html" method="post">
-                                        <input type="hidden" name="team" value="${team.id}">
-                                        <button class="btn btn-dark" type="submit"><fmt:message key="team.button.leave"/></button>
-                                    </form>
-                                </div>
+                                <c:choose>
+                                    <c:when test="${activeTeamId == team.id}">
+                                        <div class="col-12 mx-auto">
+                                            <form action="leave.html" method="post">
+                                                <input type="hidden" name="team" value="${team.id}">
+                                                <button class="btn btn-dark btn-full-width" type="submit"><fmt:message key="team.button.leave"/></button>
+                                            </form>
+                                        </div>
+                                    </c:when>
+                                    <c:when test="${activeTeamId > 0 && activeTeamId != team.id}">
+                                        <div class="col-12 mx-auto">
+                                            <form action="join.html" method="post">
+                                                <input type="hidden" name="team" value="${team.id}">
+                                                <button class="btn btn-dark btn-full-width" disabled><fmt:message key="team.button.join"/></button>
+                                            </form>
+                                        </div>
+                                    </c:when>
+                                    <c:when test="${activeTeamId == 0}">
+                                        <div class="col-12">
+                                            <form action="join.html" method="post">
+                                                <input type="hidden" name="team" value="${team.id}">
+                                                <button class="btn btn-dark btn-full-width" type="submit"><fmt:message key="team.button.join"/></button>
+                                            </form>
+                                        </div>
+                                    </c:when>
+                                </c:choose>
                             </div>
                         </c:if>
                     </div>

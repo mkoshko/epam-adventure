@@ -5,6 +5,7 @@ import by.koshko.cyberwikia.bean.Player;
 import java.util.List;
 
 public interface PlayerService {
+
     boolean editPlayer(long userId, Player player) throws ServiceException;
 
     boolean createPlayer(long userId, Player player) throws ServiceException;

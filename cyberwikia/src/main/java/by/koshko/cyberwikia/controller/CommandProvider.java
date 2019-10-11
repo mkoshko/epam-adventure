@@ -17,6 +17,7 @@ public class CommandProvider {
         commands.put("/signout", new SignOutCommand());
         commands.put("/lang", new LanguageCommand());
         commands.put("/player", new PlayerProfileCommand());
+        commands.put("/editprofile", new PlayerEditPageCommand());
     }
 
     public AbstractCommand getCommand(final String action) {

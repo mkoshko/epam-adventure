@@ -6,11 +6,7 @@ import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerTeamDao;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +27,31 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
     private static final String FIND_TEAMS
             = "SELECT team_id, active, join_date, leave_date "
               + "FROM m2m_player_team WHERE player_id=?";
-    public static final String FIND_ACTIVE_TEAM
+    private static final String FIND_ACTIVE_TEAM
             = "SELECT team_id, active, join_date, leave_date "
               + "FROM m2m_player_team "
               + "WHERE player_id=? AND active=1;";
-    public static final String FIND_PLAYER_TEAM
+    private static final String FIND_PLAYER_TEAM
             = "SELECT player_id, team_id, active, join_date, leave_date "
               + "FROM m2m_player_team "
               + "WHERE player_id=? AND team_id=?;";
+    private static final String ACTIVE_TEAM_ID
+            = "{CALL active_team_id(?)}";
+
+
+    public long isActiveTeamPlayer(final long playerId) throws DaoException {
+        try (CallableStatement statement
+                     = getConnection().prepareCall(ACTIVE_TEAM_ID)) {
+            statement.setLong(1, playerId);
+            statement.execute();
+            return statement.getLong(1);
+        } catch (SQLException e) {
+            logger.error("Error while processing SQL query."
+                         + " SQL state: {}. SQL message: {}.",
+                    e.getSQLState(), e.getMessage());
+            throw new DaoException("Cannot perform query.");
+        }
+    }
 
     @Override
     public List<PlayerTeam> findPlayerTeam(final Team team) throws DaoException {

@@ -14,4 +14,5 @@ public interface PlayerTeamService {
     PlayerTeam findActiveTeam(Player player) throws ServiceException;
     int joinTeam(long userId, long teamId) throws ServiceException;
     int leaveTeam(long userId) throws ServiceException;
+    long playerActiveTeamId(long playerId) throws ServiceException;
 }

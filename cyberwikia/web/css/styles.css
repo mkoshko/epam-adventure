@@ -71,6 +71,10 @@ body {
     top: 15px;
 }
 
+.btn-full-width {
+    width: 100%;
+}
+
 .login-btn {
     width: 100px;
     height: 38px;

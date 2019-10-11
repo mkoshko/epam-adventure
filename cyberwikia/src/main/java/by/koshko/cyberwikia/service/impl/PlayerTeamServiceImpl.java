@@ -30,6 +30,17 @@ public final class PlayerTeamServiceImpl extends AbstractService
         super(transaction, factory);
     }
 
+    public long playerActiveTeamId(final long playerId)
+            throws ServiceException {
+        try {
+            PlayerTeamDao playerTeamDao = getTransaction().getDao(PLAYERTEAMDAO);
+            return playerTeamDao.isActiveTeamPlayer(playerId);
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot fetch information about"
+                                       + " players active team.");
+        }
+    }
+
     // -1 - has no player profile.
     //  0 - has no active team.
     //  1 - left.

@@ -5,20 +5,22 @@
 <tag:html title="${player.nickname}">
     <fmt:bundle basename="localization">
         <jsp:useBean id="player" scope="request" type="by.koshko.cyberwikia.bean.Player"/>
+        <form action="saveprofile.html" method="post">
         <div class="row after-header">
             <div class="col-12 col-xl-8">
                 <h3><fmt:message key="title.overview"/></h3>
-                ${player.overview}
+                <textarea style="width: 100%" rows="20" name="overview">${player.overview}</textarea>
             </div>
             <div class="col-sm-12 col-md-8 col-xl-4 mx-auto">
                 <div class="card">
-                    <h1 class="card-title text-center">${player.nickname}</h1>
-                    <img class="card-img-top" src="
-                    <c:choose>
-                        <c:when test="${player.profilePhoto != null}"><c:url value="${player.profilePhoto}"/></c:when>
-                        <c:otherwise><c:url value="/images/upload/_default.png"/></c:otherwise>
-                    </c:choose>
-                    " alt="${player.nickname}">
+                    <input type="text" name="nickname" value="${player.nickname}">
+                    <div>
+                        <input type="file">
+                        <img class="card-img-top" src="<c:choose>
+                    <c:when test="${player.profilePhoto != null}"><c:url value="${player.profilePhoto}"/></c:when>
+                    <c:otherwise><c:url value="/images/upload/_default.png"/></c:otherwise>
+                    </c:choose>" alt="${player.nickname}">
+                    </div>
                     <div class="card-body">
                         <table class="table table-striped">
                             <tr>
@@ -43,7 +45,8 @@
                             </tr>
                         </table>
                         <c:if test="${sessionScope.get('user') != null && user.id == player.id}">
-                            <a href="editprofile.html?id=${player.id}" class="btn btn-dark btn-full-width"><fmt:message key="player.edit"/></a>
+                            <input type="hidden" name="from" value="player.html?id=${player.id}">
+                            <button type="submit" class="btn btn-dark btn-full-width"><fmt:message key="player.save"/></button>
                         </c:if>
                     </div>
                 </div>
@@ -103,5 +106,6 @@
                 </table>
             </div>
         </div>
+        </form>
     </fmt:bundle>
 </tag:html>
