@@ -18,6 +18,8 @@ public class CommandProvider {
         commands.put("/lang", new LanguageCommand());
         commands.put("/player", new PlayerProfileCommand());
         commands.put("/editprofile", new PlayerEditPageCommand());
+        commands.put("/registration", new RegistrationPageCommand());
+        commands.put("/signup", new SignUpCommand());
     }
 
     public AbstractCommand getCommand(final String action) {

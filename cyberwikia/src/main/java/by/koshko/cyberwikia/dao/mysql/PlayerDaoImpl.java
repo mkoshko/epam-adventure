@@ -14,16 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
-    private static final int PLAYER_ID = 1;
-    private static final int PLAYER_PHOTO = 2;
-    private static final int PLAYER_NICKNAME = 3;
-    private static final int PLAYER_FIRST_NAME = 4;
-    private static final int PLAYER_LAST_NAME = 5;
-    private static final int PLAYER_BIRTH = 6;
-    private static final int PLAYER_COUNTRY = 7;
-    private static final int PLAYER_OVERVIEW = 8;
-    private static final int WHERE_ID = 9;
-
     private static final String SELECT_FROM
             = "SELECT id, profile_photo, nickname, firstName, lastName, birth, "
               + "country_id, overview "
@@ -32,194 +22,124 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
             = "SELECT id, profile_photo, nickname, firstName, lastName, birth,"
               + " country_id, overview"
               + " FROM player LIMIT ?, ?;";
-    private static final String FIND_BY_NICKNAME_QUERY
+    private static final String FIND_BY_NICKNAME
             = SELECT_FROM + "WHERE nickname=?;";
-    private static final String FIND_BY_FULLNAME_QUERY
+    private static final String FIND_BY_FULLNAME
             = SELECT_FROM + "WHERE concat_ws(' ', firstName, lastName) LIKE ?;";
-    private static final String GET_QUERY
+    private static final String GET
             = SELECT_FROM + "WHERE id=?;";
-    private static final String SAVE_QUERY
+    private static final String SAVE
             = "INSERT INTO player (id, profile_photo, nickname, firstName, "
               + "lastName, birth, country_id, overview) "
               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-    private static final String UPDATE_PLAYER_QUERY
+    private static final String UPDATE
             = "UPDATE player "
               + "SET id=?, profile_photo=?, nickname=?, firstName=?, lastName=?, "
               + "birth=?, country_id=?, overview=? WHERE id=?;";
-    private static final String DELETE_QUERY = "DELETE FROM player WHERE id=?;";
-    public static final String ROWS_NUMBER
+    private static final String DELETE = "DELETE FROM player WHERE id=?;";
+    private static final String ROWS_NUMBER
             = "SELECT COUNT(*) FROM player;";
 
     public int getRowsNumber() throws DaoException {
         try (Statement statement = getConnection().createStatement()) {
-            try (ResultSet rs = statement.executeQuery(ROWS_NUMBER)) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
+            ResultSet rs = statement.executeQuery(ROWS_NUMBER);
+            if (rs.next()) {
+                return rs.getInt(1);
             }
             return 0;
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            throw new DaoException("Cannot count rows.");
+            throw new DaoException("Cannot count rows.", e);
         }
     }
 
     @Override
     public Player findByNickname(final String nickname)
             throws DaoException {
-        if (nickname == null) {
-            logger.warn("Attempt to find player by nickname with null"
-                        + " argument.");
-        }
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(FIND_BY_NICKNAME_QUERY);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(FIND_BY_NICKNAME)) {
             statement.setString(1, nickname);
-            rs = statement.executeQuery();
-            return buildSingleInstance(rs);
+            return buildSingleInstance(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Cannot find player by nickname. SQL state: {}."
-                         + " Message: {}", e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch player.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            throw new DaoException("Cannot find player by nickname.", e);
         }
     }
 
     @Override
     public List<Player> findByFullName(final String fullName)
             throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(FIND_BY_FULLNAME_QUERY);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(FIND_BY_FULLNAME)) {
             statement.setString(1, fullName);
-            rs = statement.executeQuery();
-            return buildMultipleInstances(rs);
+            return buildMultipleInstances(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Cannot find player by full name. SQL state: {}."
-                         + " Message: {}", e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch player.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            throw new DaoException("Cannot find player by full name.", e);
         }
     }
 
     @Override
     public Player get(final long id) throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(GET_QUERY);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(GET)) {
             statement.setLong(1, id);
-            rs = statement.executeQuery();
-            return buildSingleInstance(rs);
+            return buildSingleInstance(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Cannot find player by id. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch player.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            throw new DaoException("Cannot get player by id.", e);
         }
     }
 
     @Override
     public List<Player> getAll() throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(SELECT_FROM);
-            rs = statement.executeQuery();
-            return buildMultipleInstances(rs);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(SELECT_FROM)) {
+            return buildMultipleInstances(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Cannot find all players. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch players.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            throw new DaoException("Cannot fetch players.", e);
         }
     }
 
     public List<Player> getAll(final int offset, final int limit)
             throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(PAGINATION);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(PAGINATION)) {
             statement.setInt(1, offset);
             statement.setInt(2, limit);
-            rs = statement.executeQuery();
-            return buildMultipleInstances(rs);
+            return buildMultipleInstances(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Cannot find players. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch players.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            throw new DaoException("Cannot fetch players.", e);
         }
     }
 
     @Override
-    public void save(final Player entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(SAVE_QUERY);
+    public boolean save(final Player entity) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(SAVE)) {
             setUpStatement(statement, entity);
-            if (statement.executeUpdate() == 1) {
-                logger.info("Player profile '{}' has been saved to database.",
-                        entity.getNickname());
-            }
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            logger.error("Cannot save player. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot save player.");
-        } finally {
-            closeStatement(statement);
+            return !isDuplicateError(e, "Cannot save player.");
         }
     }
 
     @Override
-    public void update(final Player entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(UPDATE_PLAYER_QUERY);
+    public boolean update(final Player entity) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(UPDATE)) {
             setUpStatement(statement, entity);
-            statement.setLong(WHERE_ID, entity.getId());
-            if (statement.executeUpdate() == 1) {
-                logger.info("Player profile '{}' has been updated.",
-                        entity.getNickname());
-            }
+            statement.setLong(9, entity.getId());
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            logger.error("Cannot save player. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot update player.");
-        } finally {
-            closeStatement(statement);
+            return !isDuplicateError(e, "Cannot update player.");
         }
     }
 
     @Override
     public void delete(final Player entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(DELETE_QUERY);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(DELETE)) {
             statement.setLong(1, entity.getId());
-            if (statement.executeUpdate() == 1) {
-                logger.info("Player profile'{}' has been removed.",
-                        entity.getNickname());
-            }
+            statement.execute();
         } catch (SQLException e) {
-            logger.error("Cannot delete player. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot delete player.");
-        } finally {
-            closeStatement(statement);
+            throw new DaoException("Cannot delete player.", e);
         }
     }
 
@@ -255,13 +175,14 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
 
     private void setUpStatement(final PreparedStatement st, final Player player)
             throws SQLException {
-        st.setLong(PLAYER_ID, player.getId());
-        st.setString(PLAYER_PHOTO, player.getProfilePhoto());
-        st.setString(PLAYER_NICKNAME, player.getNickname());
-        st.setString(PLAYER_FIRST_NAME, player.getFirstName());
-        st.setString(PLAYER_LAST_NAME, player.getLastName());
-        st.setString(PLAYER_BIRTH, player.getBirth().toString());
-        st.setLong(PLAYER_COUNTRY, player.getCountry().getId());
-        st.setString(PLAYER_OVERVIEW, player.getOverview());
+        int index = 1;
+        st.setLong(index++, player.getId());
+        st.setString(index++, player.getProfilePhoto());
+        st.setString(index++, player.getNickname());
+        st.setString(index++, player.getFirstName());
+        st.setString(index++, player.getLastName());
+        st.setString(index++, player.getBirth().toString());
+        st.setLong(index++, player.getCountry().getId());
+        st.setString(index, player.getOverview());
     }
 }

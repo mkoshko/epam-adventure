@@ -21,41 +21,31 @@ public final class CountryDaoImpl extends AbstractDao implements CountryDao {
     @Override
     public Country get(final long id) throws DaoException {
         try (PreparedStatement statement
-                = getConnection().prepareStatement(GET)) {
+                     = getConnection().prepareStatement(GET)) {
             statement.setLong(1, id);
-            try (ResultSet rs = statement.executeQuery()) {
-                return buildSingleInstance(rs);
-            }
+            return buildSingleInstance(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot find country by ID.");
+            throw new DaoException("Cannot find country by ID.", e);
         }
     }
 
     @Override
     public List<Country> getAll() throws DaoException {
         try (PreparedStatement statement
-                = getConnection().prepareStatement(GET_ALL)) {
-            try (ResultSet rs = statement.executeQuery()) {
-                return buildMultipleInstances(rs);
-            }
+                     = getConnection().prepareStatement(GET_ALL)) {
+            return buildMultipleInstances(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch all countries.");
+            throw new DaoException("Cannot fetch all countries.", e);
         }
     }
 
     @Override
-    public void save(final Country entity) throws DaoException {
+    public boolean save(final Country entity) throws DaoException {
         throw new DaoException("Unsupported operation.");
     }
 
     @Override
-    public void update(final Country entity) throws DaoException {
+    public boolean update(final Country entity) throws DaoException {
         throw new DaoException("Unsupported operation.");
     }
 

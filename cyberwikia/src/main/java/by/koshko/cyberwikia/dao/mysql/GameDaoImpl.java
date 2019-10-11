@@ -25,14 +25,9 @@ public final class GameDaoImpl extends AbstractDao implements GameDao {
         try (PreparedStatement statement
                      = getConnection().prepareStatement(GET)) {
             statement.setLong(1, id);
-            try (ResultSet rs = statement.executeQuery()) {
-                return buildSingleInstance(rs);
-            }
+            return buildSingleInstance(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot find game by ID.");
+            throw new DaoException("Cannot find game by ID.", e);
         }
     }
 
@@ -40,43 +35,32 @@ public final class GameDaoImpl extends AbstractDao implements GameDao {
     public List<Game> getAll() throws DaoException {
         try (PreparedStatement statement
                 = getConnection().prepareStatement(GET_ALL)) {
-            try (ResultSet rs = statement.executeQuery()) {
-                return buildMultipleInstances(rs);
-            }
+            return buildMultipleInstances(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch games.");
+            throw new DaoException("Cannot fetch games.", e);
         }
     }
 
     @Override
-    public void save(final Game entity) throws DaoException {
+    public boolean save(final Game entity) throws DaoException {
         try (PreparedStatement statement
                 = getConnection().prepareStatement(SAVE)) {
             setUpStatement(statement, entity);
-            statement.executeUpdate();
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot save game.");
+            return !isDuplicateError(e, "Cannot save game.");
         }
     }
 
     @Override
-    public void update(final Game entity) throws DaoException {
+    public boolean update(final Game entity) throws DaoException {
         try (PreparedStatement statement
                 = getConnection().prepareStatement(UPDATE)) {
             setUpStatement(statement, entity);
             statement.setLong(3, entity.getId());
-            statement.executeUpdate();
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot update game.");
+            return !isDuplicateError(e, "Cannot update game.");
         }
     }
 

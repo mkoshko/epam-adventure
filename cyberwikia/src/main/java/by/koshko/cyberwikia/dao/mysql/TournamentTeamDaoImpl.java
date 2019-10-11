@@ -51,19 +51,12 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
     @Override
     public List<TournamentTeam> findTournamentTeam(final Team team)
             throws DaoException {
-        logger.debug("Attempt to find tournaments for team {}:{}",
-                team.getName(), team.getId());
         try (PreparedStatement statement
                      = getConnection().prepareStatement(FIND_TOURNAMENTS)) {
             statement.setLong(1, team.getId());
-            try (ResultSet rs = statement.executeQuery()) {
-                return buildMultipleInstances(rs, team);
-            }
+            return buildMultipleInstances(statement.executeQuery(), team);
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot find team tournaments.");
+            throw new DaoException("Cannot find team tournaments.", e);
         }
     }
 
@@ -73,31 +66,21 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
         try (PreparedStatement statement
                      = getConnection().prepareStatement(FIND_TEAMS)) {
             statement.setLong(1, tournament.getId());
-            try (ResultSet rs = statement.executeQuery()) {
-                return buildMultipleInstances(rs, tournament);
-            }
+            return buildMultipleInstances(statement.executeQuery(), tournament);
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot find tournament teams.");
+            throw new DaoException("Cannot find tournament teams.", e);
         }
     }
 
     @Override
     public List<TournamentTeam> findTournamentTeam(final Player player)
             throws DaoException {
-        try (PreparedStatement statement
-                 = getConnection().prepareStatement(FIND_PLAYER_TOURNAMENTS)) {
+        try (PreparedStatement statement = getConnection()
+                .prepareStatement(FIND_PLAYER_TOURNAMENTS)) {
             statement.setLong(1, player.getId());
-            try (ResultSet rs = statement.executeQuery()) {
-                return buildMultipleInstances(rs);
-            }
+            return buildMultipleInstances(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot find tournaments.");
+            throw new DaoException("Cannot find player tournaments.", e);
         }
     }
 
@@ -112,32 +95,26 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
     }
 
     @Override
-    public void save(final TournamentTeam entity) throws DaoException {
-        try (PreparedStatement statement = getConnection().prepareStatement(SAVE)) {
+    public boolean save(final TournamentTeam entity) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(SAVE)) {
             setUpStatement(statement, entity);
-            statement.executeUpdate();
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot save 'TournamentTeam' entity.");
+            return !isDuplicateError(e, "Cannot save TournamentTeam entity.");
         }
     }
 
     @Override
-    public void update(final TournamentTeam entity) throws DaoException {
+    public boolean update(final TournamentTeam entity) throws DaoException {
         try (PreparedStatement statement
                      = getConnection().prepareStatement(UPDATE)) {
-            int index = 1;
-            statement.setInt(index++, entity.getPlacement());
-            statement.setLong(index++, entity.getTournament().getId());
-            statement.setLong(index, entity.getTeam().getId());
-            statement.executeUpdate();
+            statement.setInt(1, entity.getPlacement());
+            statement.setLong(2, entity.getTournament().getId());
+            statement.setLong(3, entity.getTeam().getId());
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot update 'TournamentTeam' entity.");
+            return !isDuplicateError(e, "Cannot update TournamentTeam entity.");
         }
     }
 
@@ -147,22 +124,18 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
                      = getConnection().prepareStatement(DELETE)) {
             statement.setLong(1, entity.getTournament().getId());
             statement.setLong(2, entity.getTeam().getId());
-            statement.executeUpdate();
+            statement.execute();
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot delete 'TournamentTeam' entity.");
+            throw new DaoException("Cannot delete TournamentTeam entity.", e);
         }
     }
 
     private void setUpStatement(final PreparedStatement statement,
                                 final TournamentTeam entity)
             throws SQLException {
-        int index = 1;
-        statement.setLong(index++, entity.getTournament().getId());
-        statement.setLong(index++, entity.getTeam().getId());
-        statement.setInt(index, entity.getPlacement());
+        statement.setLong(1, entity.getTournament().getId());
+        statement.setLong(2, entity.getTeam().getId());
+        statement.setInt(3, entity.getPlacement());
     }
 
     private List<TournamentTeam> buildMultipleInstances(final ResultSet rs)
@@ -181,8 +154,6 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
         while (rs.next()) {
             tournaments.add(buildTournamentTeam(rs, team));
         }
-        logger.debug("Found {} tournaments for team {}:{}",
-                tournaments.size(), team.getName(), team.getId());
         return tournaments;
     }
 

@@ -8,7 +8,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,93 +32,56 @@ public final class TournamentDaoImpl extends AbstractDao implements TournamentDa
 
     @Override
     public Tournament get(final long id) throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(GET);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(GET)) {
             statement.setLong(1, id);
-            rs = statement.executeQuery();
-            return buildSingleInstance(rs);
+            return buildSingleInstance(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Cannot fetch tournament. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch tournament.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            throw new DaoException("Cannot get tournament by id.", e);
         }
     }
 
     @Override
     public List<Tournament> getAll() throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(GET_ALL);
-            rs = statement.executeQuery();
-            return buildMultipleInstances(rs);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(GET_ALL)) {
+            return buildMultipleInstances(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Cannot fetch tournaments. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch tournaments.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            throw new DaoException("Cannot get all tournaments.", e);
         }
     }
 
     @Override
-    public void save(final Tournament entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(SAVE);
+    public boolean save(final Tournament entity) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(SAVE)) {
             setUpStatement(statement, entity);
-            if (statement.executeUpdate() == 1) {
-                logger.info("Tournament '{}' has been saved.", entity.getName());
-            }
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            logger.error("Cannot save team. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot save team.");
-        } finally {
-            closeStatement(statement);
+            return !isDuplicateError(e, "Cannot save team.");
         }
     }
 
     @Override
-    public void update(final Tournament entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(UPDATE);
+    public boolean update(final Tournament entity) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(UPDATE)) {
             setUpStatement(statement, entity);
             statement.setLong(7, entity.getId());
-            if (statement.executeUpdate() == 1) {
-                logger.info("Tournament '{}' has been updated.", entity.getName());
-            }
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            logger.error("Cannot update team '{}'. SQL state: {}. Message: {}",
-                    entity.getName(), e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot save team.");
-        } finally {
-            closeStatement(statement);
+            return !isDuplicateError(e, "Cannot save team.");
         }
     }
 
     @Override
     public void delete(final Tournament entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(DELETE);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(DELETE)) {
             statement.setLong(1, entity.getId());
-            if (statement.executeUpdate() == 1) {
-                logger.info("Tournament '{}' has been removed.", entity.getName());
-            }
+            statement.execute();
         } catch (SQLException e) {
-            logger.error("Cannot delete team '{}'. SQL state: {}. Message: {}",
-                    entity.getName(), e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot delete team.");
-        } finally {
-            closeStatement(statement);
+            throw new DaoException("Cannot delete team.", e);
         }
     }
 

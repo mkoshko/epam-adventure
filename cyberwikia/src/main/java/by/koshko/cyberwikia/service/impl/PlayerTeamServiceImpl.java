@@ -30,6 +30,7 @@ public final class PlayerTeamServiceImpl extends AbstractService
         super(transaction, factory);
     }
 
+    //TODO rethink method implementation.
     public long playerActiveTeamId(final long playerId)
             throws ServiceException {
         try {

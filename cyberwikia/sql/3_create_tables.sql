@@ -1,5 +1,5 @@
 USE cyberwikia;
-DROP PROCEDURE is_active_team;
+DROP PROCEDURE active_team_id;
 
 CREATE TABLE country
 (

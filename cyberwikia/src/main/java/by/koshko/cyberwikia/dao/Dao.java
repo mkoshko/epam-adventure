@@ -11,9 +11,9 @@ public interface Dao<T extends Entity> extends Connectable {
 
     List<T> getAll() throws DaoException;
 
-    void save(T entity) throws DaoException;
+    boolean save(T entity) throws DaoException;
 
-    void update(T entity) throws DaoException;
+    boolean update(T entity) throws DaoException;
 
     void delete(T entity) throws DaoException;
 }

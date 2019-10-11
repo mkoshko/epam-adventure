@@ -27,6 +27,9 @@
                         </div>
                     </c:when>
                     <c:otherwise>
+                        <li class="nav-item">
+                            <a class="nav-link" href="registration.html"><fmt:message key="header.registration"/></a>
+                        </li>
                         <li class="nav-item nav-form">
                             <form class="form-inline" id="form" action="signin.html" method="post">
                                 <label for="login" class="mr-sm-2 mb-sm-2 text-white"><fmt:message key="label.login"/>:</label>

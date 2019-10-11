@@ -3,7 +3,6 @@ package by.koshko.cyberwikia.dao.mysql;
 import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.UserDao;
-import by.koshko.cyberwikia.dao.mysql.AbstractDao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +14,7 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
     private static final String FIND_BY_LOGIN_QUERY
             = "SELECT id, login, email, password, role "
               + "FROM user "
-              + "WHERE login=?;";
+              + "WHERE BINARY login=?;";
     private static final String GET_QUERY
             = "SELECT id, login, email, password, role "
               + "FROM user "
@@ -34,118 +33,67 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User findByLogin(final String login) throws DaoException {
-        PreparedStatement statement = null;
-        if (login == null) {
-            logger.warn("Attempt to find user by login with null argument.");
-        }
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(FIND_BY_LOGIN_QUERY);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(FIND_BY_LOGIN_QUERY)) {
             statement.setString(1, login);
-            rs = statement.executeQuery();
-            return buildSingleInstance(rs);
+            return buildSingleInstance(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Cannot find user by login. SQL state: {}. "
-                         + "Message: {}", e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch user.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            throw new DaoException("Cannot get user by login.", e);
         }
     }
 
     @Override
     public User get(final long id) throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(GET_QUERY);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(GET_QUERY)) {
             statement.setLong(1, id);
-            rs = statement.executeQuery();
-            return buildSingleInstance(rs);
+            return buildSingleInstance(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Cannot find user by id. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch user.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            throw new DaoException("Cannot get user by id.", e);
         }
     }
 
     @Override
     public List<User> getAll() throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(GET_ALL_QUERY);
-            rs = statement.executeQuery();
-            return buildMultipleInstances(rs);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(GET_ALL_QUERY)) {
+            return buildMultipleInstances(statement.executeQuery());
         } catch (SQLException e) {
-            logger.error("Cannot fetch all users. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot fetch users.");
-        } finally {
-            closeResultSet(rs);
-            closeStatement(statement);
+            throw new DaoException("Cannot get all users.", e);
         }
     }
 
     @Override
-    public void save(final User entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(SAVE_QUERY);
+    public boolean save(final User entity) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(SAVE_QUERY)) {
             setUpStatement(statement, entity);
-            if (statement.executeUpdate() == 1) {
-                logger.info("User '{}' has been saved to database.",
-                        entity.getLogin());
-            }
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            logger.error("Cannot save the user. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot save the user.");
-        } finally {
-            closeStatement(statement);
+            return !isDuplicateError(e, "Cannot save user.");
         }
     }
 
     @Override
-    public void update(final User entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(UPDATE_QUERY);
+    public boolean update(final User entity) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(UPDATE_QUERY)) {
             setUpStatement(statement, entity);
             statement.setLong(5, entity.getId());
-            if (statement.executeUpdate() == 1) {
-                logger.info("User '{}' has been updated.",
-                        entity.getLogin());
-            }
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            logger.error("Cannot update the user. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot update the user in a database.");
-        } finally {
-            closeStatement(statement);
+            return !isDuplicateError(e, "Cannot update user.");
         }
     }
 
     @Override
     public void delete(final User entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(DELETE_QUERY);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(DELETE_QUERY)) {
             statement.setLong(1, entity.getId());
-            if (statement.executeUpdate() == 1) {
-                logger.info(" User '{}' has been removed.",
-                        entity.getLogin());
-            }
+            statement.execute();
         } catch (SQLException e) {
-            logger.error("Cannot delete user. SQL state: {}. Message: {}",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot remove the user.");
-        } finally {
-            closeStatement(statement);
+            throw new DaoException("Cannot remove the user.", e);
         }
     }
 
@@ -178,10 +126,9 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
 
     private void setUpStatement(final PreparedStatement st, final User user)
             throws SQLException {
-        int index = 1;
-        st.setString(index++, user.getLogin());
-        st.setString(index++, user.getEmail());
-        st.setString(index++, user.getPassword());
-        st.setInt(index, user.getRole().ordinal());
+        st.setString(1, user.getLogin());
+        st.setString(2, user.getEmail());
+        st.setString(3, user.getPassword());
+        st.setInt(4, user.getRole().ordinal());
     }
 }

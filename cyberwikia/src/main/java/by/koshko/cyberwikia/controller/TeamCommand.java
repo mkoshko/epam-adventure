@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 public class TeamCommand extends AbstractCommand {
     private Logger logger = LogManager.getLogger(TeamCommand.class);
 
+    //TODO Needs refactoring!
     @Override
     public Forward execute(final HttpServletRequest request,
                            final HttpServletResponse response) {

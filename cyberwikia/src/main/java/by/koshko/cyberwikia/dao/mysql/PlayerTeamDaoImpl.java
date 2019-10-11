@@ -6,7 +6,12 @@ import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerTeamDao;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +43,8 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
     private static final String ACTIVE_TEAM_ID
             = "{CALL active_team_id(?)}";
 
-
+    //TODO rethink method implementation.
+    @Override
     public long isActiveTeamPlayer(final long playerId) throws DaoException {
         try (CallableStatement statement
                      = getConnection().prepareCall(ACTIVE_TEAM_ID)) {
@@ -46,28 +52,18 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
             statement.execute();
             return statement.getLong(1);
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot perform query.");
+            throw new DaoException("Cannot get player active team id", e);
         }
     }
 
     @Override
     public List<PlayerTeam> findPlayerTeam(final Team team) throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(FIND_PLAYERS);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(FIND_PLAYERS)) {
             statement.setLong(1, team.getId());
-            rs = statement.executeQuery();
-            return buildMultipleInstances(rs, team);
+            return buildMultipleInstances(statement.executeQuery(), team);
         } catch (SQLException e) {
-            logger.error("Cannot find player into team. SQL state: {}."
-                         + " Message: {}", e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot put player into team.");
-        } finally {
-            closeStatement(statement);
+            throw new DaoException("Cannot find team players.", e);
         }
     }
 
@@ -77,32 +73,22 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
                      = getConnection().prepareStatement(FIND_PLAYER_TEAM)) {
             statement.setLong(1, playerId);
             statement.setLong(2, teamId);
-            try (ResultSet rs = statement.executeQuery()) {
-                return buildSingleInstance(rs, playerId, teamId);
-            }
+            return buildSingleInstance(statement.executeQuery(),
+                    playerId, teamId);
         } catch (SQLException e) {
-            logger.error("Error while processing SQL query."
-                         + " SQL state: {}. SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot find player_team record.");
+            throw new DaoException("Cannot find player_team record.", e);
         }
     }
 
     @Override
-    public List<PlayerTeam> findPlayerTeam(final Player player) throws DaoException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().prepareStatement(FIND_TEAMS);
+    public List<PlayerTeam> findPlayerTeam(final Player player)
+            throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(FIND_TEAMS)) {
             statement.setLong(1, player.getId());
-            rs = statement.executeQuery();
-            return buildMultipleInstances(rs, player);
+            return buildMultipleInstances(statement.executeQuery(), player);
         } catch (SQLException e) {
-            logger.error("Cannot find players teams. SQL state: {}."
-                         + " Message: {}", e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot find players teams.");
-        } finally {
-            closeStatement(statement);
+            throw new DaoException("Cannot find player teams.", e);
         }
     }
 
@@ -111,13 +97,9 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
         try (PreparedStatement statement
                 = getConnection().prepareStatement(FIND_ACTIVE_TEAM)) {
             statement.setLong(1, player.getId());
-            try (ResultSet rs = statement.executeQuery()) {
-                return buildSingleInstance(rs, player);
-            }
+            return buildSingleInstance(statement.executeQuery(), player);
         } catch (SQLException e) {
-            logger.error("Cannot find players active team. SQL state: {}."
-                         + " Message: {}", e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot find players active team");
+            throw new DaoException("Cannot find player active team.", e);
         }
     }
 
@@ -132,57 +114,38 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
     }
 
     @Override
-    public void save(final PlayerTeam entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(SAVE);
+    public boolean save(final PlayerTeam entity) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(SAVE)) {
             setUpStatement(statement, entity);
-            if (statement.executeUpdate() == 1) {
-                logger.info("Player {} joined to the team {}.",
-                entity.getPlayer().getNickname(), entity.getTeam().getName());
-            }
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            logger.error("Cannot put player into team. SQL state: {}."
-                         + " Message: {}", e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot put player into team.");
-        } finally {
-            closeStatement(statement);
+            return !isDuplicateError(e, "Cannot put player into team.");
         }
     }
 
     @Override
-    public void update(final PlayerTeam entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(UPDATE);
+    public boolean update(final PlayerTeam entity) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(UPDATE)) {
             setUpStatement(statement, entity);
             statement.setLong(6, entity.getPlayer().getId());
             statement.setLong(7, entity.getTeam().getId());
-            statement.executeUpdate();
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            throw new DaoException("");
-        } finally {
-            closeStatement(statement);
+            return !isDuplicateError(e, "Cannot update player_team record.");
         }
     }
 
     @Override
     public void delete(final PlayerTeam entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(DELETE);
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(DELETE)) {
             statement.setLong(1, entity.getPlayer().getId());
             statement.setLong(2, entity.getTeam().getId());
-            if (statement.executeUpdate() == 1) {
-                logger.info("Player '{}' has been remove from team '{}'",
-                        entity.getPlayer().getNickname(), entity.getTeam().getName());
-            }
+            statement.execute();
         } catch (SQLException e) {
-            logger.error("Cannot delete player from team. SQL state: {}."
-                         + " Message: {}", e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot delete player from team.");
-        } finally {
-            closeStatement(statement);
+            throw new DaoException("Cannot delete player_team record.", e);
         }
     }
 
