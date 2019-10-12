@@ -1,8 +1,7 @@
 (() => {
-    document.getElementById('submit-button').addEventListener('click', () =>{
-        document.getElementById('btn-spinner').style.display='block';
-        document.getElementById('btn-text').style.display='none';
-        document.getElementById('submit-button').setAttribute('disabled', '');
-        document.getElementById('form').submit();
+    document.getElementById('submit-btn').addEventListener('click', () =>{
+        document.getElementById('btn-spinner').style.display='inline-block';
+        document.getElementById('submit-btn').setAttribute('disabled', '');
+        document.getElementById('signup-form').submit();
     });
 })();

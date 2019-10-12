@@ -6,7 +6,7 @@
     <fmt:bundle basename="localization">
         <jsp:useBean id="player" scope="request" type="by.koshko.cyberwikia.bean.Player"/>
         <form action="saveprofile.html" method="post">
-        <div class="row after-header">
+        <div class="row pt-2">
             <div class="col-12 col-xl-8">
                 <h3><fmt:message key="title.overview"/></h3>
                 <textarea style="width: 100%" rows="20" name="overview">${player.overview}</textarea>

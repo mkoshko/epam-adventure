@@ -4,9 +4,9 @@
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 <tag:html localizedTitle="title.teams">
     <fmt:bundle basename="localization">
-        <div class="row after-header">
+        <div class="row pt-2">
             <div class="col-12">
-                <h2><fmt:message key="title.teams"/></h2>
+                <h2><fmt:message key="header.teams"/></h2>
                 <table class="table table-hover">
                     <thead class="thead-dark">
                     <tr>

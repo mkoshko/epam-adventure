@@ -5,7 +5,7 @@
 <tag:html title="${player.nickname}">
     <fmt:bundle basename="localization">
         <jsp:useBean id="player" scope="request" type="by.koshko.cyberwikia.bean.Player"/>
-        <div class="row after-header">
+        <div class="row pt-2">
             <div class="col-12 col-xl-8">
                 <h3><fmt:message key="title.overview"/></h3>
                 ${player.overview}

@@ -4,7 +4,7 @@
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 <tag:html title="${team.name}">
     <fmt:bundle basename="localization">
-        <div class="row after-header">
+        <div class="row pt-2">
             <div class="col-12 col-xl-8">
                 <c:set var="team" value="${requestScope.get('team')}"/>
                 <jsp:useBean id="team" type="by.koshko.cyberwikia.bean.Team"/>
@@ -54,7 +54,7 @@
                                         <div class="col-12 mx-auto">
                                             <form action="leave.html" method="post">
                                                 <input type="hidden" name="team" value="${team.id}">
-                                                <button class="btn btn-dark btn-full-width" type="submit"><fmt:message key="team.button.leave"/></button>
+                                                <button class="btn btn-dark w-100" type="submit"><fmt:message key="team.button.leave"/></button>
                                             </form>
                                         </div>
                                     </c:when>
@@ -62,7 +62,7 @@
                                         <div class="col-12 mx-auto">
                                             <form action="join.html" method="post">
                                                 <input type="hidden" name="team" value="${team.id}">
-                                                <button class="btn btn-dark btn-full-width" disabled><fmt:message key="team.button.join"/></button>
+                                                <button class="btn btn-dark w-100" disabled><fmt:message key="team.button.join"/></button>
                                             </form>
                                         </div>
                                     </c:when>
@@ -70,7 +70,7 @@
                                         <div class="col-12">
                                             <form action="join.html" method="post">
                                                 <input type="hidden" name="team" value="${team.id}">
-                                                <button class="btn btn-dark btn-full-width" type="submit"><fmt:message key="team.button.join"/></button>
+                                                <button class="btn btn-dark w-100" type="submit"><fmt:message key="team.button.join"/></button>
                                             </form>
                                         </div>
                                     </c:when>

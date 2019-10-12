@@ -100,19 +100,6 @@ CREATE TABLE m2m_tournament_team
 );
 CREATE INDEX IDX_tournament_team_team_id ON m2m_tournament_team (team_id);
 
-DELIMITER $$
-
-CREATE PROCEDURE active_team_id (INOUT id INT UNSIGNED)
-BEGIN
-    declare found bigint;
-    SELECT team_id into found FROM m2m_player_team WHERE player_id = id AND active = 1;
-    if (found is null) then set id = 0; else set id = found; end if;
-END; $$
-
-DELIMITER ;
-
-GRANT EXECUTE ON PROCEDURE cyberwikia.active_team_id TO 'cyberwikia_app'@'localhost';
-
 CREATE TABLE m2m_player_team
 (
     player_id  INT UNSIGNED NOT NULL,
@@ -126,3 +113,32 @@ CREATE TABLE m2m_player_team
     CONSTRAINT CH_player_team_join_leave_date CHECK ( DATEDIFF(leave_date, join_date) >= 0 )
 );
 CREATE INDEX IDX_player_team_team_id ON m2m_player_team (team_id);
+
+DELIMITER $$
+
+CREATE PROCEDURE active_team_id (INOUT id INT UNSIGNED)
+BEGIN
+    declare found bigint;
+    SELECT team_id into found FROM m2m_player_team WHERE player_id = id AND active = 1;
+    if (found is null) then set id = 0; else set id = found; end if;
+END; $$
+
+CREATE PROCEDURE has_login (IN loginToFind VARCHAR(50), OUT `exists` BOOL)
+BEGIN
+    DECLARE found VARCHAR(50);
+    SELECT login INTO found FROM user WHERE login=loginToFind;
+    IF (found IS NULL) THEN SET `exists` = FALSE; ELSE SET `exists` = TRUE; END IF;
+END; $$
+
+CREATE PROCEDURE has_email (IN emailToFind VARCHAR(254), OUT `exists` BOOL)
+BEGIN
+    DECLARE found VARCHAR(50);
+    SELECT email INTO found FROM user WHERE email=emailToFind;
+    IF (found IS NULL) THEN SET `exists` = FALSE; ELSE SET `exists` = TRUE; END IF;
+END; $$
+
+DELIMITER ;
+
+GRANT EXECUTE ON PROCEDURE cyberwikia.active_team_id TO 'cyberwikia_app'@'localhost';
+GRANT EXECUTE ON PROCEDURE cyberwikia.has_login TO 'cyberwikia_app'@'localhost';
+GRANT EXECUTE ON PROCEDURE cyberwikia.has_email TO 'cyberwikia_app'@'localhost';

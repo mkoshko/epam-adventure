@@ -4,31 +4,36 @@
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 <tag:html>
     <fmt:bundle basename="localization">
-        <div class="row after-header">
-            <div class="col-12">
-                <form action="signup.html" class="needs-validation" novalidate method="post">
-                    <div class="form-group">
-                        <label><fmt:message key="form.login"/>:</label>
-                        <input type="text" class="form-control" placeholder="<fmt:message key="form.login.hint"/>" name="login" required>
-                        <div class="valid-feedback">Valid.</div>
-                        <div class="invalid-feedback">Please fill out this field.</div>
+            <div class="row pt-2">
+                <div class="col-12 mx-auto p-3">
+                    <div class="text-center">
+                        <form action="signup.html" id="form" class="needs-validation form-signup mb-4" method="post" novalidate>
+                            <h1 class="h3 mb-3 font-weight-normal"><fmt:message key="header.registration"/></h1>
+                            <div class="form-group">
+                                <label class="sr-only" for="login">Login</label>
+                                <input type="text" class="form-control" id="login" placeholder="<fmt:message key="form.login.hint"/>" name="login" required>
+                                <div class="invalid-feedback"><fmt:message key="registration.login.feedback"/></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="login">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="<fmt:message key="form.email.hint"/>" name="email" required>
+                                <div class="invalid-feedback"><fmt:message key="registration.email.feedback"/></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="password">Password</label>
+                                <input type="password" class="form-control" id="password" placeholder="<fmt:message key="form.password.hint"/>" name="password" required>
+                                <div class="invalid-feedback"><fmt:message key="registration.password.feedback"/></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="repeat-password">Repeat password</label>
+                                <input type="password" class="form-control" id="repeat-password" placeholder="<fmt:message key="form.repeat-password.hint"/>" required>
+                                <div class="invalid-feedback"><fmt:message key="registration.repeat-password.feedback"/></div>
+                            </div>
+                            <button type="submit" class="btn btn-dark w-100"><fmt:message key="button.register"/></button>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label><fmt:message key="form.email"/>:</label>
-                        <input type="email" class="form-control" placeholder="<fmt:message key="form.email.hint"/>" name="email" required>
-                        <div class="valid-feedback">Valid.</div>
-                        <div class="invalid-feedback">Please fill out this field.</div>
-                    </div>
-                    <div class="form-group">
-                        <label><fmt:message key="form.password"/>:</label>
-                        <input type="password" class="form-control" placeholder="<fmt:message key="form.password.hint"/>" name="password" required>
-                        <div class="valid-feedback">Valid.</div>
-                        <div class="invalid-feedback">Please fill out this field.</div>
-                    </div>
-                    <button type="submit" class="btn btn-dark btn-full-width"><fmt:message key="header.registration"/></button>
-                </form>
+                </div>
             </div>
-        </div>
     </fmt:bundle>
     <script src="<c:url value="/js/form-validation.js"/>"></script>
 </tag:html>

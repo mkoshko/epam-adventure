@@ -26,15 +26,31 @@ public class SignUpCommand extends AbstractCommand {
             user.setEmail(email);
             user.setPassword(password);
             UserService userService = factory.getUserService();
-            boolean success = userService.sighUp(user);
-            if (success) {
-                logger.debug("User {} registered successfully.", user.getLogin());
-                return new Forward("index.html");
-            } else {
-                logger.debug("User wasn't registered.");
-                return new Forward("registration.html");
+            int statusCode = userService.sighUp(user);
+            if (request.getSession(false) == null) {
+                if (statusCode == 0) {
+                    return new Forward("index.html");
+                } else {
+                    return new Forward("registration.html");
+                }
             }
-
+            switch (statusCode) {
+                case 0:
+                    return new Forward("index.html");
+                case 1:
+                    request.getSession(false).setAttribute("registrationError", "duplicate.login");
+                    return new Forward("registration.html");
+                case 2:
+                    request.getSession(false).setAttribute("registrationError", "duplicate.email");
+                    return new Forward("registration.html");
+                case 3:
+                    request.getSession(false).setAttribute("registrationError", "duplicate.loginAndEmail");
+                    return new Forward("registration.html");
+                case -1:
+                    return new Forward("registration.html");
+                default:
+                    return sendError(404);
+            }
         } catch (ServiceException e) {
             return sendError(500);
         }

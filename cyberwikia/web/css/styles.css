@@ -2,10 +2,11 @@ body {
     background-color: #f6f5f3;
 }
 
-.header {
+.form-signup {
     width: 100%;
-    min-height: 80px;
-    background-color: black;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
 }
 
 .footer {
@@ -30,38 +31,8 @@ body {
     background-color: #cd7f32;
 }
 
-.after-header {
-    margin-top: 15px;
-}
-
-@media only screen and (min-width: 992px) {
-    .nav-user {
-        display: flex;
-        position: absolute;
-        right: 15px;
-    }
-}
-
-@media only screen and (max-width: 992px) {
-    .nav-user {
-        position: relative;
-        display: none;
-    }
-}
-
-@media only screen and (min-width: 992px) {
-    .nav-form {
-        position: absolute;
-        right: 15px;
-        display: block;
-    }
-}
-
-@media only screen and (max-width: 992px) {
-    .nav-form {
-        position: relative;
-        display: none;
-    }
+.icon:hover {
+    stroke: black;
 }
 
 .lang-switch {
@@ -71,8 +42,13 @@ body {
     top: 15px;
 }
 
-.btn-full-width {
-    width: 100%;
+@media only screen and (max-width: 576px) {
+    .btn-full-width {
+        width: 100%;
+    }
+    .form.form-inline {
+        width: 100%;
+    }
 }
 
 .login-btn {
@@ -83,11 +59,6 @@ body {
     display: none;
     width: 50%;
     margin: -3px 20px;
-}
-
-.content {
-    min-height: 500px;
-    background-color: white;
 }
 
 .flag {

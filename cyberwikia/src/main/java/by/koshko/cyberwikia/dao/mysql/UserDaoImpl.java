@@ -4,9 +4,7 @@ import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.UserDao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +28,33 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
               + "SET login=?, email=?, password=?, role=? "
               + "WHERE id=?;";
     private static final String DELETE_QUERY = "DELETE FROM user WHERE id=?;";
+    private static final String HAS_LOGIN = "{CALL has_login (?,?)}";
+    private static final String HAS_EMAIL = "{CALL has_email (?,?)}";
+
+
+    public boolean hasLogin(final String login) throws DaoException {
+        try (CallableStatement statement
+                     = getConnection().prepareCall(HAS_LOGIN)) {
+            statement.setString(1, login);
+            statement.registerOutParameter(2, Types.BOOLEAN);
+            statement.execute();
+            return statement.getBoolean(2);
+        } catch (SQLException e) {
+            throw new DaoException("Cannot perform operation.", e);
+        }
+    }
+
+    public boolean hasEmail(final String email) throws DaoException {
+        try (CallableStatement statement
+                     = getConnection().prepareCall(HAS_EMAIL)) {
+            statement.setString(1, email);
+            statement.registerOutParameter(2, Types.BOOLEAN);
+            statement.execute();
+            return statement.getBoolean(2);
+        } catch (SQLException e) {
+            throw new DaoException("Cannot perform operation.", e);
+        }
+    }
 
     @Override
     public User findByLogin(final String login) throws DaoException {
