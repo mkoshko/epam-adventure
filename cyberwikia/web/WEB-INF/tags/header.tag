@@ -36,8 +36,13 @@
                     </c:if>
                 </ul>
                 <c:if test="${user != null}">
-                    <div class="mr-lg-2 text-white font-weight-bold">
-                        ${user.login}
+                    <div>
+                        <button class="btn btn-outline-light btn-full-width mb-2 mr-2 mb-sm-2 mb-md-2 mb-lg-0" data-toggle="modal" data-target="#user-modal">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
+                                 fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 icon">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle></svg>
+                        </button>
                     </div>
                     <div>
                         <form action="signout.html" method="post">
@@ -69,5 +74,31 @@
             </div>
         </nav>
     </div>
+    <c:if test="${user != null}">
+        <div class="modal fade" id="user-modal">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title mr-1">${user.login}</h4>
+                        <span class="text-muted pt-2">(${user.email})</span>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <a href="edituser.html?id=${user.id}"><fmt:message key="user.editpassword"/></a>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </c:if>
 </div>
+
 </fmt:bundle>
