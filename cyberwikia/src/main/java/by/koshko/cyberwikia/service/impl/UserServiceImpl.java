@@ -1,6 +1,7 @@
 package by.koshko.cyberwikia.service.impl;
 
 import by.koshko.cyberwikia.bean.Role;
+import by.koshko.cyberwikia.bean.ServiceResponse;
 import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.DaoTypes;
@@ -46,37 +47,33 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
     }
 
-    // 1 - duplicate login.
-    // 2 - duplicate email.
-    // 3 - duplicate login and email;
-    public int sighUp(final User user) throws ServiceException {
+    public ServiceResponse sighUp(final User user) throws ServiceException {
         UserValidator userValidator = ValidationFactory.getUserValidator();
         try {
+            ServiceResponse response = new ServiceResponse();
             if (!userValidator.test(user, true)) {
                 logger.debug("Invalid user parameters.");
-                return -1;
+                response.addErrorMessage("registration.generic-error");
+                return response;
             }
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
-            byte errorCode = 0;
             if (userDao.hasLogin(user.getLogin())) {
-                errorCode |= 1;
-                logger.debug("Login already exists. Status code: {}", errorCode);
+                response.addErrorMessage("duplicate.login");
             }
             if (userDao.hasEmail(user.getEmail())) {
-                errorCode |= 2;
-                logger.debug("Email already exists. Status code: {}", errorCode);
+                response.addErrorMessage("duplicate.email");
             }
-            if (errorCode > 0) {
-                logger.debug("Status code: {}", errorCode);
-                return errorCode;
+            if (response.hasErrors()) {
+                return response;
             }
             user.setPassword(argon2
                     .hash(ITERATION, MEMORY, THREADS, user.getPassword()));
             user.setRole(DEFAULT_ROLE.ordinal());
             if (userDao.save(user)) {
-                return 0;
+                return response;
             } else {
-                return -1;
+                response.addErrorMessage("registration.generic-error");
+                return response;
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot save the user.", e);
