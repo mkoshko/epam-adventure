@@ -38,6 +38,9 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
             = "INSERT INTO team (name, logo_file, country_id, creator,"
               + " captain, coach, game, overview)"
               + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String FIND_CREATED_TEAM
+            = "SELECT id, name, logo_file, country_id, creator, captain, coach,"
+              + " game, overview FROM team WHERE creator=?;";
 
     public int getRows() throws DaoException {
         try (Statement statement = getConnection().createStatement()) {
@@ -48,6 +51,16 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
             return 0;
         } catch (SQLException e) {
             throw new DaoException("Cannot get number of records.", e);
+        }
+    }
+
+    public Team findCreatedTeam(final long playerId) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(FIND_CREATED_TEAM)) {
+            statement.setLong(1, playerId);
+            return buildSingleInstance(statement.executeQuery());
+        } catch (SQLException e) {
+            throw new DaoException("Cannot find players created team.", e);
         }
     }
 

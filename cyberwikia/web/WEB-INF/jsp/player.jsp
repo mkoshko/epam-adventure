@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
+
+<c:set var="editPlayerAction" value="editplayer.html"/>
+
 <tag:html title="${player.nickname}">
     <fmt:bundle basename="localization">
         <jsp:useBean id="player" scope="request" type="by.koshko.cyberwikia.bean.Player"/>
@@ -43,7 +46,7 @@
                             </tr>
                         </table>
                         <c:if test="${sessionScope.get('user') != null && user.id == player.id}">
-                            <a href="editprofile.html" class="btn btn-dark w-100"><fmt:message key="player.edit"/></a>
+                            <a href="${editPlayerAction}" class="btn btn-dark w-100"><fmt:message key="player.edit"/></a>
                         </c:if>
                     </div>
                 </div>

@@ -4,6 +4,7 @@
 <%@ attribute name="localizedTitle" required="false" rtexprvalue="true" %>
 <%@ attribute name="title" required="false" rtexprvalue="true" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
+
 <c:if test="${cookie.get('locale') != null}">
     <fmt:setLocale value="${cookie.get('locale').value}" scope="session"/>
 </c:if>

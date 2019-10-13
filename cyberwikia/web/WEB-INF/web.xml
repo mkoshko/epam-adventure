@@ -14,6 +14,14 @@
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
     <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>by.koshko.cyberwikia.controller.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <filter>
         <filter-name>URIFilter</filter-name>
         <filter-class>by.koshko.cyberwikia.controller.URLActionFilter</filter-class>
     </filter>

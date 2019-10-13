@@ -6,7 +6,13 @@ import by.koshko.cyberwikia.bean.ServiceResponse;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.*;
+import by.koshko.cyberwikia.service.CountryService;
+import by.koshko.cyberwikia.service.PlayerService;
+import by.koshko.cyberwikia.service.PlayerTeamService;
+import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
+import by.koshko.cyberwikia.service.TeamService;
+import by.koshko.cyberwikia.service.TournamentTeamService;
 import by.koshko.cyberwikia.service.validation.PlayerValidator;
 import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +27,8 @@ public final class PlayerServiceImpl extends AbstractService
         implements PlayerService {
 
     private static final String NOT_SAVED_MESSAGE = "editplayer.error.notsaved";
-    private static final String FILL_ALL_REQUIRED_MESSAGE = "editplayer.error.fillrequired";
+    private static final String FILL_ALL_REQUIRED_MESSAGE
+            = "editplayer.error.fillrequired";
 
     private Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
 
@@ -62,7 +69,7 @@ public final class PlayerServiceImpl extends AbstractService
                 return response;
             }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot check user permissions.");
+            throw new ServiceException("Cannot update player profile.", e);
         }
     }
 
@@ -77,6 +84,8 @@ public final class PlayerServiceImpl extends AbstractService
             logger.debug("New profile picture is set up: '{}'.", newPicPath);
             newPlayer.setProfilePhoto(newPicPath);
             ServiceFactory.getImageService().delete(oldPlayer.getProfilePhoto());
+        } else {
+            newPlayer.setProfilePhoto(oldPlayer.getProfilePhoto());
         }
     }
 

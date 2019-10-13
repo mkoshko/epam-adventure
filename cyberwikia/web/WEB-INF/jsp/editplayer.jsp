@@ -2,10 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
+
+<c:set var="savePlayerAction" value="saveplayer.html" scope="page"/>
+
 <tag:html title="${player.nickname}">
     <fmt:bundle basename="localization">
         <jsp:useBean id="player" scope="request" type="by.koshko.cyberwikia.bean.Player"/>
-        <form class="mb-2" action="saveprofile.html" method="post" enctype="multipart/form-data">
+        <form class="mb-2" action="${savePlayerAction}" method="post" enctype="multipart/form-data">
             <c:if test="${errors != null}">
                 <div class="row my-1">
                     <c:forEach items="${errors}" var="error">

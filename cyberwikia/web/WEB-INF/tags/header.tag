@@ -31,7 +31,7 @@
                     </c:if>
                     <c:if test="${user != null}">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><fmt:message key="header.profiles"/></a>
+                            <a class="nav-link" href="mypages.html"><fmt:message key="header.profiles"/></a>
                         </li>
                     </c:if>
                 </ul>

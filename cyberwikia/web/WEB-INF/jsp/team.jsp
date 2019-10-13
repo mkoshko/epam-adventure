@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 
-<c:set var="profileUrl" value="player.html?id="/>
+<c:set var="viewPlayerAction" value="player.html?id="/>
 <c:set var="leaveTeamAction" value="leave.html"/>
 <c:set var="joinTeamAction" value="join.html"/>
 
@@ -32,7 +32,7 @@
                                             <c:when test="${team.captain != null}">
                                                 <td>
                                                     <img class="flag" src="<c:url value="${team.captain.country.flag}"/>" alt="flag"/>
-                                                    <a href="${profileUrl}${team.captain.id}">${team.captain.nickname}</a>
+                                                    <a href="${viewPlayerAction}${team.captain.id}">${team.captain.nickname}</a>
                                                 </td>
                                             </c:when>
                                             <c:otherwise><td></td></c:otherwise>
@@ -44,7 +44,7 @@
                                         <c:when test="${team.coach != null}">
                                             <td>
                                                 <img class="flag" src="<c:url value="${team.coach.country.flag}"/>" alt="flag"/>
-                                                <a href="${profileUrl}${team.coach.id}">${team.coach.nickname}</a>
+                                                <a href="${viewPlayerAction}${team.coach.id}">${team.coach.nickname}</a>
                                             </td>
                                         </c:when>
                                         <c:otherwise><td></td></c:otherwise>

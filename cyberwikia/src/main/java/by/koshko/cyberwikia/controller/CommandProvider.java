@@ -17,10 +17,11 @@ public class CommandProvider {
         COMMANDS.put("/signout", new SignOutCommand());
         COMMANDS.put("/lang", new LanguageCommand());
         COMMANDS.put("/player", new PlayerProfileCommand());
-        COMMANDS.put("/editprofile", new PlayerEditPageCommand());
-        COMMANDS.put("/saveprofile", new PlayerEditCommand());
+        COMMANDS.put("/editplayer", new PlayerEditPageCommand());
+        COMMANDS.put("/saveplayer", new PlayerEditCommand());
         COMMANDS.put("/registration", new RegistrationPageCommand());
         COMMANDS.put("/signup", new SignUpCommand());
+        COMMANDS.put("/mypages", new ProfilesPageCommand());
     }
 
     public static AbstractCommand getCommand(final String action) {

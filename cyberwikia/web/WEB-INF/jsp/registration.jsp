@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
+
+<c:set var="signUpAction" value="signup.html"/>
+
 <tag:html>
     <fmt:bundle basename="localization">
             <div class="row pt-2">
@@ -17,7 +20,7 @@
                         ${sessionScope.remove('errors')}
                     </c:if>
                     <div class="text-center">
-                        <form action="signup.html" id="form" class="needs-validation form-signup mb-4" method="post" novalidate>
+                        <form action="${signUpAction}" id="form" class="needs-validation form-signup mb-4" method="post" novalidate>
                             <h1 class="h3 mb-3 font-weight-normal"><fmt:message key="header.registration"/></h1>
                             <div class="form-group">
                                 <label class="sr-only" for="login">Login</label>

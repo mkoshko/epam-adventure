@@ -43,6 +43,20 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         }
     }
 
+    public Team findCreatedTeam(final long userId) throws ServiceException {
+        PlayerService playerService = getFactory().getPlayerService();
+        Player player = playerService.findById(userId);
+        if (player == null) {
+            return null;
+        }
+        try {
+            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            return teamDao.findCreatedTeam(player.getId());
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot find player created team.", e);
+        }
+    }
+
     @Override
     public void updateTeam(final long userId,
                            final Team team) throws ServiceException {
@@ -71,7 +85,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             TeamDao teamDao = transaction.getDao(TEAMDAO);
             teamDao.update(team);
         } catch (DaoException e) {
-            throw new ServiceException("Cannot update team.");
+            throw new ServiceException("Cannot update team.", e);
         }
     }
 
