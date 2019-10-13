@@ -1,7 +1,9 @@
 package by.koshko.cyberwikia.controller;
 
+import by.koshko.cyberwikia.bean.Country;
 import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.bean.User;
+import by.koshko.cyberwikia.service.CountryService;
 import by.koshko.cyberwikia.service.PlayerService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
@@ -9,6 +11,7 @@ import by.koshko.cyberwikia.service.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 public class PlayerEditPageCommand extends UserCommand {
 
@@ -16,22 +19,19 @@ public class PlayerEditPageCommand extends UserCommand {
     public Forward execute(final HttpServletRequest request,
                            final HttpServletResponse response) {
         try (ServiceFactory factory = new ServiceFactory()) {
-            long playerId = 0;
-            try {
-                playerId = Long.parseLong(request.getParameter("id"));
-            } catch (NumberFormatException e) {
-                return sendError(404);
-            }
             PlayerService playerService = factory.getPlayerService();
             HttpSession session = request.getSession(false);
             User user = (User) session.getAttribute("user");
-            if (user.getId() != playerId) {
+            if (user == null) {
                 return sendError(404);
             }
-            Player player = playerService.findById(playerId);
+            Player player = playerService.findById(user.getId());
             if (player == null) {
                 return sendError(404);
             }
+            CountryService countryService = factory.getCountryService();
+            List<Country> countries = countryService.getAll();
+            request.setAttribute("countries", countries);
             request.setAttribute("player", player);
             return new Forward("WEB-INF/jsp/editplayer.jsp");
         } catch (ServiceException e) {

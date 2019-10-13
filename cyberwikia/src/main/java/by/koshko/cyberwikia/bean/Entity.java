@@ -30,4 +30,11 @@ public abstract class Entity implements Serializable {
     public void setId(final long entityId) {
         id = entityId;
     }
+
+    public Entity() {
+    }
+
+    public Entity(final long newId) {
+        id = newId;
+    }
 }

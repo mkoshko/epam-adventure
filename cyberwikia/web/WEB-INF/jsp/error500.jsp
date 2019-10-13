@@ -4,9 +4,9 @@
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 <tag:html>
     <fmt:bundle basename="localization">
-        <div class="row after-header">
+        <div class="row mh-100">
             <div class="col-5 mx-auto">
-                <h3>Wops. :(</h3>
+                <h3 class="text-center">Что-то сломалось.</h3>
             </div>
         </div>
     </fmt:bundle>

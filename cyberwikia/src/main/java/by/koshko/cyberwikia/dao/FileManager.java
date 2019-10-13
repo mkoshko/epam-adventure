@@ -27,15 +27,14 @@ public class FileManager {
                 path = String.format("%s%s/%s.%s", RawData.getRootPath(), folder, filename, container);
                 file = new File(path);
             } while (file.exists());
-            logger.debug("File path: {}", path);
             if (!file.createNewFile()) {
-                logger.debug("Cannot create file.");
+                logger.debug("Cannot create new file.");
                 return null;
             }
             Files.write(Paths.get(path), bytes);
             return String.format("%s/%s.%s", folder, filename, container);
         } catch (IOException e) {
-            logger.error("Cannot write data.");
+            logger.error("Cannot write data. {}", e.getMessage());
             return null;
         }
     }
@@ -44,7 +43,7 @@ public class FileManager {
         try {
             Path path = Paths.get(String.format("%s%s", RawData.getRootPath(), relativePath));
             if (Files.deleteIfExists(path)) {
-                logger.debug("{} deleted.", relativePath);
+                logger.debug("File '{}' is deleted.", relativePath);
             }
         } catch (IOException e) {
             logger.error(e.getMessage());

@@ -2,16 +2,11 @@ package by.koshko.cyberwikia.service.impl;
 
 import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.bean.PlayerTeam;
+import by.koshko.cyberwikia.bean.ServiceResponse;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.CountryService;
-import by.koshko.cyberwikia.service.PlayerService;
-import by.koshko.cyberwikia.service.PlayerTeamService;
-import by.koshko.cyberwikia.service.ServiceException;
-import by.koshko.cyberwikia.service.ServiceFactory;
-import by.koshko.cyberwikia.service.TeamService;
-import by.koshko.cyberwikia.service.TournamentTeamService;
+import by.koshko.cyberwikia.service.*;
 import by.koshko.cyberwikia.service.validation.PlayerValidator;
 import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +20,9 @@ import static by.koshko.cyberwikia.dao.DaoTypes.PLAYERDAO;
 public final class PlayerServiceImpl extends AbstractService
         implements PlayerService {
 
+    private static final String NOT_SAVED_MESSAGE = "editplayer.error.notsaved";
+    private static final String FILL_ALL_REQUIRED_MESSAGE = "editplayer.error.fillrequired";
+
     private Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
 
     public PlayerServiceImpl(final Transaction transaction,
@@ -32,11 +30,13 @@ public final class PlayerServiceImpl extends AbstractService
         super(transaction, factory);
     }
 
-    public boolean editPlayer(final long userId, final Player player)
+    public ServiceResponse editPlayer(final long userId, final Player player)
             throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
         if (player == null) {
             logger.debug("Player object is null.");
-            return false;
+            response.addErrorMessage(NOT_SAVED_MESSAGE);
+            return response;
         }
         try {
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
@@ -44,30 +44,45 @@ public final class PlayerServiceImpl extends AbstractService
             if (oldPlayer == null) {
                 logger.debug("User:{} don't have permissions to edit"
                              + " Player:{} profile.", userId, player.getId());
-                return false;
+                response.addErrorMessage(NOT_SAVED_MESSAGE);
+                return response;
             }
+            player.setId(oldPlayer.getId());
             if (!ValidationFactory.getPlayerValidator().test(player, true)) {
                 logger.debug("Cannot edit player profile:{}."
                              + " Invalid parameters.", player.getId());
-                return false;
+                response.addErrorMessage(FILL_ALL_REQUIRED_MESSAGE);
+                return response;
             }
-            if (player.getRawData() != null) {
-                String path = ServiceFactory
-                        .getImageService().save(player.getRawData());
-                if (path != null) {
-                    player.setProfilePhoto(path);
-                }
+            saveNewDeleteOldPic(player, oldPlayer);
+            if (!playerDao.update(player)) {
+                response.addErrorMessage(NOT_SAVED_MESSAGE);
+                return response;
+            } else {
+                return response;
             }
-            playerDao.update(player);
-            return true;
         } catch (DaoException e) {
             throw new ServiceException("Cannot check user permissions.");
         }
     }
 
+    private void saveNewDeleteOldPic(final Player newPlayer,
+                                     final Player oldPlayer) {
+        if (newPlayer.getRawData() == null) {
+            return;
+        }
+        String newPicPath = ServiceFactory
+                .getImageService().save(newPlayer.getRawData());
+        if (newPicPath != null) {
+            logger.debug("New profile picture is set up: '{}'.", newPicPath);
+            newPlayer.setProfilePhoto(newPicPath);
+            ServiceFactory.getImageService().delete(oldPlayer.getProfilePhoto());
+        }
+    }
+
     @Override
     public boolean createPlayer(final long userId,
-                             final Player player) throws ServiceException {
+                                final Player player) throws ServiceException {
         try {
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
             Player newPlayer = playerDao.get(userId);

@@ -15,28 +15,18 @@ import java.io.IOException;
 
 public class URLActionFilter implements Filter {
     private static Logger logger = LogManager.getLogger(URLActionFilter.class);
-    private CommandProvider commandProvider = new CommandProvider();
+
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response,
                          final FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         String action = getActionFromURI(req);
-        if (req.getMethod().equals("GET")) {
-            if (req.getQueryString() != null) {
-                String redirect = action.substring(1) + ".html?"
-                                  + req.getQueryString();
-                req.setAttribute("from", redirect);
-            } else {
-                req.setAttribute("from", action.substring(1) + ".html");
-            }
-        }
-        AbstractCommand command = commandProvider.getCommand(action);
+        AbstractCommand command = CommandProvider.getCommand(action);
+        pageToReturn(req, action);
         if (command == null) {
-            logger.debug("Command is null.");
             resp.sendError(404);
         } else {
-            logger.debug("Got a command.");
             request.setAttribute("command", command);
             chain.doFilter(req, resp);
         }
@@ -67,5 +57,18 @@ public class URLActionFilter implements Filter {
         }
         logger.debug("Requested action: {}", action);
         return action;
+    }
+
+    private void pageToReturn(final HttpServletRequest request,
+                              final String action) {
+        if (request.getMethod().equals("GET")) {
+            if (request.getQueryString() != null) {
+                String redirect = action.substring(1) + ".html?"
+                                  + request.getQueryString();
+                request.setAttribute("from", redirect);
+            } else {
+                request.setAttribute("from", action.substring(1) + ".html");
+            }
+        }
     }
 }

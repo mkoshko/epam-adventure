@@ -5,105 +5,59 @@
 <tag:html title="${player.nickname}">
     <fmt:bundle basename="localization">
         <jsp:useBean id="player" scope="request" type="by.koshko.cyberwikia.bean.Player"/>
-        <form action="saveprofile.html" method="post">
+        <form class="mb-2" action="saveprofile.html" method="post" enctype="multipart/form-data">
+            <c:if test="${errors != null}">
+                <div class="row my-1">
+                    <c:forEach items="${errors}" var="error">
+                        <div class="alert alert-warning alert-dismissible w-100">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <fmt:message key="${error}"/>
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:if>
         <div class="row pt-2">
             <div class="col-12 col-xl-8">
                 <h3><fmt:message key="title.overview"/></h3>
-                <textarea style="width: 100%" rows="20" name="overview">${player.overview}</textarea>
+                <textarea class="w-100 form-control text-black" rows="20" placeholder="<fmt:message key="editplayer.overview"/>" name="overview">${player.overview}</textarea>
             </div>
-            <div class="col-sm-12 col-md-8 col-xl-4 mx-auto">
+            <div class="col-sm-12 col-md-8 col-xl-4 pl-md-0">
+                <input class="form-control mt-2 mb-2" type="text" name="nickname" placeholder="<fmt:message key="editplayer.nickname"/>" value="${player.nickname}">
                 <div class="card">
-                    <input type="text" name="nickname" value="${player.nickname}">
                     <div>
-                        <input type="file">
                         <img class="card-img-top" src="<c:choose>
-                    <c:when test="${player.profilePhoto != null}"><c:url value="${player.profilePhoto}"/></c:when>
-                    <c:otherwise><c:url value="/images/upload/_default.png"/></c:otherwise>
-                    </c:choose>" alt="${player.nickname}">
+                        <c:when test="${player.profilePhoto != null}"><c:url value="${player.profilePhoto}"/></c:when>
+                        <c:otherwise><c:url value="/images/upload/_default.png"/></c:otherwise>
+                        </c:choose>" alt="${player.nickname}">
                     </div>
-                    <div class="card-body">
-                        <table class="table table-striped">
+                    <div class="card-body p-1">
+                        <input class="custom-file" type="file" datatype="" name="profilePhoto">
+                        <table class="table">
                             <tr>
-                                <td class="td-right"><fmt:message key="player.name"/></td>
-                                <td>${player.firstName} ${player.lastName}</td>
+                                <input class="form-control mb-1" type="text" placeholder="<fmt:message key="editplayer.firstname"/>"
+                                       name="firstname" value="${player.firstName}">
                             </tr>
                             <tr>
-                                <td class="td-right"><fmt:message key="player.nationality"/></td>
-                                <td><img class="flag" src="<c:url value="${player.country.flag}"/>" alt="${player.country.name}">${player.country.name}</td>
+                                <input class="form-control mb-1" type="text" placeholder="<fmt:message key="editplayer.lastname"/>"
+                                       name="lastname" value="${player.lastName}">
                             </tr>
                             <tr>
-                                <td class="td-right"><fmt:message key="player.birth"/></td>
-                                <td>${player.birth}</td>
+                                <select class="custom-select mb-1" name="country">
+                                    <c:forEach items="${countries}" var="country">
+                                        <option value="${country.id}" <c:if test="${player.country.id == country.id}">selected</c:if>>${country.name}</option>
+                                    </c:forEach>
+                                </select>
                             </tr>
                             <tr>
-                                <td class="td-right"><fmt:message key="player.team"/></td>
-                                <c:forEach items="${player.playerTeams}" var="playerTeam">
-                                    <c:if test="${playerTeam.active}">
-                                        <td><img class="small-icon" src="<c:url value="${playerTeam.team.logoFile}"/>" alt="${playerTeam.team.country.name}"><a href="team.html?id=${playerTeam.team.id}">${playerTeam.team.name}</a></td>
-                                    </c:if>
-                                </c:forEach>
+                                <input class="form-control" type="date" name="birth" value="${player.birth}">
                             </tr>
                         </table>
                         <c:if test="${sessionScope.get('user') != null && user.id == player.id}">
                             <input type="hidden" name="from" value="player.html?id=${player.id}">
-                            <button type="submit" class="btn btn-dark btn-full-width"><fmt:message key="player.save"/></button>
+                            <button type="submit" class="btn btn-dark w-100"><fmt:message key="player.save"/></button>
                         </c:if>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <h2><fmt:message key="player.teamhistory"/></h2>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <td><fmt:message key="player.team"/></td>
-                        <td><fmt:message key="label.joinDate"/></td>
-                        <td><fmt:message key="label.leaveDate"/></td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${player.playerTeams}" var="playerTeam">
-                        <c:if test="${!playerTeam.active}">
-                            <tr>
-                                <td><img class="small-icon" src="<c:url value="${playerTeam.team.logoFile}"/>" alt="${playerTeam.team.country.name}"><a href="team.html?id=${playerTeam.team.id}">${playerTeam.team.name}</a></td>
-                                <td>${playerTeam.joinDate}</td>
-                                <td>${playerTeam.leaveDate}</td>
-                            </tr>
-                        </c:if>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <h2><fmt:message key="team.achievements"/></h2>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <td><fmt:message key="team.tournament.date"/></td>
-                        <td><fmt:message key="team.tournament.placement"/></td>
-                        <td><fmt:message key="team.tournament.name"/></td>
-                        <td><fmt:message key="player.team"/></td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${player.tournaments}" var="tournament">
-                        <tr class="<c:choose>
-                            <c:when test="${tournament.placement == 1}">gold</c:when>
-                            <c:when test="${tournament.placement == 2}">silver</c:when>
-                            <c:when test="${tournament.placement == 3}">bronze</c:when>
-                            </c:choose>">
-                            <td>${tournament.tournament.endDate}</td>
-                            <td>${tournament.placement}</td>
-                            <td>${tournament.tournament.name}</td>
-                            <td><img class="small-icon" src="<c:url value="${tournament.team.logoFile}"/>" alt="${tournament.team.country.name}"><a href="team.html?id=${tournament.team.id}">${tournament.team.name}</a></td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
             </div>
         </div>
         </form>

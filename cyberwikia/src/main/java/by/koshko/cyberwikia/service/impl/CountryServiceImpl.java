@@ -35,9 +35,7 @@ public class CountryServiceImpl extends AbstractService implements CountryServic
     public List<Country> getAll() throws ServiceException {
         try {
             CountryDao countryDao = getTransaction().getDao(DaoTypes.COUNTRYDAO);
-            List<Country> countries = countryDao.getAll();
-            getTransaction().close();
-            return countries;
+            return countryDao.getAll();
         } catch (DaoException e) {
             logger.error(e.getMessage());
             throw new ServiceException("Cannot load countries.");

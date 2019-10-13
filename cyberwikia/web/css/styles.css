@@ -55,11 +55,6 @@ body {
     width: 100px;
     height: 38px;
 }
-.login-spinner {
-    display: none;
-    width: 50%;
-    margin: -3px 20px;
-}
 
 .flag {
     border: 1px solid black;
@@ -72,12 +67,4 @@ body {
     width: 30px;
     height: 30px;
     margin-right: 4px;
-}
-
-.td-center {
-    text-align: center;
-}
-
-.td-right {
-    text-align: right;
 }

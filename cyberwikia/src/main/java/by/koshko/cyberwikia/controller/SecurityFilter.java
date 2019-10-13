@@ -27,16 +27,14 @@ public class SecurityFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         AbstractCommand command = (AbstractCommand) req.getAttribute("command");
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession(true);
         Set<Role> commandRoles = command.getRoles();
         if (commandRoles.isEmpty()) {
-            logger.debug("Roles is empty.");
             chain.doFilter(req, resp);
         } else {
             User user = (User) session.getAttribute("user");
             boolean canExecute = user != null && commandRoles.contains(user.getRole());
             if (canExecute) {
-                logger.debug("Can execute. Continue.");
                 chain.doFilter(req, response);
             } else {
                 resp.sendError(404);

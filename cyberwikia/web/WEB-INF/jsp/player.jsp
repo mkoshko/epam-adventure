@@ -12,14 +12,14 @@
             </div>
             <div class="col-sm-12 col-md-8 col-xl-4 mx-auto">
                 <div class="card">
-                    <h1 class="card-title text-center">${player.nickname}</h1>
-                    <img class="card-img-top" src="
+                    <h1 class="card-header text-center">${player.nickname}</h1>
+                    <img class="card-img-top p-1" src="
                     <c:choose>
                         <c:when test="${player.profilePhoto != null}"><c:url value="${player.profilePhoto}"/></c:when>
                         <c:otherwise><c:url value="/images/upload/_default.png"/></c:otherwise>
                     </c:choose>
                     " alt="${player.nickname}">
-                    <div class="card-body">
+                    <div class="card-body p-1">
                         <table class="table table-striped">
                             <tr>
                                 <td class="td-right"><fmt:message key="player.name"/></td>
@@ -43,7 +43,7 @@
                             </tr>
                         </table>
                         <c:if test="${sessionScope.get('user') != null && user.id == player.id}">
-                            <a href="editprofile.html?id=${player.id}" class="btn btn-dark btn-full-width"><fmt:message key="player.edit"/></a>
+                            <a href="editprofile.html" class="btn btn-dark w-100"><fmt:message key="player.edit"/></a>
                         </c:if>
                     </div>
                 </div>

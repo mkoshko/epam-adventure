@@ -1,7 +1,6 @@
 package by.koshko.cyberwikia.dao.mysql;
 
 import by.koshko.cyberwikia.bean.Entity;
-import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.dao.CountryDao;
 import by.koshko.cyberwikia.dao.Dao;
 import by.koshko.cyberwikia.dao.DaoException;

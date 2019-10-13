@@ -1,7 +1,5 @@
 package by.koshko.cyberwikia.bean;
 
-import java.util.Objects;
-
 /**
  * Country entity class.
  */
@@ -75,32 +73,10 @@ public final class Country extends Entity {
         flag = countryFlag;
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Country country = (Country) o;
-        return Objects.equals(getId(), country.getId())
-               && Objects.equals(country.name, name)
-               && Objects.equals(country.code, code)
-               && Objects.equals(flag, country.flag);
+    public Country() {
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, code, flag, getId());
-    }
-
-    @Override
-    public String toString() {
-        return "Country{"
-               + "name='" + name + '\''
-               + ", code='" + code + '\''
-               + ", flag='" + flag + '\''
-               + '}';
+    public Country(final long id) {
+        super(id);
     }
 }

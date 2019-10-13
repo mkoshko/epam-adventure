@@ -4,25 +4,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandProvider {
-    private final Map<String, AbstractCommand> commands = new HashMap<>();
+    private static final Map<String, AbstractCommand> COMMANDS = new HashMap<>();
 
-    public CommandProvider() {
-        commands.put("/index", new MainCommand());
-        commands.put("/players", new PlayersCommand());
-        commands.put("/teams", new TeamsCommand());
-        commands.put("/team", new TeamCommand());
-        commands.put("/join", new JoinTeamCommand());
-        commands.put("/leave", new LeaveTeamCommand());
-        commands.put("/signin", new SignInCommand());
-        commands.put("/signout", new SignOutCommand());
-        commands.put("/lang", new LanguageCommand());
-        commands.put("/player", new PlayerProfileCommand());
-        commands.put("/editprofile", new PlayerEditPageCommand());
-        commands.put("/registration", new RegistrationPageCommand());
-        commands.put("/signup", new SignUpCommand());
+    static {
+        COMMANDS.put("/index", new MainCommand());
+        COMMANDS.put("/players", new PlayersCommand());
+        COMMANDS.put("/teams", new TeamsCommand());
+        COMMANDS.put("/team", new TeamCommand());
+        COMMANDS.put("/join", new JoinTeamCommand());
+        COMMANDS.put("/leave", new LeaveTeamCommand());
+        COMMANDS.put("/signin", new SignInCommand());
+        COMMANDS.put("/signout", new SignOutCommand());
+        COMMANDS.put("/lang", new LanguageCommand());
+        COMMANDS.put("/player", new PlayerProfileCommand());
+        COMMANDS.put("/editprofile", new PlayerEditPageCommand());
+        COMMANDS.put("/saveprofile", new PlayerEditCommand());
+        COMMANDS.put("/registration", new RegistrationPageCommand());
+        COMMANDS.put("/signup", new SignUpCommand());
     }
 
-    public AbstractCommand getCommand(final String action) {
-        return commands.get(action);
+    public static AbstractCommand getCommand(final String action) {
+        return COMMANDS.get(action);
     }
 }
