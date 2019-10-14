@@ -22,6 +22,7 @@ public class CommandProvider {
         COMMANDS.put("/registration", new RegistrationPageCommand());
         COMMANDS.put("/signup", new SignUpCommand());
         COMMANDS.put("/mypages", new ProfilesPageCommand());
+        COMMANDS.put("/tournaments", new TournamentsCommand());
     }
 
     public static AbstractCommand getCommand(final String action) {

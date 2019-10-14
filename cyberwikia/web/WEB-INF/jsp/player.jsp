@@ -9,11 +9,8 @@
     <fmt:bundle basename="localization">
         <jsp:useBean id="player" scope="request" type="by.koshko.cyberwikia.bean.Player"/>
         <div class="row pt-2">
-            <div class="col-12 col-xl-8">
-                <h3><fmt:message key="title.overview"/></h3>
-                ${player.overview}
-            </div>
-            <div class="col-sm-12 col-md-8 col-xl-4 mx-auto">
+            <tag:overview text="${player.overview}"/>
+            <tag:card>
                 <div class="card">
                     <h1 class="card-header text-center">${player.nickname}</h1>
                     <img class="card-img-top p-1" src="
@@ -25,19 +22,19 @@
                     <div class="card-body p-1">
                         <table class="table table-striped">
                             <tr>
-                                <td class="td-right"><fmt:message key="player.name"/></td>
-                                <td>${player.firstName} ${player.lastName}</td>
+                                <td class="text-right"><fmt:message key="player.name"/></td>
+                                <td><c:out value="${player.firstName} ${player.lastName}"/></td>
                             </tr>
                             <tr>
-                                <td class="td-right"><fmt:message key="player.nationality"/></td>
+                                <td class="text-right"><fmt:message key="player.nationality"/></td>
                                 <td><img class="flag" src="<c:url value="${player.country.flag}"/>" alt="${player.country.name}">${player.country.name}</td>
                             </tr>
                             <tr>
-                                <td class="td-right"><fmt:message key="player.birth"/></td>
+                                <td class="text-right"><fmt:message key="player.birth"/></td>
                                 <td>${player.birth}</td>
                             </tr>
                             <tr>
-                                <td class="td-right"><fmt:message key="player.team"/></td>
+                                <td class="text-right"><fmt:message key="player.team"/></td>
                                 <c:forEach items="${player.playerTeams}" var="playerTeam">
                                     <c:if test="${playerTeam.active}">
                                         <td><img class="small-icon" src="<c:url value="${playerTeam.team.logoFile}"/>" alt="${playerTeam.team.country.name}"><a href="team.html?id=${playerTeam.team.id}">${playerTeam.team.name}</a></td>
@@ -51,7 +48,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+            </tag:card>
         <div class="row">
             <div class="col-12">
                 <h2><fmt:message key="player.teamhistory"/></h2>
@@ -67,7 +64,7 @@
                     <c:forEach items="${player.playerTeams}" var="playerTeam">
                         <c:if test="${!playerTeam.active}">
                             <tr>
-                                <td><img class="small-icon" src="<c:url value="${playerTeam.team.logoFile}"/>" alt="${playerTeam.team.country.name}"><a href="team.html?id=${playerTeam.team.id}">${playerTeam.team.name}</a></td>
+                                <td><img class="small-icon" src="<c:url value="${playerTeam.team.logoFile}"/>" alt="${playerTeam.team.country.name}"><a href="team.html?id=${playerTeam.team.id}"><c:out value="${playerTeam.team.name}"/></a></td>
                                 <td>${playerTeam.joinDate}</td>
                                 <td>${playerTeam.leaveDate}</td>
                             </tr>
@@ -98,7 +95,7 @@
                             </c:choose>">
                             <td>${tournament.tournament.endDate}</td>
                             <td>${tournament.placement}</td>
-                            <td>${tournament.tournament.name}</td>
+                            <td><c:out value="${tournament.tournament.name}"/></td>
                             <td><img class="small-icon" src="<c:url value="${tournament.team.logoFile}"/>" alt="${tournament.team.country.name}"><a href="team.html?id=${tournament.team.id}">${tournament.team.name}</a></td>
                         </tr>
                     </c:forEach>

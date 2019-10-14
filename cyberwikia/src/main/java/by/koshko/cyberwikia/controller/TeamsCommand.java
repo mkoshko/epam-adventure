@@ -20,22 +20,19 @@ public class TeamsCommand extends AbstractCommand {
         try (ServiceFactory factory = new ServiceFactory()) {
             int page = 1;
             if (request.getParameter("page") != null) {
-                try {
-                    page = Integer.parseInt(request.getParameter("page"));
-                } catch (NumberFormatException e) {
-                    logger.debug("Invalid page.");
-                }
+                page = Integer.parseInt(request.getParameter("page"));
             }
             TeamService teamService = factory.getTeamService();
-            int records = teamService.getRowsNumber();
             List<Team> teams = teamService.findAll(page, LIMIT);
+            int total = teamService.getRowsNumber();
+            request.setAttribute("lastPage", calculateLastPage(total, LIMIT));
             request.setAttribute("teams", teams);
             request.setAttribute("page", page);
-            request.setAttribute("lastPage", records % LIMIT == 0
-                    ? (records / LIMIT) : (records / LIMIT + 1));
             return new Forward("WEB-INF/jsp/teams.jsp");
         } catch (ServiceException e) {
             return sendError(500);
+        } catch (NumberFormatException e1) {
+            return sendError(404);
         }
     }
 }

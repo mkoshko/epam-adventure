@@ -2,11 +2,12 @@ package by.koshko.cyberwikia.controller;
 
 import by.koshko.cyberwikia.bean.Role;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class AbstractCommand {
     private Set<Role> roles = new HashSet<>();
@@ -19,7 +20,16 @@ public abstract class AbstractCommand {
         roles = newRoles;
     }
 
-    public abstract Forward execute(HttpServletRequest request, HttpServletResponse response);
+    public abstract Forward execute(HttpServletRequest request,
+                                    HttpServletResponse response);
+
+    protected int calculateLastPage(final int total, final int limit) {
+        if (total % limit == 0) {
+            return total / limit;
+        } else {
+            return total / limit + 1;
+        }
+    }
 
     protected Forward sendError(final int error) {
         Forward forward = new Forward();

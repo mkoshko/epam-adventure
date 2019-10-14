@@ -23,6 +23,10 @@
                         <a class="nav-link" href="teams.html"><fmt:message key="header.teams"/></a>
                         <span class="sr-only">(current)</span>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tournaments.html"><fmt:message key="header.tournaments"/></a>
+                        <span class="sr-only">(current)</span>
+                    </li>
                     <c:if test="${user == null}">
                         <li class="nav-item">
                             <a class="nav-link" href="registration.html"><fmt:message key="header.registration"/></a>

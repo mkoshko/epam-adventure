@@ -245,12 +245,7 @@ public final class PlayerServiceImpl extends AbstractService
     public List<Player> findAll(final int page, final int limit)
             throws ServiceException {
         try {
-            int offset;
-            if (page == 1) {
-                offset = 0;
-            } else {
-                offset = (page - 1) * limit;
-            }
+            int offset = calculateOffset(page, limit);
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
             List<Player> players = playerDao.getAll(offset, limit);
             loadCountries(players);

@@ -1,5 +1,6 @@
 package by.koshko.cyberwikia.controller;
 
+import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceInitializer;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +15,7 @@ import java.util.Properties;
 
 public class DispatcherServlet extends HttpServlet {
 
-    private Logger logger = LogManager.getLogger(getClass());
+    private Logger logger = LogManager.getLogger(DispatcherServlet.class);
 
     @Override
     public void init() {
@@ -75,5 +76,11 @@ public class DispatcherServlet extends HttpServlet {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void destroy() {
+        logger.debug("Closing connection pool.");
+        ConnectionPool.getInstance().close();
     }
 }

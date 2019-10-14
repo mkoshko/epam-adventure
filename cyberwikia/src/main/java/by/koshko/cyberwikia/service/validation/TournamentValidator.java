@@ -34,7 +34,7 @@ public class TournamentValidator implements Validator {
         LocalDate startDate = tournament.getStartDate();
         LocalDate endDate = tournament.getEndDate();
 
-        if (name == null || name.isBlank()) {
+        if (name == null || name.isBlank() || name.length() > nameMaxLength) {
             logger.debug("Invalid tournament name");
             return false;
         }
