@@ -4,7 +4,7 @@
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 <tag:html localizedTitle="title.tournaments">
     <fmt:bundle basename="localization">
-        <div class="row">
+        <div class="row pt-2">
             <jsp:useBean id="tournament" scope="request" type="by.koshko.cyberwikia.bean.Tournament"/>
             <tag:overview text="${tournament.overview}"/>
             <tag:card>
@@ -22,7 +22,7 @@
                         </tr>
                         <tr>
                             <td class="text-right"><fmt:message key="tournament.prize"/></td>
-                            <td>${tournament.prize}</td>
+                            <td>$ <fmt:formatNumber value="${tournament.prize}"/></td>
                         </tr>
                     </tag:card-table>
                 </div>
@@ -44,8 +44,9 @@
                         <tr>
                             <td>
                                 <img class="small-icon" src="<c:url value="${participant.team.logoFile}"/>" alt="${participant.team.name}"/>
-                                <c:out value="${participant.team.name}"/>
+                                <a href="team.html?id=${participant.team.id}"><c:out value="${participant.team.name}"/></a>
                             </td>
+                            <td>${participant.placement}</td>
                         </tr>
                     </c:forEach>
                     </tbody>

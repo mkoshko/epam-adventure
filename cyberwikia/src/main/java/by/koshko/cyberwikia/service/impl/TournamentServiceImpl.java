@@ -8,6 +8,7 @@ import by.koshko.cyberwikia.dao.TournamentTeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
+import by.koshko.cyberwikia.service.TeamService;
 import by.koshko.cyberwikia.service.TournamentService;
 import by.koshko.cyberwikia.service.validation.TournamentValidator;
 import by.koshko.cyberwikia.service.validation.ValidationFactory;
@@ -100,17 +101,25 @@ public class TournamentServiceImpl extends AbstractService
     @Override
     public Tournament getTournamentById(final long id) throws ServiceException {
         try {
-            TournamentDao tournamentDao = getTransaction().getDao(TOURNAMENTDAO);
-            TournamentTeamDao tournamentTeamDao = getTransaction().getDao(TOURNAMENTTEAMDAO);
+            TournamentDao tournamentDao
+                    = getTransaction().getDao(TOURNAMENTDAO);
+            TournamentTeamDao tournamentTeamDao
+                    = getTransaction().getDao(TOURNAMENTTEAMDAO);
             Tournament tournament = tournamentDao.get(id);
             if (tournament == null) {
                 return null;
             }
-            List<TournamentTeam> participants = tournamentTeamDao.findTournamentTeam(tournament);
+            List<TournamentTeam> participants
+                    = tournamentTeamDao.findTournamentTeam(tournament);
             tournament.setParticipants(participants);
+            TeamService teamService = getFactory().getTeamService();
+            for (TournamentTeam tournamentTeam : participants) {
+                tournamentTeam.setTeam(teamService
+                        .findTeamById(tournamentTeam.getTeam().getId()));
+            }
             return tournament;
         } catch (DaoException e) {
-            throw new ServiceException("Cannot get tournament by ID");
+            throw new ServiceException("Cannot get tournament by ID", e);
         }
     }
 }

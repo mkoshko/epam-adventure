@@ -3,6 +3,6 @@
 
 <fmt:bundle basename="localization">
     <table class="table table-striped">
-        
+        <jsp:doBody/>
     </table>
 </fmt:bundle>

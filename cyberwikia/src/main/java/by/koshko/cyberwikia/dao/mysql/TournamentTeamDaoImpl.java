@@ -6,6 +6,8 @@ import by.koshko.cyberwikia.bean.Tournament;
 import by.koshko.cyberwikia.bean.TournamentTeam;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TournamentTeamDao;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class TournamentTeamDaoImpl extends AbstractDao implements TournamentTeamDao {
+
+    private static final Logger LOGGER
+            = LogManager.getLogger(TournamentTeamDao.class);
 
     private static final String TOURNAMENT_ID = "tournament_id";
     private static final String TEAM_ID = "team_id";
@@ -174,6 +179,7 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
         tournamentTeam.setTournament(tournament);
         Team team = new Team();
         team.setId(rs.getLong(TEAM_ID));
+        tournamentTeam.setTeam(team);
         return build(rs, tournamentTeam);
     }
 

@@ -135,7 +135,7 @@ public final class TournamentDaoImpl extends AbstractDao implements TournamentDa
         tournament.setName(rs.getString("name"));
         tournament.setLogoFile(rs.getString("logo_file"));
         tournament.setPrize(rs.getInt("prize"));
-        tournament.setOverview("overview");
+        tournament.setOverview(rs.getString("overview"));
         tournament.setStartDate(LocalDate.parse(rs.getString("start_date")));
         tournament.setEndDate(LocalDate.parse(rs.getString("end_date")));
         return tournament;
