@@ -29,7 +29,7 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-xl-10 mx-auto bg-white">
+        <div class="col-12 col-xl-11 mx-auto bg-white">
             <tag:header/>
             <jsp:doBody/>
             <tag:footer/>

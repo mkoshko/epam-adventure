@@ -3,7 +3,7 @@
 <fmt:bundle basename="localization">
 <div class="row">
     <div class="col-12 p-0">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
             <a class="navbar-brand" href="index.html"><fmt:message key="project.cyberwikia"/></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#header-menu" aria-controls="header-menu" aria-expanded="false"
