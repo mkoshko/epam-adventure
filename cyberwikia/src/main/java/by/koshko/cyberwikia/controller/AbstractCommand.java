@@ -1,6 +1,6 @@
 package by.koshko.cyberwikia.controller;
 
-import by.koshko.cyberwikia.bean.EntityError;
+
 import by.koshko.cyberwikia.bean.RawData;
 import by.koshko.cyberwikia.bean.Role;
 import by.koshko.cyberwikia.bean.ServiceResponse;
@@ -33,14 +33,6 @@ public abstract class AbstractCommand {
 
     public abstract Forward execute(HttpServletRequest request,
                                     HttpServletResponse response);
-
-    protected int calculateLastPage(final int total, final int limit) {
-        if (total % limit == 0) {
-            return total / limit;
-        } else {
-            return total / limit + 1;
-        }
-    }
 
     protected void setErrors(final HttpSession session,
                              final ServiceResponse response) {
