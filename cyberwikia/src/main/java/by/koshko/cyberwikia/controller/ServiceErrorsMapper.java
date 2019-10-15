@@ -1,0 +1,21 @@
+package by.koshko.cyberwikia.controller;
+
+import by.koshko.cyberwikia.bean.EntityError;
+
+import java.util.EnumMap;
+
+public class ServiceErrorsMapper {
+    private static final EnumMap<EntityError, String> ERROR_MAP
+            = new EnumMap<>(EntityError.class);
+
+    static {
+        ERROR_MAP.put(EntityError.DUPLICATE_LOGIN, "user.error.login");
+        ERROR_MAP.put(EntityError.DUPLICATE_EMAIL, "user.error.email");
+        ERROR_MAP.put(EntityError.DUPLICATE_NICKNAME, "player.error.nickname");
+        ERROR_MAP.put(EntityError.REQUIRED_NOT_NULL, "error.fillallrequired");
+    }
+
+    public static String getLocalizedErrorKey(final EntityError error) {
+        return ERROR_MAP.get(error);
+    }
+}

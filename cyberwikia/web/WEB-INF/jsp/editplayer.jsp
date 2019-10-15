@@ -9,16 +9,7 @@
     <fmt:bundle basename="localization">
         <jsp:useBean id="player" scope="request" type="by.koshko.cyberwikia.bean.Player"/>
         <form class="mb-2" action="${savePlayerAction}" method="post" enctype="multipart/form-data">
-            <c:if test="${errors != null}">
-                <div class="row my-1">
-                    <c:forEach items="${errors}" var="error">
-                        <div class="alert alert-warning alert-dismissible w-100">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <fmt:message key="${error}"/>
-                        </div>
-                    </c:forEach>
-                </div>
-            </c:if>
+        <tag:errors/>
         <div class="row pt-2">
             <div class="col-12 col-xl-8">
                 <h3><fmt:message key="title.overview"/></h3>

@@ -26,9 +26,11 @@ import static by.koshko.cyberwikia.dao.DaoTypes.PLAYERDAO;
 public final class PlayerServiceImpl extends AbstractService
         implements PlayerService {
 
-    private static final String NOT_SAVED_MESSAGE = "editplayer.error.notsaved";
-    private static final String FILL_ALL_REQUIRED_MESSAGE
+    private static final String HAS_PROFILE_ERR_MESSAGE = "createplayer.error.hasprofile";
+    private static final String NOT_SAVED_ERR_MESSAGE = "editplayer.error.notsaved";
+    private static final String FILL_ALL_REQUIRED_ERR_MESSAGE
             = "editplayer.error.fillrequired";
+    private static final String FAILED_ERR_MESSAGE = "createplayer.error.genericerror";
 
     private Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
 
@@ -42,7 +44,7 @@ public final class PlayerServiceImpl extends AbstractService
         ServiceResponse response = new ServiceResponse();
         if (player == null) {
             logger.debug("Player object is null.");
-            response.addErrorMessage(NOT_SAVED_MESSAGE);
+            response.addErrorMessage(NOT_SAVED_ERR_MESSAGE);
             return response;
         }
         try {
@@ -51,19 +53,19 @@ public final class PlayerServiceImpl extends AbstractService
             if (oldPlayer == null) {
                 logger.debug("User:{} don't have permissions to edit"
                              + " Player:{} profile.", userId, player.getId());
-                response.addErrorMessage(NOT_SAVED_MESSAGE);
+                response.addErrorMessage(NOT_SAVED_ERR_MESSAGE);
                 return response;
             }
             player.setId(oldPlayer.getId());
             if (!ValidationFactory.getPlayerValidator().test(player, true)) {
                 logger.debug("Cannot edit player profile:{}."
                              + " Invalid parameters.", player.getId());
-                response.addErrorMessage(FILL_ALL_REQUIRED_MESSAGE);
+                response.addErrorMessage(FILL_ALL_REQUIRED_ERR_MESSAGE);
                 return response;
             }
             saveNewDeleteOldPic(player, oldPlayer);
             if (!playerDao.update(player)) {
-                response.addErrorMessage(NOT_SAVED_MESSAGE);
+                response.addErrorMessage(NOT_SAVED_ERR_MESSAGE);
                 return response;
             } else {
                 return response;
@@ -76,6 +78,7 @@ public final class PlayerServiceImpl extends AbstractService
     private void saveNewDeleteOldPic(final Player newPlayer,
                                      final Player oldPlayer) {
         if (newPlayer.getRawData() == null) {
+            newPlayer.setProfilePhoto(oldPlayer.getProfilePhoto());
             return;
         }
         String newPicPath = ServiceFactory
@@ -90,7 +93,7 @@ public final class PlayerServiceImpl extends AbstractService
     }
 
     @Override
-    public boolean createPlayer(final long userId,
+    public ServiceResponse createPlayer(final long userId,
                                 final Player player) throws ServiceException {
         try {
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
@@ -99,26 +102,34 @@ public final class PlayerServiceImpl extends AbstractService
                 return createPlayer(player);
             } else {
                 logger.debug("User:{} already has a player profile.", userId);
-                return false;
+                ServiceResponse serviceResponse = new ServiceResponse();
+                serviceResponse.addErrorMessage(HAS_PROFILE_ERR_MESSAGE);
+                return serviceResponse;
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot create player profile.");
         }
     }
 
-    private boolean createPlayer(final Player player) throws ServiceException {
+    private ServiceResponse createPlayer(final Player player) throws ServiceException {
         try {
+            ServiceResponse serviceResponse = new ServiceResponse();
             PlayerValidator playerValidator
                     = ValidationFactory.getPlayerValidator();
-            if (playerValidator.test(player, true)) {
+            if (!playerValidator.test(player, true)) {
                 logger.debug("Invalid player parameters.");
-                return false;
+                serviceResponse.addErrorMessage(FILL_ALL_REQUIRED_ERR_MESSAGE);
+                return serviceResponse;
             }
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
             player.setProfilePhoto(ServiceFactory.getImageService()
                     .save(player.getRawData()));
-            playerDao.save(player);
-            return true;
+            if (playerDao.save(player)) {
+                return serviceResponse;
+            } else {
+                serviceResponse.addErrorMessage(FAILED_ERR_MESSAGE);
+                return serviceResponse;
+            }
         } catch (DaoException e) {
             throw new ServiceException("Cannot create player profile.");
         }

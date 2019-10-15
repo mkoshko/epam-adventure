@@ -53,9 +53,7 @@ public class DispatcherServlet extends HttpServlet {
         AbstractCommand command = (AbstractCommand) req.getAttribute("command");
         AbstractCommand.Forward forward = command.execute(req, resp);
         try {
-            if (!checkError(forward, resp)) {
-                resp.sendRedirect(forward.getUrl());
-            }
+            resp.sendRedirect(forward.getUrl());
         } catch (IOException e) {
             logger.error("Cannot redirect user. {}", e.getMessage());
         }

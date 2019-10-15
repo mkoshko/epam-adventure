@@ -8,7 +8,7 @@
 <c:set var="editTeamAction" value="editteam.html"/>
 <c:set var="deleteTeamAction" value="deleteteam.html"/>
 <%--Player actions--%>
-<c:set var="createPlayerAction" value="createplayer.html"/>
+<c:set var="createPlayerAction" value="createplayerform.html"/>
 <c:set var="viewProfileAction" value="player.html?id="/>
 <c:set var="editProfileAction" value="editplayer.html"/>
 <c:set var="deleteProfileAction" value="deleteplayer.html"/>
@@ -103,7 +103,7 @@
             </div>
         </div>
         <%--        Modal window--%>
-        <div class="modal fade" id="deleteplayer">
+        <div class="modal fade" id="deletePlayer">
             <div class="modal-dialog modal-sm modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header text-center">

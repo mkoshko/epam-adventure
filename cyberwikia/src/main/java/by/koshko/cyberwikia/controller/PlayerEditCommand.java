@@ -15,6 +15,7 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
 
 public class PlayerEditCommand extends UserCommand {
 
@@ -23,9 +24,9 @@ public class PlayerEditCommand extends UserCommand {
     @Override
     public Forward execute(final HttpServletRequest request,
                            final HttpServletResponse response) {
+        HttpSession session = request.getSession();
         try (ServiceFactory factory = new ServiceFactory()) {
             PlayerService playerService = factory.getPlayerService();
-            HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
             Player player = new Player();
             player.setNickname(request.getParameter("nickname"));
@@ -34,36 +35,23 @@ public class PlayerEditCommand extends UserCommand {
             player.setLastName(request.getParameter("lastname"));
             Part part = request.getPart("profilePhoto");
             player.setRawData(fillRawData(part));
-            try {
-                String countryId = request.getParameter("country");
-                player.setCountry(new Country(Integer.parseInt(countryId)));
-                String birth = request.getParameter("birth");
-                player.setBirth(LocalDate.parse(birth));
-            } catch (DateTimeParseException | NumberFormatException e) {
-                return sendError(401);
-            }
+            player.setCountry(new Country(Integer
+                    .parseInt(request.getParameter("country"))));
+            player.setBirth(LocalDate.parse(Objects.requireNonNullElse(request.getParameter("birth"), "")));
             ServiceResponse serviceResponse
                     = playerService.editPlayer(user.getId(), player);
             if (serviceResponse.hasErrors()) {
                 session.setAttribute("errors", serviceResponse.errorList());
-                return new Forward("editprofile.html");
+                return new Forward("editplayer.html");
             } else {
                 return new Forward("player.html?id=" + user.getId());
             }
         } catch (ServiceException | IOException | ServletException e) {
             logger.error(e.getMessage());
             return sendError(500);
-        }
-    }
-
-    private RawData fillRawData(final Part part) throws IOException {
-        if (part != null) {
-            RawData rawData = new RawData();
-            rawData.setContentType(part.getContentType());
-            rawData.setIn(part.getInputStream());
-            return rawData;
-        } else {
-            return null;
+        } catch (DateTimeParseException | NumberFormatException e) {
+            session.setAttribute("errors", "editplayer.error.fillrequired");
+            return new Forward("editplayer.html");
         }
     }
 }

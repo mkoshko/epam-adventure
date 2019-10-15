@@ -9,7 +9,7 @@ public interface PlayerService {
 
     ServiceResponse editPlayer(long userId, Player player) throws ServiceException;
 
-    boolean createPlayer(long userId, Player player) throws ServiceException;
+    ServiceResponse createPlayer(long userId, Player player) throws ServiceException;
 
     boolean deletePlayer(long userId) throws ServiceException;
 

@@ -1,12 +1,25 @@
 package by.koshko.cyberwikia.controller;
 
+import by.koshko.cyberwikia.bean.RawData;
 import by.koshko.cyberwikia.bean.Role;
+import by.koshko.cyberwikia.bean.ServiceResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 public abstract class AbstractCommand {
+
+    private final Logger logger = LogManager.getLogger(getClass());
     private Set<Role> roles = new HashSet<>();
 
     public Set<Role> getRoles() {
@@ -25,6 +38,23 @@ public abstract class AbstractCommand {
             return total / limit;
         } else {
             return total / limit + 1;
+        }
+    }
+
+    protected void setErrors(final HttpSession session,
+                             final ServiceResponse response) {
+        session.setAttribute("errors", response.errorList());
+    }
+
+    protected RawData fillRawData(final Part part) throws IOException {
+        if (part != null && part.getSize() != 0) {
+            logger.debug("Part size: {}", part.getSize());
+            RawData rawData = new RawData();
+            rawData.setContentType(part.getContentType());
+            rawData.setIn(part.getInputStream());
+            return rawData;
+        } else {
+            return null;
         }
     }
 

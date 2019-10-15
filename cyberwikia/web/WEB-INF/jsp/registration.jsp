@@ -9,16 +9,7 @@
     <fmt:bundle basename="localization">
             <div class="row pt-2">
                 <div class="col-12 mx-auto p-3">
-                    <c:if test="${errors != null}">
-                        <div>
-                            <ul>
-                                <c:forEach items="${errors}" var="error">
-                                    <li><fmt:message key="${error}"/></li>
-                                </c:forEach>
-                            </ul>
-                        </div>
-                        ${sessionScope.remove('errors')}
-                    </c:if>
+                    <tag:errors/>
                     <div class="text-center">
                         <form action="${signUpAction}" id="form" class="needs-validation form-signup mb-4" method="post" novalidate>
                             <h1 class="h3 mb-3 font-weight-normal"><fmt:message key="header.registration"/></h1>
