@@ -54,7 +54,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             ServiceResponse response = new ServiceResponse();
             if (!userValidator.test(user, true)) {
                 logger.debug("Invalid user parameters.");
-                response.addErrorMessage(EntityError.GENERIC_ERROR);
+                response.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
                 return response;
             }
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);

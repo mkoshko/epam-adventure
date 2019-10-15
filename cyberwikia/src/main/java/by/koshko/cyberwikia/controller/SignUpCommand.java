@@ -33,7 +33,7 @@ public class SignUpCommand extends AbstractCommand {
             if (!serviceResponse.hasErrors()) {
                 return new Forward("index.html");
             } else {
-                session.setAttribute("errors", serviceResponse.errorList());
+                setErrors(session, serviceResponse);
                 return new Forward("registration.html");
             }
         } catch (ServiceException e) {

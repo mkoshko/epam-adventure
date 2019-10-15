@@ -1,5 +1,7 @@
 package by.koshko.cyberwikia.bean;
 
+import by.koshko.cyberwikia.controller.ServiceErrorsMapper;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +23,11 @@ public class ServiceResponse {
         errors.clear();
     }
 
-    public List<EntityError> errorList() {
-        return new ArrayList<>(errors);
+    public List<String> errorList() {
+        List<String> keys = new ArrayList<>();
+        errors.forEach(error -> {
+            keys.add(ServiceErrorsMapper.getLocalizedErrorKey(error));
+        });
+        return keys;
     }
 }
