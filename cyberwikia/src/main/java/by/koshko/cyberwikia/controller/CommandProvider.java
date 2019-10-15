@@ -25,6 +25,7 @@ public class CommandProvider {
         COMMANDS.put("/tournament", new TournamentCommand());
         COMMANDS.put("/tournaments", new TournamentsCommand());
         COMMANDS.put("/deleteplayer", new DeletePlayerCommand());
+        COMMANDS.put("/createplayer", new CreatePlayerPageCommand());
     }
 
     public static AbstractCommand getCommand(final String action) {

@@ -55,10 +55,8 @@
                                 <input class="form-control" type="date" name="birth" value="${player.birth}">
                             </tr>
                         </table>
-                        <c:if test="${sessionScope.get('user') != null && user.id == player.id}">
-                            <input type="hidden" name="from" value="player.html?id=${player.id}">
-                            <button type="submit" class="btn btn-dark w-100"><fmt:message key="player.save"/></button>
-                        </c:if>
+                        <input type="hidden" name="from" value="player.html?id=${player.id}">
+                        <button type="submit" class="btn btn-dark w-100"><fmt:message key="player.save"/></button>
                     </div>
                 </div>
             </div>

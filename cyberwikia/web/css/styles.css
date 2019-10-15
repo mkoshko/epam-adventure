@@ -9,6 +9,18 @@ body {
     margin: auto;
 }
 
+@media only screen and (min-width: 992px) {
+    .smaller-card-img {
+        width: 450px;
+        height: auto;
+    }
+}
+
+.smaller-card {
+    max-width: 450px;
+    margin: auto;
+}
+
 .w-40 {
     width: 40%;
 }

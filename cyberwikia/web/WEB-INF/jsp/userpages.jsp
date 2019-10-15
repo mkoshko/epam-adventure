@@ -13,8 +13,8 @@
 <c:set var="editProfileAction" value="editplayer.html"/>
 <c:set var="deleteProfileAction" value="deleteplayer.html"/>
 <%--card styles--%>
-<c:set var="colClass" value="col-12 col-sm-6 p-2 p-lg-5"/>
-<c:set var="cardClass" value="card p-0 p-lg-0"/>
+<c:set var="colClass" value="col-12 col-sm-6 py-3"/>
+<c:set var="cardClass" value="card p-0 p-lg-0 smaller-card"/>
 <tag:html localizedTitle="title.mypages">
     <fmt:bundle basename="localization">
         <div class="row">
@@ -23,7 +23,7 @@
                 <c:choose>
 <%--                    Empty team card--%>
                     <c:when test="${team == null}">
-                        <div class="${cardClass}">
+                        <div class="${cardClass} mr-lg-1">
                             <div class="card-header text-center text-white bg-dark">
                                 <h3 class="m-0">Team</h3>
                             </div>
@@ -39,13 +39,13 @@
                     <c:otherwise>
 <%--                        Team card--%>
                         <jsp:useBean id="team" scope="request" type="by.koshko.cyberwikia.bean.Team"/>
-                        <div class="${cardClass}">
-                            <img class="card-img-top p-1 m-auto" src="<c:url value="${team.logoFile}"/>" alt="${team.name}">
+                        <div class="${cardClass} mr-lg-1">
+                            <img class="card-img-top mx-auto smaller-card-img" src="<c:url value="${team.logoFile}"/>" alt="${team.name}">
                             <h3 class="card-title text-center my-1">${team.name}</h3>
                             <div class="p-1">
                                 <a class="btn btn-outline-dark w-100 mb-1" href="${viewTeamAction}${team.id}">View team</a>
-                                <a class="btn btn-outline-dark w-100 mb-1" href="${editProfileAction}">Edit team</a>
-                                <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#myModal">Delete team</button>
+                                <a class="btn btn-outline-dark w-100 mb-1" href="${editTeamAction}">Edit team</a>
+                                <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#deleteTeam">Delete team</button>
                             </div>
                         </div>
                     </c:otherwise>
@@ -56,11 +56,11 @@
                 <c:choose>
 <%--                    Empty player card--%>
                     <c:when test="${player==null}">
-                        <div class="${cardClass}">
+                        <div class="${cardClass} ml-lg-1">
                             <div class="card-header text-center text-white bg-dark">
                                 <h3 class="m-0">Player profile</h3>
                             </div>
-                            <a href="${create}" class="btn-light">
+                            <a href="${createPlayerAction}" class="btn-light">
                                 <svg viewBox="0 0 24 24" width="200" height="200" stroke="currentColor"
                                      stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                      class="css-i6dzq1 card-img-top my-4"><circle cx="12" cy="12" r="10"></circle>
@@ -72,13 +72,13 @@
                     <c:otherwise>
 <%--                        Player card--%>
                         <jsp:useBean id="player" scope="request" type="by.koshko.cyberwikia.bean.Player"/>
-                        <div class="${cardClass}">
-                            <img class="card-img-top p-1 m-auto" src="<c:url value="${player.profilePhoto}"/>" alt="${player.nickname}">
+                        <div class="${cardClass} ml-lg-1">
+                            <img class="card-img-top mx-auto smaller-card-img" src="<c:url value="${player.profilePhoto}"/>" alt="${player.nickname}">
                             <h3 class="card-title text-center my-1">${player.nickname}</h3>
                             <div class="p-1">
                                 <a class="btn btn-outline-dark w-100 mb-1" href="${viewProfileAction}${player.id}">View profile</a>
                                 <a class="btn btn-outline-dark w-100 mb-1" href="${editProfileAction}">Edit profile</a>
-                                <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#myModal">Delete profile</button>
+                                <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#deletePlayer">Delete profile</button>
                             </div>
                         </div>
                     </c:otherwise>
@@ -86,7 +86,24 @@
             </div>
         </div>
 <%--        Modal window--%>
-        <div class="modal fade" id="myModal">
+        <div class="modal fade" id="deleteTeam">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4>Are you sure?</h4>
+                    </div>
+                    <div class="modal-body text-center px-0">
+                        <form action="${deleteProfileAction}" method="post">
+                            <input type="hidden" name="from" value="${from}">
+                            <button type="submit" class="btn btn-danger w-40"><fmt:message key="dialog.yes"/></button>
+                            <button type="button" class="btn btn-dark w-40" data-dismiss="modal"><fmt:message key="dialog.no"/></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%--        Modal window--%>
+        <div class="modal fade" id="deleteplayer">
             <div class="modal-dialog modal-sm modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header text-center">

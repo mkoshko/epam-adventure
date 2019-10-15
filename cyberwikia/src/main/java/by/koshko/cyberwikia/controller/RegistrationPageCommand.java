@@ -12,7 +12,7 @@ public class RegistrationPageCommand extends AbstractCommand {
     public Forward execute(final HttpServletRequest request,
                            final HttpServletResponse response) {
         //check for user already logged in.
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user != null) {
             return new Forward("index.html", true);
