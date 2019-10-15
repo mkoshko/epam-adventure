@@ -1,5 +1,6 @@
 package by.koshko.cyberwikia.controller;
 
+import by.koshko.cyberwikia.bean.EntityError;
 import by.koshko.cyberwikia.bean.RawData;
 import by.koshko.cyberwikia.bean.Role;
 import by.koshko.cyberwikia.bean.ServiceResponse;

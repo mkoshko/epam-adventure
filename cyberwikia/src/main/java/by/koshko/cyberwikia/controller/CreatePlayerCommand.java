@@ -1,9 +1,6 @@
 package by.koshko.cyberwikia.controller;
 
-import by.koshko.cyberwikia.bean.Country;
-import by.koshko.cyberwikia.bean.Player;
-import by.koshko.cyberwikia.bean.ServiceResponse;
-import by.koshko.cyberwikia.bean.User;
+import by.koshko.cyberwikia.bean.*;
 import by.koshko.cyberwikia.service.PlayerService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
@@ -33,8 +30,8 @@ public class CreatePlayerCommand extends UserCommand {
             PlayerService playerService = factory.getPlayerService();
             Player player = new Player();
             player.setId(user.getId());
-//            Part part = request.getPart("profilePhoto");
-//            player.setRawData(fillRawData(part));
+            Part part = request.getPart("profilePhoto");
+            player.setRawData(fillRawData(part));
             player.setNickname(request.getParameter("nickname"));
             player.setFirstName(request.getParameter("firstname"));
             player.setLastName(request.getParameter("lastname"));
@@ -45,20 +42,19 @@ public class CreatePlayerCommand extends UserCommand {
             ServiceResponse serviceResponse
                     = playerService.createPlayer(user.getId(), player);
             if (serviceResponse.hasErrors()) {
-                LOGGER.debug("Response has some errors.");
+                LOGGER.debug("Service response have some errors.");
                 setErrors(session, serviceResponse);
                 return new Forward("createplayerform.html");
             } else {
                 return new Forward("mypages.html");
             }
-        } catch (NumberFormatException e) {
-            session.setAttribute("errors", "createplayer.error.notsaved");
+        } catch (DateTimeParseException | NumberFormatException e) {
+            ServiceResponse serviceResponse = new ServiceResponse();
+            serviceResponse.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
+            setErrors(session, serviceResponse);
             return new Forward("createplayerform.html");
-        }catch (DateTimeParseException e1) {
-            session.setAttribute("errors", "editplayer.error.fillrequired");
-            return new Forward("createplayerform.html");
-        } catch (ServiceException e2) {
-            LOGGER.error(e2.getMessage());
+        } catch (ServiceException | IOException | ServletException e1) {
+            LOGGER.error(e1.getMessage());
             return sendError(500);
         }
     }

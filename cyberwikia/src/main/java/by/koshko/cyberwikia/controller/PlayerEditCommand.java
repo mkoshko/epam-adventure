@@ -41,7 +41,7 @@ public class PlayerEditCommand extends UserCommand {
             ServiceResponse serviceResponse
                     = playerService.editPlayer(user.getId(), player);
             if (serviceResponse.hasErrors()) {
-                session.setAttribute("errors", serviceResponse.errorList());
+                setErrors(session, serviceResponse);
                 return new Forward("editplayer.html");
             } else {
                 return new Forward("player.html?id=" + user.getId());
@@ -50,7 +50,6 @@ public class PlayerEditCommand extends UserCommand {
             logger.error(e.getMessage());
             return sendError(500);
         } catch (DateTimeParseException | NumberFormatException e) {
-            session.setAttribute("errors", "editplayer.error.fillrequired");
             return new Forward("editplayer.html");
         }
     }

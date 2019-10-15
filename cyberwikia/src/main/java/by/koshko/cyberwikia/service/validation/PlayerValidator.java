@@ -32,6 +32,7 @@ public class PlayerValidator implements Validator {
     }
 
     public boolean test(final Player player, final boolean checkID) {
+        logger.debug("Test player profile.");
         if (player == null) {
             return false;
         }
@@ -45,36 +46,43 @@ public class PlayerValidator implements Validator {
             logger.debug("Invalid player ID.");
             return false;
         }
+        logger.debug("Test ID passed.");
         if (nickname == null
             || nickname.isBlank()
             || nickname.length() > nicknameMaxLength) {
             logger.debug("Invalid player nickname.");
             return false;
         }
+        logger.debug("Test nickname passed.");
         if (firstName == null
             || firstName.isBlank()
             || firstName.length() > firstNameMaxLength) {
             logger.debug("Invalid player first name.");
             return false;
         }
+        logger.debug("Test first name passed.");
         if (lastName == null
             || lastName.isBlank()
             || lastName.length() > lastNameMaxLength) {
             logger.debug("Invalid player last name.");
             return false;
         }
+        logger.debug("Test last name passed.");
         if (birth == null) {
             logger.debug("Invalid player birth date.");
             return false;
         }
+        logger.debug("Test birth date passed.");
         if (country == null || country.getId() <= 0) {
             logger.debug("Invalid player country.");
             return false;
         }
+        logger.debug("Test country passed.");
         if (overview != null && overview.length() > overviewMaxLength) {
             logger.debug("Invalid length of players overview text.");
             return false;
         }
+        logger.debug("Test overview passed.");
         return true;
     }
 }
