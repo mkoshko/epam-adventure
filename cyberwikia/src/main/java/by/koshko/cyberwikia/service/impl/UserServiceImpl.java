@@ -1,5 +1,6 @@
 package by.koshko.cyberwikia.service.impl;
 
+import by.koshko.cyberwikia.bean.EntityError;
 import by.koshko.cyberwikia.bean.Role;
 import by.koshko.cyberwikia.bean.ServiceResponse;
 import by.koshko.cyberwikia.bean.User;
@@ -43,7 +44,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             }
             return null;
         } catch (DaoException e) {
-            throw new ServiceException("User authorization error.");
+            throw new ServiceException("User authorization error.", e);
         }
     }
 
@@ -53,15 +54,15 @@ public class UserServiceImpl extends AbstractService implements UserService {
             ServiceResponse response = new ServiceResponse();
             if (!userValidator.test(user, true)) {
                 logger.debug("Invalid user parameters.");
-                response.addErrorMessage("registration.generic-error");
+                response.addErrorMessage(EntityError.GENERIC_ERROR);
                 return response;
             }
             UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
             if (userDao.hasLogin(user.getLogin())) {
-                response.addErrorMessage("duplicate.login");
+                response.addErrorMessage(EntityError.DUPLICATE_LOGIN);
             }
             if (userDao.hasEmail(user.getEmail())) {
-                response.addErrorMessage("duplicate.email");
+                response.addErrorMessage(EntityError.DUPLICATE_EMAIL);
             }
             if (response.hasErrors()) {
                 return response;
@@ -72,7 +73,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             if (userDao.save(user)) {
                 return response;
             } else {
-                response.addErrorMessage("registration.generic-error");
+                response.addErrorMessage(EntityError.GENERIC_ERROR);
                 return response;
             }
         } catch (DaoException e) {

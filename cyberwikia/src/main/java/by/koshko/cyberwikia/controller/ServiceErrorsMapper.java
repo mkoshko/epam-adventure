@@ -13,6 +13,7 @@ public class ServiceErrorsMapper {
         ERROR_MAP.put(EntityError.DUPLICATE_EMAIL, "user.error.email");
         ERROR_MAP.put(EntityError.DUPLICATE_NICKNAME, "player.error.nickname");
         ERROR_MAP.put(EntityError.REQUIRED_NOT_NULL, "error.fillallrequired");
+        ERROR_MAP.put(EntityError.GENERIC_ERROR, "error.genericerror");
     }
 
     public static String getLocalizedErrorKey(final EntityError error) {

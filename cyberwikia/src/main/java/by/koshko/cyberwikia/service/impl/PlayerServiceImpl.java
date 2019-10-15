@@ -1,5 +1,6 @@
 package by.koshko.cyberwikia.service.impl;
 
+import by.koshko.cyberwikia.bean.EntityError;
 import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.bean.PlayerTeam;
 import by.koshko.cyberwikia.bean.ServiceResponse;
@@ -26,12 +27,6 @@ import static by.koshko.cyberwikia.dao.DaoTypes.PLAYERDAO;
 public final class PlayerServiceImpl extends AbstractService
         implements PlayerService {
 
-    private static final String HAS_PROFILE_ERR_MESSAGE = "createplayer.error.hasprofile";
-    private static final String NOT_SAVED_ERR_MESSAGE = "editplayer.error.notsaved";
-    private static final String FILL_ALL_REQUIRED_ERR_MESSAGE
-            = "editplayer.error.fillrequired";
-    private static final String FAILED_ERR_MESSAGE = "createplayer.error.genericerror";
-
     private Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
 
     public PlayerServiceImpl(final Transaction transaction,
@@ -44,7 +39,7 @@ public final class PlayerServiceImpl extends AbstractService
         ServiceResponse response = new ServiceResponse();
         if (player == null) {
             logger.debug("Player object is null.");
-            response.addErrorMessage(NOT_SAVED_ERR_MESSAGE);
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
             return response;
         }
         try {
@@ -53,19 +48,19 @@ public final class PlayerServiceImpl extends AbstractService
             if (oldPlayer == null) {
                 logger.debug("User:{} don't have permissions to edit"
                              + " Player:{} profile.", userId, player.getId());
-                response.addErrorMessage(NOT_SAVED_ERR_MESSAGE);
+                response.addErrorMessage(EntityError.GENERIC_ERROR);
                 return response;
             }
             player.setId(oldPlayer.getId());
             if (!ValidationFactory.getPlayerValidator().test(player, true)) {
                 logger.debug("Cannot edit player profile:{}."
                              + " Invalid parameters.", player.getId());
-                response.addErrorMessage(FILL_ALL_REQUIRED_ERR_MESSAGE);
+                response.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
                 return response;
             }
             saveNewDeleteOldPic(player, oldPlayer);
             if (!playerDao.update(player)) {
-                response.addErrorMessage(NOT_SAVED_ERR_MESSAGE);
+                response.addErrorMessage(EntityError.GENERIC_ERROR);
                 return response;
             } else {
                 return response;
@@ -103,11 +98,11 @@ public final class PlayerServiceImpl extends AbstractService
             } else {
                 logger.debug("User:{} already has a player profile.", userId);
                 ServiceResponse serviceResponse = new ServiceResponse();
-                serviceResponse.addErrorMessage(HAS_PROFILE_ERR_MESSAGE);
+                serviceResponse.addErrorMessage(EntityError.USER_HAS_PROFILE);
                 return serviceResponse;
             }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot create player profile.");
+            throw new ServiceException("Cannot create player profile.", e);
         }
     }
 
@@ -118,7 +113,7 @@ public final class PlayerServiceImpl extends AbstractService
                     = ValidationFactory.getPlayerValidator();
             if (!playerValidator.test(player, true)) {
                 logger.debug("Invalid player parameters.");
-                serviceResponse.addErrorMessage(FILL_ALL_REQUIRED_ERR_MESSAGE);
+                serviceResponse.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
                 return serviceResponse;
             }
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
@@ -127,11 +122,11 @@ public final class PlayerServiceImpl extends AbstractService
             if (playerDao.save(player)) {
                 return serviceResponse;
             } else {
-                serviceResponse.addErrorMessage(FAILED_ERR_MESSAGE);
+                serviceResponse.addErrorMessage(EntityError.GENERIC_ERROR);
                 return serviceResponse;
             }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot create player profile.");
+            throw new ServiceException("Cannot create player profile.", e);
         }
     }
 
