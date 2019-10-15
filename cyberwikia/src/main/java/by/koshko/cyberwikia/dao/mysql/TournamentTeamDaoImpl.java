@@ -124,12 +124,12 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
     }
 
     @Override
-    public void delete(final TournamentTeam entity) throws DaoException {
+    public boolean delete(final TournamentTeam entity) throws DaoException {
         try (PreparedStatement statement
                      = getConnection().prepareStatement(DELETE)) {
             statement.setLong(1, entity.getTournament().getId());
             statement.setLong(2, entity.getTeam().getId());
-            statement.execute();
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new DaoException("Cannot delete TournamentTeam entity.", e);
         }

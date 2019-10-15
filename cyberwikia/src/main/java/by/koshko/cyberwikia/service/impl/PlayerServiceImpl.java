@@ -125,33 +125,14 @@ public final class PlayerServiceImpl extends AbstractService
     }
 
     @Override
-    public boolean deletePlayer(final long userId, final Player player)
-            throws ServiceException {
+    public boolean deletePlayer(final long userId) throws ServiceException {
         try {
             PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
             Player oldPlayer = playerDao.get(userId);
-            if (oldPlayer != null && player != null
-                && oldPlayer.getId() == player.getId()) {
-                deletePlayer(player);
-                logger.debug("Player {}:{} has been deleted.",
-                        oldPlayer.getNickname(), oldPlayer.getId());
-                return true;
-            } else {
+            if (oldPlayer == null) {
                 return false;
             }
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot delete player.");
-        }
-    }
-
-    private boolean deletePlayer(final Player player) throws ServiceException {
-        try {
-            if (player == null) {
-                return false;
-            }
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
-            playerDao.delete(player);
-            return true;
+            return playerDao.delete(oldPlayer);
         } catch (DaoException e) {
             throw new ServiceException("Cannot delete player.");
         }

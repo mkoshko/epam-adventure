@@ -50,7 +50,7 @@ public final class CountryDaoImpl extends AbstractDao implements CountryDao {
     }
 
     @Override
-    public void delete(final Country entity) throws DaoException {
+    public boolean delete(final Country entity) throws DaoException {
         throw new DaoException("Unsupported operation.");
     }
 

@@ -133,11 +133,11 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
     }
 
     @Override
-    public void delete(final Player entity) throws DaoException {
+    public boolean delete(final Player entity) throws DaoException {
         try (PreparedStatement statement
                      = getConnection().prepareStatement(DELETE)) {
             statement.setLong(1, entity.getId());
-            statement.execute();
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new DaoException("Cannot delete player.", e);
         }
@@ -150,7 +150,8 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
         return null;
     }
 
-    private List<Player> buildMultipleInstances(final ResultSet rs) throws SQLException {
+    private List<Player> buildMultipleInstances(final ResultSet rs)
+            throws SQLException {
         List<Player> players = new ArrayList<>();
         while (rs.next()) {
             players.add(buildPlayer(rs));

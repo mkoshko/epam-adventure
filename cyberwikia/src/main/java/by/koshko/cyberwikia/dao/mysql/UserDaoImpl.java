@@ -112,11 +112,11 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public void delete(final User entity) throws DaoException {
+    public boolean delete(final User entity) throws DaoException {
         try (PreparedStatement statement
                      = getConnection().prepareStatement(DELETE_QUERY)) {
             statement.setLong(1, entity.getId());
-            statement.execute();
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new DaoException("Cannot remove the user.", e);
         }

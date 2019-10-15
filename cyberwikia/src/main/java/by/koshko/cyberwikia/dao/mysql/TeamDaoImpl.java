@@ -133,11 +133,11 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
     }
 
     @Override
-    public void delete(final Team entity) throws DaoException {
+    public boolean delete(final Team entity) throws DaoException {
         try (PreparedStatement statement
                      = getConnection().prepareStatement(DELETE)) {
             statement.setLong(1, entity.getId());
-            statement.execute();
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new DaoException("Cannot delete team.", e);
         }

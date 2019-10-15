@@ -15,5 +15,5 @@ public interface Dao<T extends Entity> extends Connectable {
 
     boolean update(T entity) throws DaoException;
 
-    void delete(T entity) throws DaoException;
+    boolean delete(T entity) throws DaoException;
 }

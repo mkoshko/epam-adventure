@@ -17,6 +17,6 @@ public class SignOutCommand extends UserCommand {
             session.removeAttribute("user");
             session.invalidate();
         }
-        return new Forward(request.getParameter("from"));
+        return sendBack(request);
     }
 }

@@ -4,10 +4,7 @@ import by.koshko.cyberwikia.bean.Role;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract class AbstractCommand {
     private Set<Role> roles = new HashSet<>();
@@ -29,6 +26,11 @@ public abstract class AbstractCommand {
         } else {
             return total / limit + 1;
         }
+    }
+
+    protected Forward sendBack(final HttpServletRequest request) {
+        String from = request.getParameter("from");
+        return new Forward(Objects.requireNonNullElse(from, "index.html"), true);
     }
 
     protected Forward sendError(final int error) {

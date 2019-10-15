@@ -25,12 +25,9 @@ public class SignInCommand extends AbstractCommand {
                 logger.debug("User {} logged in.", user.getLogin());
                 request.getSession(true).setAttribute("user", user);
             }
-            return new Forward(request.getParameter("from"));
+            return sendBack(request);
         } catch (ServiceException e) {
-            Forward forward = new Forward();
-            forward.setError(true);
-            forward.getAttributes().put("error", 500);
-            return forward;
+            return sendError(500);
         }
     }
 }

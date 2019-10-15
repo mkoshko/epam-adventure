@@ -138,12 +138,12 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
     }
 
     @Override
-    public void delete(final PlayerTeam entity) throws DaoException {
+    public boolean delete(final PlayerTeam entity) throws DaoException {
         try (PreparedStatement statement
                      = getConnection().prepareStatement(DELETE)) {
             statement.setLong(1, entity.getPlayer().getId());
             statement.setLong(2, entity.getTeam().getId());
-            statement.execute();
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new DaoException("Cannot delete player_team record.", e);
         }

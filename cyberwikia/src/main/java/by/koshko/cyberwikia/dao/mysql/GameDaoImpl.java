@@ -65,7 +65,7 @@ public final class GameDaoImpl extends AbstractDao implements GameDao {
     }
 
     @Override
-    public void delete(final Game entity) throws DaoException {
+    public boolean delete(final Game entity) throws DaoException {
         throw new DaoException("Unsupported operation.");
     }
 

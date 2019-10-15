@@ -11,11 +11,11 @@
 <c:set var="createPlayerAction" value="createplayer.html"/>
 <c:set var="viewProfileAction" value="player.html?id="/>
 <c:set var="editProfileAction" value="editplayer.html"/>
-<c:set var="deleteProfileAction" value="deleteprofile.html"/>
+<c:set var="deleteProfileAction" value="deleteplayer.html"/>
 <%--card styles--%>
 <c:set var="colClass" value="col-12 col-sm-6 p-2 p-lg-5"/>
 <c:set var="cardClass" value="card p-0 p-lg-0"/>
-<tag:html>
+<tag:html localizedTitle="title.mypages">
     <fmt:bundle basename="localization">
         <div class="row">
 <%--            Team card--%>
@@ -93,8 +93,11 @@
                         <h4>Are you sure?</h4>
                     </div>
                     <div class="modal-body text-center px-0">
-                        <a class="btn btn-danger w-40" href="${deleteProfileAction}">Yes</a>
-                        <button type="button" class="btn btn-dark w-40" data-dismiss="modal">No</button>
+                        <form action="${deleteProfileAction}" method="post">
+                            <input type="hidden" name="from" value="${from}">
+                            <button type="submit" class="btn btn-danger w-40"><fmt:message key="dialog.yes"/></button>
+                            <button type="button" class="btn btn-dark w-40" data-dismiss="modal"><fmt:message key="dialog.no"/></button>
+                        </form>
                     </div>
                 </div>
             </div>

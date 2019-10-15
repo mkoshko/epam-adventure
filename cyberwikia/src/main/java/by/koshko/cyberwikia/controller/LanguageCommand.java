@@ -23,15 +23,11 @@ public class LanguageCommand extends AbstractCommand {
                            final HttpServletResponse response) {
         String langParam = request.getParameter("id");
         String locale = lang.get(langParam);
-        if (locale == null) {
-            return new Forward("index.html", true);
-        } else {
+        if (locale != null) {
             Cookie cookie = new Cookie("locale", locale);
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
-            String page = request.getParameter("from");
-            logger.debug("Page to return: {}", page);
-            return new Forward(page, true);
         }
+        return sendBack(request);
     }
 }
