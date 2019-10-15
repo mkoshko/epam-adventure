@@ -18,21 +18,18 @@ public class TeamsCommand extends AbstractCommand {
     public Forward execute(final HttpServletRequest request,
                         final HttpServletResponse response) {
         try (ServiceFactory factory = new ServiceFactory()) {
-            int page = 1;
-            if (request.getParameter("page") != null) {
-                page = Integer.parseInt(request.getParameter("page"));
-            }
             TeamService teamService = factory.getTeamService();
-            List<Team> teams = teamService.findAll(page, LIMIT);
             int total = teamService.getRowsNumber();
-            request.setAttribute("lastPage", calculateLastPage(total, LIMIT));
-            request.setAttribute("teams", teams);
-            request.setAttribute("page", page);
-            return new Forward("WEB-INF/jsp/teams.jsp");
+            int page = Pagination.makePagination(request, total);
+            if (page > 0) {
+                List<Team> teams = teamService.findAll(page, LIMIT);
+                request.setAttribute("teams", teams);
+                return new Forward("WEB-INF/jsp/teams.jsp");
+            } else {
+                return sendError(404);
+            }
         } catch (ServiceException e) {
             return sendError(500);
-        } catch (NumberFormatException e1) {
-            return sendError(404);
         }
     }
 }

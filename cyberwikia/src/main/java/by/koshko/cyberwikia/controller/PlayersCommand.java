@@ -14,27 +14,23 @@ import java.util.List;
 public class PlayersCommand extends AbstractCommand {
 
     private Logger logger = LogManager.getLogger(PlayersCommand.class);
-    private static final int LIMIT = 10;
 
     @Override
     public Forward execute(final HttpServletRequest request,
                            final HttpServletResponse response) {
         try (ServiceFactory factory = new ServiceFactory()) {
             PlayerService playerService = factory.getPlayerService();
-            int page = 1;
-            if (request.getParameter("page") != null) {
-                page = Integer.parseInt(request.getParameter("page"));
-            }
-            List<Player> players = playerService.findAll(page, LIMIT);
             int total = playerService.getRowsNumber();
-            request.setAttribute("lastPage", calculateLastPage(total, LIMIT));
-            request.setAttribute("page", page);
-            request.setAttribute("players", players);
-            return new Forward("WEB-INF/jsp/players.jsp");
+            int page = Pagination.makePagination(request, total);
+            if (page > 0) {
+                List<Player> players = playerService.findAll(page, Pagination.getLimit());
+                request.setAttribute("players", players);
+                return new Forward("WEB-INF/jsp/players.jsp");
+            } else {
+                return sendError(404);
+            }
         } catch (ServiceException e) {
             return sendError(500);
-        } catch (NumberFormatException e1) {
-            return sendError(404);
         }
     }
 

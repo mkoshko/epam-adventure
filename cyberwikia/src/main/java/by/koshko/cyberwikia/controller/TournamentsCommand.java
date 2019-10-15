@@ -22,20 +22,16 @@ public class TournamentsCommand extends AbstractCommand {
         try (ServiceFactory factory = new ServiceFactory()) {
             TournamentService tournamentService
                     = factory.getTournamentService();
-            int page = 1;
-            if (request.getParameter("page") != null) {
-                page = Integer.parseInt(request.getParameter("page"));
-            }
-            List<Tournament> tournaments = tournamentService.findAll(page, LIMIT);
             int total = tournamentService.getRowsNumber();
-            request.setAttribute("tournaments", tournaments);
-            request.setAttribute("page", page);
-            request.setAttribute("lastPage", calculateLastPage(total, LIMIT));
-            return new Forward("WEB-INF/jsp/tournaments.jsp");
-        } catch (NumberFormatException e0) {
-            return sendError(404);
+            int page = Pagination.makePagination(request, total);
+            if (page > 0) {
+                List<Tournament> tournaments = tournamentService.findAll(page, LIMIT);
+                request.setAttribute("tournaments", tournaments);
+                return new Forward("WEB-INF/jsp/tournaments.jsp");
+            } else {
+                return sendError(404);
+            }
         } catch (ServiceException e1) {
-            logger.error("Cannot handle the request. {}", e1.getMessage());
             return sendError(500);
         }
     }
