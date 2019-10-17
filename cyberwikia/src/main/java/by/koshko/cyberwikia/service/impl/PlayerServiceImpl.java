@@ -138,6 +138,7 @@ public final class PlayerServiceImpl extends AbstractService
             if (oldPlayer == null) {
                 return false;
             }
+            ServiceFactory.getImageService().delete(oldPlayer.getProfilePhoto());
             return playerDao.delete(oldPlayer);
         } catch (DaoException e) {
             throw new ServiceException("Cannot delete player.");
