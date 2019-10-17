@@ -27,6 +27,7 @@ public class CommandProvider {
         COMMANDS.put("/deleteplayer", new DeletePlayerCommand());
         COMMANDS.put("/createplayerform", new CreatePlayerPageCommand());
         COMMANDS.put("/createplayer", new CreatePlayerCommand());
+        COMMANDS.put("/kickplayer", new KickPlayerCommand());
     }
 
     public static AbstractCommand getCommand(final String action) {

@@ -14,6 +14,7 @@ public class ServiceErrorsMapper {
         ERROR_MAP.put(EntityError.DUPLICATE_NICKNAME, "player.error.nickname");
         ERROR_MAP.put(EntityError.REQUIRED_NOT_NULL, "error.fillallrequired");
         ERROR_MAP.put(EntityError.GENERIC_ERROR, "error.genericerror");
+        ERROR_MAP.put(EntityError.PLAYER_NOT_ACTIVE, "error.playernotactive");
     }
 
     public static String getLocalizedErrorKey(final EntityError error) {

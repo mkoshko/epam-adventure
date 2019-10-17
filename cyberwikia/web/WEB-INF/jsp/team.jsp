@@ -6,9 +6,11 @@
 <c:set var="viewPlayerAction" value="player.html?id="/>
 <c:set var="leaveTeamAction" value="leave.html"/>
 <c:set var="joinTeamAction" value="join.html"/>
+<c:set var="kickPlayer" value="kickplayer.html"/>
 
 <tag:html title="${team.name}">
     <fmt:bundle basename="localization">
+        <tag:errors/>
         <div class="row pt-2">
             <div class="col-12 col-xl-8">
                 <jsp:useBean id="team" scope="request" type="by.koshko.cyberwikia.bean.Team"/>
@@ -94,12 +96,15 @@
         <div class="row mt-3">
             <div class="col-12">
                 <h2><fmt:message key="team.active"/></h2>
-                <table class="table">
+                <table class="table table-responsive-sm">
                     <thead>
                     <tr>
                         <td><fmt:message key="label.nickname"/></td>
                         <td><fmt:message key="label.fullName"/></td>
                         <td><fmt:message key="label.joinDate"/></td>
+                        <c:if test="${user.id == team.creator.id}">
+                            <td></td>
+                        </c:if>
                     </tr>
                     </thead>
                     <tbody>
@@ -109,10 +114,25 @@
                                 <tr>
                                     <td>
                                         <img class="flag" src="<c:url value="${player.player.country.flag}"/>" alt="flag"/>
-                                        <a href="player.html?id=${player.player.id}"> ${player.player.nickname}<a/>
+                                        <a href="player.html?id=${player.player.id}"> ${player.player.nickname}</a>
                                     </td>
                                     <td>${player.player.firstName} ${player.player.lastName}</td>
                                     <td>${player.joinDate}</td>
+                                    <c:if test="${user.id == team.creator.id}">
+                                        <form action="${kickPlayer}" method="post">
+                                            <input type="hidden" value="${player.player.id}" name="id">
+                                            <input type="hidden" value="${from}" name="from">
+                                            <td class="p-lg-0 m-auto">
+                                            <button class="btn" type="submit">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="red" stroke-width="2"
+                                                     fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                                    <line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line>
+                                                </svg>
+                                            </button>
+                                            </td>
+                                        </form>
+                                    </c:if>
                                 </tr>
                             </c:if>
                         </c:forEach>

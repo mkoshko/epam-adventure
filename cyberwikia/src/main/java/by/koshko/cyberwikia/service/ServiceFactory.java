@@ -27,35 +27,35 @@ public class ServiceFactory implements AutoCloseable {
         }
     }
 
-    public CountryService getCountryService() throws ServiceException {
+    public CountryService getCountryService() {
         return new CountryServiceImpl(transaction, this);
     }
 
-    public GameService getGameService() throws ServiceException {
+    public GameService getGameService() {
         return new GameServiceImpl(transaction, this);
     }
 
-    public UserService getUserService() throws ServiceException {
+    public UserService getUserService() {
         return new UserServiceImpl(transaction, this);
     }
 
-    public PlayerService getPlayerService() throws ServiceException {
+    public PlayerService getPlayerService() {
         return new PlayerServiceImpl(transaction, this);
     }
 
-    public TeamService getTeamService() throws ServiceException {
+    public TeamService getTeamService() {
         return new TeamServiceImpl(transaction, this);
     }
 
-    public PlayerTeamService getPlayerTeamService() throws ServiceException {
+    public PlayerTeamService getPlayerTeamService() {
         return new PlayerTeamServiceImpl(transaction, this);
     }
 
-    public TournamentService getTournamentService() throws ServiceException {
+    public TournamentService getTournamentService() {
         return new TournamentServiceImpl(transaction, this);
     }
 
-    public TournamentTeamService getTournamentTeamService() throws ServiceException {
+    public TournamentTeamService getTournamentTeamService() {
         return new TournamentTeamServiceImpl(transaction, this);
     }
 

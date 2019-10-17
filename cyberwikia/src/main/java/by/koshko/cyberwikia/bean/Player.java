@@ -45,6 +45,13 @@ public final class Player extends Entity {
 
     private List<TournamentTeam> tournaments;
 
+    public Player() {
+    }
+
+    public Player(final long id) {
+        super(id);
+    }
+
     public List<TournamentTeam> getTournaments() {
         return tournaments;
     }

@@ -1,8 +1,6 @@
 package by.koshko.cyberwikia.service.impl;
 
-import by.koshko.cyberwikia.bean.Player;
-import by.koshko.cyberwikia.bean.PlayerTeam;
-import by.koshko.cyberwikia.bean.Team;
+import by.koshko.cyberwikia.bean.*;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerTeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
@@ -40,6 +38,37 @@ public final class PlayerTeamServiceImpl extends AbstractService
             throw new ServiceException("Cannot fetch information about"
                                        + " players active team.");
         }
+    }
+
+    public ServiceResponse kickPlayer(final long userId, final long playerId)
+            throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
+        TeamService teamService = getFactory().getTeamService();
+        Team createdTeam = teamService.findCreatedTeam(userId);
+        if (createdTeam == null) {
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
+        }
+        PlayerTeam playerTeam = findActiveTeam(new Player(playerId));
+        if (!playerTeam.isActive()) {
+            response.addErrorMessage(EntityError.PLAYER_NOT_ACTIVE);
+            return response;
+        }
+        if (createdTeam.getId() != playerTeam.getTeam().getId()) {
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
+        }
+        playerTeam.setActive(false);
+        playerTeam.setLeaveDate(LocalDate.now());
+        try {
+            PlayerTeamDao playerTeamDao = getTransaction().getDao(PLAYERTEAMDAO);
+            playerTeamDao.update(playerTeam);
+        } catch (DaoException e) {
+            logger.error("Cannot kick player. {}", e.getMessage());
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
+        }
+        return response;
     }
 
     // -1 - has no player profile.

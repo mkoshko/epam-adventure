@@ -12,8 +12,7 @@
               enctype="multipart/form-data">
             <div class="row pt-2">
                 <div class="col-12 col-xl-8">
-                    <h3><fmt:message key="title.overview"/></h3>
-                    <textarea class="w-100 form-control text-black" rows="20"
+                    <textarea class="w-100 form-control text-black mt-2" rows="26"
                               placeholder="<fmt:message key="editplayer.overview"/>"
                               name="overview">${player.overview}</textarea>
                 </div>
@@ -49,8 +48,9 @@
                                            name="lastname">
                                 </tr>
                                 <tr>
+                                    <label class="m-0 mt-1" for="nationality"><fmt:message key="player.nationality"/></label>
                                     <select class="custom-select mb-1"
-                                            name="country">
+                                            name="country" id="nationality">
                                         <c:forEach items="${countries}"
                                                    var="country">
                                             <option value="${country.id}">${country.name}</option>
@@ -58,9 +58,10 @@
                                     </select>
                                 </tr>
                                 <tr>
+                                    <label class="m-0 mt-1" for="birthday"><fmt:message key="player.birth"/></label>
                                     <input class="form-control" type="date"
                                            placeholder="date of birth"
-                                           name="birth">
+                                           name="birth" id="birthday">
                                 </tr>
                             </table>
                             <input type="hidden" name="from"
