@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface PlayerService {
 
-    ServiceResponse editPlayer(long userId, Player player) throws ServiceException;
+    ServiceResponse editPlayer(long userId, Player player)
+            throws ServiceException;
 
-    ServiceResponse createPlayer(long userId, Player player) throws ServiceException;
+    ServiceResponse createPlayer(long userId, Player player)
+            throws ServiceException;
 
     boolean deletePlayer(long userId) throws ServiceException;
 

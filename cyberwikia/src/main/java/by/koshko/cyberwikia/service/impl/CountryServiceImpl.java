@@ -13,22 +13,27 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class CountryServiceImpl extends AbstractService implements CountryService {
+public final class CountryServiceImpl extends AbstractService
+        implements CountryService {
 
+    /**
+     * Logger.
+     */
     private Logger logger = LogManager.getLogger(CountryServiceImpl.class);
 
     public CountryServiceImpl(final Transaction transaction,
                               final ServiceFactory factory) {
         super(transaction, factory);
     }
-
+    @Override
     public Country getCountryById(final long id) throws ServiceException {
         try {
-            CountryDao countryDao = getTransaction().getDao(DaoTypes.COUNTRYDAO);
+            CountryDao countryDao
+                    = getTransaction().getDao(DaoTypes.COUNTRYDAO);
             return countryDao.get(id);
         } catch (DaoException e) {
             logger.error(e.getMessage());
-            throw new ServiceException("Cannot load country");
+            throw new ServiceException("Cannot find country by id.", e);
         }
     }
     @Override

@@ -25,8 +25,7 @@ public class GameServiceImpl extends AbstractService implements GameService {
             GameDao gameDao = getTransaction().getDao(DaoTypes.GAMEDAO);
             return gameDao.get(id);
         } catch (DaoException e) {
-            logger.error("Cannot find game by id. {}", e.getMessage());
-            throw new ServiceException("Cannot find game by ID.");
+            throw new ServiceException("Cannot find game by ID.", e);
         }
     }
 }

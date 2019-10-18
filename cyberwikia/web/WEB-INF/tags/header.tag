@@ -1,46 +1,69 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<c:set var="porjectName" value="project.cyberwikia" scope="page"/>
+<c:set var="players" value="header.players" scope="page"/>
+<c:set var="teams" value="header.teams" scope="page"/>
+<c:set var="tournaments" value="header.tournaments" scope="page"/>
+<c:set var="registration" value="header.registration" scope="page"/>
+<c:set var="profiles" value="header.profiles" scope="page"/>
+<c:set var="createtournament" value="header.createtournament" scope="page"/>
+<c:set var="editPassword" value="user.editpassword" scope="page"/>
+
+<c:set var="playersLink" value="players.html" scope="page"/>
+<c:set var="teamsLink" value="teams.html" scope="page"/>
+<c:set var="tournamentsLink" value="tournaments.html" scope="page"/>
+<c:set var="registrationLink" value="registration.html" scope="page"/>
+<c:set var="profilesLink" value="mypages.html" scope="page"/>
+<c:set var="createtournamentLink" value="createtournamentform.html" scope="page"/>
+
+
+<c:set var="signInAction" value="signin.html" scope="page"/>
+<c:set var="signOutAction" value="signout.html" scope="page"/>
+<c:set var="editPasswordAction" value="edituser.html" scope="page"/>
+
 <fmt:bundle basename="localization">
 <div class="row">
     <div class="col-12 p-0">
         <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.html"><fmt:message key="project.cyberwikia"/></a>
+            <a class="navbar-brand" href="index.html"><fmt:message key="${porjectName}"/></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#header-menu" aria-controls="header-menu" aria-expanded="false"
             aria-label="Toggle navigation">
                 <svg width="24" height="24" viewBox="0 0 24 24"
                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                     stroke-linejoin="round" class="feather feather-chevrons-down"><polyline points="7 13 12 18 17 13"></polyline>
+                     stroke-linejoin="round" class="feather feather-chevrons-down">
+                    <polyline points="7 13 12 18 17 13"></polyline>
                     <polyline points="7 6 12 11 17 6"></polyline></svg>
             </button>
             <div class="collapse navbar-collapse" id="header-menu">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="players.html"><fmt:message key="header.players"/></a>
+                        <a class="nav-link" href="${playersLink}"><fmt:message key="${players}"/></a>
                         <span class="sr-only">(current)</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="teams.html"><fmt:message key="header.teams"/></a>
+                        <a class="nav-link" href="${teamsLink}"><fmt:message key="${teams}"/></a>
                         <span class="sr-only">(current)</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="tournaments.html"><fmt:message key="header.tournaments"/></a>
+                        <a class="nav-link" href="${tournamentsLink}"><fmt:message key="${tournaments}"/></a>
                         <span class="sr-only">(current)</span>
                     </li>
                     <c:if test="${user == null}">
                         <li class="nav-item">
-                            <a class="nav-link" href="registration.html"><fmt:message key="header.registration"/></a>
+                            <a class="nav-link" href="${registrationLink}"><fmt:message key="${registration}"/></a>
                             <span class="sr-only">(current)</span>
                         </li>
                     </c:if>
                     <c:if test="${user.role.toString().equals('USER')}">
                         <li class="nav-item">
-                            <a class="nav-link" href="mypages.html"><fmt:message key="header.profiles"/></a>
+                            <a class="nav-link" href="${profilesLink}"><fmt:message key="${profiles}"/></a>
                         </li>
                     </c:if>
                     <c:if test="${user.role.toString().equals('EVENT_MODERATOR')}">
                         <li class="nav-item">
-                            <a class="nav-link" href="createtournamentform.html"><fmt:message key="header.createtournament"/></a>
+                            <a class="nav-link" href="${createtournamentLink}"><fmt:message key="${createtournament}"/></a>
                         </li>
                     </c:if>
                 </ul>
@@ -54,7 +77,7 @@
                         </button>
                     </div>
                     <div>
-                        <form action="signout.html" method="post">
+                        <form action="${signOutAction}" method="post">
                             <input type="hidden" name="from" value="${from}">
                             <button class="btn btn-outline-light btn-full-width" type="submit">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white"
@@ -67,7 +90,7 @@
                     </div>
                 </c:if>
                 <c:if test="${user == null}">
-                    <form class="form-inline" id="signup-form" action="signin.html" method="post">
+                    <form class="form-inline" id="signup-form" action="${signInAction}" method="post">
                         <input class="form-control mb-1 mr-sm-2 mb-sm-2 mb-md-2 mr-md-2 mb-lg-0 mr-lg-1" type="text" name="login" placeholder="<fmt:message key="form.login.hint"/>">
                         <input class="form-control mb-1 mr-sm-2 mb-sm-2 mb-md-2 mr-md-2 mb-lg-0 mr-lg-1" type="password" name="password" placeholder="<fmt:message key="form.password.hint"/>">
                         <input type="hidden" name="from" value="${from}">
@@ -95,7 +118,7 @@
 
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <a href="edituser.html?id=${user.id}"><fmt:message key="user.editpassword"/></a>
+                        <a href="${editPasswordAction}"><fmt:message key="${editPassword}"/></a>
                     </div>
 
                     <!-- Modal footer -->
