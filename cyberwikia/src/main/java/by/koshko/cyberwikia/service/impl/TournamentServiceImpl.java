@@ -8,10 +8,7 @@ import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TournamentDao;
 import by.koshko.cyberwikia.dao.TournamentTeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.ServiceException;
-import by.koshko.cyberwikia.service.ServiceFactory;
-import by.koshko.cyberwikia.service.TeamService;
-import by.koshko.cyberwikia.service.TournamentService;
+import by.koshko.cyberwikia.service.*;
 import by.koshko.cyberwikia.service.validation.TournamentValidator;
 import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
@@ -95,7 +92,7 @@ public class TournamentServiceImpl extends AbstractService
     public List<Tournament> findAll(final int page, final int limit)
             throws ServiceException {
         try {
-            int offset = calculateOffset(page, limit);
+            int offset = PaginationHelper.calculateOffset(page, limit);
             TournamentDao tournamentDao = getTransaction().getDao(TOURNAMENTDAO);
             return tournamentDao.getAll(offset, limit);
         } catch (DaoException e) {

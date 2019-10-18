@@ -20,15 +20,4 @@ public class AbstractService {
         factory = extFactory;
         transaction = externalTransaction;
     }
-
-    protected int calculateOffset(final int page, final int limit) {
-        if (page <= 0) {
-            return 0;
-        }
-        if (page == 1) {
-            return 0;
-        } else {
-            return (page - 1) * limit;
-        }
-    }
 }
