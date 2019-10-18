@@ -1,5 +1,6 @@
-package by.koshko.cyberwikia.controller;
+package by.koshko.cyberwikia.controller.user;
 
+import by.koshko.cyberwikia.controller.UserCommand;
 import by.koshko.cyberwikia.service.CountryService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;

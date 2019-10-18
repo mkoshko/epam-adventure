@@ -1,5 +1,6 @@
-package by.koshko.cyberwikia.controller;
+package by.koshko.cyberwikia.controller.user;
 
+import by.koshko.cyberwikia.controller.UserCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,6 +1,7 @@
-package by.koshko.cyberwikia.controller;
+package by.koshko.cyberwikia.controller.user;
 
 import by.koshko.cyberwikia.bean.User;
+import by.koshko.cyberwikia.controller.UserCommand;
 import by.koshko.cyberwikia.service.PlayerTeamService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;

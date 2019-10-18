@@ -1,6 +1,7 @@
-package by.koshko.cyberwikia.controller;
+package by.koshko.cyberwikia.controller.user;
 
 import by.koshko.cyberwikia.bean.*;
+import by.koshko.cyberwikia.controller.UserCommand;
 import by.koshko.cyberwikia.service.PlayerService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
@@ -15,42 +16,47 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Objects;
 
-public class PlayerEditCommand extends UserCommand {
+public class CreatePlayerCommand extends UserCommand {
 
-    private Logger logger = LogManager.getLogger(PlayerEditCommand.class);
+    private static final Logger LOGGER
+            = LogManager.getLogger(CreatePlayerCommand.class);
 
     @Override
     public Forward execute(final HttpServletRequest request,
                            final HttpServletResponse response) {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         try (ServiceFactory factory = new ServiceFactory()) {
-            PlayerService playerService = factory.getPlayerService();
             User user = (User) session.getAttribute("user");
+            PlayerService playerService = factory.getPlayerService();
             Player player = new Player();
-            player.setNickname(request.getParameter("nickname"));
-            player.setOverview(request.getParameter("overview"));
-            player.setFirstName(request.getParameter("firstname"));
-            player.setLastName(request.getParameter("lastname"));
+            player.setId(user.getId());
             Part part = request.getPart("profilePhoto");
             player.setRawData(fillRawData(part));
+            player.setNickname(request.getParameter("nickname"));
+            player.setFirstName(request.getParameter("firstname"));
+            player.setLastName(request.getParameter("lastname"));
+            player.setOverview(request.getParameter("overview"));
             player.setCountry(new Country(Integer
                     .parseInt(request.getParameter("country"))));
-            player.setBirth(LocalDate.parse(Objects.requireNonNullElse(request.getParameter("birth"), "")));
+            player.setBirth(LocalDate.parse(request.getParameter("birth")));
             ServiceResponse serviceResponse
-                    = playerService.editPlayer(user.getId(), player);
+                    = playerService.createPlayer(user.getId(), player);
             if (serviceResponse.hasErrors()) {
+                LOGGER.debug("Service response have some errors.");
                 setErrors(session, serviceResponse);
-                return new Forward("editplayer.html");
+                return new Forward("createplayerform.html");
             } else {
-                return new Forward("player.html?id=" + user.getId());
+                return new Forward("mypages.html");
             }
-        } catch (ServiceException | IOException | ServletException e) {
-            logger.error(e.getMessage());
-            return sendError(500);
         } catch (DateTimeParseException | NumberFormatException e) {
-            return new Forward("editplayer.html");
+            ServiceResponse serviceResponse = new ServiceResponse();
+            serviceResponse.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
+            setErrors(session, serviceResponse);
+            return new Forward("createplayerform.html");
+        } catch (ServiceException | IOException | ServletException e1) {
+            LOGGER.error(e1.getMessage());
+            return sendError(500);
         }
     }
 }

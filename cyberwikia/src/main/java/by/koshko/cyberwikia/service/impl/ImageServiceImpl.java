@@ -26,6 +26,7 @@ public class ImageServiceImpl implements ImageService {
         String container = contentType.substring(permittedContentType.length());
         try {
             byte[] data = rawData.getIn().readAllBytes();
+            logger.debug("Read {} bytes of data.", data.length);
             return FileManager.save(data, UPLOAD_DIRECTORY, container);
         } catch (IOException e) {
             logger.error("Cannot save image. {}", e.getMessage());

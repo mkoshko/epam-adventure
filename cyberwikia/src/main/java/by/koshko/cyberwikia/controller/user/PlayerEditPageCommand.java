@@ -1,8 +1,9 @@
-package by.koshko.cyberwikia.controller;
+package by.koshko.cyberwikia.controller.user;
 
 import by.koshko.cyberwikia.bean.Country;
 import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.bean.User;
+import by.koshko.cyberwikia.controller.UserCommand;
 import by.koshko.cyberwikia.service.CountryService;
 import by.koshko.cyberwikia.service.PlayerService;
 import by.koshko.cyberwikia.service.ServiceException;

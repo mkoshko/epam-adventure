@@ -1,5 +1,9 @@
 package by.koshko.cyberwikia.controller;
 
+import by.koshko.cyberwikia.controller.moderator.CreateTournamentCommand;
+import by.koshko.cyberwikia.controller.moderator.CreateTournamentPageCommand;
+import by.koshko.cyberwikia.controller.user.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +32,8 @@ public class CommandProvider {
         COMMANDS.put("/createplayerform", new CreatePlayerPageCommand());
         COMMANDS.put("/createplayer", new CreatePlayerCommand());
         COMMANDS.put("/kickplayer", new KickPlayerCommand());
+        COMMANDS.put("/createtournamentform", new CreateTournamentPageCommand());
+        COMMANDS.put("/createtournament", new CreateTournamentCommand());
     }
 
     public static AbstractCommand getCommand(final String action) {

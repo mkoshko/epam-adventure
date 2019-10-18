@@ -1,5 +1,7 @@
 package by.koshko.cyberwikia.service.impl;
 
+import by.koshko.cyberwikia.bean.EntityError;
+import by.koshko.cyberwikia.bean.ServiceResponse;
 import by.koshko.cyberwikia.bean.Tournament;
 import by.koshko.cyberwikia.bean.TournamentTeam;
 import by.koshko.cyberwikia.dao.DaoException;
@@ -41,20 +43,23 @@ public class TournamentServiceImpl extends AbstractService
     }
 
     @Override
-    public void createTournament(final Tournament tournament) throws ServiceException {
+    public ServiceResponse createTournament(final Tournament tournament)
+            throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
         try {
             TournamentValidator tournamentValidator
                     = ValidationFactory.getTournamentValidator();
             if (!tournamentValidator.test(tournament, false)) {
-                throw new ServiceException("Invalid tournament parameters");
+                response.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
+                return response;
             }
-            Transaction transaction = getTransaction();
-            TournamentDao tournamentDao = transaction.getDao(TOURNAMENTDAO);
+            TournamentDao tournamentDao = getTransaction().getDao(TOURNAMENTDAO);
             tournament.setLogoFile(ServiceFactory
                     .getImageService().save(tournament.getRawData()));
             tournamentDao.save(tournament);
+            return response;
         } catch (DaoException e) {
-            throw new ServiceException("Cannot save tournament.");
+            throw new ServiceException("Cannot save tournament.", e);
         }
     }
 

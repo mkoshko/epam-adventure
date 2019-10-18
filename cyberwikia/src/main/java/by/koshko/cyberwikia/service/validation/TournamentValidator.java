@@ -25,6 +25,7 @@ public class TournamentValidator implements Validator {
     }
 
     public boolean test(final Tournament tournament, final boolean checkID) {
+        logger.debug("Validation tournament.");
         if (tournament == null) {
             return false;
         }
@@ -33,27 +34,31 @@ public class TournamentValidator implements Validator {
         String overview = tournament.getOverview();
         LocalDate startDate = tournament.getStartDate();
         LocalDate endDate = tournament.getEndDate();
-
         if (name == null || name.isBlank() || name.length() > nameMaxLength) {
             logger.debug("Invalid tournament name");
             return false;
         }
+        logger.debug("Tournament name test passed.");
         if (prize < 0) {
             logger.debug("Negative tournament prize value.");
             return false;
         }
+        logger.debug("Tournament prize test passed.");
         if (overview != null && overview.length() > overviewMaxLength) {
             logger.debug("Overview length is too large.");
             return false;
         }
+        logger.debug("Tournament overview test passed.");
         if (startDate == null || endDate == null || startDate.isAfter(endDate)) {
             logger.debug("Invalid tournament dates.");
             return false;
         }
+        logger.debug("Tournament start/end date test passed.");
         if (checkID && tournament.getId() <= 0) {
             logger.debug("Invalid tournament ID");
             return false;
         }
+        logger.debug("Tournament ID test passed.");
         return true;
     }
 

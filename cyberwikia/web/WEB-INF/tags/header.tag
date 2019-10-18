@@ -33,9 +33,14 @@
                             <span class="sr-only">(current)</span>
                         </li>
                     </c:if>
-                    <c:if test="${user != null}">
+                    <c:if test="${user.role.toString().equals('USER')}">
                         <li class="nav-item">
                             <a class="nav-link" href="mypages.html"><fmt:message key="header.profiles"/></a>
+                        </li>
+                    </c:if>
+                    <c:if test="${user.role.toString().equals('EVENT_MODERATOR')}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="createtournamentform.html"><fmt:message key="header.createtournament"/></a>
                         </li>
                     </c:if>
                 </ul>
@@ -86,7 +91,6 @@
                     <div class="modal-header">
                         <h4 class="modal-title mr-1">${user.login}</h4>
                         <span class="text-muted pt-2">(${user.email})</span>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
 
                     <!-- Modal body -->

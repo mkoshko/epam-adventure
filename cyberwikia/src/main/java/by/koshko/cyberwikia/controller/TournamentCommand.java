@@ -21,6 +21,9 @@ public class TournamentCommand extends AbstractCommand {
             TournamentService tournamentService = factory.getTournamentService();
             long id = Long.parseLong(request.getParameter("id"));
             Tournament tournament = tournamentService.getTournamentById(id);
+            if (tournament == null) {
+                return sendError(404);
+            }
             request.setAttribute("tournament", tournament);
             return new Forward("WEB-INF/jsp/tournament.jsp");
         } catch (ServiceException e) {
