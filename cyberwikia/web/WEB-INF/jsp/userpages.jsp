@@ -93,7 +93,7 @@
                         <h4>Are you sure?</h4>
                     </div>
                     <div class="modal-body text-center px-0">
-                        <form action="${deleteProfileAction}" method="post">
+                        <form action="${deleteTeamAction}" method="post">
                             <input type="hidden" name="from" value="${from}">
                             <button type="submit" class="btn btn-danger w-40"><fmt:message key="dialog.yes"/></button>
                             <button type="button" class="btn btn-dark w-40" data-dismiss="modal"><fmt:message key="dialog.no"/></button>

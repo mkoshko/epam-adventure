@@ -31,7 +31,8 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
     private static final String FIND_TEAMS
             = "SELECT tournament_id, team_id, placement"
               + " FROM m2m_tournament_team"
-              + " WHERE tournament_id=?;";
+              + " WHERE tournament_id=?"
+              + " ORDER BY placement;";
     private static final String FIND_PLAYER_TOURNAMENTS
             = "SELECT tournament_id, m2m_tournament_team.team_id, placement"
               + " FROM m2m_tournament_team"

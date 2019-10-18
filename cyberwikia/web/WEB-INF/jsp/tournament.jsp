@@ -2,13 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
+
+<c:set var="editTournamentLink" value="edittournament.html?id=" scope="page"/>
+<c:set var="edit" value="button.edit" scope="page"/>
+
 <tag:html localizedTitle="title.tournaments">
     <fmt:bundle basename="localization">
         <div class="row pt-2">
             <jsp:useBean id="tournament" scope="request" type="by.koshko.cyberwikia.bean.Tournament"/>
             <tag:overview text="${tournament.overview}"/>
             <tag:card>
-                <div class="card-header text-center"><h3>${tournament.name}</h3></div>
+                <div class="card-header text-center"><h3><c:out value="${tournament.name}"/></h3></div>
                 <img class="card-img-top p-1" src="<c:url value="${tournament.logoFile}"/>" alt="${tournament.name}"/>
                 <div class="card-body p-1">
                     <tag:card-table>
@@ -25,7 +29,11 @@
                             <td>$ <fmt:formatNumber value="${tournament.prize}"/></td>
                         </tr>
                     </tag:card-table>
+                    <c:if test="${user.role.toString().equals('EVENT_MODERATOR')}">
+                        <a class="btn btn-dark w-100" href="${editTournamentLink}${tournament.id}"><fmt:message key="${edit}"/></a>
+                    </c:if>
                 </div>
+
             </tag:card>
         </div>
         <c:set var="partisipants" value="${tournament.participants}"/>

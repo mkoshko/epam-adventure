@@ -4,6 +4,8 @@
 
 <fmt:bundle basename="localization">
     <div class="col-sm-12 col-md-8 col-xl-4 mx-auto">
-        <jsp:doBody/>
+        <div class="card">
+            <jsp:doBody/>
+        </div>
     </div>
 </fmt:bundle>

@@ -1,9 +1,6 @@
 package by.koshko.cyberwikia.service.impl;
 
-import by.koshko.cyberwikia.bean.EntityError;
-import by.koshko.cyberwikia.bean.ServiceResponse;
-import by.koshko.cyberwikia.bean.Tournament;
-import by.koshko.cyberwikia.bean.TournamentTeam;
+import by.koshko.cyberwikia.bean.*;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TournamentDao;
 import by.koshko.cyberwikia.dao.TournamentTeamDao;
@@ -61,17 +58,29 @@ public class TournamentServiceImpl extends AbstractService
     }
 
     @Override
-    public void updateTournament(final Tournament tournament) throws ServiceException {
+    public ServiceResponse updateTournament(final Tournament tournament)
+            throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
         TournamentValidator tournamentValidator
                 = ValidationFactory.getTournamentValidator();
         if (!tournamentValidator.test(tournament, true)) {
-            throw new ServiceException("Invalid tournament parameters");
+            response.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
+            return response;
         }
         try {
-            TournamentDao tournamentDao = getTransaction().getDao(TOURNAMENTDAO);
-            tournamentDao.update(tournament);
+            TournamentDao tournamentDao
+                    = getTransaction().getDao(TOURNAMENTDAO);
+            Tournament oldTournament = tournamentDao.get(tournament.getId());
+            tournament.setLogoFile(saveNewDeleteOldImage(oldTournament.getLogoFile(),
+                    tournament.getRawData()));
+            if (tournamentDao.update(tournament)) {
+                return response;
+            } else {
+                response.addErrorMessage(EntityError.GENERIC_ERROR);
+                return response;
+            }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot update tournament.");
+            throw new ServiceException("Cannot update tournament.", e);
         }
     }
 

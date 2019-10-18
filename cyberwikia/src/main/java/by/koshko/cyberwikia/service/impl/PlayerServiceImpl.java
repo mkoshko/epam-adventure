@@ -52,7 +52,8 @@ public final class PlayerServiceImpl extends AbstractService
                 response.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
                 return response;
             }
-            saveNewDeleteOldPic(player, oldPlayer);
+            player.setProfilePhoto(saveNewDeleteOldImage(oldPlayer
+                    .getProfilePhoto(), player.getRawData()));
             if (!playerDao.update(player)) {
                 response.addErrorMessage(EntityError.GENERIC_ERROR);
                 return response;
@@ -61,23 +62,6 @@ public final class PlayerServiceImpl extends AbstractService
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot update player profile.", e);
-        }
-    }
-
-    private void saveNewDeleteOldPic(final Player newPlayer,
-                                     final Player oldPlayer) {
-        if (newPlayer.getRawData() == null) {
-            newPlayer.setProfilePhoto(oldPlayer.getProfilePhoto());
-            return;
-        }
-        String newPicPath = ServiceFactory
-                .getImageService().save(newPlayer.getRawData());
-        if (newPicPath != null) {
-            logger.debug("New profile picture is set up: '{}'.", newPicPath);
-            newPlayer.setProfilePhoto(newPicPath);
-            ServiceFactory.getImageService().delete(oldPlayer.getProfilePhoto());
-        } else {
-            newPlayer.setProfilePhoto(oldPlayer.getProfilePhoto());
         }
     }
 
