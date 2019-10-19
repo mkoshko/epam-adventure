@@ -4,14 +4,7 @@ import by.koshko.cyberwikia.bean.*;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.CountryService;
-import by.koshko.cyberwikia.service.GameService;
-import by.koshko.cyberwikia.service.PlayerService;
-import by.koshko.cyberwikia.service.PlayerTeamService;
-import by.koshko.cyberwikia.service.ServiceException;
-import by.koshko.cyberwikia.service.ServiceFactory;
-import by.koshko.cyberwikia.service.TeamService;
-import by.koshko.cyberwikia.service.TournamentTeamService;
+import by.koshko.cyberwikia.service.*;
 import by.koshko.cyberwikia.service.validation.TeamValidator;
 import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
@@ -84,14 +77,13 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
     @Override
     public ServiceResponse createTeam(final long userId,
                            final Team team) throws ServiceException {
-        PlayerService playerService = getFactory().getPlayerService();
-        Player player = playerService.findById(userId);
-        if (player == null) {
-            ServiceResponse response = new ServiceResponse();
-            response.addErrorMessage(EntityError.NO_PLAYER_PROFILE);
-            return response;
+        Team oldTeam = findCreatedTeam(userId);
+        if (oldTeam != null) {
+            ServiceResponse serviceResponse = new ServiceResponse();
+            serviceResponse.addErrorMessage(EntityError.ALREADY_HAS_TEAM);
+            return serviceResponse;
         }
-        team.setCreator(player);
+        team.setCreator(new User(userId));
         return createTeam(team);
     }
 
@@ -119,6 +111,26 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         }
     }
 
+    public ServiceResponse deleteTeam(final long userId) {
+        ServiceResponse response = new ServiceResponse();
+        try {
+            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            Team team = teamDao.findCreatedTeam(userId);
+            if (team == null || !teamDao.delete(team)) {
+                response.addErrorMessage(EntityError.GENERIC_ERROR);
+                return response;
+            }
+            logger.debug("Team '{}' was deleted.", team.getName());
+            return response;
+        } catch (DaoException e) {
+            logger.error("Cannot delete team. User id: {}. {}",
+                    userId, e.getMessage());
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
+        }
+    }
+
+    @Override
     public Team loadTeamProfile(final long id) throws ServiceException {
         Transaction transaction = getTransaction();
         if (id <= 0) {
@@ -140,15 +152,16 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
                     = getFactory().getTournamentTeamService();
             PlayerTeamService playerTeamService
                     = getFactory().getPlayerTeamService();
+            UserService userService = getFactory().getUserService();
             long countryID = team.getCountry().getId();
             team.setCountry(countryService.getCountryById(countryID));
             long gameID = team.getGame().getId();
             team.setGame(gameService.findById(gameID));
-            Player creator = team.getCreator();
+            User creator = team.getCreator();
             Player captain = team.getCaptain();
             Player coach = team.getCoach();
             if (creator != null) {
-                creator = playerService.findById(creator.getId());
+                creator = userService.get(team.getCreator().getId());
                 team.setCreator(creator);
             }
             if (captain != null) {
@@ -203,7 +216,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             }
             return teams;
         } catch (DaoException e) {
-            throw new ServiceException("Cannot get all teams.");
+            throw new ServiceException("Cannot get all teams.", e);
         }
     }
 
@@ -233,7 +246,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             }
             return teams;
         } catch (DaoException e) {
-            throw new ServiceException("Cannot get all teams.");
+            throw new ServiceException("Cannot get all teams.", e);
         }
     }
 

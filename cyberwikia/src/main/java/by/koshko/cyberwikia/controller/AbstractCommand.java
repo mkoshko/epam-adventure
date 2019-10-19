@@ -1,6 +1,5 @@
 package by.koshko.cyberwikia.controller;
 
-
 import by.koshko.cyberwikia.bean.RawData;
 import by.koshko.cyberwikia.bean.Role;
 import by.koshko.cyberwikia.bean.ServiceResponse;
@@ -48,6 +47,18 @@ public abstract class AbstractCommand {
             return rawData;
         } else {
             return null;
+        }
+    }
+
+    protected Forward makeForward(final String successUrl,
+                                  final String errorUrl,
+                                  final ServiceResponse response,
+                                  final HttpSession session) {
+        if (!response.hasErrors()) {
+            return new Forward(successUrl);
+        } else {
+            setErrors(session, response);
+            return new Forward(errorUrl);
         }
     }
 

@@ -9,5 +9,5 @@ public enum EntityError {
     REQUIRED_NOT_NULL,
     GENERIC_ERROR,
     PLAYER_NOT_ACTIVE,
-    NO_PLAYER_PROFILE
+    ALREADY_HAS_TEAM
 }

@@ -14,5 +14,5 @@ public interface TeamService {
     List<Team> findAll(int page, int limit) throws ServiceException;
     int getRowsNumber() throws ServiceException;
     Team findCreatedTeam(long userId) throws ServiceException;
-
+    ServiceResponse deleteTeam(long userId);
 }

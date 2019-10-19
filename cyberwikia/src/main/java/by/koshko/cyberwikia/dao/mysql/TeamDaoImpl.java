@@ -1,9 +1,6 @@
 package by.koshko.cyberwikia.dao.mysql;
 
-import by.koshko.cyberwikia.bean.Country;
-import by.koshko.cyberwikia.bean.Game;
-import by.koshko.cyberwikia.bean.Player;
-import by.koshko.cyberwikia.bean.Team;
+import by.koshko.cyberwikia.bean.*;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TeamDao;
 
@@ -54,10 +51,10 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
         }
     }
 
-    public Team findCreatedTeam(final long playerId) throws DaoException {
+    public Team findCreatedTeam(final long userId) throws DaoException {
         try (PreparedStatement statement
                      = getConnection().prepareStatement(FIND_CREATED_TEAM)) {
-            statement.setLong(1, playerId);
+            statement.setLong(1, userId);
             return buildSingleInstance(statement.executeQuery());
         } catch (SQLException e) {
             throw new DaoException("Cannot find players created team.", e);
@@ -169,7 +166,7 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
         team.setCountry(c);
         var creatorID = rs.getLong("creator");
         if (creatorID > 0) {
-            Player creator = new Player();
+            User creator = new User();
             creator.setId(creatorID);
             team.setCreator(creator);
         }

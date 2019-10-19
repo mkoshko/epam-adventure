@@ -19,7 +19,7 @@ public final class Team extends Entity {
     /**
      * Creator of the team.
      */
-    private Player creator;
+    private User creator;
     /**
      * Team captain.
      */
@@ -126,7 +126,7 @@ public final class Team extends Entity {
      *
      * @return team creator name.
      */
-    public Player getCreator() {
+    public User getCreator() {
         return creator;
     }
 
@@ -135,7 +135,7 @@ public final class Team extends Entity {
      *
      * @param teamCreator The name to be set to {@link #creator}.
      */
-    public void setCreator(final Player teamCreator) {
+    public void setCreator(final User teamCreator) {
         creator = teamCreator;
     }
 

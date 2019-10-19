@@ -18,6 +18,8 @@ import de.mkammerer.argon2.Argon2Factory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static by.koshko.cyberwikia.dao.DaoTypes.USERDAO;
+
 public class UserServiceImpl extends AbstractService implements UserService {
 
     private Logger logger = LogManager.getLogger(UserServiceImpl.class);
@@ -36,7 +38,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
     public User signIn(final String login, final String password)
             throws ServiceException {
         try {
-            UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
+            UserDao userDao = getTransaction().getDao(USERDAO);
             User user = userDao.findByLogin(login);
             if (user != null && argon2.verify(user.getPassword(), password)) {
                 user.setPassword(null);
@@ -57,7 +59,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 response.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
                 return response;
             }
-            UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
+            UserDao userDao = getTransaction().getDao(USERDAO);
             if (userDao.hasLogin(user.getLogin())) {
                 response.addErrorMessage(EntityError.DUPLICATE_LOGIN);
             }
@@ -81,6 +83,15 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
     }
 
+    public User get(final long userId) throws ServiceException {
+        try {
+            UserDao userDao = getTransaction().getDao(USERDAO);
+            return userDao.get(userId);
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot get user by id.", e);
+        }
+    }
+
     public int update(final User user) throws ServiceException {
         UserValidator userValidator = ValidationFactory.getUserValidator();
         try {
@@ -88,7 +99,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 logger.debug("Invalid user parameters.");
                 return -1;
             }
-            UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
+            UserDao userDao = getTransaction().getDao(USERDAO);
             if (userDao.update(user)) {
                 return 0;
             }
@@ -106,7 +117,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 logger.debug("Invalid user parameters.");
                 return false;
             }
-            UserDao userDao = getTransaction().getDao(DaoTypes.USERDAO);
+            UserDao userDao = getTransaction().getDao(USERDAO);
             User oldUser = userDao.get(user.getId());
             if (argon2.verify(oldUser.getPassword(), oldPass)) {
                 String newPassword = argon2.hash(ITERATION, MEMORY, THREADS,

@@ -28,6 +28,13 @@ public final class User extends Entity {
      */
     private String password;
 
+    public User() {
+    }
+
+    public User(final long id) {
+        super(id);
+    }
+
     /**
      * Returns the {@link #role} of the user.
      *

@@ -40,6 +40,7 @@ public class CommandProvider {
         COMMANDS.put("/savetournament", new SaveTournamentCommand());
         COMMANDS.put("/createteamform", new CreateTeamPageCommand());
         COMMANDS.put("/createteam", new CreateTeamCommand());
+        COMMANDS.put("/deleteteam", new DeleteTeamCommand());
     }
 
     public static AbstractCommand getCommand(final String action) {

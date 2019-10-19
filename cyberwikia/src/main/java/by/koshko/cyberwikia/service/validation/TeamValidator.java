@@ -1,9 +1,6 @@
 package by.koshko.cyberwikia.service.validation;
 
-import by.koshko.cyberwikia.bean.Country;
-import by.koshko.cyberwikia.bean.Game;
-import by.koshko.cyberwikia.bean.Player;
-import by.koshko.cyberwikia.bean.Team;
+import by.koshko.cyberwikia.bean.*;
 import by.koshko.cyberwikia.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +31,7 @@ public class TeamValidator implements Validator {
         String overview = team.getOverview();
         Country country = team.getCountry();
         Game game = team.getGame();
-        Player creator = team.getCreator();
+        User creator = team.getCreator();
         if (name == null
             || name.isBlank()
             || name.length() > nameMaxLength) {
