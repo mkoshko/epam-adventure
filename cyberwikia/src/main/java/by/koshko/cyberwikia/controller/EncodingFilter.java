@@ -1,5 +1,7 @@
 package by.koshko.cyberwikia.controller;
 
+import org.apache.logging.log4j.LogManager;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -16,6 +18,7 @@ public class EncodingFilter implements Filter {
                          final FilterChain chain)
             throws IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         chain.doFilter(request, response);
     }

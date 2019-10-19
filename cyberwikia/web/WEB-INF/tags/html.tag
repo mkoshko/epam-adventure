@@ -13,8 +13,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<%--    <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/>">--%>
+    <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/styles.css"/>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <c:choose>

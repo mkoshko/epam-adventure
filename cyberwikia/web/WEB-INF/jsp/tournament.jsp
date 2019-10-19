@@ -9,6 +9,8 @@
 <jsp:useBean id="tournament" scope="request"
              type="by.koshko.cyberwikia.bean.Tournament"/>
 <c:set var="partisipants" value="${tournament.participants}"/>
+<c:set var="moderator"
+       value="${user.role.toString().equals('EVENT_MODERATOR')}"/>
 
 <tag:html localizedTitle="title.tournaments">
     <fmt:bundle basename="localization">
@@ -40,38 +42,40 @@
                     </tbody>
                 </table>
             </div>
-            <tag:card>
-                <div class="card-header text-center"><h3><c:out
-                        value="${tournament.name}"/></h3></div>
-                <img class="card-img-top p-1"
-                     src="<c:url value="${tournament.logoFile}"/>"
-                     alt="${tournament.name}"/>
-                <div class="card-body p-1">
-                    <tag:card-table>
-                        <tr>
-                            <td class="text-right"><fmt:message
-                                    key="tournament.startdate"/></td>
-                            <td>${tournament.startDate}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-right"><fmt:message
-                                    key="tournament.enddate"/></td>
-                            <td>${tournament.endDate}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-right"><fmt:message
-                                    key="tournament.prize"/></td>
-                            <td>$ <fmt:formatNumber
-                                    value="${tournament.prize}"/></td>
-                        </tr>
-                    </tag:card-table>
-                    <c:if test="${user.role.toString().equals('EVENT_MODERATOR')}">
-                        <a class="btn btn-dark w-100"
-                           href="${editTournamentLink}${tournament.id}"><fmt:message
-                                key="${edit}"/></a>
-                    </c:if>
+            <div class="col-sm-12 col-md-8 col-xl-4">
+                <div class="card mb-2">
+                    <div class="card-header text-center"><h3><c:out
+                            value="${tournament.name}"/></h3></div>
+                    <img class="card-img-top p-1"
+                         src="<c:url value="${tournament.logoFile}"/>"
+                         alt="${tournament.name}"/>
+                    <div class="card-body p-1">
+                        <table class="table table-striped">
+                            <tr>
+                                <td class="text-right"><fmt:message
+                                        key="tournament.startdate"/></td>
+                                <td>${tournament.startDate}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><fmt:message
+                                        key="tournament.enddate"/></td>
+                                <td>${tournament.endDate}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><fmt:message
+                                        key="tournament.prize"/></td>
+                                <td>$ <fmt:formatNumber
+                                        value="${tournament.prize}"/></td>
+                            </tr>
+                        </table>
+                        <c:if test="${moderator}">
+                            <a class="btn btn-dark w-100"
+                               href="${editTournamentLink}${tournament.id}"><fmt:message
+                                    key="${edit}"/></a>
+                        </c:if>
+                    </div>
                 </div>
-            </tag:card>
+            </div>
         </div>
     </fmt:bundle>
 </tag:html>

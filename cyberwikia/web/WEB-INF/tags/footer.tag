@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-12 p-0">
         <footer class="footer">
-            <span class="lang-switch">
+            <div class="lang-switch">
                 <form action="lang.html" id="lang" method="get">
                     <input type="hidden" value="from=${from}">
                     <select name="id">
@@ -15,7 +15,7 @@
                         >English</option>
                     </select>
                 </form>
-            </span>
+            </div>
         </footer>
     </div>
 </div>
