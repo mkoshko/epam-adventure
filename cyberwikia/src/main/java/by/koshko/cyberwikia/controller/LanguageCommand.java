@@ -26,6 +26,7 @@ public class LanguageCommand extends AbstractCommand {
         if (locale != null) {
             Cookie cookie = new Cookie("locale", locale);
             cookie.setHttpOnly(true);
+            cookie.setMaxAge(Integer.MAX_VALUE);
             response.addCookie(cookie);
         }
         return sendBack(request);
