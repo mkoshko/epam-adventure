@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 
-<c:set var="createPlayerAction" value="createplayer.html" scope="page"/>
+<c:set var="createPlayerAction" value="createplayer.html"/>
 
 <tag:html localizedTitle="title.createplayer">
     <fmt:bundle basename="localization">
@@ -65,7 +65,7 @@
                                 </tr>
                             </table>
                             <input type="hidden" name="from"
-                                   value="player.html?id=${user.id}">
+                                   value="mypages.html">
                             <button type="submit" class="btn btn-dark w-100">
                                 <fmt:message key="player.save"/></button>
                         </div>

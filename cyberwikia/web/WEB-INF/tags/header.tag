@@ -163,14 +163,10 @@
                         <h4 class="modal-title mr-1">${user.login}</h4>
                         <span class="text-muted pt-2">(${user.email})</span>
                     </div>
-
-                    <!-- Modal body -->
                     <div class="modal-body">
                         <a href="${editPasswordAction}"><fmt:message
                                 key="${editPassword}"/></a>
                     </div>
-
-                    <!-- Modal footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                                 data-dismiss="modal">Close

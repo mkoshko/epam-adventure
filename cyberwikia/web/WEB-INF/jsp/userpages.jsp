@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 <%--Team actions--%>
-<c:set var="createTeamAction" value="createteam.html"/>
+<c:set var="createTeamAction" value="createteamform.html"/>
 <c:set var="viewTeamAction" value="team.html?id="/>
 <c:set var="editTeamAction" value="editteam.html"/>
 <c:set var="deleteTeamAction" value="deleteteam.html"/>
