@@ -32,7 +32,7 @@ public class ProfilesPageCommand extends UserCommand {
             request.setAttribute("player", player);
             return new Forward("WEB-INF/jsp/userpages.jsp");
         } catch (ServiceException e) {
-            return sendError(401);
+            return sendError(500);
         }
     }
 }

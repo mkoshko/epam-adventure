@@ -66,7 +66,7 @@ CREATE TABLE team
     CONSTRAINT PK_team PRIMARY KEY (id),
     CONSTRAINT UQ_team_name UNIQUE (name),
     CONSTRAINT UQ_team_creator UNIQUE (creator),
-    CONSTRAINT FK_team_creator FOREIGN KEY (creator) REFERENCES player (id) ON DELETE SET NULL,
+    CONSTRAINT FK_team_creator FOREIGN KEY (creator) REFERENCES user (id) ON DELETE SET NULL,
     CONSTRAINT FK_team_location FOREIGN KEY (country_id) REFERENCES country (id),
     CONSTRAINT FK_team_captain FOREIGN KEY (captain) REFERENCES player (id) ON DELETE SET NULL,
     CONSTRAINT FK_team_coach FOREIGN KEY (coach) REFERENCES player (id) ON DELETE SET NULL,

@@ -40,14 +40,9 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
     }
 
     public Team findCreatedTeam(final long userId) throws ServiceException {
-        PlayerService playerService = getFactory().getPlayerService();
-        Player player = playerService.findById(userId);
-        if (player == null) {
-            return null;
-        }
         try {
             TeamDao teamDao = getTransaction().getDao(TEAMDAO);
-            return teamDao.findCreatedTeam(player.getId());
+            return teamDao.findCreatedTeam(userId);
         } catch (DaoException e) {
             throw new ServiceException("Cannot find player created team.", e);
         }
