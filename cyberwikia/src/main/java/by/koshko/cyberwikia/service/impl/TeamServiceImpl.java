@@ -39,6 +39,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         }
     }
 
+    @Override
     public Team findCreatedTeam(final long userId) throws ServiceException {
         try {
             TeamDao teamDao = getTransaction().getDao(TEAMDAO);
