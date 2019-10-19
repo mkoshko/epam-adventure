@@ -40,7 +40,14 @@
 <%--                        Team card--%>
                         <jsp:useBean id="team" scope="request" type="by.koshko.cyberwikia.bean.Team"/>
                         <div class="${cardClass} mr-lg-1">
-                            <img class="card-img-top mx-auto smaller-card-img" src="<c:url value="${team.logoFile}"/>" alt="${team.name}">
+                            <c:choose>
+                                <c:when test="${team.logoFile != null}">
+                                    <img class="card-img-top mx-auto smaller-card-img" src="<c:url value="${team.logoFile}"/>" alt="${team.name}">
+                                </c:when>
+                                <c:otherwise>
+                                    <tag:emptyImage/>
+                                </c:otherwise>
+                            </c:choose>
                             <h3 class="card-title text-center my-1">${team.name}</h3>
                             <div class="p-1">
                                 <a class="btn btn-outline-dark w-100 mb-1" href="${viewTeamAction}${team.id}">View team</a>
@@ -73,7 +80,14 @@
 <%--                        Player card--%>
                         <jsp:useBean id="player" scope="request" type="by.koshko.cyberwikia.bean.Player"/>
                         <div class="${cardClass} ml-lg-1">
-                            <img class="card-img-top mx-auto smaller-card-img" src="<c:url value="${player.profilePhoto}"/>" alt="${player.nickname}">
+                            <c:choose>
+                                <c:when test="${player.profilePhoto != null}">
+                                    <img class="card-img-top mx-auto smaller-card-img" src="<c:url value="${player.profilePhoto}"/>" alt="${player.nickname}">
+                                </c:when>
+                                <c:otherwise>
+                                    <tag:emptyImage/>
+                                </c:otherwise>
+                            </c:choose>
                             <h3 class="card-title text-center my-1">${player.nickname}</h3>
                             <div class="p-1">
                                 <a class="btn btn-outline-dark w-100 mb-1" href="${viewProfileAction}${player.id}">View profile</a>

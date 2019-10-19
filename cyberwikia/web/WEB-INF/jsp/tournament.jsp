@@ -46,9 +46,16 @@
                 <div class="card mb-2">
                     <div class="card-header text-center"><h3><c:out
                             value="${tournament.name}"/></h3></div>
-                    <img class="card-img-top p-1"
-                         src="<c:url value="${tournament.logoFile}"/>"
-                         alt="${tournament.name}"/>
+                    <c:choose>
+                        <c:when test="${tournament.logoFile != null}">
+                            <img class="card-img-top p-1"
+                                 src="<c:url value="${tournament.logoFile}"/>"
+                                 alt="${tournament.name}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <tag:emptyImage/>
+                        </c:otherwise>
+                    </c:choose>
                     <div class="card-body p-1">
                         <table class="table table-striped">
                             <tr>
