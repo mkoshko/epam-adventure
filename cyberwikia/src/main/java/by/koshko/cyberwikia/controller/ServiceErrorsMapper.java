@@ -15,6 +15,7 @@ public class ServiceErrorsMapper {
         ERROR_MAP.put(EntityError.REQUIRED_NOT_NULL, "error.fillallrequired");
         ERROR_MAP.put(EntityError.GENERIC_ERROR, "error.genericerror");
         ERROR_MAP.put(EntityError.PLAYER_NOT_ACTIVE, "error.playernotactive");
+        ERROR_MAP.put(EntityError.NO_PLAYER_PROFILE, "error.noplayerprofile");
     }
 
     public static String getLocalizedErrorKey(final EntityError error) {

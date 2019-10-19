@@ -17,6 +17,13 @@ public final class Game extends Entity {
      */
     private String iconFile;
 
+    public Game() {
+    }
+
+    public Game(final long id) {
+        super(id);
+    }
+
     /**
      * Returns the title of the game.
      *

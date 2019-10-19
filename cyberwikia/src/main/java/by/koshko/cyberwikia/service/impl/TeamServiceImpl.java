@@ -1,10 +1,6 @@
 package by.koshko.cyberwikia.service.impl;
 
-import by.koshko.cyberwikia.bean.Country;
-import by.koshko.cyberwikia.bean.Player;
-import by.koshko.cyberwikia.bean.PlayerTeam;
-import by.koshko.cyberwikia.bean.Team;
-import by.koshko.cyberwikia.bean.TournamentTeam;
+import by.koshko.cyberwikia.bean.*;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
@@ -90,31 +86,40 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
     }
 
     @Override
-    public void createTeam(final long userId,
+    public ServiceResponse createTeam(final long userId,
                            final Team team) throws ServiceException {
         PlayerService playerService = getFactory().getPlayerService();
         Player player = playerService.findById(userId);
         if (player == null) {
-            throw new ServiceException("Cannot create team."
-                                       + " User has no player profile.");
+            ServiceResponse response = new ServiceResponse();
+            response.addErrorMessage(EntityError.NO_PLAYER_PROFILE);
+            return response;
         }
         team.setCreator(player);
-        createTeam(team);
+        return createTeam(team);
     }
 
-    private void createTeam(final Team team) throws ServiceException {
+    private ServiceResponse createTeam(final Team team) {
+        ServiceResponse response = new ServiceResponse();
         TeamValidator teamValidator = ValidationFactory.getTeamValidator();
         if (!teamValidator.test(team, false)) {
-            throw new ServiceException("Invalid team parameters.");
+            response.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
+            return response;
         }
-        Transaction transaction = getTransaction();
         try {
-            TeamDao teamDao = transaction.getDao(TEAMDAO);
+            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
             team.setLogoFile(ServiceFactory
                     .getImageService().save(team.getRawData()));
-            teamDao.save(team);
+            if (teamDao.save(team)) {
+                return response;
+            } else {
+                response.addErrorMessage(EntityError.GENERIC_ERROR);
+                return response;
+            }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot save team.");
+            logger.error("Cannot create team. {}", e.getMessage());
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
         }
     }
 
