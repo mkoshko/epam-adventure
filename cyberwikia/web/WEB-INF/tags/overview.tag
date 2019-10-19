@@ -3,9 +3,6 @@
 <%@ attribute name="text" required="false" rtexprvalue="true" %>
 
 <fmt:bundle basename="localization">
-    <div class="col-12 col-xl-8">
-        <h3><fmt:message key="title.overview"/></h3>
+    <h2><fmt:message key="title.overview"/></h2>
     <c:out value="${text}"/>
-        <jsp:doBody/>
-    </div>
 </fmt:bundle>

@@ -6,15 +6,17 @@
 <c:set var="editTournamentLink" value="edittournament.html?id=" scope="page"/>
 <c:set var="edit" value="button.edit" scope="page"/>
 
+<jsp:useBean id="tournament" scope="request"
+             type="by.koshko.cyberwikia.bean.Tournament"/>
+<c:set var="partisipants" value="${tournament.participants}"/>
+
 <tag:html localizedTitle="title.tournaments">
     <fmt:bundle basename="localization">
         <div class="row pt-2">
-            <jsp:useBean id="tournament" scope="request"
-                         type="by.koshko.cyberwikia.bean.Tournament"/>
-            <tag:overview text="${tournament.overview}">
-                <c:set var="partisipants" value="${tournament.participants}"/>
-                <hr>
-                <h2 class="mt-4"><fmt:message key="tournament.participants"/></h2>
+            <div class="col-12 col-xl-8">
+                <tag:overview text="${tournament.overview}"/>
+                <h2 class="mt-4"><fmt:message
+                        key="tournament.participants"/></h2>
                 <table class="table">
                     <thead>
                     <tr>
@@ -37,7 +39,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
-            </tag:overview>
+            </div>
             <tag:card>
                 <div class="card-header text-center"><h3><c:out
                         value="${tournament.name}"/></h3></div>
@@ -69,9 +71,7 @@
                                 key="${edit}"/></a>
                     </c:if>
                 </div>
-
             </tag:card>
         </div>
-
     </fmt:bundle>
 </tag:html>
