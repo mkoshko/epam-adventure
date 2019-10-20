@@ -1,10 +1,25 @@
 package by.koshko.cyberwikia.service.impl;
 
-import by.koshko.cyberwikia.bean.*;
+import by.koshko.cyberwikia.bean.Country;
+import by.koshko.cyberwikia.bean.EntityError;
+import by.koshko.cyberwikia.bean.Player;
+import by.koshko.cyberwikia.bean.PlayerTeam;
+import by.koshko.cyberwikia.bean.ServiceResponse;
+import by.koshko.cyberwikia.bean.Team;
+import by.koshko.cyberwikia.bean.TournamentTeam;
+import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.*;
+import by.koshko.cyberwikia.service.CountryService;
+import by.koshko.cyberwikia.service.GameService;
+import by.koshko.cyberwikia.service.PlayerService;
+import by.koshko.cyberwikia.service.PlayerTeamService;
+import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
+import by.koshko.cyberwikia.service.TeamService;
+import by.koshko.cyberwikia.service.TournamentTeamService;
+import by.koshko.cyberwikia.service.UserService;
 import by.koshko.cyberwikia.service.validation.TeamValidator;
 import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
@@ -43,34 +58,40 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
     }
 
     @Override
-    public void updateTeam(final long userId,
+    public ServiceResponse updateTeam(final long userId,
                            final Team team) throws ServiceException {
-        PlayerService playerService = getFactory().getPlayerService();
-        Player creator = playerService.findById(userId);
-        if (creator == null) {
-            throw new ServiceException("User with no player profile cannot"
-                                       + " update team information.");
+        Team oldTeam = findCreatedTeam(userId);
+        if (oldTeam == null) {
+            ServiceResponse response = new ServiceResponse();
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
         }
-        if (team != null && team.getCreator() != null
-            && team.getCreator().getId() == creator.getId()) {
-            updateTeam(team);
-        } else {
-            throw new ServiceException("User has no permission"
-                                       + " to update the team.");
-        }
+        team.setId(oldTeam.getId());
+        team.setCreator(oldTeam.getCreator());
+        return updateTeam(team, oldTeam);
     }
 
-    private void updateTeam(final Team team) throws ServiceException {
+    private ServiceResponse updateTeam(final Team team, final Team oldTeam) {
+        ServiceResponse response = new ServiceResponse();
         try {
             TeamValidator teamValidator = ValidationFactory.getTeamValidator();
             if (!teamValidator.test(team, true)) {
-                throw new ServiceException("Invalid team parameters.");
+                response.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
+                return response;
             }
-            Transaction transaction = getTransaction();
-            TeamDao teamDao = transaction.getDao(TEAMDAO);
-            teamDao.update(team);
+            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            team.setLogoFile(saveNewDeleteOldImage(oldTeam.getLogoFile(),
+                    team.getRawData()));
+            if (teamDao.update(team)) {
+                return response;
+            } else {
+                response.addErrorMessage(EntityError.DUPLICATE_TEAMNAME);
+                return response;
+            }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot update team.", e);
+            logger.error("Cannot update team. {}", e.getMessage());
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
         }
     }
 
@@ -212,7 +233,8 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
                 team.setCountry(
                         countryService.getCountryById(team.getCountry().getId())
                 );
-                team.setCaptain(playerService.findById(team.getCaptain().getId()));
+                team.setCaptain(playerService.findById(team.getCaptain()
+                        .getId()));
             }
             return teams;
         } catch (DaoException e) {
