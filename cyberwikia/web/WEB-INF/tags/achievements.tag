@@ -20,8 +20,8 @@
                             </c:choose>">
             <td>${tournament.tournament.endDate}</td>
             <td>${tournament.placement}</td>
-            <td><c:out
-                    value="${tournament.tournament.name}"/></td>
+            <td><a href="tournament.html?id=${tournament.tournament.id}"><c:out
+                    value="${tournament.tournament.name}"/></a></td>
             <td><img class="small-icon"
                      src="<c:url value="${tournament.team.logoFile}"/>"
                      alt="${tournament.team.country.name}"><a

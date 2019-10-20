@@ -50,9 +50,9 @@
                             </c:choose>
                             <h3 class="card-title text-center my-1">${team.name}</h3>
                             <div class="p-1">
-                                <a class="btn btn-outline-dark w-100 mb-1" href="${viewTeamAction}${team.id}">View team</a>
-                                <a class="btn btn-outline-dark w-100 mb-1" href="${editTeamAction}">Edit team</a>
-                                <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#deleteTeam">Delete team</button>
+                                <a class="btn btn-outline-dark w-100 mb-1" href="${viewTeamAction}${team.id}"><fmt:message key="userpage.button.viewprofile"/></a>
+                                <a class="btn btn-outline-dark w-100 mb-1" href="${editTeamAction}"><fmt:message key="userpage.button.editpage"/></a>
+                                <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#deleteTeam"><fmt:message key="userpage.button.deletepage"/></button>
                             </div>
                         </div>
                     </c:otherwise>
@@ -90,9 +90,9 @@
                             </c:choose>
                             <h3 class="card-title text-center my-1">${player.nickname}</h3>
                             <div class="p-1">
-                                <a class="btn btn-outline-dark w-100 mb-1" href="${viewProfileAction}${player.id}">View profile</a>
-                                <a class="btn btn-outline-dark w-100 mb-1" href="${editProfileAction}">Edit profile</a>
-                                <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#deletePlayer">Delete profile</button>
+                                <a class="btn btn-outline-dark w-100 mb-1" href="${viewProfileAction}${player.id}"><fmt:message key="userpage.button.viewprofile"/></a>
+                                <a class="btn btn-outline-dark w-100 mb-1" href="${editProfileAction}"><fmt:message key="userpage.button.editpage"/></a>
+                                <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#deletePlayer"><fmt:message key="userpage.button.deletepage"/></button>
                             </div>
                         </div>
                     </c:otherwise>
@@ -104,7 +104,7 @@
             <div class="modal-dialog modal-sm modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header text-center">
-                        <h4>Are you sure?</h4>
+                        <h4><fmt:message key="userpage.dialog.delete"/></h4>
                     </div>
                     <div class="modal-body text-center px-0">
                         <form action="${deleteTeamAction}" method="post">

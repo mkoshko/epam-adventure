@@ -50,18 +50,6 @@ public abstract class AbstractCommand {
         }
     }
 
-    protected Forward makeForward(final String successUrl,
-                                  final String errorUrl,
-                                  final ServiceResponse response,
-                                  final HttpSession session) {
-        if (!response.hasErrors()) {
-            return new Forward(successUrl);
-        } else {
-            setErrors(session, response);
-            return new Forward(errorUrl);
-        }
-    }
-
     protected Forward sendBack(final HttpServletRequest request) {
         String from = request.getParameter("from");
         return new Forward(Objects.requireNonNullElse(from, "index.html"), true);

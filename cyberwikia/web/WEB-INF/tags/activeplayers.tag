@@ -5,6 +5,7 @@
 
 <c:set var="kickPlayer" value="kickplayer.html"/>
 <c:set var="makeCaptain" value="makecaptain.html"/>
+<c:set var="makeCoach" value="makecoach.html"/>
 
 <fmt:bundle basename="localization">
     <h2 class="mt-5"><fmt:message key="team.active"/></h2>

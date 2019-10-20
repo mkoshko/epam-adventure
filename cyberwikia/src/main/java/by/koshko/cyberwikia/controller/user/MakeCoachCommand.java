@@ -1,23 +1,17 @@
 package by.koshko.cyberwikia.controller.user;
 
 import by.koshko.cyberwikia.bean.ServiceResponse;
-import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.bean.User;
+import by.koshko.cyberwikia.controller.UserCommand;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
 import by.koshko.cyberwikia.service.TeamService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
-public class EditTeamCommand extends AbstractTeamCommand {
-
-    private Logger logger = LogManager.getLogger();
+public class MakeCoachCommand extends UserCommand {
 
     @Override
     public Forward execute(final HttpServletRequest request,
@@ -25,20 +19,19 @@ public class EditTeamCommand extends AbstractTeamCommand {
         HttpSession session = request.getSession(false);
         try (ServiceFactory factory = new ServiceFactory()) {
             User user = (User) session.getAttribute("user");
-            Team team = readParameters(request);
+            long playerId = Long.parseLong(request.getParameter("id"));
             TeamService teamService = factory.getTeamService();
             ServiceResponse serviceResponse
-                    = teamService.updateTeam(user.getId(), team);
+                    = teamService.setTeamCoach(user.getId(), playerId);
             if (!serviceResponse.hasErrors()) {
-                return new Forward("mypages.html");
+                return sendBack(request);
             } else {
                 setErrors(session, serviceResponse);
                 return sendBack(request);
             }
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e1) {
             return sendError(400);
-        } catch (ServiceException | ServletException | IOException e1) {
-            logger.error(e1.getMessage());
+        } catch (ServiceException e) {
             return sendError(500);
         }
     }

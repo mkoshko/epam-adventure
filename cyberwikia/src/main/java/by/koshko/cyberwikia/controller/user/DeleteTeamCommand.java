@@ -22,8 +22,12 @@ public class DeleteTeamCommand extends UserCommand {
             TeamService teamService = factory.getTeamService();
             ServiceResponse serviceResponse
                     = teamService.deleteTeam(user.getId());
-            return makeForward("mypages.html",
-                    "mypages.html", serviceResponse, session);
+            if (!serviceResponse.hasErrors()) {
+                return sendBack(request);
+            } else {
+                setErrors(session, serviceResponse);
+                return sendBack(request);
+            }
         } catch (ServiceException e) {
             return sendError(500);
         }

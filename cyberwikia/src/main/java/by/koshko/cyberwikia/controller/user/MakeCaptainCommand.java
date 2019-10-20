@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public final class MakeCaptain extends UserCommand {
+public final class MakeCaptainCommand extends UserCommand {
 
     @Override
     public Forward execute(final HttpServletRequest request,
