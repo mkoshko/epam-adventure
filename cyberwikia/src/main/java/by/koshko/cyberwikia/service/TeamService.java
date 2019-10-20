@@ -6,6 +6,7 @@ import by.koshko.cyberwikia.bean.Team;
 import java.util.List;
 
 public interface TeamService {
+    ServiceResponse setTeamCaptain(long userId, long playerId);
     ServiceResponse updateTeam(long userId, Team team) throws ServiceException;
     Team findTeamById(long id) throws ServiceException;
     Team loadTeamProfile(long id) throws ServiceException;

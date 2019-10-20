@@ -4,20 +4,7 @@ import by.koshko.cyberwikia.controller.moderator.CreateTournamentCommand;
 import by.koshko.cyberwikia.controller.moderator.CreateTournamentPageCommand;
 import by.koshko.cyberwikia.controller.moderator.EditTournamentPageCommand;
 import by.koshko.cyberwikia.controller.moderator.SaveTournamentCommand;
-import by.koshko.cyberwikia.controller.user.CreatePlayerCommand;
-import by.koshko.cyberwikia.controller.user.CreatePlayerPageCommand;
-import by.koshko.cyberwikia.controller.user.CreateTeamCommand;
-import by.koshko.cyberwikia.controller.user.CreateTeamPageCommand;
-import by.koshko.cyberwikia.controller.user.DeletePlayerCommand;
-import by.koshko.cyberwikia.controller.user.DeleteTeamCommand;
-import by.koshko.cyberwikia.controller.user.EditTeamCommand;
-import by.koshko.cyberwikia.controller.user.EditTeamPageCommand;
-import by.koshko.cyberwikia.controller.user.JoinTeamCommand;
-import by.koshko.cyberwikia.controller.user.KickPlayerCommand;
-import by.koshko.cyberwikia.controller.user.LeaveTeamCommand;
-import by.koshko.cyberwikia.controller.user.PlayerEditCommand;
-import by.koshko.cyberwikia.controller.user.PlayerEditPageCommand;
-import by.koshko.cyberwikia.controller.user.ProfilesPageCommand;
+import by.koshko.cyberwikia.controller.user.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,6 +43,7 @@ public class CommandProvider {
         COMMANDS.put("/deleteteam", new DeleteTeamCommand());
         COMMANDS.put("/editteam", new EditTeamPageCommand());
         COMMANDS.put("/saveteam", new EditTeamCommand());
+        COMMANDS.put("/makecaptain", new MakeCaptain());
     }
 
     public static AbstractCommand getCommand(final String action) {

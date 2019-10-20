@@ -55,6 +55,10 @@ body {
     stroke: black;
 }
 
+.kick:hover {
+    stroke: red;
+}
+
 .lang-switch {
     width: fit-content;
     position: relative;

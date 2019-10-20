@@ -71,6 +71,71 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         return updateTeam(team, oldTeam);
     }
 
+    public ServiceResponse setTeamCaptain(final long userId,
+                                          final long playerId) {
+        ServiceResponse response = new ServiceResponse();
+        try {
+            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            Team team = checkUserTeam(userId, playerId, response);
+            if (team == null) {
+                return response;
+            }
+            team.setCaptain(new Player(playerId));
+            if (teamDao.update(team)) {
+                return response;
+            } else {
+                response.addErrorMessage(EntityError.GENERIC_ERROR);
+                return response;
+            }
+        } catch (ServiceException | DaoException e) {
+            logger.error("Cannot set team captain. {}", e.getMessage());
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
+        }
+    }
+
+    public ServiceResponse setTeamCoach(final long userId,
+                                        final long playerId) {
+        ServiceResponse response = new ServiceResponse();
+        try {
+            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            Team team = checkUserTeam(userId, playerId, response);
+            if (team == null) {
+                return response;
+            }
+            team.setCoach(new Player(playerId));
+            if (teamDao.update(team)) {
+                return response;
+            } else {
+                response.addErrorMessage(EntityError.GENERIC_ERROR);
+                return response;
+            }
+        } catch (DaoException | ServiceException e) {
+            logger.error("Cannot set team coach. {}", e.getMessage());
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
+        }
+    }
+
+    private Team checkUserTeam(final long userId, final long playerId,
+                      final ServiceResponse response)
+            throws ServiceException, DaoException {
+        TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+        Team team = teamDao.findCreatedTeam(userId);
+        if (team == null) {
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return null;
+        }
+        PlayerTeamService playerTeamService
+                = getFactory().getPlayerTeamService();
+        long activeTeamId = playerTeamService.playerActiveTeamId(playerId);
+        if (team.getId() != activeTeamId) {
+            response.addErrorMessage(EntityError.PLAYER_NOT_ACTIVE);
+            return null;
+        }
+        return team;
+    }
+
     private ServiceResponse updateTeam(final Team team, final Team oldTeam) {
         ServiceResponse response = new ServiceResponse();
         try {

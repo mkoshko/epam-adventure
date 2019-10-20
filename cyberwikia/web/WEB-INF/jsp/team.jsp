@@ -6,7 +6,6 @@
 <c:set var="viewPlayerAction" value="player.html?id="/>
 <c:set var="leaveTeamAction" value="leave.html"/>
 <c:set var="joinTeamAction" value="join.html"/>
-<c:set var="kickPlayer" value="kickplayer.html"/>
 
 <tag:html title="${team.name}">
     <fmt:bundle basename="localization">
