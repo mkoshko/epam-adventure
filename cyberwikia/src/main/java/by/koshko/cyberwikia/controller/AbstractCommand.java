@@ -11,16 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public abstract class AbstractCommand {
 
-    private final Logger logger = LogManager.getLogger();
+    private final Logger logger = LogManager.getLogger(getClass());
     private Set<Role> roles = new HashSet<>();
+
+    public Logger getLogger() {
+        return logger;
+    }
 
     public Set<Role> getRoles() {
         return roles;
@@ -36,6 +36,17 @@ public abstract class AbstractCommand {
     protected void setErrors(final HttpSession session,
                              final ServiceResponse response) {
         session.setAttribute("errors", response.errorList());
+    }
+
+    protected void setScript(final HttpServletRequest request, final String scriptSrc) {
+        List<String> scripts = (List<String>) request.getAttribute("scripts");
+        if (scripts != null) {
+            scripts.add(scriptSrc);
+        } else {
+            List<String> newScripts = new ArrayList<>();
+            newScripts.add(scriptSrc);
+            request.setAttribute("scripts", newScripts);
+        }
     }
 
     protected RawData fillRawData(final Part part) throws IOException {

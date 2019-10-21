@@ -8,5 +8,6 @@ public interface UserService {
     User signIn(String login, String password) throws ServiceException;
     ServiceResponse sighUp(User user) throws ServiceException;
     int update(User user) throws ServiceException;
-    boolean updatePassword(User user, String oldPass) throws ServiceException;
+    ServiceResponse updatePassword(long userId, String oldPassword,
+                                   String newPassword);
 }

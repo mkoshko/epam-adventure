@@ -3,7 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 
-<c:set var="signUpAction" value="signup.html"/>
+<c:set var="signUpAction" value="signup.html" scope="page"/>
+<c:set var="script" value="/js/form-validation.js" scope="page"/>
 
 <tag:html>
     <fmt:bundle basename="localization">
@@ -39,5 +40,4 @@
                 </div>
             </div>
     </fmt:bundle>
-    <script src="<c:url value="/js/form-validation.js"/>"></script>
 </tag:html>

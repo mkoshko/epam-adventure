@@ -109,25 +109,27 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
     }
 
-    public boolean updatePassword(final User user, final String oldPass)
-            throws ServiceException {
-        UserValidator userValidator = ValidationFactory.getUserValidator();
+    public ServiceResponse updatePassword(final long userId,
+                                          final String oldPassword,
+                                          final String newPassword) {
+        ServiceResponse response = new ServiceResponse();
         try {
-            if (!userValidator.test(user, true)) {
-                logger.debug("Invalid user parameters.");
-                return false;
-            }
             UserDao userDao = getTransaction().getDao(USERDAO);
-            User oldUser = userDao.get(user.getId());
-            if (argon2.verify(oldUser.getPassword(), oldPass)) {
-                String newPassword = argon2.hash(ITERATION, MEMORY, THREADS,
-                        user.getPassword());
-                user.setPassword(newPassword);
-                return userDao.update(user);
+            User user = userDao.get(userId);
+            if (argon2.verify(user.getPassword(), oldPassword)) {
+                String newHash = argon2.hash(ITERATION, MEMORY, THREADS,
+                        newPassword);
+                user.setPassword(newHash);
+                logger.debug(userDao.update(user));
+                return response;
+            } else {
+                response.addErrorMessage(EntityError.INVALID_PASSWORD);
+                return response;
             }
-            return false;
         } catch (DaoException e) {
-            throw new ServiceException("Cannot update user", e);
+            logger.error("Cannot update user password. {}", e.getMessage());
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
         }
     }
 }

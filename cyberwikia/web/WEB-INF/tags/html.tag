@@ -40,6 +40,11 @@
 <script src="<c:url value="/js/popper.min.js"/>"></script>
 <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 <script src="<c:url value="/js/loading.js"/>"></script>
+<c:if test="${scripts != null}">
+    <c:forEach items="${scripts}" var="script">
+        <script src="${script}"></script>
+    </c:forEach>
+</c:if>
 </body>
 </html>
 </fmt:bundle>

@@ -11,15 +11,15 @@
                 let email = document.getElementById('email');
                 email.addEventListener('focus', () => {
                     email.setAttribute('class', 'form-control');
-                })
+                });
                 let password = document.getElementById('password');
                 password.addEventListener('focus', () => {
                     password.setAttribute('class', 'form-control');
-                })
+                });
                 let repeat = document.getElementById('repeat-password');
                 repeat.addEventListener('focus', () => {
                     repeat.setAttribute('class', 'form-control');
-                })
+                });
                 let valid = checkLogin(login);
                 valid = checkEmail(email) && valid;
                 valid = checkPassword(password, repeat) && valid;
@@ -49,6 +49,7 @@ function checkEmail(email) {
     if (!regex.test(email.value)) {
         email.setAttribute('class', 'form-control is-invalid');
         return false;
+
     }
     return true;
 }

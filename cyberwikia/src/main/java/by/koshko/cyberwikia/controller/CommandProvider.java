@@ -60,6 +60,8 @@ public class CommandProvider {
         COMMANDS.put("/saveteam", new EditTeamCommand());
         COMMANDS.put("/makecaptain", new MakeCaptainCommand());
         COMMANDS.put("/makecoach", new MakeCoachCommand());
+        COMMANDS.put("/changepasswordform", new EditPasswordPageCommand());
+        COMMANDS.put("/changepassword", new EditPasswordCommand());
     }
 
     public static AbstractCommand getCommand(final String action) {

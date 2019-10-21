@@ -21,7 +21,7 @@
 
 <c:set var="signInAction" value="signin.html" scope="page"/>
 <c:set var="signOutAction" value="signout.html" scope="page"/>
-<c:set var="editPasswordAction" value="edituser.html" scope="page"/>
+<c:set var="editPasswordAction" value="changepasswordform.html" scope="page"/>
 
 <fmt:bundle basename="localization">
     <div class="row sticky-top">
