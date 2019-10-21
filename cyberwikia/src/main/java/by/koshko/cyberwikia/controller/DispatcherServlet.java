@@ -21,9 +21,9 @@ public class DispatcherServlet extends HttpServlet {
     public void init() {
         try {
             Properties conf = new Properties();
-            conf.put("database_bundle", "database");
-            conf.put("bundle", "validation");
-            conf.put("path", getServletContext().getRealPath("/"));
+            conf.put("database", "database");
+            conf.put("validation", "validation");
+            conf.put("rootPath", getServletContext().getRealPath("/"));
             ServiceInitializer.init(conf);
         } catch (ServiceException e) {
             logger.error("Cannot initialize application. {}", e.getMessage());

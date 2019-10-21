@@ -19,7 +19,7 @@ public final class CountryServiceImpl extends AbstractService
     /**
      * Logger.
      */
-    private Logger logger = LogManager.getLogger(CountryServiceImpl.class);
+    private Logger logger = LogManager.getLogger();
 
     public CountryServiceImpl(final Transaction transaction,
                               final ServiceFactory factory) {

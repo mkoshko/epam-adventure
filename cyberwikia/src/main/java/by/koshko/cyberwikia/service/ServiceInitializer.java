@@ -10,16 +10,33 @@ import org.apache.logging.log4j.Logger;
 import java.util.Properties;
 
 public class ServiceInitializer {
-    private static Logger logger = LogManager.getLogger(ServiceInitializer.class);
+    /**
+     * Private constructor.
+     */
+    private ServiceInitializer() {
+    }
+
+    /**
+     * Logger.
+     */
+    private static Logger logger = LogManager.getLogger();
+
+    /**
+     * Initializes services.
+     *
+     * @param config Properties for services initialization.
+     * @throws ServiceException if some services cannot be initialized.
+     */
     public static void init(final Properties config) throws ServiceException {
         try {
-
-            ConnectionPool.getInstance().init(config.getProperty("database_bundle"));
-            ValidationPropertiesLoader.loadProperties(config.getProperty("bundle"));
-            RawData.setRootPath(config.getProperty("path"));
+            logger.debug("Initializing services.");
+            ConnectionPool.getInstance().init(config.getProperty("database"));
+            ValidationPropertiesLoader
+                    .loadProperties(config.getProperty("validation"));
+            RawData.setRootPath(config.getProperty("rootPath"));
+            logger.debug("Services initialized successfully.");
         } catch (DaoException e) {
-            logger.error(e.getMessage());
-            throw new ServiceException("Cannot initialize services.");
+            throw new ServiceException("Cannot initialize services.", e);
         }
     }
 }

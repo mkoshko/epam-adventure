@@ -66,9 +66,7 @@ public final class ConnectionPool {
                         + " Idle connections: {}", pool.size());
         } catch (SQLException | MissingResourceException
                 | ClassNotFoundException | NumberFormatException e) {
-            logger.error("Connection pool initialization error. {}",
-                    e.getMessage());
-            throw new DaoException("Cannot initialize connection pool.");
+            throw new DaoException("Cannot initialize connection pool.", e);
         }
     }
 
@@ -90,10 +88,7 @@ public final class ConnectionPool {
                 throw new DaoException("No available connections.");
             }
         } catch (SQLException e) {
-            logger.error("Cannot create new connection. "
-                         + "SQL state: {}, SQL message: {}.",
-                    e.getSQLState(), e.getMessage());
-            throw new DaoException("Cannot create new connection.");
+            throw new DaoException("Cannot create new connection.", e);
         } finally {
             locker.unlock();
         }
