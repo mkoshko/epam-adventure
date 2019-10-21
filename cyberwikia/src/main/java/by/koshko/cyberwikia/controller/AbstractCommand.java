@@ -19,7 +19,7 @@ import java.util.Set;
 
 public abstract class AbstractCommand {
 
-    private final Logger logger = LogManager.getLogger(getClass());
+    private final Logger logger = LogManager.getLogger();
     private Set<Role> roles = new HashSet<>();
 
     public Set<Role> getRoles() {

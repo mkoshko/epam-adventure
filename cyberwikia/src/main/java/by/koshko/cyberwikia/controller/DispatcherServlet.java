@@ -21,6 +21,7 @@ public class DispatcherServlet extends HttpServlet {
     public void init() {
         try {
             Properties conf = new Properties();
+            conf.put("database_bundle", "database");
             conf.put("bundle", "validation");
             conf.put("path", getServletContext().getRealPath("/"));
             ServiceInitializer.init(conf);

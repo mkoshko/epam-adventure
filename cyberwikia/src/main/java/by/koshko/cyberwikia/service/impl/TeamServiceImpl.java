@@ -71,6 +71,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         return updateTeam(team, oldTeam);
     }
 
+    @Override
     public ServiceResponse setTeamCaptain(final long userId,
                                           final long playerId) {
         ServiceResponse response = new ServiceResponse();
@@ -187,7 +188,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             if (teamDao.save(team)) {
                 return response;
             } else {
-                response.addErrorMessage(EntityError.GENERIC_ERROR);
+                response.addErrorMessage(EntityError.DUPLICATE_TEAMNAME);
                 return response;
             }
         } catch (DaoException e) {

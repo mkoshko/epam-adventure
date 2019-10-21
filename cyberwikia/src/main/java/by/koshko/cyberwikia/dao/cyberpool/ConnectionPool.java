@@ -33,10 +33,10 @@ public final class ConnectionPool {
         return INSTANCE;
     }
 
-    public void init() throws DaoException {
+    public void init(final String bundleName) throws DaoException {
         try {
             logger.info("Initializing connection pool.");
-            ResourceBundle bundle = ResourceBundle.getBundle("database");
+            ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
             String driver = bundle.getString("db.driver");
             String url = bundle.getString("db.url");
             String user = bundle.getString("db.user");

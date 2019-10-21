@@ -13,7 +13,8 @@ public class ServiceInitializer {
     private static Logger logger = LogManager.getLogger(ServiceInitializer.class);
     public static void init(final Properties config) throws ServiceException {
         try {
-            ConnectionPool.getInstance().init();
+
+            ConnectionPool.getInstance().init(config.getProperty("database_bundle"));
             ValidationPropertiesLoader.loadProperties(config.getProperty("bundle"));
             RawData.setRootPath(config.getProperty("path"));
         } catch (DaoException e) {
