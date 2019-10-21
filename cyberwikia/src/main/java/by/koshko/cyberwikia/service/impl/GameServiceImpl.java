@@ -1,7 +1,9 @@
 package by.koshko.cyberwikia.service.impl;
 
 import by.koshko.cyberwikia.bean.Game;
-import by.koshko.cyberwikia.dao.*;
+import by.koshko.cyberwikia.dao.DaoException;
+import by.koshko.cyberwikia.dao.GameDao;
+import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.service.GameService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
@@ -14,7 +16,7 @@ import static by.koshko.cyberwikia.dao.DaoTypes.GAMEDAO;
 
 public class GameServiceImpl extends AbstractService implements GameService {
 
-    private Logger logger = LogManager.getLogger(GameServiceImpl.class);
+    private Logger logger = LogManager.getLogger();
 
     public GameServiceImpl(final Transaction transaction,
                            final ServiceFactory factory) {
