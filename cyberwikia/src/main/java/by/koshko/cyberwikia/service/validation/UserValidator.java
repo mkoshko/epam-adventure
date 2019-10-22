@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class UserValidator implements Validator {
 
@@ -17,6 +18,7 @@ public class UserValidator implements Validator {
     private static final String EMAIL_MIN_LENGTH = "user.email-min";
     private static final String EMAIL_REGEX = "user.email-regex";
     private static final String PASSWORD_MIN_LENGTH = "user.password-min";
+    private static Pattern pattern;
 
     private int loginMaxLength;
     private int passwordMinLength;
@@ -34,6 +36,7 @@ public class UserValidator implements Validator {
         emailMaxLength = Integer.parseInt(values.get(EMAIL_MAX_LENGTH));
         loginRegex = values.get(LOGIN_REGEX);
         emailRegex = values.get(EMAIL_REGEX);
+        pattern = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
     }
 
     public boolean test(final User user, final boolean checkPassword) {
@@ -53,7 +56,7 @@ public class UserValidator implements Validator {
         if (email == null
             || email.length() < emailMinLength
             || email.length() > emailMaxLength
-            || !email.matches(emailRegex)) {
+            || !pattern.matcher(email).matches()) {
             logger.debug("Invalid user email.");
             return false;
         }
@@ -64,5 +67,9 @@ public class UserValidator implements Validator {
             return false;
         }
         return true;
+    }
+
+    public boolean testPassword(final String password) {
+        return (password != null && password.length() >= passwordMinLength);
     }
 }

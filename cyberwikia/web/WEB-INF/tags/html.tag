@@ -35,7 +35,6 @@
         </div>
     </div>
 </div>
-
 <script src="<c:url value="/js/jquery.min.js"/>"></script>
 <script src="<c:url value="/js/popper.min.js"/>"></script>
 <script src="<c:url value="/js/bootstrap.min.js"/>"></script>

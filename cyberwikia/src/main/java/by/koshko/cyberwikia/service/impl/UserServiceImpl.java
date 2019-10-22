@@ -5,7 +5,6 @@ import by.koshko.cyberwikia.bean.Role;
 import by.koshko.cyberwikia.bean.ServiceResponse;
 import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.dao.DaoException;
-import by.koshko.cyberwikia.dao.DaoTypes;
 import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.dao.UserDao;
 import by.koshko.cyberwikia.service.ServiceException;
@@ -40,7 +39,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
         try {
             UserDao userDao = getTransaction().getDao(USERDAO);
             User user = userDao.findByLogin(login);
-            if (user != null && argon2.verify(user.getPassword(), password)) {
+            if (user != null
+                && password != null
+                && argon2.verify(user.getPassword(), password)) {
                 user.setPassword(null);
                 return user;
             }
@@ -92,30 +93,19 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
     }
 
-    public int update(final User user) throws ServiceException {
-        UserValidator userValidator = ValidationFactory.getUserValidator();
-        try {
-            if (!userValidator.test(user, false)) {
-                logger.debug("Invalid user parameters.");
-                return -1;
-            }
-            UserDao userDao = getTransaction().getDao(USERDAO);
-            if (userDao.update(user)) {
-                return 0;
-            }
-            return -1;
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot update user.", e);
-        }
-    }
-
     public ServiceResponse updatePassword(final long userId,
                                           final String oldPassword,
                                           final String newPassword) {
         ServiceResponse response = new ServiceResponse();
+        UserValidator userValidator = ValidationFactory.getUserValidator();
+        if (!userValidator.testPassword(newPassword)) {
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
+        }
         try {
             UserDao userDao = getTransaction().getDao(USERDAO);
             User user = userDao.get(userId);
+
             if (argon2.verify(user.getPassword(), oldPassword)) {
                 String newHash = argon2.hash(ITERATION, MEMORY, THREADS,
                         newPassword);

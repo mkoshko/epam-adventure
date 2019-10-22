@@ -12,12 +12,11 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.List;
-import java.util.Properties;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
-public class GameServiceImplTest {
+public class GameServiceImplTest extends AbstractServiceTest {
 
     private ServiceFactory factory;
     private GameService gameService;
@@ -25,11 +24,6 @@ public class GameServiceImplTest {
 
     @BeforeTest
     public void setUp() throws ServiceException {
-        Properties properties = new Properties();
-        properties.put("database", "database");
-        properties.put("validation", "validation");
-        properties.put("rootPath", "/");
-        ServiceInitializer.init(properties);
         factory = new ServiceFactory();
         gameService = factory.getGameService();
     }

@@ -1,6 +1,3 @@
-USE cyberwikia_test;
-DROP PROCEDURE active_team_id;
-
 CREATE TABLE country
 (
     id        TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -138,7 +135,3 @@ BEGIN
 END; $$
 
 DELIMITER ;
-
-GRANT EXECUTE ON PROCEDURE cyberwikia.active_team_id TO 'cyberwikia_app'@'localhost';
-GRANT EXECUTE ON PROCEDURE cyberwikia.has_login TO 'cyberwikia_app'@'localhost';
-GRANT EXECUTE ON PROCEDURE cyberwikia.has_email TO 'cyberwikia_app'@'localhost';

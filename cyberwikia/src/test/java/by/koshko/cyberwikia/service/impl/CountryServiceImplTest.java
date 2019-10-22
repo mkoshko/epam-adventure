@@ -1,20 +1,19 @@
 package by.koshko.cyberwikia.service.impl;
 
 import by.koshko.cyberwikia.bean.Country;
-import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
 import by.koshko.cyberwikia.service.CountryService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
-import by.koshko.cyberwikia.service.ServiceInitializer;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import java.util.List;
-import java.util.Properties;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
-public class CountryServiceImplTest {
+public class CountryServiceImplTest extends AbstractServiceTest {
 
     private ServiceFactory factory;
     private CountryService countryService;
@@ -22,19 +21,10 @@ public class CountryServiceImplTest {
 
     @BeforeTest
     public void setUp() throws ServiceException {
-        Properties properties = new Properties();
-        properties.put("database", "database");
-        properties.put("validation", "validation");
-        properties.put("rootPath", "/");
-        ServiceInitializer.init(properties);
         factory = new ServiceFactory();
         countryService = factory.getCountryService();
     }
 
-    @AfterTest
-    public void tearDown() {
-        ConnectionPool.getInstance().close();
-    }
     @DataProvider(name = "id_provider")
     private Object[][] provideId() {
         return new Object[][] {
