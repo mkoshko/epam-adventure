@@ -19,7 +19,7 @@
                         </form>
                     </div>
                     <div class="col-4">
-                        <p class="text-white text-center my-3"><%out.write("© 2000-2019 CyberWikia");%></p>
+                        <p class="text-white text-center my-3"><c:out value="© 2000-2019 CyberWikia"/></p>
                     </div>
                     <div class="col-4">
 
