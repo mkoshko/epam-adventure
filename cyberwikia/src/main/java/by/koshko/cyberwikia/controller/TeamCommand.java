@@ -3,7 +3,11 @@ package by.koshko.cyberwikia.controller;
 import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.bean.User;
-import by.koshko.cyberwikia.service.*;
+import by.koshko.cyberwikia.service.PlayerService;
+import by.koshko.cyberwikia.service.PlayerTeamService;
+import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
+import by.koshko.cyberwikia.service.TeamService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,11 +25,7 @@ public class TeamCommand extends AbstractCommand {
         try (ServiceFactory factory = new ServiceFactory()) {
             Forward forward = new Forward("WEB-INF/jsp/team.jsp");
             int teamId;
-            try {
-                teamId = Integer.parseInt(request.getParameter("id"));
-            } catch (NumberFormatException e) {
-                return sendError(404);
-            }
+            teamId = Integer.parseInt(request.getParameter("id"));
             TeamService teamService = factory.getTeamService();
             Team team = teamService.loadTeamProfile(teamId);
             if (team == null) {
@@ -51,6 +51,8 @@ public class TeamCommand extends AbstractCommand {
             request.setAttribute("activeTeamId", activeTeamId);
             logger.debug("Active team id: {}", activeTeamId);
             return forward;
+        } catch (NumberFormatException e1) {
+            return sendError(404);
         } catch (ServiceException e) {
             logger.debug(e.getMessage());
             return sendError(500);

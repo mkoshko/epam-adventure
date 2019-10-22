@@ -5,7 +5,6 @@ import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
 import by.koshko.cyberwikia.service.GameService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
-import by.koshko.cyberwikia.service.ServiceInitializer;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
