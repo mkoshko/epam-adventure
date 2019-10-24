@@ -39,7 +39,7 @@ public final class Player extends Entity {
      */
     private String overview;
 
-    private RawData rawData;
+    private transient RawData rawData;
 
     private List<PlayerTeam> playerTeams;
 
@@ -64,16 +64,16 @@ public final class Player extends Entity {
         return playerTeams;
     }
 
-    public void setPlayerTeams(final List<PlayerTeam> playerTeams) {
-        this.playerTeams = playerTeams;
+    public void setPlayerTeams(final List<PlayerTeam> newPlayerTeams) {
+        playerTeams = newPlayerTeams;
     }
 
     public RawData getRawData() {
         return rawData;
     }
 
-    public void setRawData(final RawData rawData) {
-        this.rawData = rawData;
+    public void setRawData(final RawData newRawData) {
+        rawData = newRawData;
     }
 
     /**
@@ -200,20 +200,6 @@ public final class Player extends Entity {
      */
     public void setOverview(final String playerOverview) {
         overview = playerOverview;
-    }
-
-    @Override
-    public String toString() {
-        return "Player{"
-               + "nickname='" + nickname + '\''
-               + ", profilePhoto='" + profilePhoto + '\''
-               + ", firstName='" + firstName + '\''
-               + ", lastName='" + lastName + '\''
-               + ", birth=" + birth
-               + ", country=" + country
-               + ", overview='" + overview + '\''
-               + ", playerTeams=" + playerTeams
-               + '}';
     }
 
     @Override

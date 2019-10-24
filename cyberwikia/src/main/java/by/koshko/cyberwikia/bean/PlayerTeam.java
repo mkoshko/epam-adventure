@@ -7,7 +7,7 @@ public final class PlayerTeam extends Entity {
     private static final long serialVersionUID = 1942580934600028473L;
     private Player player;
     private Team team;
-    private boolean active;
+    private boolean isActive;
     private LocalDate joinDate;
     private LocalDate leaveDate;
 
@@ -15,49 +15,39 @@ public final class PlayerTeam extends Entity {
         return player;
     }
 
-    public void setPlayer(final Player player) {
-        this.player = player;
+    public void setPlayer(final Player newPlayer) {
+        player = newPlayer;
     }
 
     public Team getTeam() {
         return team;
     }
 
-    public void setTeam(final Team team) {
-        this.team = team;
+    public void setTeam(final Team newTeam) {
+        team = newTeam;
     }
 
     public boolean isActive() {
-        return active;
+        return isActive;
     }
 
     public void setActive(final boolean active) {
-        this.active = active;
+        isActive = active;
     }
 
     public LocalDate getJoinDate() {
         return joinDate;
     }
 
-    public void setJoinDate(final LocalDate joinDate) {
-        this.joinDate = joinDate;
+    public void setJoinDate(final LocalDate newJoinDate) {
+        joinDate = newJoinDate;
     }
 
     public LocalDate getLeaveDate() {
         return leaveDate;
     }
 
-    public void setLeaveDate(final LocalDate leaveDate) {
-        this.leaveDate = leaveDate;
-    }
-
-    @Override
-    public String toString() {
-        return "PlayerTeam{"
-               + ", team=" + team
-               + ", active=" + active
-               + ", joinDate=" + joinDate
-               + ", leaveDate=" + leaveDate
-               + '}';
+    public void setLeaveDate(final LocalDate newLeaveDate) {
+        leaveDate = newLeaveDate;
     }
 }

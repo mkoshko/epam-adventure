@@ -15,12 +15,8 @@ public class ServiceResponse {
         return !errors.isEmpty();
     }
 
-    public boolean addErrorMessage(final EntityError error) {
-        return errors.add(error);
-    }
-
-    public void clearErrors() {
-        errors.clear();
+    public void addErrorMessage(final EntityError error) {
+        errors.add(error);
     }
 
     public List<String> errorList() {

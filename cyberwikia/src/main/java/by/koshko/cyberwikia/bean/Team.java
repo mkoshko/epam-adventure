@@ -41,7 +41,7 @@ public final class Team extends Entity {
      */
     private String logoFile;
 
-    private RawData rawData;
+    private transient RawData rawData;
 
     /**
      * List of tournaments in which the team participated.
@@ -54,8 +54,8 @@ public final class Team extends Entity {
         return rawData;
     }
 
-    public void setRawData(final RawData rawData) {
-        this.rawData = rawData;
+    public void setRawData(final RawData newRawData) {
+        rawData = newRawData;
     }
 
     public List<PlayerTeam> getPlayers() {
@@ -253,20 +253,5 @@ public final class Team extends Entity {
     public int hashCode() {
         return Objects.hash(name, country, creator, captain, coach, game,
                 overview, logoFile, getId());
-    }
-
-    @Override
-    public String toString() {
-        return "Team{"
-               + "name='" + name + '\''
-               + ", id= " + getId() + '\''
-               + ", country=" + country
-               + ", creator=" + creator
-               + ", captain=" + captain
-               + ", coach=" + coach
-               + ", game=" + game
-               + ", overview='" + overview + '\''
-               + ", logoFile='" + logoFile + '\''
-               + '}';
     }
 }

@@ -70,20 +70,11 @@ public final class Game extends Entity {
         }
         Game game = (Game) o;
         return getId() == game.getId()
-               && getTitle().equals(game.getTitle())
-               && Objects.equals(getIconFile(), game.getIconFile());
+               && getTitle().equals(game.getTitle());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTitle(), getIconFile(), getId());
-    }
-
-    @Override
-    public String toString() {
-        return "Game{"
-               + "title='" + title + '\''
-               + ", iconFile='" + iconFile + '\''
-               + '}';
+        return Objects.hash(getTitle(), getId());
     }
 }

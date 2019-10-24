@@ -3,6 +3,9 @@ package by.koshko.cyberwikia.bean;
 import java.io.InputStream;
 
 public class RawData {
+    /**
+     * Path to the root directory of the project on the server.
+     */
     private static String rootPath;
     private InputStream in;
     private String contentType;

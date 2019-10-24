@@ -110,15 +110,6 @@ public final class User extends Entity {
     }
 
     @Override
-    public String toString() {
-        return "User{"
-               + "role=" + role
-               + ", login='" + login + '\''
-               + ", email='" + email + '\''
-               + '}';
-    }
-
-    @Override
     public boolean equals(final Object o) {
         if (this == o) {
             return true;

@@ -11,23 +11,23 @@ public final class TournamentTeam extends Entity {
         return tournament;
     }
 
-    public void setTournament(final Tournament tournament) {
-        this.tournament = tournament;
+    public void setTournament(final Tournament newTournament) {
+        tournament = newTournament;
     }
 
     public Team getTeam() {
         return team;
     }
 
-    public void setTeam(final Team team) {
-        this.team = team;
+    public void setTeam(final Team newTeam) {
+        team = newTeam;
     }
 
     public int getPlacement() {
         return placement;
     }
 
-    public void setPlacement(final int placement) {
-        this.placement = placement;
+    public void setPlacement(final int newPlacement) {
+        placement = newPlacement;
     }
 }

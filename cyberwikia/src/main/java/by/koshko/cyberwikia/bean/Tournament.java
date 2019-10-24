@@ -17,7 +17,7 @@ public final class Tournament extends Entity {
 
     private String logoFile;
 
-    private RawData rawData;
+    private transient RawData rawData;
     /**
      * Prize pool of the tournament.
      */
@@ -41,8 +41,8 @@ public final class Tournament extends Entity {
         return participants;
     }
 
-    public void setParticipants(final List<TournamentTeam> participants) {
-        this.participants = participants;
+    public void setParticipants(final List<TournamentTeam> newParticipants) {
+        participants = newParticipants;
     }
 
     public RawData getRawData() {
@@ -172,16 +172,5 @@ public final class Tournament extends Entity {
     public int hashCode() {
         return Objects.hash(name, prize, overview, startDate, endDate,
                 getId());
-    }
-
-    @Override
-    public String toString() {
-        return "Tournament{"
-               + "name='" + name + '\''
-               + ", prize=" + prize
-               + ", overview='" + overview + '\''
-               + ", startDate=" + startDate
-               + ", endDate=" + endDate
-               + '}';
     }
 }
