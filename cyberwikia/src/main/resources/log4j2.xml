@@ -9,7 +9,7 @@
     </Properties>
     <Appenders>
         <Appender type="console" name="console" >
-            <Layout type="PatternLayout" pattern="${defaultPattern}" />
+            <Layout type="PatternLayout" pattern="${defaultPattern}"/>
         </Appender>
         <Appender type="File" name="file" fileName="${filename}">
             <Layout type="PatternLayout" pattern="%d{dd MMM yyyy HH:mm:ss} [%-4level] [%t] %c{1} - %msg%n" />

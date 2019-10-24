@@ -26,17 +26,17 @@
     <div class="col-sm-12 mx-auto">
         <ul class="pagination" style="justify-content: center">
             <li class="page-item">
-                <a class="page-link" href="${pageURL}.html?page=1">First</a>
+                <a class="page-link" href="${pageURL}.html?page=1"><fmt:message key="page.first"/></a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="${pageURL}.html?page=${prevPage}">Previous</a>
+                <a class="page-link" href="${pageURL}.html?page=${prevPage}"><fmt:message key="page.previous"/></a>
             </li>
-            <span class="text-primary" style="margin: 6px 10px">${page} of ${lastPage}</span>
+            <span class="text-primary" style="margin: 6px 10px">${page} <fmt:message key="page.of"/> ${lastPage}</span>
             <li class="page-item">
-                <a class="page-link" href="${pageURL}.html?page=${nextPage}">Next</a>
+                <a class="page-link" href="${pageURL}.html?page=${nextPage}"><fmt:message key="page.next"/></a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="${pageURL}.html?page=${lastPage}">Last</a>
+                <a class="page-link" href="${pageURL}.html?page=${lastPage}"><fmt:message key="page.last"/></a>
             </li>
         </ul>
     </div>

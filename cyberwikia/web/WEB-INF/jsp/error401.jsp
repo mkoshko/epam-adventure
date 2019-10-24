@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
@@ -6,7 +6,7 @@
     <fmt:bundle basename="localization">
         <div class="row">
             <div class="col-12">
-                <h3 class="text-center">Page not found</h3>
+                <p class="text-center">Unauthorized</p>
             </div>
         </div>
     </fmt:bundle>

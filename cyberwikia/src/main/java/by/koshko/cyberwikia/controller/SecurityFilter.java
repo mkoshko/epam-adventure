@@ -37,7 +37,7 @@ public class SecurityFilter implements Filter {
             if (canExecute) {
                 chain.doFilter(req, response);
             } else {
-                resp.sendError(404);
+                resp.sendError(401);
             }
         }
     }

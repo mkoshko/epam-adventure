@@ -78,14 +78,14 @@ public class UserServiceImplTest  extends AbstractServiceTest {
     private Object[][] provide5() {
         return new Object[][]{
                 {"", "login@email.com", "password"},
-                {"login", "", "password"},
-                {"login", "login@email.com", ""},
+                {"login5", "", "password"},
+                {"login5", "login@email.com", ""},
                 {null, "login@email.com", "password"},
-                {"login", null, "password"},
-                {"login", "login@email.com", null},
-                {"login", "login@email", "password"},
-                {"login", "loginemail.com", "password"},
-                {"login", "@email.com", "password"},
+                {"login5", null, "password"},
+                {"login5", "login@email.com", null},
+                {"login5", "login@email", "password"},
+                {"login5", "loginemail.com", "password"},
+                {"login5", "@email.com", "password"},
                 {null, null, null},
         };
     }

@@ -4,9 +4,11 @@
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 <tag:html>
     <fmt:bundle basename="localization">
-        <div class="row mh-100">
-            <div class="col-5 mx-auto">
-                <h3 class="text-center">Что-то сломалось.</h3>
+        <div class="row">
+            <div class="col-12 text-center">
+                <p class="text-center mt-5" style="font-size: 35pt"><fmt:message key="error.500"/></p>
+                <p class="text-center mb-5"><fmt:message key="error.500.motivationmessage"/> <a href="index.html"><fmt:message key="error.500.tryagain"/></a></p>
+                <img class="image-container- image-container-sm image-container-md" src="<c:url value="/images/upload/sadpepe.png"/>"/>
             </div>
         </div>
     </fmt:bundle>

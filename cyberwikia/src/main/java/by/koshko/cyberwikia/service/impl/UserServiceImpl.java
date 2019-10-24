@@ -110,7 +110,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 String newHash = argon2.hash(ITERATION, MEMORY, THREADS,
                         newPassword);
                 user.setPassword(newHash);
-                logger.debug(userDao.update(user));
+                userDao.update(user);
                 return response;
             } else {
                 response.addErrorMessage(EntityError.INVALID_PASSWORD);
