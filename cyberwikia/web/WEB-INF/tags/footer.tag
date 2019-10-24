@@ -10,6 +10,7 @@
                 <div class="row">
                     <div class="col-4 p-3">
                         <a class="text-white font-weight-bold" href="lang.html?id=ru&from=${from}">RU</a>
+                        <span class="text-white">|</span>
                         <a class="text-white font-weight-bold" href="lang.html?id=en&from=${from}">EN</a>
                     </div>
                     <div class="col-4">
