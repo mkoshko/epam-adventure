@@ -38,7 +38,8 @@ public abstract class AbstractCommand {
         session.setAttribute("errors", response.errorList());
     }
 
-    protected void setScript(final HttpServletRequest request, final String scriptSrc) {
+    protected void setScript(final HttpServletRequest request,
+                             final String scriptSrc) {
         List<String> scripts = (List<String>) request.getAttribute("scripts");
         if (scripts != null) {
             scripts.add(scriptSrc);
@@ -63,7 +64,9 @@ public abstract class AbstractCommand {
 
     protected Forward sendBack(final HttpServletRequest request) {
         String from = request.getParameter("from");
-        return new Forward(Objects.requireNonNullElse(from, "index.html"), true);
+        logger.debug("Send back to: {}", request.getParameter("from"));
+        return new Forward(Objects.requireNonNullElse(from, "index.html"),
+                true);
     }
 
     protected Forward sendError(final int error) {

@@ -12,9 +12,9 @@ public interface TeamService {
     Team findTeamById(long id) throws ServiceException;
     Team loadTeamProfile(long id) throws ServiceException;
     ServiceResponse createTeam(long userId, Team team) throws ServiceException;
-    List<Team> findAll() throws ServiceException;
     List<Team> findAll(int page, int limit) throws ServiceException;
     int getRowsNumber() throws ServiceException;
     Team findCreatedTeam(long userId) throws ServiceException;
     ServiceResponse deleteTeam(long userId);
+    List<Team> findTeamsByName(String name);
 }

@@ -25,6 +25,7 @@ import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static by.koshko.cyberwikia.dao.DaoTypes.TEAMDAO;
@@ -44,6 +45,16 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             return teamDao.getRows();
         } catch (DaoException e) {
             throw new ServiceException("Cannot get number of rows.");
+        }
+    }
+
+    public List<Team> findTeamsByName(final String name) {
+        try {
+            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            return teamDao.findByName(name);
+        } catch (DaoException e) {
+            logger.error(e.getMessage());
+            return new ArrayList<>();
         }
     }
 
@@ -284,27 +295,6 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             return team;
         } catch (DaoException e) {
             throw new ServiceException("Cannot load team by ID");
-        }
-    }
-
-    public List<Team> findAll() throws ServiceException {
-        Transaction transaction = getTransaction();
-        try {
-            TeamDao teamDao = transaction.getDao(TEAMDAO);
-            List<Team> teams = teamDao.getAll();
-            CountryService countryService
-                    = getFactory().getCountryService();
-            PlayerService playerService = getFactory().getPlayerService();
-            for (Team team : teams) {
-                team.setCountry(
-                        countryService.getCountryById(team.getCountry().getId())
-                );
-                team.setCaptain(playerService.findById(team.getCaptain()
-                        .getId()));
-            }
-            return teams;
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot get all teams.", e);
         }
     }
 

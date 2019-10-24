@@ -14,7 +14,7 @@ import java.util.List;
 public final class TeamDaoImpl extends AbstractDao implements TeamDao {
     private static final String FIND_BY_NAME
             = "SELECT id, name, logo_file, country_id, creator, captain, coach,"
-              + " game, overview FROM team WHERE name=?;";
+              + " game, overview FROM team WHERE name LIKE ?;";
     private static final String GET
             = "SELECT id, name, logo_file, country_id, creator, captain, coach,"
               + " game, overview FROM team WHERE id=?;";
@@ -62,11 +62,11 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
     }
 
     @Override
-    public Team findByName(final String name) throws DaoException {
+    public List<Team> findByName(final String name) throws DaoException {
         try (PreparedStatement statement
                      = getConnection().prepareStatement(FIND_BY_NAME)) {
-            statement.setString(1, name);
-            return buildSingleInstance(statement.executeQuery());
+            statement.setString(1, "%" + name + "%");
+            return buildMultipleInstances(statement.executeQuery());
         } catch (SQLException e) {
             throw new DaoException("Cannot find team by name.", e);
         }

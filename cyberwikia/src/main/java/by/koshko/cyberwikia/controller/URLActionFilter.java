@@ -66,6 +66,8 @@ public class URLActionFilter implements Filter {
                 String redirect = action.substring(1) + ".html?"
                                   + request.getQueryString();
                 request.setAttribute("from", redirect);
+                logger.debug("Query string: {}", request.getQueryString());
+                logger.debug("Page to return: {}", redirect);
             } else {
                 request.setAttribute("from", action.substring(1) + ".html");
             }
