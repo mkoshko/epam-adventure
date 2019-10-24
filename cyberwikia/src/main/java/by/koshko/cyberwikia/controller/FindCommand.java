@@ -25,6 +25,11 @@ public class FindCommand extends AbstractCommand {
                     request.setAttribute("teams", factory.getTeamService()
                             .findTeamsByName(searchString));
                     break;
+                case "tournaments":
+                    request.setAttribute("tournaments",
+                            factory.getTournamentService()
+                                    .findByName(searchString));
+                    break;
                 default:
                     break;
             }

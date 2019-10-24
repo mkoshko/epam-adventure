@@ -1,16 +1,24 @@
 package by.koshko.cyberwikia.service.impl;
 
-import by.koshko.cyberwikia.bean.*;
+import by.koshko.cyberwikia.bean.EntityError;
+import by.koshko.cyberwikia.bean.ServiceResponse;
+import by.koshko.cyberwikia.bean.Tournament;
+import by.koshko.cyberwikia.bean.TournamentTeam;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TournamentDao;
 import by.koshko.cyberwikia.dao.TournamentTeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.*;
+import by.koshko.cyberwikia.service.PaginationHelper;
+import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
+import by.koshko.cyberwikia.service.TeamService;
+import by.koshko.cyberwikia.service.TournamentService;
 import by.koshko.cyberwikia.service.validation.TournamentValidator;
 import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static by.koshko.cyberwikia.dao.DaoTypes.TOURNAMENTDAO;
@@ -33,6 +41,17 @@ public class TournamentServiceImpl extends AbstractService
             return tournamentDao.getRowsNumber();
         } catch (DaoException e) {
             throw new ServiceException("Cannot get rows number.", e);
+        }
+    }
+
+    public List<Tournament> findByName(final String name) {
+        try {
+            TournamentDao tournamentDao
+                    = getTransaction().getDao(TOURNAMENTDAO);
+            return tournamentDao.findByName(name);
+        } catch (DaoException e) {
+            logger.error("{}. {}.", e.getMessage(), e.getCause().getMessage());
+            return new ArrayList<>();
         }
     }
 

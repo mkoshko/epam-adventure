@@ -12,4 +12,5 @@ public interface TournamentService {
     void deleteTournament(Tournament tournament) throws ServiceException;
     List<Tournament> findAll(int page, int limit) throws ServiceException;
     int getRowsNumber() throws ServiceException;
+    List<Tournament> findByName(String name);
 }

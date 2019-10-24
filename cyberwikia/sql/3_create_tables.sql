@@ -1,5 +1,4 @@
 USE cyberwikia;
-DROP PROCEDURE active_team_id;
 
 CREATE TABLE country
 (
@@ -24,9 +23,8 @@ CREATE TABLE game
 CREATE TABLE user
 (
     id       INT UNSIGNED        NOT NULL AUTO_INCREMENT,
-    login    VARCHAR(50)        NOT NULL,
+    login    VARCHAR(50)         NOT NULL,
     email    VARCHAR(254)        NOT NULL,
-    #Argon2 hashing algorithm.
     password VARCHAR(99)         NOT NULL,
     role     TINYINT(1) UNSIGNED NOT NULL,
     CONSTRAINT PK_user PRIMARY KEY (id),
@@ -84,6 +82,7 @@ CREATE TABLE tournament
     start_date DATE NOT NULL,
     end_date   DATE NOT NULL,
     CONSTRAINT PK_tournament PRIMARY KEY (id),
+    CONSTRAINT UQ_tournament UNIQUE (name),
     CONSTRAINT CH_tournament_start_end_date CHECK ( DATEDIFF(end_date, start_date) >= 0 )
 );
 CREATE INDEX IDX_tournament_name ON tournament (name);

@@ -17,7 +17,7 @@
                                     key="title.players"/></option>
                             <option value="teams"><fmt:message
                                     key="title.teams"/></option>
-                            <option value="tournament"><fmt:message
+                            <option value="tournaments"><fmt:message
                                     key="title.tournaments"/></option>
                         </select>
                         <input class="search ml-0" type="text" placeholder="Search..." name="searchContent">
