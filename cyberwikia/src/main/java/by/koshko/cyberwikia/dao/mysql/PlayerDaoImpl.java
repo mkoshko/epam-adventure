@@ -23,7 +23,7 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
               + " country_id, overview"
               + " FROM player LIMIT ?, ?;";
     private static final String FIND_BY_NICKNAME
-            = SELECT_FROM + "WHERE nickname=?;";
+            = SELECT_FROM + "WHERE nickname LIKE ?;";
     private static final String FIND_BY_FULLNAME
             = SELECT_FROM + "WHERE concat_ws(' ', firstName, lastName) LIKE ?;";
     private static final String GET
@@ -34,8 +34,8 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String UPDATE
             = "UPDATE player "
-              + "SET id=?, profile_photo=?, nickname=?, firstName=?, lastName=?, "
-              + "birth=?, country_id=?, overview=? WHERE id=?;";
+              + "SET id=?, profile_photo=?, nickname=?, firstName=?, "
+              + "lastName=?, birth=?, country_id=?, overview=? WHERE id=?";
     private static final String DELETE = "DELETE FROM player WHERE id=?;";
     private static final String ROWS_NUMBER
             = "SELECT COUNT(*) FROM player;";
@@ -53,12 +53,12 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
     }
 
     @Override
-    public Player findByNickname(final String nickname)
+    public List<Player> findByNickname(final String nickname)
             throws DaoException {
         try (PreparedStatement statement
                      = getConnection().prepareStatement(FIND_BY_NICKNAME)) {
-            statement.setString(1, nickname);
-            return buildSingleInstance(statement.executeQuery());
+            statement.setString(1, "%" + nickname + "%");
+            return buildMultipleInstances(statement.executeQuery());
         } catch (SQLException e) {
             throw new DaoException("Cannot find player by nickname.", e);
         }

@@ -15,7 +15,7 @@ public interface PlayerService {
 
     boolean deletePlayer(long userId) throws ServiceException;
 
-    Player findByNickname(String nickname) throws ServiceException;
+    List<Player> findPlayersByNickname(String nickname);
 
     Player findById(long id) throws ServiceException;
 

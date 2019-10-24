@@ -7,7 +7,14 @@ import by.koshko.cyberwikia.bean.ServiceResponse;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerDao;
 import by.koshko.cyberwikia.dao.Transaction;
-import by.koshko.cyberwikia.service.*;
+import by.koshko.cyberwikia.service.CountryService;
+import by.koshko.cyberwikia.service.PaginationHelper;
+import by.koshko.cyberwikia.service.PlayerService;
+import by.koshko.cyberwikia.service.PlayerTeamService;
+import by.koshko.cyberwikia.service.ServiceException;
+import by.koshko.cyberwikia.service.ServiceFactory;
+import by.koshko.cyberwikia.service.TeamService;
+import by.koshko.cyberwikia.service.TournamentTeamService;
 import by.koshko.cyberwikia.service.validation.PlayerValidator;
 import by.koshko.cyberwikia.service.validation.ValidationFactory;
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +25,7 @@ import java.util.List;
 
 import static by.koshko.cyberwikia.dao.DaoTypes.PLAYERDAO;
 
-public final class PlayerServiceImpl extends AbstractService
+public class PlayerServiceImpl extends AbstractService
         implements PlayerService {
 
     private Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
@@ -26,6 +33,16 @@ public final class PlayerServiceImpl extends AbstractService
     public PlayerServiceImpl(final Transaction transaction,
                              final ServiceFactory factory) {
         super(transaction, factory);
+    }
+
+    public List<Player> findPlayersByNickname(final String nickname) {
+        try {
+            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            return playerDao.findByNickname(nickname);
+        } catch (DaoException e) {
+            logger.error("Cannot find players by nickname.");
+            return new ArrayList<>();
+        }
     }
 
     public ServiceResponse editPlayer(final long userId, final Player player)
@@ -130,21 +147,6 @@ public final class PlayerServiceImpl extends AbstractService
             return playerDao.getRowsNumber();
         } catch (DaoException e) {
             throw new ServiceException("Cannot get number of records.");
-        }
-    }
-
-    @Override
-    public Player findByNickname(final String nickname)
-            throws ServiceException {
-        try {
-            if (nickname == null || nickname.isBlank()) {
-                return null;
-            }
-            Transaction transaction = getTransaction();
-            PlayerDao playerDao = transaction.getDao(PLAYERDAO);
-            return playerDao.findByNickname(nickname);
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot get player by nickname.");
         }
     }
 

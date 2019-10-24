@@ -12,7 +12,7 @@
                     project deprecated since 2000.</p>
                 <div class="">
                     <form action="search.html" class="text-center d-block" method="get">
-                        <select class="content">
+                        <select class="content" name="search">
                             <option value="players"><fmt:message
                                     key="title.players"/></option>
                             <option value="teams"><fmt:message
@@ -20,7 +20,7 @@
                             <option value="tournament"><fmt:message
                                     key="title.tournaments"/></option>
                         </select>
-                        <input class="search ml-0" type="text" placeholder="Search...">
+                        <input class="search ml-0" type="text" placeholder="Search..." name="searchContent">
                         <button type="submit" class="content">
                             Search
                         </button>
