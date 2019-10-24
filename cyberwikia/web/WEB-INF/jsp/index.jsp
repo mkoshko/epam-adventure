@@ -22,7 +22,7 @@
                         </select>
                         <input class="search ml-0" type="text" placeholder="Search..." name="searchContent">
                         <button type="submit" class="content">
-                            Search
+                            <fmt:message key="button.search"/>
                         </button>
                     </form>
                 </div>

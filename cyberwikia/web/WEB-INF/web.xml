@@ -37,6 +37,14 @@
         <filter-name>SecurityFilter</filter-name>
         <url-pattern>*.html</url-pattern>
     </filter-mapping>
+    <filter>
+        <filter-name>XSSFilter</filter-name>
+        <filter-class>by.koshko.cyberwikia.controller.XSSFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>XSSFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
     <error-page>
         <error-code>500</error-code>
         <location>/WEB-INF/jsp/error500.jsp</location>
