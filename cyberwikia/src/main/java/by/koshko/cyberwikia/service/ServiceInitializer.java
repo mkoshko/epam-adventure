@@ -2,7 +2,7 @@ package by.koshko.cyberwikia.service;
 
 import by.koshko.cyberwikia.bean.RawData;
 import by.koshko.cyberwikia.dao.DaoException;
-import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
+import by.koshko.cyberwikia.dao.pool.ConnectionPool;
 import by.koshko.cyberwikia.service.validation.ValidationPropertiesLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

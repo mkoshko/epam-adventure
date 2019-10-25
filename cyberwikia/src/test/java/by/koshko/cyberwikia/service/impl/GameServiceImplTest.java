@@ -1,7 +1,7 @@
 package by.koshko.cyberwikia.service.impl;
 
 import by.koshko.cyberwikia.bean.Game;
-import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
+import by.koshko.cyberwikia.dao.pool.ConnectionPool;
 import by.koshko.cyberwikia.service.GameService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;

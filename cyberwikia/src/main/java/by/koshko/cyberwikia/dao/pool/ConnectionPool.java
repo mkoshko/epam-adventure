@@ -1,4 +1,4 @@
-package by.koshko.cyberwikia.dao.cyberpool;
+package by.koshko.cyberwikia.dao.pool;
 
 import by.koshko.cyberwikia.dao.DaoException;
 import com.mysql.cj.jdbc.MysqlDataSource;

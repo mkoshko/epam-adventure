@@ -1,17 +1,15 @@
 package by.koshko.cyberwikia.service.impl;
 
-import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
+import by.koshko.cyberwikia.dao.pool.ConnectionPool;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceInitializer;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.SqlScriptSource;
 import com.wix.mysql.config.MysqldConfig;
-import org.apache.logging.log4j.LogManager;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
-import java.sql.SQLException;
 import java.util.Properties;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;

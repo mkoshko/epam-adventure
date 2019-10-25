@@ -1,4 +1,4 @@
-package by.koshko.cyberwikia.dao.cyberpool;
+package by.koshko.cyberwikia.dao.pool;
 
 import java.sql.*;
 import java.util.Map;

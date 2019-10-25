@@ -1,6 +1,6 @@
 package by.koshko.cyberwikia.controller;
 
-import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
+import by.koshko.cyberwikia.dao.pool.ConnectionPool;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceInitializer;
 import org.apache.logging.log4j.LogManager;

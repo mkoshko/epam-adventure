@@ -14,8 +14,8 @@ import by.koshko.cyberwikia.dao.TournamentDao;
 import by.koshko.cyberwikia.dao.TournamentTeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.dao.UserDao;
-import by.koshko.cyberwikia.dao.cyberpool.ConnectionPool;
-import by.koshko.cyberwikia.dao.cyberpool.ConnectionWrapper;
+import by.koshko.cyberwikia.dao.pool.ConnectionPool;
+import by.koshko.cyberwikia.dao.pool.ConnectionWrapper;
 
 public class TransactionImpl implements Transaction {
     private ConnectionWrapper connection;
