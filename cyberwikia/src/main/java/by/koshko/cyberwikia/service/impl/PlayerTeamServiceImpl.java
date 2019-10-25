@@ -1,6 +1,10 @@
 package by.koshko.cyberwikia.service.impl;
 
-import by.koshko.cyberwikia.bean.*;
+import by.koshko.cyberwikia.bean.EntityError;
+import by.koshko.cyberwikia.bean.Player;
+import by.koshko.cyberwikia.bean.PlayerTeam;
+import by.koshko.cyberwikia.bean.ServiceResponse;
+import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerTeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
@@ -16,8 +20,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.koshko.cyberwikia.dao.DaoTypes.PLAYERTEAMDAO;
-
 public final class PlayerTeamServiceImpl extends AbstractService
         implements PlayerTeamService {
 
@@ -28,11 +30,11 @@ public final class PlayerTeamServiceImpl extends AbstractService
         super(transaction, factory);
     }
 
-    //TODO rethink method implementation.
+    @Override
     public long playerActiveTeamId(final long playerId)
             throws ServiceException {
         try {
-            PlayerTeamDao playerTeamDao = getTransaction().getDao(PLAYERTEAMDAO);
+            PlayerTeamDao playerTeamDao = getTransaction().getPlayerTeamDao();
             return playerTeamDao.isActiveTeamPlayer(playerId);
         } catch (DaoException e) {
             throw new ServiceException("Cannot fetch information about"
@@ -61,7 +63,7 @@ public final class PlayerTeamServiceImpl extends AbstractService
         playerTeam.setActive(false);
         playerTeam.setLeaveDate(LocalDate.now());
         try {
-            PlayerTeamDao playerTeamDao = getTransaction().getDao(PLAYERTEAMDAO);
+            PlayerTeamDao playerTeamDao = getTransaction().getPlayerTeamDao();
             playerTeamDao.update(playerTeam);
         } catch (DaoException e) {
             logger.error("Cannot kick player. {}", e.getMessage());
@@ -90,7 +92,7 @@ public final class PlayerTeamServiceImpl extends AbstractService
             playerTeam.setActive(false);
             playerTeam.setLeaveDate(LocalDate.now());
             PlayerTeamDao playerTeamDao
-                    = transaction.getDao(PLAYERTEAMDAO);
+                    = transaction.getPlayerTeamDao();
             playerTeamDao.update(playerTeam);
             TeamService teamService = getFactory().getTeamService();
             Team team = teamService.findTeamById(playerTeam.getTeam().getId());
@@ -128,7 +130,7 @@ public final class PlayerTeamServiceImpl extends AbstractService
             if (playerTeam != null) {
                 return 0;
             }
-            PlayerTeamDao playerTeamDao = transaction.getDao(PLAYERTEAMDAO);
+            PlayerTeamDao playerTeamDao = transaction.getPlayerTeamDao();
             playerTeam = playerTeamDao.findPlayerTeam(userId, teamId);
             if (playerTeam != null) {
                 playerTeam.setActive(true);
@@ -142,13 +144,12 @@ public final class PlayerTeamServiceImpl extends AbstractService
             Team team = new Team();
             team.setId(teamId);
             playerTeam.setTeam(team);
-            //Use ZoneID.
             playerTeam.setJoinDate(LocalDate.now());
             playerTeam.setActive(true);
             playerTeamDao.save(playerTeam);
             return 1;
         } catch (DaoException e) {
-            throw new ServiceException("Cannot join team.");
+            throw new ServiceException("Cannot join team.", e);
         }
     }
 
@@ -165,16 +166,15 @@ public final class PlayerTeamServiceImpl extends AbstractService
             logger.debug("Constructing 'PlayerTeam' list for player '{}'.",
                     player.getNickname());
             PlayerTeamDao playerTeamDao
-                    = getTransaction().getDao(PLAYERTEAMDAO);
+                    = getTransaction().getPlayerTeamDao();
             List<PlayerTeam> playerTeams = playerTeamDao.findPlayerTeam(player);
             if (deepLoad) {
                 fillTeamProfiles(playerTeams);
             }
             return playerTeams;
         } catch (DaoException e) {
-            logger.error("");
             throw new ServiceException("Cannot get 'PlayerTeam' list"
-                                       + " for specified player");
+                                       + " for specified player", e);
         }
     }
 
@@ -185,13 +185,13 @@ public final class PlayerTeamServiceImpl extends AbstractService
         try {
             Transaction transaction = getTransaction();
             if (team == null) {
-                logger.warn("Method argument 'team' is null."
+                logger.debug("Method argument 'team' is null."
                             + " Empty 'PlayerTeam' list will returned.");
                 return new ArrayList<>();
             }
             logger.debug("Constructing 'PlayerTeam' list for team '{}'.",
                     team.getName());
-            PlayerTeamDao playerTeamDao = transaction.getDao(PLAYERTEAMDAO);
+            PlayerTeamDao playerTeamDao = transaction.getPlayerTeamDao();
             List<PlayerTeam> players = playerTeamDao.findPlayerTeam(team);
             if (deepLoad) {
                 fillPlayerProfiles(players);
@@ -203,10 +203,12 @@ public final class PlayerTeamServiceImpl extends AbstractService
         }
     }
 
-    public PlayerTeam findActiveTeam(final Player player) throws ServiceException {
+    @Override
+    public PlayerTeam findActiveTeam(final Player player)
+            throws ServiceException {
         try {
             Transaction transaction = getTransaction();
-            PlayerTeamDao playerTeamDao = transaction.getDao(PLAYERTEAMDAO);
+            PlayerTeamDao playerTeamDao = transaction.getPlayerTeamDao();
             return playerTeamDao.findPlayerTeamActive(player);
         } catch (DaoException e) {
             throw new ServiceException("Cannot find players active team.");

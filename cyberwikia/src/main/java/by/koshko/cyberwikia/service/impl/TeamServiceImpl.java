@@ -28,8 +28,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.koshko.cyberwikia.dao.DaoTypes.TEAMDAO;
-
 public class TeamServiceImpl extends AbstractService implements TeamService {
 
     private Logger logger = LogManager.getLogger(TeamServiceImpl.class);
@@ -59,7 +57,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
 
     public int getRowsNumber() throws ServiceException {
         try {
-            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            TeamDao teamDao = getTransaction().getTeamDao();
             return teamDao.getRows();
         } catch (DaoException e) {
             throw new ServiceException("Cannot get number of rows.");
@@ -68,7 +66,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
 
     public List<Team> findTeamsByName(final String name) {
         try {
-            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            TeamDao teamDao = getTransaction().getTeamDao();
             return teamDao.findByName(name);
         } catch (DaoException e) {
             logger.error(e.getMessage());
@@ -79,7 +77,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
     @Override
     public Team findCreatedTeam(final long userId) throws ServiceException {
         try {
-            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            TeamDao teamDao = getTransaction().getTeamDao();
             return teamDao.findCreatedTeam(userId);
         } catch (DaoException e) {
             throw new ServiceException("Cannot find player created team.", e);
@@ -105,7 +103,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
                                           final long playerId) {
         ServiceResponse response = new ServiceResponse();
         try {
-            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            TeamDao teamDao = getTransaction().getTeamDao();
             Team team = checkUserTeam(userId, playerId, response);
             if (team == null) {
                 return response;
@@ -128,7 +126,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
                                         final long playerId) {
         ServiceResponse response = new ServiceResponse();
         try {
-            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            TeamDao teamDao = getTransaction().getTeamDao();
             Team team = checkUserTeam(userId, playerId, response);
             if (team == null) {
                 return response;
@@ -150,7 +148,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
     private Team checkUserTeam(final long userId, final long playerId,
                       final ServiceResponse response)
             throws ServiceException, DaoException {
-        TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+        TeamDao teamDao = getTransaction().getTeamDao();
         Team team = teamDao.findCreatedTeam(userId);
         if (team == null) {
             response.addErrorMessage(EntityError.GENERIC_ERROR);
@@ -174,7 +172,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
                 response.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
                 return response;
             }
-            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            TeamDao teamDao = getTransaction().getTeamDao();
             team.setLogoFile(saveNewDeleteOldImage(oldTeam.getLogoFile(),
                     team.getRawData()));
             if (teamDao.update(team)) {
@@ -211,7 +209,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             return response;
         }
         try {
-            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            TeamDao teamDao = getTransaction().getTeamDao();
             team.setLogoFile(ServiceFactory
                     .getImageService().save(team.getRawData()));
             if (teamDao.save(team)) {
@@ -230,7 +228,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
     public ServiceResponse deleteTeam(final long userId) {
         ServiceResponse response = new ServiceResponse();
         try {
-            TeamDao teamDao = getTransaction().getDao(TEAMDAO);
+            TeamDao teamDao = getTransaction().getTeamDao();
             Team team = teamDao.findCreatedTeam(userId);
             if (team == null || !teamDao.delete(team)) {
                 response.addErrorMessage(EntityError.GENERIC_ERROR);
@@ -253,7 +251,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             return null;
         }
         try {
-            TeamDao teamDao = transaction.getDao(TEAMDAO);
+            TeamDao teamDao = transaction.getTeamDao();
             Team team = teamDao.get(id);
             if (team == null) {
                 return null;
@@ -296,14 +294,14 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             team.setPlayers(players);
             return team;
         } catch (DaoException e) {
-            throw new ServiceException("Cannot load team profile.");
+            throw new ServiceException("Cannot load team profile.", e);
         }
     }
 
     public Team findTeamById(final long id) throws ServiceException {
         Transaction transaction = getTransaction();
         try {
-            TeamDao teamDao = transaction.getDao(TEAMDAO);
+            TeamDao teamDao = transaction.getTeamDao();
             Team team = teamDao.get(id);
             CountryService countryService
                     = getFactory().getCountryService();
@@ -326,7 +324,7 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
             } else {
                 offset = (page - 1) * limit;
             }
-            TeamDao teamDao = transaction.getDao(TEAMDAO);
+            TeamDao teamDao = transaction.getTeamDao();
             List<Team> teams = teamDao.getAll(offset, limit);
             CountryService countryService
                     = getFactory().getCountryService();

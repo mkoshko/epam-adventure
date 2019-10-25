@@ -4,6 +4,7 @@ import by.koshko.cyberwikia.bean.Country;
 import by.koshko.cyberwikia.dao.CountryDao;
 import by.koshko.cyberwikia.dao.DaoException;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +18,10 @@ public final class CountryDaoImpl extends AbstractDao implements CountryDao {
               + " FROM country WHERE id=?;";
     private static final String GET_ALL
             = "SELECT id, name, code, icon_file FROM country;";
+
+    public CountryDaoImpl(final Connection newConnection) {
+        super(newConnection);
+    }
 
     @Override
     public Country get(final long id) throws DaoException {

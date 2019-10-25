@@ -2,7 +2,6 @@ package by.koshko.cyberwikia.service.impl;
 
 import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.dao.DaoException;
-import by.koshko.cyberwikia.dao.DaoTypes;
 import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.dao.UserDao;
 import by.koshko.cyberwikia.dao.mysql.TransactionImpl;
@@ -20,7 +19,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 
-public class UserServiceImplTest  extends AbstractServiceTest {
+public class UserServiceImplTest extends AbstractServiceTest {
 
     private ServiceFactory factory;
     private UserService userService;
@@ -76,7 +75,7 @@ public class UserServiceImplTest  extends AbstractServiceTest {
 
     @DataProvider(name = "incorrect_user_signUp")
     private Object[][] provide5() {
-        return new Object[][]{
+        return new Object[][] {
                 {"", "login@email.com", "password"},
                 {"login5", "", "password"},
                 {"login5", "login@email.com", ""},
@@ -86,7 +85,7 @@ public class UserServiceImplTest  extends AbstractServiceTest {
                 {"login5", "login@email", "password"},
                 {"login5", "loginemail.com", "password"},
                 {"login5", "@email.com", "password"},
-                {null, null, null},
+                {null, null, null}
         };
     }
 
@@ -123,7 +122,7 @@ public class UserServiceImplTest  extends AbstractServiceTest {
         user.setPassword(password);
         userService.sighUp(user);
         Transaction transaction = new TransactionImpl();
-        UserDao userDao = transaction.getDao(DaoTypes.USERDAO);
+        UserDao userDao = transaction.getUserDao();
         User newUser = userDao.findByLogin(login);
         transaction.close();
         assertNotNull(newUser);
@@ -139,7 +138,7 @@ public class UserServiceImplTest  extends AbstractServiceTest {
         user.setPassword(password);
         userService.sighUp(user);
         Transaction transaction = new TransactionImpl();
-        UserDao userDao = transaction.getDao(DaoTypes.USERDAO);
+        UserDao userDao = transaction.getUserDao();
         User newUser = userDao.findByLogin(login);
         transaction.close();
         assertNull(newUser);
@@ -159,8 +158,10 @@ public class UserServiceImplTest  extends AbstractServiceTest {
         assertNotNull(user);
     }
 
-    @Test(dependsOnMethods = {"testSignIn"}, dataProvider = "incorrect_password")
-    public void testUpdatePassword2(final String password) throws ServiceException {
+    @Test(dependsOnMethods = {"testSignIn"},
+            dataProvider = "incorrect_password")
+    public void testUpdatePassword2(final String password)
+            throws ServiceException {
         userService.updatePassword(1, "user0", password);
         User user = userService.signIn("user0", password);
         assertNull(user);

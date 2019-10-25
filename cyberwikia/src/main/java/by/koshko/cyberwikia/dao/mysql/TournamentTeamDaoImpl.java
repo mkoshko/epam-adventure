@@ -9,6 +9,7 @@ import by.koshko.cyberwikia.dao.TournamentTeamDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,6 +59,11 @@ public final class TournamentTeamDaoImpl extends AbstractDao
             = "SELECT team_id, AVG(placement) as avg FROM m2m_tournament_team"
               + " GROUP BY team_id ORDER BY avg LIMIT ?;";
 
+    public TournamentTeamDaoImpl(final Connection newConnection) {
+        super(newConnection);
+    }
+
+    @Override
     public List<Long> getTopTeams(final int limit) throws DaoException {
         try (PreparedStatement statement
                 = getConnection().prepareStatement(FIND_TOP_TEAMS)) {

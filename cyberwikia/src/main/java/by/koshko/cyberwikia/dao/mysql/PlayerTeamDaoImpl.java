@@ -6,12 +6,7 @@ import by.koshko.cyberwikia.bean.Team;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerTeamDao;
 
-import java.sql.CallableStatement;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +38,10 @@ public final class PlayerTeamDaoImpl extends AbstractDao implements PlayerTeamDa
     private static final String ACTIVE_TEAM_ID
             = "{CALL active_team_id(?)}";
 
-    //TODO rethink method implementation.
+    public PlayerTeamDaoImpl(final Connection newConnection) {
+        super(newConnection);
+    }
+
     @Override
     public long isActiveTeamPlayer(final long playerId) throws DaoException {
         try (CallableStatement statement

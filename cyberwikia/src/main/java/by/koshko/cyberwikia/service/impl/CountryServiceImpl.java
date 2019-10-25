@@ -3,7 +3,6 @@ package by.koshko.cyberwikia.service.impl;
 import by.koshko.cyberwikia.bean.Country;
 import by.koshko.cyberwikia.dao.CountryDao;
 import by.koshko.cyberwikia.dao.DaoException;
-import by.koshko.cyberwikia.dao.DaoTypes;
 import by.koshko.cyberwikia.dao.Transaction;
 import by.koshko.cyberwikia.service.CountryService;
 import by.koshko.cyberwikia.service.ServiceException;
@@ -29,7 +28,7 @@ public final class CountryServiceImpl extends AbstractService
     public Country getCountryById(final long id) throws ServiceException {
         try {
             CountryDao countryDao
-                    = getTransaction().getDao(DaoTypes.COUNTRYDAO);
+                    = getTransaction().getCountryDao();
             return countryDao.get(id);
         } catch (DaoException e) {
             logger.error(e.getMessage());
@@ -39,7 +38,7 @@ public final class CountryServiceImpl extends AbstractService
     @Override
     public List<Country> getAll() throws ServiceException {
         try {
-            CountryDao countryDao = getTransaction().getDao(DaoTypes.COUNTRYDAO);
+            CountryDao countryDao = getTransaction().getCountryDao();
             return countryDao.getAll();
         } catch (DaoException e) {
             logger.error(e.getMessage());

@@ -18,8 +18,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.koshko.cyberwikia.dao.DaoTypes.TOURNAMENTTEAMDAO;
-
 public class TournamentTeamServiceImpl extends AbstractService
         implements TournamentTeamService {
 
@@ -36,7 +34,7 @@ public class TournamentTeamServiceImpl extends AbstractService
             return new ArrayList<>();
         }
         try {
-            TournamentTeamDao ttd = getTransaction().getDao(TOURNAMENTTEAMDAO);
+            TournamentTeamDao ttd = getTransaction().getTournamentTeamDao();
             return ttd.getTopTeams(limit);
         } catch (DaoException e) {
             logger.error(e.getMessage());
@@ -52,7 +50,7 @@ public class TournamentTeamServiceImpl extends AbstractService
                                            + " the tournament participant.");
             }
             TournamentTeamDao tournamentTeamDao
-                    = getTransaction().getDao(TOURNAMENTTEAMDAO);
+                    = getTransaction().getTournamentTeamDao();
             tournamentTeamDao.update(tournamentTeam);
             logger.debug("Tournament participant information was updated.");
         } catch (DaoException e) {
@@ -66,10 +64,10 @@ public class TournamentTeamServiceImpl extends AbstractService
         try {
             if (!TournamentTeamValidator.test(tournamentTeam)) {
                 throw new ServiceException("Cannot add team"
-                                           + " to tournament participants list.");
+                                      + " to tournament participants list.");
             }
             TournamentTeamDao tournamentTeamDao
-                    = transaction.getDao(TOURNAMENTTEAMDAO);
+                    = transaction.getTournamentTeamDao();
             tournamentTeamDao.save(tournamentTeam);
             logger.debug("Team {} was added to '{}' participants list",
                     tournamentTeam.getTeam().getName(),
@@ -90,7 +88,7 @@ public class TournamentTeamServiceImpl extends AbstractService
             }
             Transaction transaction = getTransaction();
             TournamentTeamDao tournamentTeamDao
-                    = transaction.getDao(TOURNAMENTTEAMDAO);
+                    = transaction.getTournamentTeamDao();
             TournamentService tournamentService
                     = getFactory().getTournamentService();
             List<TournamentTeam> tournaments
@@ -117,7 +115,7 @@ public class TournamentTeamServiceImpl extends AbstractService
             }
             Transaction transaction = getTransaction();
             TournamentTeamDao tournamentTeamDao
-                    = transaction.getDao(TOURNAMENTTEAMDAO);
+                    = transaction.getTournamentTeamDao();
             TeamService teamService =
                     getFactory().getTeamService();
             TournamentService tournamentService

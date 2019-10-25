@@ -23,8 +23,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.koshko.cyberwikia.dao.DaoTypes.PLAYERDAO;
-
 public class PlayerServiceImpl extends AbstractService
         implements PlayerService {
 
@@ -37,7 +35,7 @@ public class PlayerServiceImpl extends AbstractService
 
     public List<Player> findPlayersByNickname(final String nickname) {
         try {
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            PlayerDao playerDao = getTransaction().getPlayerDao();
             return playerDao.findByNickname(nickname);
         } catch (DaoException e) {
             logger.error("Cannot find players by nickname.");
@@ -54,7 +52,7 @@ public class PlayerServiceImpl extends AbstractService
             return response;
         }
         try {
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            PlayerDao playerDao = getTransaction().getPlayerDao();
             Player oldPlayer = playerDao.get(userId);
             if (oldPlayer == null) {
                 logger.debug("User:{} don't have permissions to edit"
@@ -86,7 +84,7 @@ public class PlayerServiceImpl extends AbstractService
     public ServiceResponse createPlayer(final long userId,
                                 final Player player) throws ServiceException {
         try {
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            PlayerDao playerDao = getTransaction().getPlayerDao();
             Player newPlayer = playerDao.get(userId);
             if (newPlayer == null) {
                 return createPlayer(player);
@@ -111,7 +109,7 @@ public class PlayerServiceImpl extends AbstractService
                 serviceResponse.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
                 return serviceResponse;
             }
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            PlayerDao playerDao = getTransaction().getPlayerDao();
             player.setProfilePhoto(ServiceFactory.getImageService()
                     .save(player.getRawData()));
             if (playerDao.save(player)) {
@@ -128,12 +126,13 @@ public class PlayerServiceImpl extends AbstractService
     @Override
     public boolean deletePlayer(final long userId) throws ServiceException {
         try {
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            PlayerDao playerDao = getTransaction().getPlayerDao();
             Player oldPlayer = playerDao.get(userId);
             if (oldPlayer == null) {
                 return false;
             }
-            ServiceFactory.getImageService().delete(oldPlayer.getProfilePhoto());
+            ServiceFactory.getImageService()
+                    .delete(oldPlayer.getProfilePhoto());
             return playerDao.delete(oldPlayer);
         } catch (DaoException e) {
             throw new ServiceException("Cannot delete player.");
@@ -143,7 +142,7 @@ public class PlayerServiceImpl extends AbstractService
     @Override
     public int getRowsNumber() throws ServiceException {
         try {
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            PlayerDao playerDao = getTransaction().getPlayerDao();
             return playerDao.getRowsNumber();
         } catch (DaoException e) {
             throw new ServiceException("Cannot get number of records.");
@@ -154,7 +153,7 @@ public class PlayerServiceImpl extends AbstractService
     public Player findById(final long id) throws ServiceException {
         try {
             Transaction transaction = getTransaction();
-            PlayerDao playerDao = transaction.getDao(PLAYERDAO);
+            PlayerDao playerDao = transaction.getPlayerDao();
             CountryService countryService
                     = getFactory().getCountryService();
             Player player = playerDao.get(id);
@@ -172,7 +171,7 @@ public class PlayerServiceImpl extends AbstractService
     public Player loadProfile(final long id) throws ServiceException {
         Transaction transaction = getTransaction();
         try {
-            PlayerDao playerDao = transaction.getDao(PLAYERDAO);
+            PlayerDao playerDao = transaction.getPlayerDao();
             Player player = playerDao.get(id);
             if (player == null) {
                 return null;
@@ -199,7 +198,7 @@ public class PlayerServiceImpl extends AbstractService
     @Override
     public List<Player> findAll() throws ServiceException {
         try {
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            PlayerDao playerDao = getTransaction().getPlayerDao();
             List<Player> players = playerDao.getAll();
             loadCountries(players);
             loadActiveTeams(players);
@@ -214,7 +213,7 @@ public class PlayerServiceImpl extends AbstractService
             throws ServiceException {
         try {
             int offset = PaginationHelper.calculateOffset(page, limit);
-            PlayerDao playerDao = getTransaction().getDao(PLAYERDAO);
+            PlayerDao playerDao = getTransaction().getPlayerDao();
             List<Player> players = playerDao.getAll(offset, limit);
             loadCountries(players);
             loadActiveTeams(players);

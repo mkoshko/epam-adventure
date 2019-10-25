@@ -12,8 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-import static by.koshko.cyberwikia.dao.DaoTypes.GAMEDAO;
-
 public class GameServiceImpl extends AbstractService implements GameService {
 
     private Logger logger = LogManager.getLogger();
@@ -25,7 +23,7 @@ public class GameServiceImpl extends AbstractService implements GameService {
 
     public Game findById(final long id) throws ServiceException {
         try {
-            GameDao gameDao = getTransaction().getDao(GAMEDAO);
+            GameDao gameDao = getTransaction().getGameDao();
             return gameDao.get(id);
         } catch (DaoException e) {
             throw new ServiceException("Cannot find game by ID.", e);
@@ -34,7 +32,7 @@ public class GameServiceImpl extends AbstractService implements GameService {
 
     public List<Game> getAll() throws ServiceException {
         try {
-            GameDao gameDao = getTransaction().getDao(GAMEDAO);
+            GameDao gameDao = getTransaction().getGameDao();
             return gameDao.getAll();
         } catch (DaoException e) {
             throw new ServiceException("Cannot fetch game list.", e);

@@ -5,10 +5,7 @@ import by.koshko.cyberwikia.bean.Player;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.PlayerDao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +36,10 @@ public final class PlayerDaoImpl extends AbstractDao implements PlayerDao {
     private static final String DELETE = "DELETE FROM player WHERE id=?;";
     private static final String ROWS_NUMBER
             = "SELECT COUNT(*) FROM player;";
+
+    public PlayerDaoImpl(final Connection newConnection) {
+        super(newConnection);
+    }
 
     public int getRowsNumber() throws DaoException {
         try (Statement statement = getConnection().createStatement()) {

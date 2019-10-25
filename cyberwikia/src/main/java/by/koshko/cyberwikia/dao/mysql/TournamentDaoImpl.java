@@ -4,11 +4,7 @@ import by.koshko.cyberwikia.bean.Tournament;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TournamentDao;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +45,10 @@ public class TournamentDaoImpl extends AbstractDao
               + " end_date FROM tournament"
               + " WHERE (current_date <= end_date)"
               + " and (current_date >= start_date) LIMIT ?";
+
+    public TournamentDaoImpl(final Connection newConnection) {
+        super(newConnection);
+    }
 
     public int getRowsNumber() throws DaoException {
         try (Statement statement = getConnection().createStatement()) {

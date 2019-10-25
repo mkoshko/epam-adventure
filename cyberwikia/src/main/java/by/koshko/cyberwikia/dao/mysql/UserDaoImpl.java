@@ -31,7 +31,11 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
     private static final String HAS_LOGIN = "{CALL has_login (?,?)}";
     private static final String HAS_EMAIL = "{CALL has_email (?,?)}";
 
+    public UserDaoImpl(final Connection newConnection) {
+        super(newConnection);
+    }
 
+    @Override
     public boolean hasLogin(final String login) throws DaoException {
         try (CallableStatement statement
                      = getConnection().prepareCall(HAS_LOGIN)) {

@@ -21,9 +21,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.koshko.cyberwikia.dao.DaoTypes.TOURNAMENTDAO;
-import static by.koshko.cyberwikia.dao.DaoTypes.TOURNAMENTTEAMDAO;
-
 public class TournamentServiceImpl extends AbstractService
         implements TournamentService {
 
@@ -38,7 +35,7 @@ public class TournamentServiceImpl extends AbstractService
     public List<Tournament> findUpcoming(final int limit) {
         try {
             TournamentDao tournamentDao
-                    = getTransaction().getDao(TOURNAMENTDAO);
+                    = getTransaction().getTournamentDao();
             return tournamentDao.findUpcoming(limit);
         } catch (DaoException e) {
             logger.error("Cannot get upcoming tournaments list. {}",
@@ -50,7 +47,7 @@ public class TournamentServiceImpl extends AbstractService
     public List<Tournament> findOngoing(final int limit) {
         try {
             TournamentDao tournamentDao
-                    = getTransaction().getDao(TOURNAMENTDAO);
+                    = getTransaction().getTournamentDao();
             return tournamentDao.findOngoing(limit);
         } catch (DaoException e) {
             logger.error("Cannot find ongoing tournaments. {}",
@@ -61,7 +58,7 @@ public class TournamentServiceImpl extends AbstractService
 
     public int getRowsNumber() throws ServiceException {
         try {
-            TournamentDao tournamentDao = getTransaction().getDao(TOURNAMENTDAO);
+            TournamentDao tournamentDao = getTransaction().getTournamentDao();
             return tournamentDao.getRowsNumber();
         } catch (DaoException e) {
             throw new ServiceException("Cannot get rows number.", e);
@@ -71,7 +68,7 @@ public class TournamentServiceImpl extends AbstractService
     public List<Tournament> findByName(final String name) {
         try {
             TournamentDao tournamentDao
-                    = getTransaction().getDao(TOURNAMENTDAO);
+                    = getTransaction().getTournamentDao();
             return tournamentDao.findByName(name);
         } catch (DaoException e) {
             logger.error("{}. {}.", e.getMessage(), e.getCause().getMessage());
@@ -90,7 +87,7 @@ public class TournamentServiceImpl extends AbstractService
                 response.addErrorMessage(EntityError.REQUIRED_NOT_NULL);
                 return response;
             }
-            TournamentDao tournamentDao = getTransaction().getDao(TOURNAMENTDAO);
+            TournamentDao tournamentDao = getTransaction().getTournamentDao();
             tournament.setLogoFile(ServiceFactory
                     .getImageService().save(tournament.getRawData()));
             tournamentDao.save(tournament);
@@ -112,10 +109,10 @@ public class TournamentServiceImpl extends AbstractService
         }
         try {
             TournamentDao tournamentDao
-                    = getTransaction().getDao(TOURNAMENTDAO);
+                    = getTransaction().getTournamentDao();
             Tournament oldTournament = tournamentDao.get(tournament.getId());
-            tournament.setLogoFile(saveNewDeleteOldImage(oldTournament.getLogoFile(),
-                    tournament.getRawData()));
+            tournament.setLogoFile(saveNewDeleteOldImage(oldTournament
+                            .getLogoFile(), tournament.getRawData()));
             if (tournamentDao.update(tournament)) {
                 return response;
             } else {
@@ -134,10 +131,10 @@ public class TournamentServiceImpl extends AbstractService
             throw new ServiceException("Cannot delete tournament.");
         }
         try {
-            TournamentDao tournamentDao = getTransaction().getDao(TOURNAMENTDAO);
+            TournamentDao tournamentDao = getTransaction().getTournamentDao();
             tournamentDao.delete(tournament);
         } catch (DaoException e) {
-            throw new ServiceException("cannot delete tournament.");
+            throw new ServiceException("cannot delete tournament.", e);
         }
     }
 
@@ -145,10 +142,10 @@ public class TournamentServiceImpl extends AbstractService
             throws ServiceException {
         try {
             int offset = PaginationHelper.calculateOffset(page, limit);
-            TournamentDao tournamentDao = getTransaction().getDao(TOURNAMENTDAO);
+            TournamentDao tournamentDao = getTransaction().getTournamentDao();
             return tournamentDao.getAll(offset, limit);
         } catch (DaoException e) {
-            throw new ServiceException("Cannot get all tournaments.");
+            throw new ServiceException("Cannot get all tournaments.", e);
         }
     }
 
@@ -156,9 +153,9 @@ public class TournamentServiceImpl extends AbstractService
     public Tournament getTournamentById(final long id) throws ServiceException {
         try {
             TournamentDao tournamentDao
-                    = getTransaction().getDao(TOURNAMENTDAO);
+                    = getTransaction().getTournamentDao();
             TournamentTeamDao tournamentTeamDao
-                    = getTransaction().getDao(TOURNAMENTTEAMDAO);
+                    = getTransaction().getTournamentTeamDao();
             Tournament tournament = tournamentDao.get(id);
             if (tournament == null) {
                 return null;

@@ -4,10 +4,7 @@ import by.koshko.cyberwikia.bean.*;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TeamDao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +35,10 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
     private static final String FIND_CREATED_TEAM
             = "SELECT id, name, logo_file, country_id, creator, captain, coach,"
               + " game, overview FROM team WHERE creator=?;";
+
+    public TeamDaoImpl(final Connection newConnection) {
+        super(newConnection);
+    }
 
     public int getRows() throws DaoException {
         try (Statement statement = getConnection().createStatement()) {

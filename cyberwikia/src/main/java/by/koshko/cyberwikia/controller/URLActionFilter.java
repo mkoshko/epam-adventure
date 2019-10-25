@@ -14,11 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class URLActionFilter implements Filter {
-    private static Logger logger = LogManager.getLogger(URLActionFilter.class);
+    private static Logger logger = LogManager.getLogger();
 
     @Override
-    public void doFilter(final ServletRequest request, final ServletResponse response,
-                         final FilterChain chain) throws IOException, ServletException {
+    public void doFilter(final ServletRequest request,
+                         final ServletResponse response,
+                         final FilterChain chain)
+            throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         String action = getActionFromURI(req);

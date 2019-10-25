@@ -4,6 +4,7 @@ import by.koshko.cyberwikia.bean.Game;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.GameDao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,6 +20,10 @@ public final class GameDaoImpl extends AbstractDao implements GameDao {
             = "INSERT INTO game (title, icon_file) VALUES (?, ?)";
     private static final String UPDATE
             = "UPDATE game SET title=?, icon_file=? WHERE id=?;";
+
+    public GameDaoImpl(final Connection newConnection) {
+        super(newConnection);
+    }
 
     @Override
     public Game get(final long id) throws DaoException {

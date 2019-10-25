@@ -12,6 +12,10 @@ public class AbstractDao implements Connectable {
     private Logger logger = LogManager.getLogger(getClass());
     private Connection connection;
 
+    public AbstractDao(final Connection newConnection) {
+        connection = newConnection;
+    }
+
     public void setConnection(final Connection conn) throws DaoException {
         requireNonNullConnection(conn);
         connection = conn;
