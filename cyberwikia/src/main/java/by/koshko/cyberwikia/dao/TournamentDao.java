@@ -9,4 +9,5 @@ public interface TournamentDao extends Dao<Tournament> {
     List<Tournament> getAll(int offset, int limit) throws DaoException;
     List<Tournament> findByName(String name) throws DaoException;
     List<Tournament> findUpcoming(int limit) throws DaoException;
+    List<Tournament> findOngoing(int limit) throws DaoException;
 }

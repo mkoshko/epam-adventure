@@ -33,11 +33,15 @@
         </div>
         <div class="row">
             <div class="col-12 col-sm-4">
-                <h4 class="text-center mt-3">Top 5 teams</h4>
+                <h4 class="text-center mt-3"><fmt:message key="title.topteams"/></h4>
                 <tag:topteams/>
             </div>
             <div class="col-12 col-sm-4">
-                <h4 class="text-center mt-3">Upcoming tournaments</h4>
+                <h4 class="text-center mt-3"><fmt:message key="title.ongoingtournaments"/></h4>
+                <tag:ongoingTournaments/>
+            </div>
+            <div class="col-12 col-sm-4">
+                <h4 class="text-center mt-3"><fmt:message key="title.upcomingtournaments"/></h4>
                 <tag:upcomingTournaments/>
             </div>
         </div>

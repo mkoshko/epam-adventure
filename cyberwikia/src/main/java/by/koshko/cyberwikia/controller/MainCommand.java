@@ -19,6 +19,8 @@ public class MainCommand extends AbstractCommand {
             request.setAttribute("teams", teamService.getTopTeams(5));
             request.setAttribute("tournaments",
                     tournamentService.findUpcoming(5));
+            request.setAttribute("ongoing",
+                    tournamentService.findOngoing(5));
             return new Forward("WEB-INF/jsp/index.jsp");
         } catch (ServiceException e) {
             return sendError(500);

@@ -14,4 +14,5 @@ public interface TournamentService {
     int getRowsNumber() throws ServiceException;
     List<Tournament> findByName(String name);
     List<Tournament> findUpcoming(int limit);
+    List<Tournament> findOngoing(int limit);
 }

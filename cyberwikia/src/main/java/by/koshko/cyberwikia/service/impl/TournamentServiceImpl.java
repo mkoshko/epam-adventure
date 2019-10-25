@@ -47,6 +47,18 @@ public class TournamentServiceImpl extends AbstractService
         }
     }
 
+    public List<Tournament> findOngoing(final int limit) {
+        try {
+            TournamentDao tournamentDao
+                    = getTransaction().getDao(TOURNAMENTDAO);
+            return tournamentDao.findOngoing(limit);
+        } catch (DaoException e) {
+            logger.error("Cannot find ongoing tournaments. {}",
+                    e.getCause().getMessage());
+            return new ArrayList<>();
+        }
+    }
+
     public int getRowsNumber() throws ServiceException {
         try {
             TournamentDao tournamentDao = getTransaction().getDao(TOURNAMENTDAO);

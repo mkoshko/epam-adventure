@@ -44,6 +44,11 @@ public class TournamentDaoImpl extends AbstractDao
             = "SELECT id, name, logo_file, prize, overview, start_date,"
               + " end_date, (start_date - current_date) as upc FROM tournament"
               + " WHERE (start_date - current_date) > 0 ORDER BY upc LIMIT ?";
+    private static final String GET_ONGOING
+            = "SELECT id, name, logo_file, prize, overview, start_date,"
+              + " end_date FROM tournament"
+              + " WHERE (current_date <= end_date)"
+              + " and (current_date >= start_date) LIMIT ?";
 
     public int getRowsNumber() throws DaoException {
         try (Statement statement = getConnection().createStatement()) {
@@ -55,6 +60,16 @@ public class TournamentDaoImpl extends AbstractDao
             }
         } catch (SQLException e) {
             throw new DaoException("Cannot get rows number.", e);
+        }
+    }
+
+    public List<Tournament> findOngoing(final int limit) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(GET_ONGOING)) {
+            statement.setInt(1, limit);
+            return buildMultipleInstances(statement.executeQuery());
+        } catch (SQLException e) {
+            throw new DaoException("Cannot fetch ongoing tournaments.", e);
         }
     }
 
