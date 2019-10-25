@@ -36,6 +36,10 @@
                 <h4 class="text-center mt-3">Top 5 teams</h4>
                 <tag:topteams/>
             </div>
+            <div class="col-12 col-sm-4">
+                <h4 class="text-center mt-3">Upcoming tournaments</h4>
+                <tag:upcomingTournaments/>
+            </div>
         </div>
     </fmt:bundle>
 </tag:html>

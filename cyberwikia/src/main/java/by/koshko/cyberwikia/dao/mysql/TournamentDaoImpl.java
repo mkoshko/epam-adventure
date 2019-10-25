@@ -13,7 +13,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class TournamentDaoImpl extends AbstractDao implements TournamentDao {
+public class TournamentDaoImpl extends AbstractDao
+        implements TournamentDao {
 
     private static final String GET
             = "SELECT id, name, logo_file, prize, overview, start_date,"
@@ -23,7 +24,8 @@ public final class TournamentDaoImpl extends AbstractDao implements TournamentDa
               + " end_date FROM tournament;";
     private static final String GET_ALL_LIMIT
             = "SELECT id, name, logo_file, prize, overview, start_date,"
-              + " end_date FROM tournament LIMIT ?,?;";
+              + " end_date FROM tournament ORDER BY (start_date - current_date)"
+              + " DESC LIMIT ?,?;";
     private static final String SAVE
             = "INSERT INTO tournament"
               + " (name, logo_file, prize, overview, start_date, end_date)"
@@ -38,6 +40,10 @@ public final class TournamentDaoImpl extends AbstractDao implements TournamentDa
     private static final String FIND_BY_NAME
             = "SELECT id, name, logo_file, prize, overview, start_date,"
               + " end_date FROM tournament WHERE name LIKE ?;";
+    private static final String GET_UPCOMING
+            = "SELECT id, name, logo_file, prize, overview, start_date,"
+              + " end_date, (start_date - current_date) as upc FROM tournament"
+              + " WHERE (start_date - current_date) > 0 ORDER BY upc LIMIT ?";
 
     public int getRowsNumber() throws DaoException {
         try (Statement statement = getConnection().createStatement()) {
@@ -49,6 +55,16 @@ public final class TournamentDaoImpl extends AbstractDao implements TournamentDa
             }
         } catch (SQLException e) {
             throw new DaoException("Cannot get rows number.", e);
+        }
+    }
+
+    public List<Tournament> findUpcoming(final int limit) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(GET_UPCOMING)) {
+            statement.setInt(1, limit);
+            return buildMultipleInstances(statement.executeQuery());
+        } catch (SQLException e) {
+            throw new DaoException("Cannot fetch upcoming tournaments.", e);
         }
     }
 

@@ -13,4 +13,5 @@ public interface TournamentService {
     List<Tournament> findAll(int page, int limit) throws ServiceException;
     int getRowsNumber() throws ServiceException;
     List<Tournament> findByName(String name);
+    List<Tournament> findUpcoming(int limit);
 }

@@ -35,6 +35,18 @@ public class TournamentServiceImpl extends AbstractService
         super(externalTransaction, factory);
     }
 
+    public List<Tournament> findUpcoming(final int limit) {
+        try {
+            TournamentDao tournamentDao
+                    = getTransaction().getDao(TOURNAMENTDAO);
+            return tournamentDao.findUpcoming(limit);
+        } catch (DaoException e) {
+            logger.error("Cannot get upcoming tournaments list. {}",
+                    e.getCause().getMessage());
+            return new ArrayList<>();
+        }
+    }
+
     public int getRowsNumber() throws ServiceException {
         try {
             TournamentDao tournamentDao = getTransaction().getDao(TOURNAMENTDAO);

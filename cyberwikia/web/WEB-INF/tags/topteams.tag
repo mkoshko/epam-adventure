@@ -5,7 +5,8 @@
     <tbody>
         <c:forEach items="${teams}" var="team">
             <tr>
-                <td class="text-center"><img class="small-icon" src="<c:url value="${team.logoFile}"/>">${team.name}</td>
+                <td class="text-center"><img class="small-icon" src="<c:url value="${team.logoFile}"/>">
+                        <a href="team.html?id=${team.id}">${team.name}</a></td>
             </tr>
         </c:forEach>
     </tbody>
