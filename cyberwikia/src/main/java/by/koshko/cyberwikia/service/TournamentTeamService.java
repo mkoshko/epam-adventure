@@ -15,4 +15,5 @@ public interface TournamentTeamService {
             throws ServiceException;
     void updateTournamentTeam(TournamentTeam tournamentTeam)
             throws ServiceException;
+    List<Long> getTopTeams(int limit);
 }

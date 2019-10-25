@@ -39,6 +39,24 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         super(transaction, factory);
     }
 
+    public List<Team> getTopTeams(final int limit) {
+        if (limit <= 0) {
+            return new ArrayList<>();
+        }
+        List<Long> teamsId
+                =  getFactory().getTournamentTeamService().getTopTeams(limit);
+        List<Team> teams = new ArrayList<>();
+        try {
+            for (long id : teamsId) {
+                teams.add(findTeamById(id));
+            }
+            return teams;
+        } catch (ServiceException e) {
+            logger.error(e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
     public int getRowsNumber() throws ServiceException {
         try {
             TeamDao teamDao = getTransaction().getDao(TEAMDAO);

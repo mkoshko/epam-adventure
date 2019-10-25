@@ -28,5 +28,14 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12 m-0 p-0" style="height: 7px; background-color: #0f6674"></div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-4">
+                <h4 class="text-center mt-3">Top 5 teams</h4>
+                <tag:topteams/>
+            </div>
+        </div>
     </fmt:bundle>
 </tag:html>

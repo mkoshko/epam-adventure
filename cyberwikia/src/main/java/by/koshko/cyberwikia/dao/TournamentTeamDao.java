@@ -10,7 +10,8 @@ import java.util.List;
 public interface TournamentTeamDao extends Dao<TournamentTeam> {
 
     List<TournamentTeam> findTournamentTeam(Team team) throws DaoException;
-    List<TournamentTeam> findTournamentTeam(Tournament tournament) throws DaoException;
+    List<TournamentTeam> findTournamentTeam(Tournament tournament)
+            throws DaoException;
     List<TournamentTeam> findTournamentTeam(Player player)throws DaoException;
-
+    List<Long> getTopTeams(int limit) throws DaoException;
 }

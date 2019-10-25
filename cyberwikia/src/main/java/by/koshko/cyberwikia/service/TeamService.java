@@ -17,4 +17,5 @@ public interface TeamService {
     Team findCreatedTeam(long userId) throws ServiceException;
     ServiceResponse deleteTeam(long userId);
     List<Team> findTeamsByName(String name);
+    List<Team> getTopTeams(int limit);
 }

@@ -31,16 +31,28 @@ public class TournamentTeamServiceImpl extends AbstractService
         super(transaction, factory);
     }
 
+    public List<Long> getTopTeams(final int limit) {
+        if (limit <= 0) {
+            return new ArrayList<>();
+        }
+        try {
+            TournamentTeamDao ttd = getTransaction().getDao(TOURNAMENTTEAMDAO);
+            return ttd.getTopTeams(limit);
+        } catch (DaoException e) {
+            logger.error(e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
     public void updateTournamentTeam(final TournamentTeam tournamentTeam)
             throws ServiceException {
-        Transaction transaction = getTransaction();
         try {
             if (!TournamentTeamValidator.test(tournamentTeam)) {
                 throw new ServiceException("Cannot update the information about"
                                            + " the tournament participant.");
             }
             TournamentTeamDao tournamentTeamDao
-                    = transaction.getDao(TOURNAMENTTEAMDAO);
+                    = getTransaction().getDao(TOURNAMENTTEAMDAO);
             tournamentTeamDao.update(tournamentTeam);
             logger.debug("Tournament participant information was updated.");
         } catch (DaoException e) {

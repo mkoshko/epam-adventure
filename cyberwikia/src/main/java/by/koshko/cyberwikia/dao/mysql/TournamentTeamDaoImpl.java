@@ -15,10 +15,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class TournamentTeamDaoImpl extends AbstractDao implements TournamentTeamDao {
+public final class TournamentTeamDaoImpl extends AbstractDao
+        implements TournamentTeamDao {
 
     private static final Logger LOGGER
-            = LogManager.getLogger(TournamentTeamDao.class);
+            = LogManager.getLogger();
 
     private static final String TOURNAMENT_ID = "tournament_id";
     private static final String TEAM_ID = "team_id";
@@ -39,20 +40,38 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
               + " JOIN m2m_player_team m2mpt"
               + " ON m2m_tournament_team.team_id = m2mpt.team_id"
               + " JOIN tournament t on tournament_id = t.id"
-              + " WHERE m2mpt.player_id=?"
-              + " AND IF(ISNULL(m2mpt.leave_date), true, leave_date >= end_date)"
+              + " WHERE m2mpt.player_id=? "
+              + "AND IF(ISNULL(m2mpt.leave_date), true, leave_date >= end_date)"
               + " AND m2mpt.join_date <= t.start_date;";
-    public static final String SAVE
+    private static final String SAVE
             = "INSERT INTO m2m_tournament_team"
               + " (tournament_id, team_id, placement)"
               + " VALUES (?, ?, ?);";
-    public static final String UPDATE
+    private static final String UPDATE
             = "UPDATE m2m_tournament_team"
               + " SET placement=?"
               + " WHERE tournament_id=? AND team_id=?;";
-    public static final String DELETE
+    private static final String DELETE
             = "DELETE FROM m2m_tournament_team"
               + " WHERE tournament_id=? AND team_id=?;";
+    private static final String FIND_TOP_TEAMS
+            = "SELECT team_id, AVG(placement) as avg FROM m2m_tournament_team"
+              + " GROUP BY team_id ORDER BY avg LIMIT ?;";
+
+    public List<Long> getTopTeams(final int limit) throws DaoException {
+        try (PreparedStatement statement
+                = getConnection().prepareStatement(FIND_TOP_TEAMS)) {
+            statement.setInt(1, limit);
+            ResultSet rs = statement.executeQuery();
+            ArrayList<Long> teamsId = new ArrayList<>();
+            while (rs.next()) {
+                teamsId.add(rs.getLong(1));
+            }
+            return teamsId;
+        } catch (SQLException e) {
+            throw new DaoException("Cannot get top teams.", e);
+        }
+    }
 
     @Override
     public List<TournamentTeam> findTournamentTeam(final Team team)
@@ -164,11 +183,11 @@ public final class TournamentTeamDaoImpl extends AbstractDao implements Tourname
     }
 
     private List<TournamentTeam> buildMultipleInstances(final ResultSet rs,
-                                                        final Tournament tournament)
+                                                        final Tournament entity)
             throws SQLException {
         List<TournamentTeam> tournaments = new ArrayList<>();
         while (rs.next()) {
-            tournaments.add(buildTournamentTeam(rs, tournament));
+            tournaments.add(buildTournamentTeam(rs, entity));
         }
         return tournaments;
     }
