@@ -5,7 +5,7 @@
 <tag:html localizedTitle="title.createtournament">
     <fmt:bundle basename="localization">
         <form action="createtournament.html" method="post"
-              enctype="multipart/form-data">
+              enctype="multipart/form-data" class="needs-validation">
             <tag:errors/>
             <div class="row pt-2">
                 <div class="col-12 col-xl-8">
@@ -18,10 +18,13 @@
                 <div class="col-sm-12 col-md-8 col-xl-4 pl-md-0">
                     <label for="name"><fmt:message
                             key="tournamentform.name"/></label>
-                    <input class="form-control mb-2" id="name" type="text"
-                           name="name"
-                           placeholder="(<fmt:message key="form.required"/>)"
-                           value="${player.nickname}">
+                    <div class="form-group">
+                        <input class="form-control mb-2" id="name" type="text"
+                               name="name"
+                               placeholder="(<fmt:message key="form.required"/>)"
+                               value="${player.nickname}">
+                        <div class="invalid-feedback"><fmt:message key="tournamentform.invalidfeedback"/></div>
+                    </div>
                     <div class="card mb-3">
                         <div class="mx-auto">
                             <svg viewBox="0 0 24 24" width="250" height="250"
@@ -39,30 +42,40 @@
                                    name="tournament-logo"/>
                             <table class="table">
                                 <tr>
-                                    <label class="mb-0"
-                                           for="start-date"><fmt:message
-                                            key="tournament.startdate"/>:</label>
-                                    <input class="form-control mb-1" type="date"
-                                           id="start-date"
-                                           placeholder="(<fmt:message key="form.required"/>)"
-                                           name="startDate">
+                                    <div class="form-group">
+                                        <label class="mb-0"
+                                               for="start-date"><fmt:message
+                                                key="tournament.startdate"/>:</label>
+                                        <input class="form-control mb-1" type="date"
+                                               id="start-date"
+                                               placeholder="(<fmt:message key="form.required"/>)"
+                                               name="startDate">
+                                        <div class="invalid-feedback"><fmt:message key="tournamentform.invalidfeedback"/></div>
+                                    </div>
                                 </tr>
                                 <tr>
-                                    <label class="mb-0"
-                                           for="end-date"><fmt:message
-                                            key="tournament.enddate"/>:</label>
-                                    <input class="form-control mb-1" type="date"
-                                           id="end-date"
-                                           placeholder="(<fmt:message key="form.required"/>)"
-                                           name="endDate">
+                                    <div class="form-group">
+                                        <label class="mb-0"
+                                               for="end-date"><fmt:message
+                                                key="tournament.enddate"/>:</label>
+                                        <input class="form-control mb-1" type="date"
+                                               id="end-date"
+                                               placeholder="(<fmt:message key="form.required"/>)"
+                                               name="endDate">
+                                        <div class="invalid-feedback"><fmt:message key="tournamentform.invalidfeedback"/></div>
+                                    </div>
+
                                 </tr>
                                 <tr>
-                                    <label class="mb-0" for="prize"><fmt:message
-                                            key="tournamentform.prize"/></label>
-                                    <input class="form-control mb-1"
-                                           type="number" id="prize"
-                                           placeholder="(<fmt:message key="form.required"/>)"
-                                           name="prize">
+                                    <div class="form-group">
+                                        <label class="mb-0" for="prize"><fmt:message
+                                                key="tournamentform.prize"/></label>
+                                        <input class="form-control mb-1"
+                                               type="number" id="prize"
+                                               placeholder="(<fmt:message key="form.required"/>)"
+                                               name="prize">
+                                        <div class="invalid-feedback"><fmt:message key="tournamentform.invalidfeedback"/></div>
+                                    </div>
                                 </tr>
                             </table>
                             <input type="hidden" name="from"

@@ -22,6 +22,7 @@ public class EditTournamentPageCommand extends ModeratorCommand {
                 return sendError(404);
             }
             request.setAttribute("tournament", tournament);
+            setScript(request, "js/tournament-form-validation.js");
             return new Forward("WEB-INF/jsp/edittournament.jsp");
         } catch (NumberFormatException e0) {
             return sendError(404);

@@ -10,6 +10,7 @@ public class CreateTournamentPageCommand extends ModeratorCommand {
     @Override
     public Forward execute(final HttpServletRequest request,
                            final HttpServletResponse response) {
+        setScript(request, "js/tournament-form-validation.js");
         return new Forward("WEB-INF/jsp/createtournament.jsp");
     }
 }

@@ -3,6 +3,11 @@
 
 <table class="table table-bordered table-striped">
     <tbody>
+    <c:if test="${ongoing != null && ongoing.size() == 0}">
+        <tr>
+            <td>No upcoming tournaments now.</td>
+        </tr>
+    </c:if>
     <c:forEach items="${tournaments}" var="tournament">
         <tr>
             <td class="text-center"><a href="tournament.html?id=${tournament.id}">${tournament.name}</a></td>

@@ -7,8 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class SignOutCommand extends AbstractCommand {
-    private Logger logger = LogManager.getLogger(SignOutCommand.class);
+public final class SignOutCommand extends AbstractCommand {
+
+    /**
+     * Logger.
+     */
+    private Logger logger = LogManager.getLogger();
+
     @Override
     public Forward execute(final HttpServletRequest request,
                            final HttpServletResponse response) {
@@ -17,6 +22,6 @@ public class SignOutCommand extends AbstractCommand {
             session.removeAttribute("user");
             session.invalidate();
         }
-        return sendBack(request);
+        return new Forward("index.html", true);
     }
 }

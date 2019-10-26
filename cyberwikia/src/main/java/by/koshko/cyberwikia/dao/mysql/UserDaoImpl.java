@@ -4,7 +4,12 @@ import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.UserDao;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +33,8 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
               + "SET login=?, email=?, password=?, role=? "
               + "WHERE id=?;";
     private static final String DELETE_QUERY = "DELETE FROM user WHERE id=?;";
-    private static final String HAS_LOGIN = "{CALL has_login (?,?)}";
-    private static final String HAS_EMAIL = "{CALL has_email (?,?)}";
+    private static final String LOGIN_EXISTS = "{CALL login_exists (?,?)}";
+    private static final String EMAIL_EXISTS = "{CALL email_exists (?,?)}";
 
     public UserDaoImpl(final Connection newConnection) {
         super(newConnection);
@@ -38,7 +43,7 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public boolean hasLogin(final String login) throws DaoException {
         try (CallableStatement statement
-                     = getConnection().prepareCall(HAS_LOGIN)) {
+                     = getConnection().prepareCall(LOGIN_EXISTS)) {
             statement.setString(1, login);
             statement.registerOutParameter(2, Types.BOOLEAN);
             statement.execute();
@@ -50,7 +55,7 @@ public final class UserDaoImpl extends AbstractDao implements UserDao {
 
     public boolean hasEmail(final String email) throws DaoException {
         try (CallableStatement statement
-                     = getConnection().prepareCall(HAS_EMAIL)) {
+                     = getConnection().prepareCall(EMAIL_EXISTS)) {
             statement.setString(1, email);
             statement.registerOutParameter(2, Types.BOOLEAN);
             statement.execute();

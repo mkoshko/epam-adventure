@@ -19,7 +19,7 @@
 <tag:html localizedTitle="title.edittournament">
     <fmt:bundle basename="localization">
         <jsp:useBean id="tournament" scope="request" type="by.koshko.cyberwikia.bean.Tournament"/>
-        <form id="save" action="${saveAction}" method="post"
+        <form class="needs-validation" id="save" action="${saveAction}" method="post"
               enctype="multipart/form-data">
             <tag:errors/>
             <div class="row pt-2">
@@ -31,12 +31,15 @@
                               placeholder="(<fmt:message key="${optional}"/>)">${tournament.overview}</textarea>
                 </div>
                 <div class="col-sm-12 col-md-8 col-xl-4 pl-md-0">
-                    <label for="name"><fmt:message
-                            key="${name}"/></label>
-                    <input class="form-control mb-2" id="name" type="text"
-                           name="name"
-                           placeholder="(<fmt:message key="${required}"/>)"
-                           value="${tournament.name}">
+                    <div class="form-group">
+                        <label for="name"><fmt:message
+                                key="${name}"/></label>
+                        <input class="form-control mb-2" id="name" type="text"
+                               name="name"
+                               placeholder="(<fmt:message key="${required}"/>)"
+                               value="${tournament.name}">
+                        <div class="invalid-feedback"><fmt:message key="tournamentform.invalidfeedback"/></div>
+                    </div>
                     <div class="card mb-3">
                         <div class="mx-auto">
                             <c:choose>
@@ -53,33 +56,43 @@
                                    name="tournament-logo"/>
                             <table class="table">
                                 <tr>
-                                    <label class="mb-0"
-                                           for="start-date"><fmt:message
-                                           key="${startDate}"/>:</label>
-                                    <input class="form-control mb-1" type="date"
-                                           id="start-date"
-                                           placeholder="(<fmt:message key="${required}"/>)"
-                                           name="startDate"
-                                           value="${tournament.startDate}">
+                                    <div class="form-group">
+                                        <label class="mb-0"
+                                               for="start-date"><fmt:message
+                                                key="${startDate}"/>:</label>
+                                        <input class="form-control mb-1" type="date"
+                                               id="start-date"
+                                               placeholder="(<fmt:message key="${required}"/>)"
+                                               name="startDate"
+                                               value="${tournament.startDate}">
+                                        <div class="invalid-feedback"><fmt:message key="tournamentform.invalidfeedback"/></div>
+                                    </div>
                                 </tr>
                                 <tr>
-                                    <label class="mb-0"
-                                           for="end-date"><fmt:message
-                                            key="${endDate}"/>:</label>
-                                    <input class="form-control mb-1" type="date"
-                                           id="end-date"
-                                           placeholder="(<fmt:message key="${required}"/>)"
-                                           name="endDate"
-                                           value="${tournament.endDate}">
+                                    <div class="form-group">
+                                        <label class="mb-0"
+                                               for="end-date"><fmt:message
+                                                key="${endDate}"/>:</label>
+                                        <input class="form-control mb-1" type="date"
+                                               id="end-date"
+                                               placeholder="(<fmt:message key="${required}"/>)"
+                                               name="endDate"
+                                               value="${tournament.endDate}">
+                                        <div class="invalid-feedback"><fmt:message key="tournamentform.invalidfeedback"/></div>
+                                    </div>
                                 </tr>
                                 <tr>
-                                    <label class="mb-0" for="prize"><fmt:message
-                                            key="${prize}"/></label>
-                                    <input class="form-control mb-1"
-                                           type="number" id="prize"
-                                           placeholder="(<fmt:message key="${optional}"/>)"
-                                           name="prize"
-                                           value="${tournament.prize}">
+                                    <div class="form-group">
+                                        <label class="mb-0" for="prize"><fmt:message
+                                                key="${prize}"/></label>
+                                        <input class="form-control mb-1"
+                                               type="number" id="prize"
+                                               placeholder="(<fmt:message key="${optional}"/>)"
+                                               name="prize"
+                                               value="${tournament.prize}">
+                                        <div class="invalid-feedback"><fmt:message key="tournamentform.invalidfeedback"/></div>
+                                    </div>
+
                                 </tr>
                             </table>
                             <input type="hidden" name="from"

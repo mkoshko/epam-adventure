@@ -93,8 +93,12 @@ public class TournamentServiceImpl extends AbstractService
             TournamentDao tournamentDao = getTransaction().getTournamentDao();
             tournament.setLogoFile(ServiceFactory
                     .getImageService().save(tournament.getRawData()));
-            tournamentDao.save(tournament);
-            return response;
+            if (tournamentDao.save(tournament)) {
+                return response;
+            } else {
+                response.addErrorMessage(EntityError.GENERIC_ERROR);
+                return response;
+            }
         } catch (DaoException e) {
             throw new ServiceException("Cannot save tournament.", e);
         }
