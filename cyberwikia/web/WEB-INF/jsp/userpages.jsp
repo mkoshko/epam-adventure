@@ -121,7 +121,7 @@
             <div class="modal-dialog modal-sm modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header text-center">
-                        <h4>Are you sure?</h4>
+                        <h4><fmt:message key="userpage.dialog.delete"/></h4>
                     </div>
                     <div class="modal-body text-center px-0">
                         <form action="${deleteProfileAction}" method="post">

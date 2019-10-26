@@ -1,9 +1,6 @@
 package by.koshko.cyberwikia.controller;
 
-import by.koshko.cyberwikia.controller.moderator.CreateTournamentCommand;
-import by.koshko.cyberwikia.controller.moderator.CreateTournamentPageCommand;
-import by.koshko.cyberwikia.controller.moderator.EditTournamentPageCommand;
-import by.koshko.cyberwikia.controller.moderator.SaveTournamentCommand;
+import by.koshko.cyberwikia.controller.moderator.*;
 import by.koshko.cyberwikia.controller.user.CreatePlayerCommand;
 import by.koshko.cyberwikia.controller.user.CreatePlayerPageCommand;
 import by.koshko.cyberwikia.controller.user.CreateTeamCommand;
@@ -63,6 +60,7 @@ public class CommandProvider {
         COMMANDS.put("/changepasswordform", new EditPasswordPageCommand());
         COMMANDS.put("/changepassword", new EditPasswordCommand());
         COMMANDS.put("/search", new FindCommand());
+        COMMANDS.put("/deletetournament", new DeleteTournamentCommand());
     }
 
     public static AbstractCommand getCommand(final String action) {

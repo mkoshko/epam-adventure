@@ -125,14 +125,11 @@ public class TournamentServiceImpl extends AbstractService
     }
 
     @Override
-    public void deleteTournament(final Tournament tournament)
+    public void deleteTournament(final long id)
             throws ServiceException {
-        if (tournament == null) {
-            throw new ServiceException("Cannot delete tournament.");
-        }
         try {
             TournamentDao tournamentDao = getTransaction().getTournamentDao();
-            tournamentDao.delete(tournament);
+            tournamentDao.delete(new Tournament(id));
         } catch (DaoException e) {
             throw new ServiceException("cannot delete tournament.", e);
         }

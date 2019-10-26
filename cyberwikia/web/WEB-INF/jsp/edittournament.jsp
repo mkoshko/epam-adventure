@@ -14,11 +14,12 @@
 <c:set var="save" value="form.button.save" scope="page"/>
 
 <c:set var="saveAction" value="savetournament.html" scope="page"/>
+<c:set var="deleteTournamentAction" value="deletetournament.html" scope="page"/>
 
 <tag:html localizedTitle="title.edittournament">
     <fmt:bundle basename="localization">
         <jsp:useBean id="tournament" scope="request" type="by.koshko.cyberwikia.bean.Tournament"/>
-        <form action="${saveAction}" method="post"
+        <form id="save" action="${saveAction}" method="post"
               enctype="multipart/form-data">
             <tag:errors/>
             <div class="row pt-2">
@@ -38,7 +39,14 @@
                            value="${tournament.name}">
                     <div class="card mb-3">
                         <div class="mx-auto">
-                            <img class="card-img-top" src="<c:url value="${tournament.logoFile}"/>" alt="${tournament.name}"/>
+                            <c:choose>
+                                <c:when test="${tournament.logoFile == null}">
+                                    <tag:emptyImage/>
+                                </c:when>
+                                <c:otherwise>
+                                    <img class="card-img-top" src="<c:url value="${tournament.logoFile}"/>" alt="${tournament.name}"/>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <div class="card-body p-3">
                             <input class="custom-file" type="file"
@@ -77,12 +85,32 @@
                             <input type="hidden" name="from"
                                    value="edittournament.html?id=${tournament.id}">
                             <input type="hidden" name="id" value="${tournament.id}">
-                            <button type="submit" class="btn btn-dark w-100">
+                            <button form="save" type="submit" class="btn btn-dark w-100">
                                 <fmt:message key="${save}"/></button>
+                            <button type="button" class="btn w-100 btn-danger mt-2" data-toggle="modal" data-target="#deleteTournament">
+                                <fmt:message key="form.button.delete"/>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
+        <div class="modal fade" id="deleteTournament">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4><fmt:message key="userpage.dialog.delete"/></h4>
+                    </div>
+                    <div class="modal-body text-center px-0">
+                        <form action="${deleteTournamentAction}" method="post">
+                            <input type="hidden" name="from" value="tournaments.html">
+                            <input type="hidden" name="id" value="${tournament.id}">
+                            <button type="submit" class="btn btn-danger w-40"><fmt:message key="dialog.yes"/></button>
+                            <button type="button" class="btn btn-dark w-40" data-dismiss="modal"><fmt:message key="dialog.no"/></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </fmt:bundle>
 </tag:html>
