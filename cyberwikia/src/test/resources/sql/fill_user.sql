@@ -24,3 +24,9 @@ INSERT INTO user (login, email, password, role) VALUES ('user21', 'user21@gmail.
 INSERT INTO user (login, email, password, role) VALUES ('user22', 'user22@gmail.com', '$argon2id$v=19$m=1048576,t=4,p=4$U1HIxGceX8qqUlqNCqhF5w$zsWqFCGmfQP3gKozup29x8cvepr3ZfRTj+zyHu8Zcq8', 2);
 INSERT INTO user (login, email, password, role) VALUES ('user23', 'user23@gmail.com', '$argon2id$v=19$m=1048576,t=4,p=4$1am6hRq84lj3Z9+McO/GDw$+wxrMELyqDiGhaIvB+ILDqLLxQqecPiTU8xS4wIB7Ts', 2);
 INSERT INTO user (login, email, password, role) VALUES ('user24', 'user24@gmail.com', '$argon2id$v=19$m=1048576,t=4,p=4$P4n2jvipoyW7Gjtocu6NZg$qqIj0ToLG9WlghMX6MhwDv3IhvFUuuUW47b1k/Sm2Eg', 2);
+INSERT INTO user (login, email, password, role) VALUES ('user25', 'user25@gmail.com', '$argon2id$v=19$m=1048576,t=4,p=4$jwK4Ugbaey+RFpzyLBEIwQ$JeI29y94A/VWpJvor0qMcy+1jhcwgS0G64zi0+9FOw0', 2);
+INSERT INTO user (login, email, password, role) VALUES ('user26', 'user26@gmail.com', '$argon2id$v=19$m=1048576,t=4,p=4$KYbPl4EQVzMZYYty2cVHEA$uLjTF/O8lK1tmjrbdJect4wbSbkwoD/zST3kFthi8Ag', 2);
+INSERT INTO user (login, email, password, role) VALUES ('user27', 'user27@gmail.com', '$argon2id$v=19$m=1048576,t=4,p=4$74Y++0NAiuYdDhY68a9GkA$AV+MX8YuvAo/rftCwDnSVwn9qaFspoZndkrA1UyWHgU', 2);
+INSERT INTO user (login, email, password, role) VALUES ('user28', 'user28@gmail.com', '$argon2id$v=19$m=1048576,t=4,p=4$CddLAZPwoFYIYXZQ9djFoA$K/MdjlmQJ8rOb0qz4HkXatvrChPAq06vbkh3WTI6bvI', 2);
+INSERT INTO user (login, email, password, role) VALUES ('user29', 'user29@gmail.com', '$argon2id$v=19$m=1048576,t=4,p=4$OJiZ/qCwZl9TCJ2PMB2Rqg$cSHRKzmPbU66mkpxyiQtWqRX5Isi9ideMNi2vS9IHuM', 2);
+INSERT INTO user (login, email, password, role) VALUES ('user30', 'user30@gmail.com', '$argon2id$v=19$m=1048576,t=4,p=4$3PfFXsdfzKUZpQLcShB6IQ$5tthhWdlh46C6K47XSG0Zv5LKTadRL8iwyvtMYzR7g4', 2);

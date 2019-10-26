@@ -52,6 +52,62 @@ public final class Player extends Entity {
         super(id);
     }
 
+    private Player(final Builder builder) {
+        super(builder.id);
+        nickname = builder.nickname;
+        firstName = builder.firstName;
+        lastName = builder.lastName;
+        birth = builder.birth;
+        country = builder.country;
+        profilePhoto = builder.profilePhoto;
+        overview = builder.overview;
+    }
+
+    public static class Builder {
+        //Required parameters.
+        private String nickname;
+        private String firstName;
+        private String lastName;
+        private LocalDate birth;
+        private Country country;
+        //Optional parameters.
+        private long id;
+        private String profilePhoto;
+        private String overview;
+
+        public Builder(
+                             final String newNickname,
+                             final String newFirstName,
+                             final String newLastName,
+                             final LocalDate newBirth,
+                             final Country newCountry) {
+            nickname = newNickname;
+            firstName = newFirstName;
+            lastName = newLastName;
+            birth = newBirth;
+            country = newCountry;
+        }
+
+        public Builder setId(final long newId) {
+            id = newId;
+            return this;
+        }
+
+        public Builder setProfilePhoto(final String newProfilePhoto) {
+            profilePhoto = newProfilePhoto;
+            return this;
+        }
+
+        public Builder setOverview(final String newOverview) {
+            overview = newOverview;
+            return this;
+        }
+
+        public Player build() {
+            return new Player(this);
+        }
+    }
+
     public List<TournamentTeam> getTournaments() {
         return tournaments;
     }

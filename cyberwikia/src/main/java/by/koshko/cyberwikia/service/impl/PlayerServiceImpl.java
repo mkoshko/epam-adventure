@@ -34,6 +34,9 @@ public class PlayerServiceImpl extends AbstractService
     }
 
     public List<Player> findPlayersByNickname(final String nickname) {
+        if (nickname == null || nickname.isBlank()) {
+            return new ArrayList<>();
+        }
         try {
             PlayerDao playerDao = getTransaction().getPlayerDao();
             return playerDao.findByNickname(nickname);
@@ -87,6 +90,7 @@ public class PlayerServiceImpl extends AbstractService
             PlayerDao playerDao = getTransaction().getPlayerDao();
             Player newPlayer = playerDao.get(userId);
             if (newPlayer == null) {
+                player.setId(userId);
                 return createPlayer(player);
             } else {
                 logger.debug("User:{} already has a player profile.", userId);

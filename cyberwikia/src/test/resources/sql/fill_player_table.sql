@@ -1,9 +1,5 @@
 USE cyberwikia_test;
 
-# Pattern.
-# INSERT INTO player (id, profile_photo, nickname, firstName, lastName, birth, country_id, overview)
-# VALUES ('', '', '', '', '', '', '', '');
-
 INSERT INTO player (id, profile_photo, nickname, firstName, lastName, birth, country_id, overview)
 VALUES ('1', null, 'dev1ce', 'Nicolai', 'Reedtz', '1995-09-08', 61, 'Nicolai "dev1ce" Reedtz (formerly known as device and devve; born September 8, 1995) is a Danish professional Counter-Strike: Global Offensive player and former Counter-Strike: Source player. He is known as one of the best players of all time, consistently playing at a very high level for years since 2014. He is currently playing for Astralis as the AWPer.');
 
@@ -20,7 +16,7 @@ INSERT INTO player (id, profile_photo, nickname, firstName, lastName, birth, cou
 VALUES ('5', 'images/upload/Magisk.jpg', 'Magisk', 'Emil', 'Reif', '1993-04-15', 61, 'Emil "Magisk" Reif (formerly known as "Magiskb0Y") (born March 5, 1998) is a Danish Counter-Strike: Global Offensive player. He currently plays for Astralis.');
 
 INSERT INTO player (id, profile_photo, nickname, firstName, lastName, birth, country_id, overview)
-VALUES ('6', 'images/upload/zonic.jpg', 'zonic', 'Danny', 'Sorensen', '1985-03-01', 61, 'Danny "zonic" Sørensen (born July 30, 1986) is a former Danish professional Counter-Strike 1.6 player. Arguably the greatest Danish 1.6-player of all time, zonic had huge success with several Danish teams, winning around 110,000 dollars in prize money. He was one of the founding members of the legendary mTw.dk, one of the most dominant 1.6 teams in history. He retired as teams started transitioning over to Counter-Strike: Global Offensive. He joined Team Dignitas as coach in 2015, and later returned to actively playing for mTw. Though, after an unsuccessful return as a player, he joined Questionmark as a coach and then transferred to Astralis with the rest of the players in January 2016.')
+VALUES ('6', 'images/upload/zonic.jpg', 'zonic', 'Danny', 'Sorensen', '1985-03-01', 61, 'Danny "zonic" Sørensen (born July 30, 1986) is a former Danish professional Counter-Strike 1.6 player. Arguably the greatest Danish 1.6-player of all time, zonic had huge success with several Danish teams, winning around 110,000 dollars in prize money. He was one of the founding members of the legendary mTw.dk, one of the most dominant 1.6 teams in history. He retired as teams started transitioning over to Counter-Strike: Global Offensive. He joined Team Dignitas as coach in 2015, and later returned to actively playing for mTw. Though, after an unsuccessful return as a player, he joined Questionmark as a coach and then transferred to Astralis with the rest of the players in January 2016.');
 
 INSERT INTO player (id, profile_photo, nickname, firstName, lastName, birth, country_id, overview)
 VALUES ('7', 'images/upload/flamie.jpg', 'flamie', 'Egor', 'Vasilev', '1985-03-01', 183, 'Egor "flamie" Vasilev (born April 5, 1997) is a Russian professional Counter-Strike: Global Offensive player and former Counter-Strike: Source player. He is currently playing for Natus Vincere as a Rifler.');

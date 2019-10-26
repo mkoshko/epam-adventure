@@ -66,6 +66,9 @@ public class TournamentServiceImpl extends AbstractService
     }
 
     public List<Tournament> findByName(final String name) {
+        if (name == null || name.isBlank()) {
+            return new ArrayList<>();
+        }
         try {
             TournamentDao tournamentDao
                     = getTransaction().getTournamentDao();

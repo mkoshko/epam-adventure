@@ -65,6 +65,9 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
     }
 
     public List<Team> findTeamsByName(final String name) {
+        if (name == null || name.isBlank()) {
+            return new ArrayList<>();
+        }
         try {
             TeamDao teamDao = getTransaction().getTeamDao();
             return teamDao.findByName(name);

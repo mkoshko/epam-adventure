@@ -17,21 +17,54 @@ import de.mkammerer.argon2.Argon2Factory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class UserServiceImpl extends AbstractService implements UserService {
+/**
+ * Class contains method for working with {@code User} objects.
+ */
+public final class UserServiceImpl extends AbstractService
+        implements UserService {
 
+    /**
+     * Logger.
+     */
     private Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
-    private Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
+    /**
+     * Object for password hashing.
+     */
+    private static Argon2 argon2 = Argon2Factory
+            .create(Argon2Factory.Argon2Types.ARGON2id);
+    /**
+     * Number of iterations.
+     */
     private static final int ITERATION = 4;
+    /**
+     * Memory usage (kibibytes).
+     */
     private static final int MEMORY = 1024 * 1024;
+    /**
+     * Number of threads and compute lanes.
+     */
     private static final int THREADS = 4;
+    /**
+     * Default role for every newly created {@code User}.
+     */
     private static final Role DEFAULT_ROLE = Role.USER;
 
+    /**
+     * Constructor which used by {@code ServiceFactory} if we want to obtain
+     * some instance of any service with the same {@code Connection}.
+     *
+     * @param transaction object for obtaining {@code Dao} objects with the
+     *                    same {@code Connection}.
+     * @param factory     Factory for obtaining services with the same
+     *                    {@code Connection}.
+     */
     public UserServiceImpl(final Transaction transaction,
                            final ServiceFactory factory) {
         super(transaction, factory);
     }
 
+    @Override
     public User signIn(final String login, final String password)
             throws ServiceException {
         try {
@@ -49,6 +82,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
     }
 
+    @Override
     public ServiceResponse sighUp(final User user) throws ServiceException {
         UserValidator userValidator = ValidationFactory.getUserValidator();
         try {
@@ -82,6 +116,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
     }
 
+    @Override
     public User get(final long userId) throws ServiceException {
         try {
             UserDao userDao = getTransaction().getUserDao();
@@ -91,6 +126,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
     }
 
+    @Override
     public ServiceResponse updatePassword(final long userId,
                                           final String oldPassword,
                                           final String newPassword) {

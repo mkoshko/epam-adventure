@@ -30,7 +30,6 @@ public class CreatePlayerCommand extends UserCommand {
             User user = (User) session.getAttribute("user");
             PlayerService playerService = factory.getPlayerService();
             Player player = new Player();
-            player.setId(user.getId());
             Part part = request.getPart("profilePhoto");
             player.setRawData(fillRawData(part));
             player.setNickname(request.getParameter("nickname"));
