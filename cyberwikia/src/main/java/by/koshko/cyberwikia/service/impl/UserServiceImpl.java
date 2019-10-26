@@ -139,7 +139,6 @@ public final class UserServiceImpl extends AbstractService
         try {
             UserDao userDao = getTransaction().getUserDao();
             User user = userDao.get(userId);
-
             if (argon2.verify(user.getPassword(), oldPassword)) {
                 String newHash = argon2.hash(ITERATION, MEMORY, THREADS,
                         newPassword);
@@ -151,7 +150,8 @@ public final class UserServiceImpl extends AbstractService
                 return response;
             }
         } catch (DaoException e) {
-            logger.error("Cannot update user password. {}", e.getMessage());
+            logger.error("Cannot update user password. {}",
+                    e.getCause().getMessage());
             response.addErrorMessage(EntityError.GENERIC_ERROR);
             return response;
         }

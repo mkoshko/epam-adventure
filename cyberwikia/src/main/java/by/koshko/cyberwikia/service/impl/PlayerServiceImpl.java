@@ -23,16 +23,29 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerServiceImpl extends AbstractService
+public final class PlayerServiceImpl extends AbstractService
         implements PlayerService {
 
+    /**
+     * Logger.
+     */
     private Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
 
+    /**
+     * Constructor which used by {@code ServiceFactory} if we want to obtain
+     * some instance of any service with the same {@code Connection}.
+     *
+     * @param transaction object for obtaining {@code Dao} objects with the
+     *                    same {@code Connection}.
+     * @param factory     Factory for obtaining services with the same
+     *                    {@code Connection}.
+     */
     public PlayerServiceImpl(final Transaction transaction,
                              final ServiceFactory factory) {
         super(transaction, factory);
     }
 
+    @Override
     public List<Player> findPlayersByNickname(final String nickname) {
         if (nickname == null || nickname.isBlank()) {
             return new ArrayList<>();
@@ -46,6 +59,7 @@ public class PlayerServiceImpl extends AbstractService
         }
     }
 
+    @Override
     public ServiceResponse editPlayer(final long userId, final Player player)
             throws ServiceException {
         ServiceResponse response = new ServiceResponse();
@@ -85,7 +99,7 @@ public class PlayerServiceImpl extends AbstractService
 
     @Override
     public ServiceResponse createPlayer(final long userId,
-                                final Player player) throws ServiceException {
+                                        final Player player) throws ServiceException {
         try {
             PlayerDao playerDao = getTransaction().getPlayerDao();
             Player newPlayer = playerDao.get(userId);
@@ -103,7 +117,16 @@ public class PlayerServiceImpl extends AbstractService
         }
     }
 
-    private ServiceResponse createPlayer(final Player player) throws ServiceException {
+    /**
+     * Validates given {@code Player} object and saves it to database.
+     *
+     * @param player {@code Player} object to be saved.
+     * @return {@code ServiceResponse} object which contains errors if any was
+     * occurred.
+     * @throws ServiceException if some errors occurred at underlying layer.
+     */
+    private ServiceResponse createPlayer(final Player player)
+            throws ServiceException {
         try {
             ServiceResponse serviceResponse = new ServiceResponse();
             PlayerValidator playerValidator
@@ -172,6 +195,7 @@ public class PlayerServiceImpl extends AbstractService
         }
     }
 
+    @Override
     public Player loadProfile(final long id) throws ServiceException {
         Transaction transaction = getTransaction();
         try {
@@ -200,19 +224,6 @@ public class PlayerServiceImpl extends AbstractService
     }
 
     @Override
-    public List<Player> findAll() throws ServiceException {
-        try {
-            PlayerDao playerDao = getTransaction().getPlayerDao();
-            List<Player> players = playerDao.getAll();
-            loadCountries(players);
-            loadActiveTeams(players);
-            return players;
-        } catch (DaoException e) {
-            throw new ServiceException(e.getMessage());
-        }
-    }
-
-    @Override
     public List<Player> findAll(final int page, final int limit)
             throws ServiceException {
         try {
@@ -227,6 +238,12 @@ public class PlayerServiceImpl extends AbstractService
         }
     }
 
+    /**
+     * Loads teams in which players are currently active.
+     *
+     * @param players list of players.
+     * @throws ServiceException if some errors occurred at underlying layer.
+     */
     private void loadActiveTeams(final List<Player> players)
             throws ServiceException {
         PlayerTeamService playerTeamService
@@ -245,6 +262,12 @@ public class PlayerServiceImpl extends AbstractService
         }
     }
 
+    /**
+     * Loads {@code Country} object for players from given list.
+     *
+     * @param players list of players.
+     * @throws ServiceException if some errors occurred at underlying layer.
+     */
     private void loadCountries(final List<Player> players)
             throws ServiceException {
         CountryService countryService
