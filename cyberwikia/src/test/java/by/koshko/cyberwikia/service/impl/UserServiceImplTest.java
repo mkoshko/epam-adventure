@@ -9,8 +9,8 @@ import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
 import by.koshko.cyberwikia.service.UserService;
 import com.wix.mysql.SqlScriptSource;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -26,14 +26,14 @@ public class UserServiceImplTest extends AbstractServiceTest {
     private static final SqlScriptSource[] SQL_SCRIPT_SOURCES
             = {classPathScript("sql/fill_user.sql")};
 
-    @BeforeTest
+    @BeforeClass
     public void setUp() throws ServiceException {
         factory = new ServiceFactory();
         userService = factory.getUserService();
         database.executeScripts(DATABASE, SQL_SCRIPT_SOURCES);
     }
 
-    @AfterTest
+    @AfterClass
     public void tearDown() {
         factory.close();
     }
@@ -102,7 +102,7 @@ public class UserServiceImplTest extends AbstractServiceTest {
     public void testSignIn(final String login, final String password)
             throws ServiceException {
         User user = userService.signIn(login, password);
-        assertEquals(user.getLogin(), login);
+        assertNotNull(user);
     }
 
     @Test(dataProvider = "incorrect_user_signIn")

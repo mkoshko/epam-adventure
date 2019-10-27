@@ -99,7 +99,8 @@ public final class PlayerServiceImpl extends AbstractService
 
     @Override
     public ServiceResponse createPlayer(final long userId,
-                                        final Player player) throws ServiceException {
+                                        final Player player)
+            throws ServiceException {
         try {
             PlayerDao playerDao = getTransaction().getPlayerDao();
             Player newPlayer = playerDao.get(userId);
@@ -123,12 +124,10 @@ public final class PlayerServiceImpl extends AbstractService
      * @param player {@code Player} object to be saved.
      * @return {@code ServiceResponse} object which contains errors if any was
      * occurred.
-     * @throws ServiceException if some errors occurred at underlying layer.
      */
-    private ServiceResponse createPlayer(final Player player)
-            throws ServiceException {
+    private ServiceResponse createPlayer(final Player player) {
+        ServiceResponse serviceResponse = new ServiceResponse();
         try {
-            ServiceResponse serviceResponse = new ServiceResponse();
             PlayerValidator playerValidator
                     = ValidationFactory.getPlayerValidator();
             if (!playerValidator.test(player, true)) {
@@ -146,7 +145,9 @@ public final class PlayerServiceImpl extends AbstractService
                 return serviceResponse;
             }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot create player profile.", e);
+            serviceResponse.addErrorMessage(EntityError.GENERIC_ERROR);
+            logger.error("{} {}", e.getMessage(), e.getCause().getMessage());
+            return serviceResponse;
         }
     }
 

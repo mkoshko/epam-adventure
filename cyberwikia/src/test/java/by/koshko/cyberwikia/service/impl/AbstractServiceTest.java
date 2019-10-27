@@ -7,6 +7,7 @@ import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.SqlScriptSource;
 import com.wix.mysql.config.MysqldConfig;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
@@ -49,7 +50,7 @@ public abstract class AbstractServiceTest {
         ServiceInitializer.init(properties);
     }
 
-    @BeforeTest
+    @BeforeClass
     public void initMethod() {
         database.reloadSchema(DATABASE, SQL_SCRIPT_SOURCES);
     }

@@ -19,6 +19,9 @@
                 <tag:overview text="${tournament.overview}"/>
                 <h2 class="mt-4"><fmt:message
                         key="tournament.participants"/></h2>
+                <c:if test="${moderator}">
+                    <button class="btn btn-dark mb-2">Add team.</button>
+                </c:if>
                 <table class="table">
                     <thead>
                     <tr>

@@ -5,10 +5,7 @@ import by.koshko.cyberwikia.dao.pool.ConnectionPool;
 import by.koshko.cyberwikia.service.GameService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.util.List;
 
@@ -21,15 +18,15 @@ public class GameServiceImplTest extends AbstractServiceTest {
     private GameService gameService;
     private final int numberOfGames = 4;
 
-    @BeforeTest
+    @BeforeClass
     public void setUp() throws ServiceException {
         factory = new ServiceFactory();
         gameService = factory.getGameService();
     }
 
-    @AfterTest
+    @AfterClass
     public void tearDown() {
-        ConnectionPool.getInstance().close();
+        factory.close();
     }
 
     @DataProvider(name = "id_provider")

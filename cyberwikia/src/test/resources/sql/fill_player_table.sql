@@ -1,5 +1,3 @@
-USE cyberwikia_test;
-
 INSERT INTO player (id, profile_photo, nickname, firstName, lastName, birth, country_id, overview)
 VALUES ('1', null, 'dev1ce', 'Nicolai', 'Reedtz', '1995-09-08', 61, 'Nicolai "dev1ce" Reedtz (formerly known as device and devve; born September 8, 1995) is a Danish professional Counter-Strike: Global Offensive player and former Counter-Strike: Source player. He is known as one of the best players of all time, consistently playing at a very high level for years since 2014. He is currently playing for Astralis as the AWPer.');
 

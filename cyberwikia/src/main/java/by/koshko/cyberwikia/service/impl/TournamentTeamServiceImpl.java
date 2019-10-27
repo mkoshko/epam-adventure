@@ -109,7 +109,7 @@ public class TournamentTeamServiceImpl extends AbstractService
             throws ServiceException {
         try {
             if (player == null) {
-                logger.warn("Method argument 'player' is null."
+                logger.debug("Method argument 'player' is null."
                             + " Empty 'TournamentTeam' list will returned.");
                 return new ArrayList<>();
             }
@@ -131,7 +131,7 @@ public class TournamentTeamServiceImpl extends AbstractService
             }
             return tournaments;
         } catch (DaoException e) {
-            throw new ServiceException("Cannot get tournament list for player");
+            throw new ServiceException("Cannot get tournament list for player", e);
         }
     }
 }

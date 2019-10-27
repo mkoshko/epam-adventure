@@ -4,9 +4,7 @@ import by.koshko.cyberwikia.bean.Country;
 import by.koshko.cyberwikia.service.CountryService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.util.List;
 
@@ -19,10 +17,15 @@ public class CountryServiceImplTest extends AbstractServiceTest {
     private CountryService countryService;
     private final int numberOfCountries = 249;
 
-    @BeforeTest
+    @BeforeClass
     public void setUp() throws ServiceException {
         factory = new ServiceFactory();
         countryService = factory.getCountryService();
+    }
+
+    @AfterClass
+    public void tearDown() {
+        factory.close();
     }
 
     @DataProvider(name = "id_provider")

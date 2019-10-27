@@ -5,7 +5,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-public final class ConnectionWrapper implements Connection, Comparable<ConnectionWrapper> {
+public final class ConnectionWrapper
+        implements Connection, Comparable<ConnectionWrapper> {
     private final Connection connection;
 
     public ConnectionWrapper(final Connection conn) {

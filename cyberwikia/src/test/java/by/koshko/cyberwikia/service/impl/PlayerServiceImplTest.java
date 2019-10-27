@@ -9,10 +9,7 @@ import by.koshko.cyberwikia.service.PlayerService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
 import com.wix.mysql.SqlScriptSource;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,7 +25,7 @@ public class PlayerServiceImplTest extends AbstractServiceTest {
             = {classPathScript("sql/fill_user.sql"),
                classPathScript("sql/fill_player_table.sql")};
 
-    @BeforeTest
+    @BeforeClass
     public void setUp() throws ServiceException {
         factory = new ServiceFactory();
         playerService = factory.getPlayerService();
@@ -42,7 +39,7 @@ public class PlayerServiceImplTest extends AbstractServiceTest {
 
     @DataProvider(name = "correct_nickname")
     private Object[][] provide0() {
-        return new Object[][] {
+        return new Object[][]{
                 {"dev1ce", "dev1ce"},
                 {"DEV1CE", "dev1ce"},
                 {"Zeus", "Zeus"},
@@ -52,6 +49,7 @@ public class PlayerServiceImplTest extends AbstractServiceTest {
                 {"AF", "NAF"},
         };
     }
+
     @Test(dataProvider = "correct_nickname")
     public void testFindPlayersByNickname(final String find,
                                           final String nickname) {
@@ -61,7 +59,7 @@ public class PlayerServiceImplTest extends AbstractServiceTest {
 
     @DataProvider(name = "incorrect_nickname")
     private Object[][] provide1() {
-        return new Object[][] {
+        return new Object[][]{
                 {null},
                 {"SDGKMeg"},
                 {""},
@@ -70,6 +68,7 @@ public class PlayerServiceImplTest extends AbstractServiceTest {
                 {" "}
         };
     }
+
     @Test(dataProvider = "incorrect_nickname")
     public void testFindPlayersByNickname2(final String nickname) {
         List<Player> players = playerService.findPlayersByNickname(nickname);
@@ -78,7 +77,7 @@ public class PlayerServiceImplTest extends AbstractServiceTest {
 
     @DataProvider(name = "correct_player")
     private Object[][] provide2() {
-        return new Object[][] {
+        return new Object[][]{
                 {26, new Player.Builder("nickname",
                         "firstName", "lastName",
                         LocalDate.parse("1994-05-05"), new Country(1))
@@ -91,6 +90,7 @@ public class PlayerServiceImplTest extends AbstractServiceTest {
                         .build()}
         };
     }
+
     @Test(dataProvider = "correct_player")
     public void testCreatePlayer(final long userId, final Player player)
             throws ServiceException, DaoException {
@@ -99,5 +99,68 @@ public class PlayerServiceImplTest extends AbstractServiceTest {
         Player player1 = transaction.getPlayerDao().get(userId);
         transaction.close();
         assertNotNull(player1);
+    }
+
+    @DataProvider(name = "incorrect_player")
+    private Object[][] provide3() {
+        return new Object[][]{
+                {28, new Player.Builder(null, "firstName", "lastName",
+                        LocalDate.parse("2004-01-01"), new Country(1)).build()},
+                {28, new Player.Builder("nickName", null, "lastName",
+                        LocalDate.parse("2000-01-01"), new Country(1)).build()},
+                {28, new Player.Builder("nick", "first", null,
+                        LocalDate.parse("2001-01-01"), new Country(1)).build()},
+                {28, new Player.Builder("nick", "first", "last", null,
+                        new Country(1)).build()},
+                {28, new Player.Builder("nick", "first", "last",
+                        LocalDate.parse("2001-01-01"), null).build()},
+                {28, new Player.Builder("", "", "",
+                        LocalDate.parse("2000-01-01"), new Country(1)).build()},
+                {28, new Player.Builder("asd", "asd", "asd",
+                        LocalDate.parse("2000-01-01"), new Country(555)).build()}
+        };
+    }
+
+    @Test(dataProvider = "incorrect_player")
+    public void testCreatePlayerFail(final long userId, final Player player)
+            throws ServiceException {
+        playerService.createPlayer(userId, player);
+        Player player1 = playerService.findById(userId);
+        assertNull(player1);
+    }
+
+    @DataProvider(name = "correct_id")
+    private Object[][] provide4() {
+        return new Object[][] {
+                {1},
+                {2},
+                {3}
+        };
+    }
+
+    @Test(dataProvider = "correct_id")
+    public void testGetById(final long id) throws ServiceException {
+        Player player = playerService.findById(id);
+        assertNotNull(player);
+    }
+
+    @DataProvider(name = "invalid_id")
+    private Object[][] provide5() {
+        return new Object[][] {
+                {-1},
+                {0},
+                {500}
+        };
+    }
+
+    @Test(dataProvider = "invalid_id")
+    public void testGetByIdFail(final long id) throws ServiceException {
+        Player player = playerService.findById(id);
+        assertNull(player);
+    }
+
+    @Test
+    public void testGetRowsNumber() throws ServiceException {
+        assertEquals(playerService.getRowsNumber(), 24);
     }
 }

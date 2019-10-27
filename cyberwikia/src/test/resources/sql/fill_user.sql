@@ -1,4 +1,3 @@
-USE cyberwikia_test;
 INSERT INTO user (login, email, password, role) VALUES ('user0', 'user0@gmail.com', '$argon2id$v=19$m=1048576,t=4,p=4$ZaTiAHOUqjddfFEtgIrwzw$rzNX7YfargRvSXx8v6keF4tAJNcWhJTVO4FozEGIvi8', 2);
 INSERT INTO user (login, email, password, role) VALUES ('user1', 'user1@gmail.com', '$argon2id$v=19$m=1048576,t=4,p=4$XqGUYSIC8JIDVP0rQXQS7w$fUQbr0Wrq9SsJoWCNGvwokjZ5rXUNU/GgzT4fnqwQ+8', 2);
 INSERT INTO user (login, email, password, role) VALUES ('user2', 'user2@gmail.com', '$argon2id$v=19$m=1048576,t=4,p=4$weYeZm1PQI/KAmVlLDzuJw$sOBtOH8Ro5HCC/LrAhnFcER/uGJ7aG/81GdxlhR71Gw', 2);

@@ -120,14 +120,14 @@ BEGIN
     if (found is null) then set id = 0; else set id = found; end if;
 END; $$
 
-CREATE PROCEDURE has_login (IN loginToFind VARCHAR(50), OUT `exists` BOOL)
+CREATE PROCEDURE login_exists (IN loginToFind VARCHAR(50), OUT `exists` BOOL)
 BEGIN
     DECLARE found VARCHAR(50);
     SELECT login INTO found FROM user WHERE login=loginToFind;
     IF (found IS NULL) THEN SET `exists` = FALSE; ELSE SET `exists` = TRUE; END IF;
 END; $$
 
-CREATE PROCEDURE has_email (IN emailToFind VARCHAR(254), OUT `exists` BOOL)
+CREATE PROCEDURE email_exists (IN emailToFind VARCHAR(254), OUT `exists` BOOL)
 BEGIN
     DECLARE found VARCHAR(50);
     SELECT email INTO found FROM user WHERE email=emailToFind;

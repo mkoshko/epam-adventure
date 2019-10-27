@@ -25,14 +25,14 @@ public final class CountryServiceImpl extends AbstractService
         super(transaction, factory);
     }
     @Override
-    public Country getCountryById(final long id) throws ServiceException {
+    public Country getCountryById(final long id) {
         try {
             CountryDao countryDao
                     = getTransaction().getCountryDao();
             return countryDao.get(id);
         } catch (DaoException e) {
-            logger.error(e.getMessage());
-            throw new ServiceException("Cannot find country by id.", e);
+            logger.error("{}. {}", e.getMessage(), e.getCause().getMessage());
+            return null;
         }
     }
     @Override
