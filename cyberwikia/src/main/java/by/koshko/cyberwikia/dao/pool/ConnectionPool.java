@@ -14,16 +14,44 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 public final class ConnectionPool {
-    private static final ConnectionPool INSTANCE = new ConnectionPool();
+    /**
+     * Logger.
+     */
     private Logger logger = LogManager.getLogger(getClass());
+    /**
+     * Connection pool instance.
+     */
+    private static final ConnectionPool INSTANCE = new ConnectionPool();
+    /**
+     * Collection with free connections.
+     */
     private ConcurrentLinkedQueue<ConnectionWrapper> pool
             = new ConcurrentLinkedQueue<>();
+    /**
+     * Collection with used connections.
+     */
     private ConcurrentSkipListSet<ConnectionWrapper> used
             = new ConcurrentSkipListSet<>();
+    /**
+     * Locker.
+     */
     private ReentrantLock locker = new ReentrantLock();
+    /**
+     * A JNDI DataSource for a Mysql JDBC connection.
+     */
     private MysqlDataSource source;
+    /**
+     * Maximum number of connections.
+     */
     private int maxPoolSize;
+    /**
+     * Number of created connections.
+     */
     private AtomicInteger connectionNumber;
+    /**
+     * The time in seconds to wait for the database operation
+     * used to validate the connection to complete.
+     */
     private int checkConnectionTimeout;
 
     private ConnectionPool() {
@@ -33,6 +61,13 @@ public final class ConnectionPool {
         return INSTANCE;
     }
 
+    /**
+     * Initialize connection pool.
+     *
+     * @param bundleName Bundle name which contains parameters for connection
+     *                   pool initialization.
+     * @throws DaoException throws if some errors occurred while initialization.
+     */
     public void init(final String bundleName) throws DaoException {
         try {
             logger.info("Initializing connection pool.");
@@ -70,6 +105,14 @@ public final class ConnectionPool {
         }
     }
 
+    /**
+     * Returns connection if available, or create new if
+     * {@link #connectionNumber} less then {@link #maxPoolSize}.
+     *
+     * @return {@code Connection} if available.
+     * @throws DaoException if no available connection and connection cannot be
+     *                      created due to max pool size is reached.
+     */
     public ConnectionWrapper getConnection() throws DaoException {
         try {
             locker.lock();
@@ -94,6 +137,12 @@ public final class ConnectionPool {
         }
     }
 
+    /**
+     * Returns connection to connection pool. Removes given connection
+     * from {@link #used}, and put it into {@link #pool}.
+     *
+     * @param connection {@code Connection} to be released.
+     */
     public void releaseConnection(final ConnectionWrapper connection) {
         try {
             if (connection.isValid(checkConnectionTimeout)) {
@@ -101,23 +150,26 @@ public final class ConnectionPool {
                 used.remove(connection);
                 pool.add(connection);
                 logger.debug("Connection released. "
-                            + "Idle connections: {}, used connections: {}",
-                               pool.size(), used.size());
+                             + "Idle connections: {}, used connections: {}",
+                        pool.size(), used.size());
             }
         } catch (SQLException e) {
             logger.error("Cannot release connection. Connection is invalid. "
                          + "SQL state: {}, SQL message: {}",
-                         e.getSQLState(), e.getMessage());
+                    e.getSQLState(), e.getMessage());
             try {
                 connection.getConnection().close();
             } catch (SQLException e1) {
                 logger.error("Cannot close connection. "
                              + "SQL state: {}, SQL message: {}.",
-                             e.getSQLState(), e.getMessage());
+                        e.getSQLState(), e.getMessage());
             }
         }
     }
 
+    /**
+     * Closes all created connections.
+     */
     public void close() {
         pool.addAll(used);
         used.clear();
@@ -127,11 +179,17 @@ public final class ConnectionPool {
             } catch (SQLException e) {
                 logger.error("Cannot close connection. "
                              + "SQL state: {}, SQL message: {}.",
-                             e.getSQLState(), e.getMessage());
+                        e.getSQLState(), e.getMessage());
             }
         }
     }
 
+    /**
+     * Creates and return new connection.
+     *
+     * @return new connection.
+     * @throws SQLException throws if connection cannot be created.
+     */
     private ConnectionWrapper createConnection() throws SQLException {
         logger.debug("Creating a connection.");
         ConnectionWrapper connection
@@ -139,7 +197,7 @@ public final class ConnectionPool {
         used.add(connection);
         logger.info("New connection is created. "
                     + "Idle connections: {}, used connections: {}",
-                    pool.size(), used.size());
+                pool.size(), used.size());
         connectionNumber.incrementAndGet();
         return connection;
     }

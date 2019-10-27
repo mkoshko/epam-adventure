@@ -9,13 +9,19 @@ import by.koshko.cyberwikia.service.PlayerService;
 import by.koshko.cyberwikia.service.ServiceException;
 import by.koshko.cyberwikia.service.ServiceFactory;
 import com.wix.mysql.SqlScriptSource;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static com.wix.mysql.ScriptResolver.classPathScript;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
 public class PlayerServiceImplTest extends AbstractServiceTest {
 
@@ -158,10 +164,5 @@ public class PlayerServiceImplTest extends AbstractServiceTest {
     public void testGetByIdFail(final long id) throws ServiceException {
         Player player = playerService.findById(id);
         assertNull(player);
-    }
-
-    @Test
-    public void testGetRowsNumber() throws ServiceException {
-        assertEquals(playerService.getRowsNumber(), 24);
     }
 }

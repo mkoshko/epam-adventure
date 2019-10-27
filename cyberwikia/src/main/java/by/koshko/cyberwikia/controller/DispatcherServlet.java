@@ -69,7 +69,7 @@ public class DispatcherServlet extends HttpServlet {
                 response.sendError(error);
                 return true;
             } catch (IOException e) {
-                logger.error("Cannot redirect user.");
+                logger.error("Cannot redirect user. {}", e.getMessage());
                 return true;
             }
         } else {

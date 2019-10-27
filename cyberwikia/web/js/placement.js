@@ -7,5 +7,4 @@
                 .setAttribute('value', selectedId);
         });
     });
-    let form = document.getElementById('setPlacementForm');
 })();
