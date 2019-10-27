@@ -61,6 +61,9 @@ public class CommandProvider {
         COMMANDS.put("/changepassword", new EditPasswordCommand());
         COMMANDS.put("/search", new FindCommand());
         COMMANDS.put("/deletetournament", new DeleteTournamentCommand());
+        COMMANDS.put("/addparticipant", new AddParticipantCommand());
+        COMMANDS.put("/setplacement", new SetPlacementCommand());
+        COMMANDS.put("/removeparticipant", new RemoveParticipantCommand());
     }
 
     public static AbstractCommand getCommand(final String action) {

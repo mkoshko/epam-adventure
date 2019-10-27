@@ -1,8 +1,6 @@
 package by.koshko.cyberwikia.service.impl;
 
-import by.koshko.cyberwikia.bean.Player;
-import by.koshko.cyberwikia.bean.Team;
-import by.koshko.cyberwikia.bean.TournamentTeam;
+import by.koshko.cyberwikia.bean.*;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TournamentTeamDao;
 import by.koshko.cyberwikia.dao.Transaction;
@@ -29,6 +27,7 @@ public class TournamentTeamServiceImpl extends AbstractService
         super(transaction, factory);
     }
 
+    @Override
     public List<Long> getTopTeams(final int limit) {
         if (limit <= 0) {
             return new ArrayList<>();
@@ -41,7 +40,7 @@ public class TournamentTeamServiceImpl extends AbstractService
             return new ArrayList<>();
         }
     }
-
+    @Override
     public void updateTournamentTeam(final TournamentTeam tournamentTeam)
             throws ServiceException {
         try {
@@ -58,26 +57,61 @@ public class TournamentTeamServiceImpl extends AbstractService
         }
     }
 
-    public void addTournamentTeam(final TournamentTeam tournamentTeam)
-            throws ServiceException {
-        Transaction transaction = getTransaction();
+    @Override
+    public void deleteTournamentTeam(final TournamentTeam entity) {
         try {
-            if (!TournamentTeamValidator.test(tournamentTeam)) {
-                throw new ServiceException("Cannot add team"
-                                      + " to tournament participants list.");
-            }
             TournamentTeamDao tournamentTeamDao
-                    = transaction.getTournamentTeamDao();
-            tournamentTeamDao.save(tournamentTeam);
-            logger.debug("Team {} was added to '{}' participants list",
-                    tournamentTeam.getTeam().getName(),
-                    tournamentTeam.getTournament().getName());
+                    = getTransaction().getTournamentTeamDao();
+            if (TournamentTeamValidator.test(entity)) {
+                tournamentTeamDao.delete(entity);
+            }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot add team"
-                                       + " to tournament participants list.");
+            logger.error("{} {}", e.getMessage(), e.getCause().getMessage());
         }
     }
 
+    @Override
+    public ServiceResponse addTournamentTeam(final long tournamentId,
+                                             final String teamName)
+            throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
+        TournamentService tournamentService
+                = getFactory().getTournamentService();
+        Tournament tournament
+                = tournamentService.getTournamentById(tournamentId);
+        TeamService teamService = getFactory().getTeamService();
+        Team team = teamService.findTeamByName(teamName);
+        if (tournament == null) {
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
+        }
+        if (team == null) {
+            response.addErrorMessage(EntityError.TEAM_NOT_FOUND);
+            return response;
+        }
+        TournamentTeam tournamentTeam = new TournamentTeam();
+        tournamentTeam.setTeam(team);
+        tournamentTeam.setTournament(tournament);
+        try {
+            TournamentTeamDao tournamentTeamDao
+                    = getTransaction().getTournamentTeamDao();
+            if (tournamentTeamDao.save(tournamentTeam)) {
+                logger.debug("Team {} was added to '{}' participants list",
+                        tournamentTeam.getTeam().getName(),
+                        tournamentTeam.getTournament().getName());
+                return response;
+            } else {
+                response.addErrorMessage(EntityError.DUPLICATE_RECORD);
+                return response;
+            }
+        } catch (DaoException e) {
+            logger.error("{} {}", e.getMessage(), e.getCause().getMessage());
+            response.addErrorMessage(EntityError.GENERIC_ERROR);
+            return response;
+        }
+    }
+
+    @Override
     public List<TournamentTeam> findTournamentsForTeam(final Team team)
             throws ServiceException {
         try {
@@ -105,6 +139,7 @@ public class TournamentTeamServiceImpl extends AbstractService
         }
     }
 
+    @Override
     public List<TournamentTeam> findTournamentsForPlayer(final Player player)
             throws ServiceException {
         try {

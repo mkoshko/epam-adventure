@@ -17,7 +17,7 @@ public class MainCommand extends AbstractCommand {
             TournamentService tournamentService
                     = factory.getTournamentService();
             request.setAttribute("teams", teamService.getTopTeams(5));
-            request.setAttribute("tournaments",
+            request.setAttribute("upcoming",
                     tournamentService.findUpcoming(5));
             request.setAttribute("ongoing",
                     tournamentService.findOngoing(5));

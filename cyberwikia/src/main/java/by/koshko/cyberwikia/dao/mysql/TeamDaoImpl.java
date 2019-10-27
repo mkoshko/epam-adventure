@@ -1,10 +1,18 @@
 package by.koshko.cyberwikia.dao.mysql;
 
-import by.koshko.cyberwikia.bean.*;
+import by.koshko.cyberwikia.bean.Country;
+import by.koshko.cyberwikia.bean.Game;
+import by.koshko.cyberwikia.bean.Player;
+import by.koshko.cyberwikia.bean.Team;
+import by.koshko.cyberwikia.bean.User;
 import by.koshko.cyberwikia.dao.DaoException;
 import by.koshko.cyberwikia.dao.TeamDao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +20,9 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
     private static final String FIND_BY_NAME
             = "SELECT id, name, logo_file, country_id, creator, captain, coach,"
               + " game, overview FROM team WHERE name LIKE ?;";
+    private static final String FIND_BY_EXACT_NAME
+            = "SELECT id, name, logo_file, country_id, creator, captain, coach,"
+              + " game, overview FROM team WHERE name=?;";
     private static final String GET
             = "SELECT id, name, logo_file, country_id, creator, captain, coach,"
               + " game, overview FROM team WHERE id=?;";
@@ -59,6 +70,16 @@ public final class TeamDaoImpl extends AbstractDao implements TeamDao {
             return buildSingleInstance(statement.executeQuery());
         } catch (SQLException e) {
             throw new DaoException("Cannot find players created team.", e);
+        }
+    }
+
+    public Team findByExactName(final String name) throws DaoException {
+        try (PreparedStatement statement
+                     = getConnection().prepareStatement(FIND_BY_EXACT_NAME)) {
+            statement.setString(1, name);
+            return buildSingleInstance(statement.executeQuery());
+        } catch (SQLException e) {
+            throw new DaoException("Cannot find team by exact name", e);
         }
     }
 

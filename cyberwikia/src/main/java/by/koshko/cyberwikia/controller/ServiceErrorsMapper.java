@@ -18,6 +18,8 @@ public class ServiceErrorsMapper {
         ERROR_MAP.put(EntityError.GENERIC_ERROR, "error.genericerror");
         ERROR_MAP.put(EntityError.PLAYER_NOT_ACTIVE, "error.playernotactive");
         ERROR_MAP.put(EntityError.ALREADY_HAS_TEAM, "error.alreadyhasteam");
+        ERROR_MAP.put(EntityError.DUPLICATE_RECORD, "error.duplicaterecord");
+        ERROR_MAP.put(EntityError.TEAM_NOT_FOUND, "error.teamnotfound");
     }
 
     public static String getLocalizedErrorKey(final EntityError error) {

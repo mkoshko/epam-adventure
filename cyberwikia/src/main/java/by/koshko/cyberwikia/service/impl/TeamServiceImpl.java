@@ -77,6 +77,19 @@ public class TeamServiceImpl extends AbstractService implements TeamService {
         }
     }
 
+    public Team findTeamByName(final String teamName) {
+        if (teamName == null || teamName.isBlank()) {
+            return null;
+        }
+        try {
+            TeamDao teamDao = getTransaction().getTeamDao();
+            return teamDao.findByExactName(teamName);
+        } catch (DaoException e) {
+            logger.error("{} {}", e.getMessage(), e.getCause().getMessage());
+            return null;
+        }
+    }
+
     @Override
     public Team findCreatedTeam(final long userId) throws ServiceException {
         try {

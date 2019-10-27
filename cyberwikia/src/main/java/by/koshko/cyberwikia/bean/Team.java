@@ -50,6 +50,13 @@ public final class Team extends Entity {
 
     private List<PlayerTeam> players;
 
+    public Team() {
+    }
+
+    public Team(final long teamId) {
+        super(teamId);
+    }
+
     public RawData getRawData() {
         return rawData;
     }

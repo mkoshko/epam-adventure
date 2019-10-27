@@ -9,10 +9,7 @@ import by.koshko.cyberwikia.dao.TournamentTeamDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,7 +163,11 @@ public final class TournamentTeamDaoImpl extends AbstractDao
             throws SQLException {
         statement.setLong(1, entity.getTournament().getId());
         statement.setLong(2, entity.getTeam().getId());
-        statement.setInt(3, entity.getPlacement());
+        if (entity.getPlacement() != 0) {
+            statement.setInt(3, entity.getPlacement());
+        } else {
+            statement.setNull(3, Types.NULL);
+        }
     }
 
     private List<TournamentTeam> buildMultipleInstances(final ResultSet rs)

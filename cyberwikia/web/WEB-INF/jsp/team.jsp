@@ -113,7 +113,7 @@
                             <c:when test="${tournament.placement == 3}">bronze</c:when>
                         </c:choose>">
                             <td>${tournament.tournament.endDate}</td>
-                            <td>${tournament.placement}</td>
+                            <td>${tournament.placement != 0 ? tournament.placement : "TBD"}</td>
                             <td>${tournament.tournament.name}</td>
                             <td>$<fmt:formatNumber value="${tournament.tournament.prize}"/></td>
                         </tr>
