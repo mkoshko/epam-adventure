@@ -20,7 +20,14 @@
             <div class="col-sm-12 col-md-8 col-xl-4 mx-auto">
                 <div class="card">
                     <h1 class="card-header text-center">${team.name}</h1>
-                    <img class="card-img-top p-1" src="<c:url value="${team.logoFile}"/>" alt="${team.name}">
+                    <c:choose>
+                        <c:when test="${team.logoFile != null}">
+                            <img class="card-img-top p-1" src="<c:url value="${team.logoFile}"/>" alt="${team.name}">
+                        </c:when>
+                        <c:otherwise>
+                            <tag:emptyImage/>
+                        </c:otherwise>
+                    </c:choose>
                     <div class="card-body p-1">
                         <table class="table table-striped">
                             <tbody>
