@@ -10,4 +10,9 @@
             <class name="by.koshko.cyberwikia.service.impl.PlayerServiceImplTest"/>
         </classes>
     </test>
+    <test name="DaoTests">
+        <classes>
+            <class name="by.koshko.cyberwikia.dao.pool.ConnectionPoolTest"/>
+        </classes>
+    </test>
 </suite>

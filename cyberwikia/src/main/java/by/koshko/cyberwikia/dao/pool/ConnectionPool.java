@@ -182,6 +182,7 @@ public final class ConnectionPool {
                         e.getSQLState(), e.getMessage());
             }
         }
+        pool.clear();
     }
 
     /**
