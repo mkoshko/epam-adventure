@@ -117,7 +117,8 @@ public class PlayerServiceImplTest extends AbstractServiceTest {
                 {28, new Player.Builder("", "", "",
                         LocalDate.parse("2000-01-01"), new Country(1)).build()},
                 {28, new Player.Builder("asd", "asd", "asd",
-                        LocalDate.parse("2000-01-01"), new Country(555)).build()}
+                        LocalDate.parse("2000-01-01"), new Country(555)).build()
+                }
         };
     }
 

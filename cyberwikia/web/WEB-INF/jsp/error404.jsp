@@ -5,8 +5,11 @@
 <tag:html>
     <fmt:bundle basename="localization">
         <div class="row">
-            <div class="col-12">
-                <h3 class="text-center">Page not found</h3>
+            <div class="col-12" style="min-height: 450px">
+                <div class="text-center my-5">
+                    <h1 class="text-center">Page not found</h1>
+                    <a href="index.html" class="text-center"><fmt:message key="error.500.tryagain"/></a>
+                </div>
             </div>
         </div>
     </fmt:bundle>
